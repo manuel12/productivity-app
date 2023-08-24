@@ -1,93 +1,98 @@
-import "./styles.css";
-import { FC, useEffect, useState } from "react";
-import BarChart from "../../charts/BarChart/BarChart";
+import "./styles.css"
+import { FC, useEffect, useState } from "react"
+import BarChart from "../../charts/BarChart/BarChart"
 
-import { setItem, getItem } from "../../utils";
+import { setItem, getItem } from "../../utils"
 
 interface LearningItem {
-  learningText: string;
-  learningValue: number;
-}
-
-interface LearningListProps {
-  items: LearningItem[];
+  learningText: string
+  learningValue: number
 }
 
 const WeeklyLearnings: FC = () => {
   const [learnings, setLearnings] = useState<LearningItem[]>(
     getItem("learnings") || []
-  );
+  )
   const [newLearning, setNewLearning] = useState({
     learningText: "",
     learningValue: 0,
-  });
+  })
 
   useEffect(() => {
-    console.log(learnings);
-    console.log(getItem("learnings"));
-    setItem("learnings", learnings);
-  }, [learnings]);
+    setItem("learnings", learnings)
+  }, [learnings])
 
   const handleAddLearningClick = (e: any) => {
-    console.log(
-      learnings.find(
-        (learning) => learning.learningText === newLearning.learningText
-      )
-    );
+    if (newLearning.learningText === "") return
 
     const learningWithSameTextFound = learnings.find(
       (learning) => learning.learningText === newLearning.learningText
-    );
+    )
 
     if (learningWithSameTextFound) {
       // Check if learningText already exists in learnings array,
       // if so then add + 1 to it's learningValue.
       const newLearningsArray = learnings.map((learning) => {
         if (learning.learningText === learningWithSameTextFound.learningText) {
-          learningWithSameTextFound.learningValue += 1;
-          return learningWithSameTextFound;
+          learningWithSameTextFound.learningValue += 1
+          return learningWithSameTextFound
         } else {
-          return learning;
+          return learning
         }
-      });
-      setLearnings(newLearningsArray);
+      })
+      setLearnings(newLearningsArray)
     } else {
-      const newLearningsArray = [...learnings, newLearning];
-      setLearnings(newLearningsArray);
+      const newLearningsArray = [...learnings, newLearning]
+      setLearnings(newLearningsArray)
     }
-  };
+
+    setNewLearning({ learningText: "", learningValue: 0 })
+  }
 
   return (
     <>
-      <h1>Weekly Learnings</h1>
+      <div className="my-5">
+        <h1 className="display-1">Weekly Learnings</h1>
+      </div>
 
-      <div className='input-group my-5 mx-auto w-50'>
+      <div className="input-group my-5 mx-auto w-50">
         <input
-          type='text'
-          className='form-control'
-          placeholder='Add a new learning...'
-          aria-label='Add a new learning...'
-          aria-describedby='button-addon2'
+          style={{
+            borderRadius: "20px",
+            borderWidth: "2px",
+            padding: "15px",
+          }}
+          type="text"
+          className="form-control mx-1"
+          placeholder="Add a new learning..."
+          aria-label="Add a new learning..."
+          aria-describedby="button-addon2"
           value={newLearning?.learningText}
           onChange={(e) =>
-            setNewLearning({ learningText: e.target.value, learningValue: 1 })
+            setNewLearning({
+              learningText: e.target.value,
+              learningValue: 1,
+            })
           }
         />
         <button
-          className='btn btn-outline-secondary'
-          type='button'
-          id='button-addon2'
+          style={{
+            borderRadius: "20px",
+          }}
+          className="btn btn-primary"
+          type="button"
+          id="button-addon2"
           onClick={handleAddLearningClick}
         >
-          Button
+          Add Learning
         </button>
       </div>
 
-      <div className='chart-container my-5 mx-auto'>
-        <BarChart chartData={learnings} title='learnings' singleColor={true} />
+      <div className="chart-container bg-light my-5 mx-auto w-50 border">
+        <BarChart chartData={learnings} title="learnings" singleColor={true} />
       </div>
     </>
-  );
-};
+  )
+}
 
-export default WeeklyLearnings;
+export default WeeklyLearnings
