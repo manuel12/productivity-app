@@ -4,7 +4,7 @@ import WeeklyLearnings from "./components/WeeklyLearnings/WeeklyLearnings";
 
 function App() {
   return (
-    <div className='App'>
+    <div className="App">
       <WeeklyLearnings />
     </div>
   );
