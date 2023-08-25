@@ -1,0 +1,26 @@
+ul {
+  padding: 0;
+}
+
+li {
+  list-style-type: none;
+  display: flex;
+  border: 1px solid;
+  border-radius: 3px;
+  padding: 5px;
+  margin-bottom: 1px;
+}
+
+li > .icon-container {
+  width: 10%;
+  cursor: pointer;
+}
+
+.fa-circle-check {
+  color: lightgrey;
+  font-size: 25px;
+}
+
+li > .text-container {
+  width: 90%;
+}
