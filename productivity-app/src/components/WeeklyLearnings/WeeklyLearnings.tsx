@@ -23,6 +23,8 @@ const WeeklyLearnings: FC = () => {
   }, [learnings])
 
   const handleAddLearningClick = (e: any) => {
+    e.preventDefault()
+
     if (newLearning.learningText === "") return
 
     const learningWithSameTextFound = learnings.find(
@@ -54,39 +56,39 @@ const WeeklyLearnings: FC = () => {
       <div className="my-5">
         <h1 className="display-1">Weekly Learnings</h1>
       </div>
-
-      <div className="input-group my-5 mx-auto w-50">
-        <input
-          style={{
-            borderRadius: "20px",
-            borderWidth: "2px",
-            padding: "15px",
-          }}
-          type="text"
-          className="form-control mx-1"
-          placeholder="Add a new learning..."
-          aria-label="Add a new learning..."
-          aria-describedby="button-addon2"
-          value={newLearning?.learningText}
-          onChange={(e) =>
-            setNewLearning({
-              learningText: e.target.value,
-              learningValue: 1,
-            })
-          }
-        />
-        <button
-          style={{
-            borderRadius: "20px",
-          }}
-          className="btn btn-primary"
-          type="button"
-          id="button-addon2"
-          onClick={handleAddLearningClick}
-        >
-          Add Learning
-        </button>
-      </div>
+      <form onSubmit={handleAddLearningClick}>
+        <div className="input-group my-5 mx-auto w-50">
+          <input
+            style={{
+              borderRadius: "20px",
+              borderWidth: "2px",
+              padding: "15px",
+            }}
+            type="text"
+            className="form-control mx-1"
+            placeholder="Add a new learning..."
+            aria-label="Add a new learning..."
+            aria-describedby="button-addon2"
+            value={newLearning?.learningText}
+            onChange={(e) =>
+              setNewLearning({
+                learningText: e.target.value,
+                learningValue: 1,
+              })
+            }
+          />
+          <button
+            style={{
+              borderRadius: "20px",
+            }}
+            className="btn btn-primary"
+            type="submit"
+            id="button-addon2"
+          >
+            Add Learning
+          </button>
+        </div>
+      </form>
 
       <div className="chart-container bg-light my-5 mx-auto w-50 border">
         <BarChart chartData={learnings} title="learnings" singleColor={true} />
