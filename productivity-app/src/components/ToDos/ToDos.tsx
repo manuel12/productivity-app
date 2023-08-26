@@ -1,5 +1,5 @@
 import "./styles.css"
-import React, { useState, FC } from "react"
+import React, { useState, FC, useEffect } from "react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faCircleCheck } from "@fortawesome/free-solid-svg-icons"
 
@@ -15,15 +15,27 @@ const ToDos: FC = () => {
     todoText: "",
   })
 
+  useEffect(() => {
+    console.log("Todos updated!")
+  }, [todos])
+
   const handleAddTodoClick = (e: any) => {
     e.preventDefault()
+
     const newTodosArray = [...todos, newTodo]
     setTodos(newTodosArray)
     setNewTodo({ completed: false, todoText: "" })
   }
 
   const handleCheckClick = (todoIndex: number) => {
-    console.log(todos)
+    const tempTodos = todos
+
+    const updatedTodo = todos[todoIndex]
+    const updatedTodoCompleted = updatedTodo.completed
+    updatedTodo.completed = !updatedTodoCompleted
+
+    tempTodos[todoIndex] = updatedTodo
+    setTodos([...tempTodos])
   }
 
   return (
@@ -57,6 +69,9 @@ const ToDos: FC = () => {
                 <li key={i}>
                   <div className="icon-container">
                     <FontAwesomeIcon
+                      className={
+                        todos[i].completed ? "completed" : "not-completed"
+                      }
                       icon={faCircleCheck}
                       onClick={() => {
                         handleCheckClick(i)
