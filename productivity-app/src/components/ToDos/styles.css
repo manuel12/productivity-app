@@ -17,8 +17,15 @@ li > .icon-container {
 }
 
 .fa-circle-check {
-  color: lightgrey;
   font-size: 25px;
+}
+
+.completed {
+  color: lightgreen;
+}
+
+.not-completed {
+  color: lightgrey;
 }
 
 li > .text-container {
