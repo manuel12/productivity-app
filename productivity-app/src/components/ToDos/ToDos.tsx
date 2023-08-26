@@ -1,7 +1,7 @@
 import "./styles.css"
 import React, { useState, FC, useEffect } from "react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faCircleCheck } from "@fortawesome/free-solid-svg-icons"
+import { faCircleCheck, faRemove } from "@fortawesome/free-solid-svg-icons"
 
 interface Todo {
   completed: boolean
@@ -67,7 +67,7 @@ const ToDos: FC = () => {
             {todos &&
               todos.map((todo, i) => (
                 <li key={i}>
-                  <div className="icon-container">
+                  <div className="check-icon-container">
                     <FontAwesomeIcon
                       className={
                         todos[i].completed ? "completed" : "not-completed"
@@ -79,6 +79,9 @@ const ToDos: FC = () => {
                     />
                   </div>
                   <div className="text-container">{todo.todoText}</div>
+                  <div className="remove-icon-container">
+                    <FontAwesomeIcon icon={faRemove} className="remove" />
+                  </div>
                 </li>
               ))}
           </ul>
