@@ -5,13 +5,13 @@ describe("Weekly Learnings tests", () => {
     cy.visit("/")
   })
 
-  it("should have a 'Weekly Learnings' header", () => {
+  it("should display a 'Weekly Learnings' heading", () => {
     cy.get("h1")
       .should("have.class", "display-1")
       .and("have.text", "Weekly Learnings")
   })
 
-  it("should have a form with an input and submit button", () => {
+  it("should display a form with an input and submit button", () => {
     cy.get("form").within(() => {
       cy.get("input").should("be.visible")
       cy.get("button").should("be.visible")
@@ -83,7 +83,7 @@ describe("Weekly Learnings tests", () => {
     cy.get("button").click()
   })
 
-  it("should add a learning by hitting the ENTER key", () => {
+  it("should add a learning by pressing ENTER", () => {
     cy.get("input").type("Do yoga everyday{enter}")
   })
 
