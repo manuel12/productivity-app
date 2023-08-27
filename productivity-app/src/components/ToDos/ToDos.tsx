@@ -15,6 +15,19 @@ const ToDos: FC = () => {
     todoText: "",
   })
 
+  const playTodoCompletedSound = () => {
+    let audio = new Audio(
+      "https://habitica.com/static/audio/rosstavoTheme/Daily.ogg"
+    )
+    audio.play()
+  }
+
+  const playTodoRemovedSound = () => {
+    let audio = new Audio("wrong-answer.mp3")
+    audio.volume = 0.5
+    audio.play()
+  }
+
   useEffect(() => {
     console.log("Todos updated!")
   }, [todos])
@@ -30,12 +43,24 @@ const ToDos: FC = () => {
   const handleCheckClick = (todoIndex: number) => {
     const tempTodos = todos
 
-    const updatedTodo = todos[todoIndex]
-    const updatedTodoCompleted = updatedTodo.completed
-    updatedTodo.completed = !updatedTodoCompleted
+    const todoToUpdate = todos[todoIndex]
+    const updatedTodoCompleted = todoToUpdate.completed
+    todoToUpdate.completed = !updatedTodoCompleted
 
-    tempTodos[todoIndex] = updatedTodo
+    tempTodos[todoIndex] = todoToUpdate
     setTodos([...tempTodos])
+
+    todoToUpdate.completed && playTodoCompletedSound()
+  }
+
+  const handleRemoveClick = (todoIndex: number) => {
+    const todoToRemove = todos[todoIndex]
+    const newTodos = todos.filter(
+      (todo) => todoToRemove.todoText !== todo.todoText
+    )
+
+    setTodos([...newTodos])
+    playTodoRemovedSound()
   }
 
   return (
@@ -70,7 +95,9 @@ const ToDos: FC = () => {
                   <div className="check-icon-container">
                     <FontAwesomeIcon
                       className={
-                        todos[i].completed ? "completed" : "not-completed"
+                        todos[i].completed
+                          ? "check-completed"
+                          : "check-not-completed"
                       }
                       icon={faCircleCheck}
                       onClick={() => {
@@ -78,9 +105,23 @@ const ToDos: FC = () => {
                       }}
                     />
                   </div>
-                  <div className="text-container">{todo.todoText}</div>
+                  <div
+                    className={`text-container ${
+                      todos[i].completed
+                        ? "text-completed"
+                        : "text-not-completed"
+                    }`}
+                  >
+                    {todo.todoText}
+                  </div>
                   <div className="remove-icon-container">
-                    <FontAwesomeIcon icon={faRemove} className="remove" />
+                    <FontAwesomeIcon
+                      icon={faRemove}
+                      className="remove"
+                      onClick={() => {
+                        handleRemoveClick(i)
+                      }}
+                    />
                   </div>
                 </li>
               ))}
