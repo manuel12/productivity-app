@@ -11,7 +11,7 @@ li {
   margin-bottom: 1px;
 }
 
-li > .icon-container {
+.check-icon-container {
   width: 10%;
   cursor: pointer;
 }
@@ -20,14 +20,31 @@ li > .icon-container {
   font-size: 25px;
 }
 
-.completed {
+.check-completed {
   color: lightgreen;
 }
 
-.not-completed {
+.check-not-completed {
   color: lightgrey;
 }
 
-li > .text-container {
-  width: 90%;
+.text-completed {
+  text-decoration: line-through;
+}
+
+.text-not-completed {
+  text-decoration: none;
+}
+
+.text-container {
+  width: 80%;
+}
+
+.remove-icon-container {
+  width: 10%;
+  cursor: pointer;
+}
+
+.remove {
+  color: lightcoral;
 }
