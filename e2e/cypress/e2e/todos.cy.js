@@ -104,7 +104,7 @@ describe("To Dos tests", () => {
     cy.get("li").should("not.exist")
   })
 
-  it.only("should add 2 todos", () => {
+  it("should add 2 todos", () => {
     cy.get("input").type("Clean room{enter}")
     cy.get("input").type("Make lunch{enter}")
 
@@ -115,6 +115,34 @@ describe("To Dos tests", () => {
     cy.get("ul > :nth-child(2)")
       .should("be.visible")
       .and("contain.text", "Make lunch")
+  })
+
+  it("should add 10 todos", () => {
+    let todoStr = "Clean room"
+    for (let i = 0; i < 10; i++) {
+      cy.log(i)
+      cy.get("input").type(`${todoStr} ${i + 1} {enter}`)
+    }
+    cy.get("li")
+      .should("have.length", 10)
+      .each(($el, i) => {
+        cy.get($el).should("contain.text", `Clean room ${i + 1}`)
+      })
+  })
+
+  it("should NOT add a todo with empty text when pressing enter", () => {
+    cy.get("input").type("{enter}")
+
+    cy.get("li").should("not.exist")
+  })
+
+  it("should NOT add a todo with a text more than 50 characters long when pressing enter", () => {
+    let longTodoStr = "A"
+    for (let i = 0; i < 40; i++) {
+      longTodoStr += "A"
+    }
+    cy.get("input").type(`${longTodoStr} {enter}`)
+    cy.get("li").should("not.exist")
   })
 
   it("", () => {})
