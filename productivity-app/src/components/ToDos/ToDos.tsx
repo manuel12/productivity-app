@@ -32,8 +32,10 @@ const ToDos: FC = () => {
     console.log("Todos updated!")
   }, [todos])
 
-  const handleAddTodoClick = (e: any) => {
+  const handleAddTodo = (e: any) => {
     e.preventDefault()
+
+    if (newTodo.todoText === "") return
 
     const newTodosArray = [...todos, newTodo]
     setTodos(newTodosArray)
@@ -67,7 +69,7 @@ const ToDos: FC = () => {
     <>
       <div className="my-5">
         <h1 className="display-1">To Dos</h1>
-        <form onSubmit={handleAddTodoClick}>
+        <form onSubmit={handleAddTodo}>
           <div className="input-group my-5 mx-auto w-50">
             <input
               style={{
