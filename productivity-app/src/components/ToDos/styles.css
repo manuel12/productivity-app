@@ -3,12 +3,7 @@ ul {
 }
 
 li {
-  list-style-type: none;
-  display: flex;
-  border: 1px solid;
-  border-radius: 3px;
-  padding: 5px;
-  margin-bottom: 1px;
+  display: flex !important;
 }
 
 .check-icon-container {
