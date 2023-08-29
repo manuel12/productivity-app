@@ -44,16 +44,6 @@ export const checkAndUpdateCompletedStatus = (daily: Daily) => {
    */
   const createdDate = new Date(daily.dateCreated)
 
-  console.log(
-    `currentDate.getDate(): ${currentDate.getDate()} - createdDate.getDate(): ${createdDate.getDate()}`
-  )
-  console.log(
-    `currentDate.getMonth(): ${currentDate.getMonth()} - createdDate.getMonth(): ${createdDate.getMonth()}`
-  )
-  console.log(
-    `currentDate.getFullYear(): ${currentDate.getFullYear()} - createdDate.getFullYear(): ${createdDate.getFullYear()}`
-  )
-
   // Check if it's a new day
   if (
     currentDate.getDate() !== createdDate.getDate() ||
