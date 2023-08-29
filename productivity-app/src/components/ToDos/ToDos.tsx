@@ -16,15 +16,13 @@ const ToDos: FC = () => {
   })
 
   const playTodoCompletedSound = () => {
-    let audio = new Audio(
-      "https://habitica.com/static/audio/rosstavoTheme/Daily.ogg"
-    )
+    let audio = new Audio("complete-todo.ogg")
     audio.play()
   }
 
   const playTodoRemovedSound = () => {
-    let audio = new Audio("wrong-answer.mp3")
-    audio.volume = 0.5
+    let audio = new Audio("remove-todo.mp3")
+    audio.volume = 0.2
     audio.play()
   }
 
@@ -90,10 +88,10 @@ const ToDos: FC = () => {
           </div>
         </form>
         <div className="mx-auto w-50">
-          <ul>
-            {todos &&
+          <ul className="list-group">
+            {todos.length > 0 ? (
               todos.map((todo, i) => (
-                <li key={i}>
+                <li key={i} className="list-group-item">
                   <div className="check-icon-container">
                     <FontAwesomeIcon
                       className={
@@ -126,7 +124,10 @@ const ToDos: FC = () => {
                     />
                   </div>
                 </li>
-              ))}
+              ))
+            ) : (
+              <div className="display-4">No todos added yet...</div>
+            )}
           </ul>
         </div>
       </div>
