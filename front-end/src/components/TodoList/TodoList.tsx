@@ -79,9 +79,13 @@ const TodoList: FC = () => {
             aria-label="Add a new todo..."
             aria-describedby="button-addon2"
             value={newTodo.todoText}
-            onChange={(e) =>
-              setNewTodo({ completed: false, todoText: e.target.value })
-            }
+            onChange={(e) => {
+              const inputValue = e.target.value
+              if (inputValue.length <= 40) {
+                setNewTodo({ completed: false, todoText: e.target.value })
+              }
+            }}
+            maxLength={40}
           />
         </div>
       </form>
