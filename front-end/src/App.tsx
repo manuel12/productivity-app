@@ -2,7 +2,7 @@ import "./App.css"
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom"
 
 import Navbar from "./components/Navbar/Navbar"
-import TodoPage from "./pages/TodoPage/TodoPage"
+import TodoPage from "./pages/TodosPage/TodoPage"
 import Dailies from "./components/Dailies/Dailies"
 import WeeklyLearnings from "./components/WeeklyLearnings/WeeklyLearnings"
 
