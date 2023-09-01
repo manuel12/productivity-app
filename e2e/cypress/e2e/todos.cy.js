@@ -2,7 +2,7 @@
 
 describe("To Dos tests", () => {
   beforeEach(() => {
-    cy.visit("/todos")
+    cy.visit("/")
   })
 
   it("should have a 'To Dos' heading", () => {
@@ -24,22 +24,24 @@ describe("To Dos tests", () => {
   it("should add a new todo by writing on the input and pressing ENTER", () => {
     cy.get("input").type("Clean room{enter}")
 
-    cy.get("li").should("be.visible")
+    cy.get(".list-group-item").should("be.visible")
   })
 
   it("should display new todo below the input form", () => {
     cy.get("input").type("Clean room{enter}")
-    cy.get("li").should("be.visible")
+    cy.get(".list-group-item").should("be.visible")
   })
 
   it("should display correct text on todo", () => {
     cy.get("input").type("Clean room{enter}")
-    cy.get("li").should("be.visible").and("contain.text", "Clean room")
+    cy.get(".list-group-item")
+      .should("be.visible")
+      .and("contain.text", "Clean room")
   })
 
   it("should display checkmark and remove buttons on todo", () => {
     cy.get("input").type("Clean room{enter}")
-    cy.get("li")
+    cy.get(".list-group-item")
       .should("be.visible")
       .within(($el) => {
         cy.get(".check-icon-container")
@@ -57,7 +59,7 @@ describe("To Dos tests", () => {
 
   it("should change checkmark color on todo when clicked", () => {
     cy.get("input").type("Clean room{enter}")
-    cy.get("li")
+    cy.get(".list-group-item")
       .should("be.visible")
       .within(() => {
         cy.get(".check-icon-container")
@@ -65,19 +67,19 @@ describe("To Dos tests", () => {
           .within(() => {
             cy.get(".fa-circle-check")
               .should("be.visible")
-              .and("have.class", "not-completed")
+              .and("have.class", "check-not-completed")
             cy.get(".fa-circle-check").click()
 
             cy.get(".fa-circle-check")
               .should("be.visible")
-              .and("have.class", "completed")
+              .and("have.class", "check-completed")
           })
       })
   })
 
   it("should display a strike-through on text when checkmark is clicked", () => {
     cy.get("input").type("Clean room{enter}")
-    cy.get("li")
+    cy.get(".list-group-item")
       .should("be.visible")
       .within(() => {
         cy.get(".text-container")
@@ -93,7 +95,7 @@ describe("To Dos tests", () => {
 
   it("should remove todo when remove button on todo is clicked", () => {
     cy.get("input").type("Clean room{enter}")
-    cy.get("li")
+    cy.get(".list-group-item")
       .should("be.visible")
       .within(() => {
         cy.get(".fa-xmark").should("be.visible")
@@ -101,7 +103,7 @@ describe("To Dos tests", () => {
         cy.get(".fa-xmark").click()
       })
 
-    cy.get("li").should("not.exist")
+    cy.get(".list-group-item").should("not.exist")
   })
 
   it("should add 2 todos", () => {
@@ -123,7 +125,7 @@ describe("To Dos tests", () => {
       cy.log(i)
       cy.get("input").type(`${todoStr} ${i + 1} {enter}`)
     }
-    cy.get("li")
+    cy.get(".list-group-item")
       .should("have.length", 10)
       .each(($el, i) => {
         cy.get($el).should("contain.text", `Clean room ${i + 1}`)
@@ -133,19 +135,24 @@ describe("To Dos tests", () => {
   it("should NOT add a todo with empty text when pressing enter", () => {
     cy.get("input").type("{enter}")
 
-    cy.get("li").should("not.exist")
+    cy.get(".list-group-item").should("not.exist")
   })
 
-  it("should NOT add a todo with a text more than 50 characters long when pressing enter", () => {
+  it("should NOT add a todo with a text more than 40 characters long when pressing enter", () => {
+    const expectedLength = 40
+
     let longTodoStr = "A"
-    for (let i = 0; i < 40; i++) {
+    for (let i = 0; i <= 50; i++) {
       longTodoStr += "A"
     }
     cy.get("input").type(`${longTodoStr} {enter}`)
-    cy.get("li").should("not.exist")
+    cy.get(".list-group-item")
+      .should("be.visible")
+      .within(() => {
+        cy.get(".text-container")
+          .should("be.visible")
+          .invoke("text")
+          .should("have.length", expectedLength)
+      })
   })
-
-  it("", () => {})
-
-  it("", () => {})
 })
