@@ -101,13 +101,17 @@ const Dailies: FC = () => {
               aria-label="Add a new daily..."
               aria-describedby="button-addon2"
               value={newDaily.dailyText}
-              onChange={(e) =>
-                setNewDaily({
-                  completed: false,
-                  dailyText: e.target.value,
-                  dateCreated: new Date().toDateString(),
-                })
-              }
+              onChange={(e) => {
+                const inputValue = e.target.value
+                if (inputValue.length <= 40) {
+                  setNewDaily({
+                    completed: false,
+                    dailyText: e.target.value,
+                    dateCreated: new Date().toDateString(),
+                  })
+                }
+              }}
+              maxLength={40}
             />
           </div>
         </form>
