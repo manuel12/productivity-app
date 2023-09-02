@@ -5,7 +5,7 @@ describe("To Dos tests", () => {
     cy.visit("/dailies")
   })
 
-  it("should have a 'To Dos' heading", () => {
+  it("should have a 'Dailies' heading", () => {
     cy.get("h1").should("have.class", "display-1").and("have.text", "Dailies")
   })
 
@@ -15,7 +15,7 @@ describe("To Dos tests", () => {
     })
   })
 
-  it("should display placeholder 'Add a new todo' on input", () => {
+  it("should display placeholder 'Add a new daily' on input", () => {
     cy.get("input")
       .should("be.visible")
       .and("have.attr", "placeholder", "Add a new daily...")
@@ -24,22 +24,24 @@ describe("To Dos tests", () => {
   it("should add a new daily by writing on the input and pressing ENTER", () => {
     cy.get("input").type("Clean room{enter}")
 
-    cy.get("li").should("be.visible")
+    cy.get(".list-group-item").should("be.visible")
   })
 
   it("should display new daily below the input form", () => {
     cy.get("input").type("Clean room{enter}")
-    cy.get("li").should("be.visible")
+    cy.get(".list-group-item").should("be.visible")
   })
 
-  it("should display correct text on todo", () => {
+  it("should display correct text on daily", () => {
     cy.get("input").type("Clean room{enter}")
-    cy.get("li").should("be.visible").and("contain.text", "Clean room")
+    cy.get(".list-group-item")
+      .should("be.visible")
+      .and("contain.text", "Clean room")
   })
 
-  it("should display checkmark and remove buttons on todo", () => {
+  it("should display checkmark and remove buttons on daily", () => {
     cy.get("input").type("Clean room{enter}")
-    cy.get("li")
+    cy.get(".list-group-item")
       .should("be.visible")
       .within(($el) => {
         cy.get(".check-icon-container")
@@ -57,7 +59,7 @@ describe("To Dos tests", () => {
 
   it("should change checkmark color on daily when clicked", () => {
     cy.get("input").type("Clean room{enter}")
-    cy.get("li")
+    cy.get(".list-group-item")
       .should("be.visible")
       .within(() => {
         cy.get(".check-icon-container")
@@ -77,7 +79,7 @@ describe("To Dos tests", () => {
 
   it("should display a strike-through on text when checkmark is clicked", () => {
     cy.get("input").type("Clean room{enter}")
-    cy.get("li")
+    cy.get(".list-group-item")
       .should("be.visible")
       .within(() => {
         cy.get(".text-container")
@@ -93,7 +95,7 @@ describe("To Dos tests", () => {
 
   it("should remove daily when remove button on daily is clicked", () => {
     cy.get("input").type("Clean room{enter}")
-    cy.get("li")
+    cy.get(".list-group-item")
       .should("be.visible")
       .within(() => {
         cy.get(".fa-xmark").should("be.visible")
@@ -101,7 +103,7 @@ describe("To Dos tests", () => {
         cy.get(".fa-xmark").click()
       })
 
-    cy.get("li").should("not.exist")
+    cy.get(".list-group-item").should("not.exist")
   })
 
   it("should add 2 dailies", () => {
@@ -122,7 +124,7 @@ describe("To Dos tests", () => {
     for (let i = 0; i < 10; i++) {
       cy.get("input").type(`${dailyStr} ${i + 1} {enter}`)
     }
-    cy.get("li")
+    cy.get(".list-group-item")
       .should("have.length", 10)
       .each(($el, i) => {
         cy.get($el).should("contain.text", `Clean room ${i + 1}`)
@@ -143,7 +145,7 @@ describe("To Dos tests", () => {
     cy.get("input").type("Clean room{enter}")
     cy.get("input").type("Make lunch{enter}")
 
-    cy.get("li").each(($el) => {
+    cy.get(".list-group-item").each(($el) => {
       cy.get($el)
         .should("be.visible")
         .within(() => {
@@ -166,7 +168,7 @@ describe("To Dos tests", () => {
 
     cy.reload()
 
-    cy.get("li").each(($el) => {
+    cy.get(".list-group-item").each(($el) => {
       cy.get($el)
         .should("be.visible")
         .within(() => {
@@ -180,15 +182,24 @@ describe("To Dos tests", () => {
   it("should NOT add a daily with empty text when pressing enter", () => {
     cy.get("input").type("{enter}")
 
-    cy.get("li").should("not.exist")
+    cy.get(".list-group-item").should("not.exist")
   })
 
-  it("should NOT add a daily with a text more than 50 characters long when pressing enter", () => {
-    let longTodoStr = "A"
-    for (let i = 0; i < 40; i++) {
-      longTodoStr += "A"
+  it("should NOT add a daily with a text more than 40 characters long when pressing enter", () => {
+    const expectedLength = 40
+
+    let longDailyStr = "A"
+    for (let i = 0; i <= 50; i++) {
+      longDailyStr += "A"
     }
-    cy.get("input").type(`${longTodoStr} {enter}`)
-    cy.get("li").should("not.exist")
+    cy.get("input").type(`${longDailyStr} {enter}`)
+    cy.get(".list-group-item")
+      .should("be.visible")
+      .within(() => {
+        cy.get(".text-container")
+          .should("be.visible")
+          .invoke("text")
+          .should("have.length", expectedLength)
+      })
   })
 })
