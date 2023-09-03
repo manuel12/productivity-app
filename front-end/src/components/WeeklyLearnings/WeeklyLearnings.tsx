@@ -54,9 +54,11 @@ const WeeklyLearnings: FC = () => {
   return (
     <>
       <div className="my-5">
-        <h1 className="display-1">Weekly Learnings</h1>
+        <h1 className="display-1" data-test="learnings-heading">
+          Weekly Learnings
+        </h1>
       </div>
-      <form onSubmit={handleAddLearningClick}>
+      <form onSubmit={handleAddLearningClick} data-test="learnings-form">
         <div className="input-group my-5 mx-auto w-50">
           <input
             style={{
@@ -66,6 +68,7 @@ const WeeklyLearnings: FC = () => {
             }}
             type="text"
             className="form-control mx-1"
+            data-test="learnings-input"
             placeholder="Add a new learning..."
             aria-label="Add a new learning..."
             aria-describedby="button-addon2"
@@ -82,6 +85,7 @@ const WeeklyLearnings: FC = () => {
               borderRadius: "20px",
             }}
             className="btn btn-primary"
+            data-test="learnings-submit"
             type="submit"
             id="button-addon2"
           >
@@ -90,7 +94,10 @@ const WeeklyLearnings: FC = () => {
         </div>
       </form>
 
-      <div className="chart-container bg-light my-5 mx-auto w-50 border">
+      <div
+        className="chart-container bg-light my-5 mx-auto w-50 border"
+        data-test="learnings-chart"
+      >
         <BarChart chartData={learnings} title="learnings" singleColor={true} />
       </div>
     </>
