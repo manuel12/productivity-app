@@ -86,8 +86,10 @@ const Dailies: FC = () => {
   return (
     <>
       <div className="my-5">
-        <h1 className="display-1">Dailies</h1>
-        <form onSubmit={handleAddDaily}>
+        <h1 className="display-1" data-test="dailies-heading">
+          Dailies
+        </h1>
+        <form onSubmit={handleAddDaily} data-test="dailies-form">
           <div className="input-group my-5 mx-auto w-50">
             <input
               style={{
@@ -97,6 +99,7 @@ const Dailies: FC = () => {
               }}
               type="text"
               className="form-control mx-1"
+              data-test="dailies-input"
               placeholder="Add a new daily..."
               aria-label="Add a new daily..."
               aria-describedby="button-addon2"
@@ -116,11 +119,18 @@ const Dailies: FC = () => {
           </div>
         </form>
         <div className="mx-auto w-50">
-          <ul className="list-group">
+          <ul className="list-group" data-test="dailies-list">
             {dailies.length > 0 ? (
               dailies.map((daily, i) => (
-                <li key={i} className="list-group-item">
-                  <div className="check-icon-container">
+                <li
+                  key={i}
+                  className="list-group-item"
+                  data-test="dailies-item"
+                >
+                  <div
+                    className="check-icon-container"
+                    data-test="dailies-check-icon-container"
+                  >
                     <FontAwesomeIcon
                       className={
                         dailies[i].completed
@@ -139,6 +149,7 @@ const Dailies: FC = () => {
                         ? "text-completed"
                         : "text-not-completed"
                     }`}
+                    data-test="dailies-text-container"
                   >
                     {daily.dailyText}
                   </div>
