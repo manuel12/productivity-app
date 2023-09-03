@@ -65,7 +65,7 @@ const TodoList: FC = () => {
 
   return (
     <>
-      <form onSubmit={handleAddTodo}>
+      <form onSubmit={handleAddTodo} data-test="todos-form">
         <div className="input-group my-5 mx-auto w-50">
           <input
             style={{
@@ -75,6 +75,7 @@ const TodoList: FC = () => {
             }}
             type="text"
             className="form-control mx-1"
+            data-test="todos-input"
             placeholder="Add a new todo..."
             aria-label="Add a new todo..."
             aria-describedby="button-addon2"
@@ -90,11 +91,14 @@ const TodoList: FC = () => {
         </div>
       </form>
       <div className="mx-auto w-50">
-        <ul className="list-group">
+        <ul className="list-group" data-test="todos-list">
           {todos.length > 0 ? (
             todos.map((todo, i) => (
-              <li key={i} className="list-group-item">
-                <div className="check-icon-container">
+              <li key={i} className="list-group-item" data-test="todos-item">
+                <div
+                  className="check-icon-container"
+                  data-test="todos-check-icon-container"
+                >
                   <FontAwesomeIcon
                     className={
                       todos[i].completed
@@ -111,6 +115,7 @@ const TodoList: FC = () => {
                   className={`text-container ${
                     todos[i].completed ? "text-completed" : "text-not-completed"
                   }`}
+                  data-test="todos-text-container"
                 >
                   {todo.todoText}
                 </div>
