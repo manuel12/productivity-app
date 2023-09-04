@@ -27,7 +27,6 @@ const Dailies: FC = () => {
 
   useEffect(() => {
     if (dailies.length > 0) {
-      console.log("Hello")
       const updatedDailies = dailies.map((daily) =>
         checkAndUpdateCompletedStatus(daily)
       )
