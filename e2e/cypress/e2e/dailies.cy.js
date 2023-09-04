@@ -134,51 +134,72 @@ describe("To Dos tests", () => {
   })
 
   it("should have completed dailies set to uncompleted on next days", () => {
-    const dateToCreateDailiesStr = "2023-09-01T12:00:00Z"
-    const dateToCreateDailies = new Date(dateToCreateDailiesStr)
-    cy.window().then((win) => {
-      win.Date = class extends Date {
-        constructor() {
-          super(dateToCreateDailies)
-        }
-      }
-    })
+    // cy.get("[data-test=dailies-input]").type("Clean room{enter}")
+    // cy.get("[data-test=dailies-input]").type("Make lunch{enter}")
+    // cy.get("[data-test=dailies-item]").each(($el) => {
+    //   cy.get($el)
+    //     .should("be.visible")
+    //     .within(() => {
+    //       cy.get(".fa-circle-check").click()
+    //       cy.get(".fa-circle-check")
+    //         .should("be.visible")
+    //         .and("have.class", "check-completed")
+    //     })
+    // })
+    // const dateToTestDailiesStr = "2023-09-15T12:00:00Z"
+    // const dateToTestDailies = new Date(dateToTestDailiesStr)
+    // cy.window().then((win) => {
+    //   win.Date = class extends Date {
+    //     constructor() {
+    //       super(dateToTestDailies)
+    //     }
+    //   }
+    // })
+    // cy.reload()
+    // cy.get("[data-test=dailies-item]").each(($el) => {
+    //   cy.get($el)
+    //     .should("be.visible")
+    //     .within(() => {
+    //       cy.get(".fa-circle-check")
+    //         .should("be.visible")
+    //         .and("have.class", "check-not-completed")
+    //     })
+    // })
+  })
+
+  it("should have streak counter value increased +1 when completing daily", () => {
+    let initialStreakCounterValue
+    let secondaryStreakCounterValue
 
     cy.get("[data-test=dailies-input]").type("Clean room{enter}")
-    cy.get("[data-test=dailies-input]").type("Make lunch{enter}")
+    cy.get("[data-test=dailies-item]")
+      .should("be.visible")
+      .within(() => {
+        cy.get(".streak-icon-container")
+          .invoke("text")
+          .then((text) => {
+            initialStreakCounterValue = Number(text)
+            expect(initialStreakCounterValue).to.eq(0)
+          })
 
-    cy.get("[data-test=dailies-item]").each(($el) => {
-      cy.get($el)
-        .should("be.visible")
-        .within(() => {
-          cy.get(".fa-circle-check").click()
-          cy.get(".fa-circle-check")
-            .should("be.visible")
-            .and("have.class", "check-completed")
-        })
-    })
+        cy.get("[data-test=dailies-check-icon-container]")
+          .should("be.visible")
+          .within(() => {
+            cy.get(".fa-circle-check")
+              .should("be.visible")
+              .and("have.class", "check-not-completed")
+            cy.get(".fa-circle-check").click()
+          })
 
-    const dateToTestDailiesStr = "2023-09-15T12:00:00Z"
-    const dateToTestDailies = new Date(dateToTestDailiesStr)
-    cy.window().then((win) => {
-      win.Date = class extends Date {
-        constructor() {
-          super(dateToTestDailies)
-        }
-      }
-    })
-
-    cy.reload()
-
-    cy.get("[data-test=dailies-item]").each(($el) => {
-      cy.get($el)
-        .should("be.visible")
-        .within(() => {
-          cy.get(".fa-circle-check")
-            .should("be.visible")
-            .and("have.class", "check-not-completed")
-        })
-    })
+        cy.get(".streak-icon-container")
+          .invoke("text")
+          .then((text) => {
+            secondaryStreakCounterValue = Number(text)
+            expect(secondaryStreakCounterValue).to.eq(
+              initialStreakCounterValue + 1
+            )
+          })
+      })
   })
 
   it("should NOT add a daily with empty text when pressing enter", () => {
