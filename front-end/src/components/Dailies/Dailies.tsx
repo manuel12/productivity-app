@@ -1,7 +1,11 @@
 import "./styles.css"
 import React, { useState, FC, useEffect } from "react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faCircleCheck, faRemove } from "@fortawesome/free-solid-svg-icons"
+import {
+  faCircleCheck,
+  faRemove,
+  faForward,
+} from "@fortawesome/free-solid-svg-icons"
 
 import { setItem, getItem, checkAndUpdateCompletedStatus } from "../../utils"
 
@@ -9,24 +13,32 @@ interface Daily {
   completed: boolean
   dailyText: string
   dateCreated: Date | string
+  streakCounter: number
 }
 
 const Dailies: FC = () => {
   const [dailies, setDailies] = useState<Daily[]>(getItem("dailies") || [])
-  const [newDaily, setNewDaily] = useState({
+  const [newDaily, setNewDaily] = useState<Daily>({
     completed: false,
     dailyText: "",
     dateCreated: "",
+    streakCounter: 0,
   })
 
   useEffect(() => {
-    const updatedDailies = dailies.map((daily) =>
-      checkAndUpdateCompletedStatus(daily)
-    )
+    if (dailies.length > 0) {
+      console.log("Hello")
+      const updatedDailies = dailies.map((daily) =>
+        checkAndUpdateCompletedStatus(daily)
+      )
 
-    const newDailiesArray = [...updatedDailies]
-    setDailies(newDailiesArray)
-    setItem("dailies", newDailiesArray)
+      const newDailiesArray = [...updatedDailies]
+
+      if (newDailiesArray) {
+        setDailies(newDailiesArray)
+        setItem("dailies", newDailiesArray)
+      }
+    }
   }, [])
 
   const handleAddDaily = (e: any) => {
@@ -42,15 +54,25 @@ const Dailies: FC = () => {
       completed: false,
       dailyText: "",
       dateCreated: "",
+      streakCounter: 0,
     })
   }
 
   const handleCheckClick = (dailyIndex: number) => {
     const tempDailies = dailies
-
     const dailyToUpdate = dailies[dailyIndex]
+
+    // Update daily completed property
     const updatedTodoCompleted = dailyToUpdate.completed
     dailyToUpdate.completed = !updatedTodoCompleted
+
+    if (dailyToUpdate.completed) {
+      // Update daily streak counter property
+      dailyToUpdate.streakCounter += 1
+    } else {
+      // Update daily streak counter property
+      dailyToUpdate.streakCounter -= 1
+    }
 
     tempDailies[dailyIndex] = dailyToUpdate
     const newDailiesArray = [...tempDailies]
@@ -111,6 +133,7 @@ const Dailies: FC = () => {
                     completed: false,
                     dailyText: e.target.value,
                     dateCreated: new Date().toDateString(),
+                    streakCounter: 0,
                   })
                 }
               }}
@@ -152,6 +175,17 @@ const Dailies: FC = () => {
                     data-test="dailies-text-container"
                   >
                     {daily.dailyText}
+                  </div>
+
+                  <div className="streak-icon-container">
+                    <FontAwesomeIcon
+                      icon={faForward}
+                      className="streak"
+                      onClick={() => {
+                        handleRemoveClick(i)
+                      }}
+                    />
+                    {daily.streakCounter}
                   </div>
                   <div className="remove-icon-container">
                     <FontAwesomeIcon
