@@ -35,11 +35,17 @@ li {
   width: 80%;
 }
 
+.streak-icon-container,
 .remove-icon-container {
   width: 10%;
   cursor: pointer;
 }
 
+.streak,
 .remove {
   color: lightcoral;
+}
+
+.streak {
+  margin-right: 5px;
 }
