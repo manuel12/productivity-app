@@ -26,6 +26,7 @@ interface Daily {
   completed: boolean
   dailyText: string
   dateCreated: Date | string
+  streakCounter: number
 }
 
 /**
@@ -53,5 +54,6 @@ export const checkAndUpdateCompletedStatus = (daily: Daily) => {
     // It's a new day, update the completed property
     daily.completed = false
   }
+
   return daily
 }
