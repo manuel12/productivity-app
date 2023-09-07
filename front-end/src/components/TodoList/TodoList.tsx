@@ -2,6 +2,7 @@ import "./styles.css"
 import React, { useState, FC, useEffect } from "react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faCircleCheck, faRemove } from "@fortawesome/free-solid-svg-icons"
+import { setItem, getItem } from "../../utils"
 
 interface Todo {
   completed: boolean
@@ -9,8 +10,8 @@ interface Todo {
 }
 
 const TodoList: FC = () => {
-  const [todos, setTodos] = useState<Todo[]>([])
-  const [newTodo, setNewTodo] = useState({
+  const [todos, setTodos] = useState<Todo[]>(getItem("todos") || [])
+  const [newTodo, setNewTodo] = useState<Todo>({
     completed: false,
     todoText: "",
   })
@@ -26,10 +27,6 @@ const TodoList: FC = () => {
     audio.play()
   }
 
-  useEffect(() => {
-    console.log("Todos updated!")
-  }, [todos])
-
   const handleAddTodo = (e: any) => {
     e.preventDefault()
 
@@ -37,6 +34,7 @@ const TodoList: FC = () => {
 
     const newTodosArray = [...todos, newTodo]
     setTodos(newTodosArray)
+    setItem("todos", newTodosArray)
     setNewTodo({ completed: false, todoText: "" })
   }
 
@@ -49,6 +47,7 @@ const TodoList: FC = () => {
 
     tempTodos[todoIndex] = todoToUpdate
     setTodos([...tempTodos])
+    setItem("todos", [...tempTodos])
 
     todoToUpdate.completed && playTodoCompletedSound()
   }

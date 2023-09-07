@@ -6,7 +6,6 @@ import {
   faRemove,
   faForward,
 } from "@fortawesome/free-solid-svg-icons"
-
 import { setItem, getItem, checkAndUpdateCompletedStatus } from "../../utils"
 
 interface Daily {
