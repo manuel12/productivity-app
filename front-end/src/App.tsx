@@ -2,9 +2,9 @@ import "./App.css"
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom"
 
 import Navbar from "./components/Navbar/Navbar"
-import TodoPage from "./pages/TodosPage/TodoPage"
-import Dailies from "./components/Dailies/Dailies"
-import WeeklyLearnings from "./components/WeeklyLearnings/WeeklyLearnings"
+import TodoPage from "./pages/TodosPage/TodosPage"
+import DailyPage from "./pages/DailiesPage/DailyPage"
+import WeeklyLearnings from "./components/WeeklyLearningsList/WeeklyLearningsList"
 
 function App() {
   return (
@@ -13,7 +13,7 @@ function App() {
         <Navbar />
         <Routes>
           <Route path="/" element={<TodoPage />} />
-          <Route path="/dailies" element={<Dailies />} />
+          <Route path="/dailies" element={<DailyPage />} />
           <Route path="/weekly-learnings" element={<WeeklyLearnings />} />
         </Routes>
       </div>
