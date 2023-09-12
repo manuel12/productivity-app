@@ -13,7 +13,7 @@ const Navbar: React.FC = () => {
           data-toggle="collapse"
           data-target="#navbarNav"
           aria-controls="navbarNav"
-          aria-expand="false"
+          aria-expanded="false"
           aria-label="Toggle navigation"
         >
           <span className="navbar-toggler-icon"></span>
