@@ -1,0 +1,51 @@
+ul {
+  padding: 0;
+}
+
+li {
+  display: flex !important;
+}
+
+.check-icon-container {
+  width: 10%;
+  cursor: pointer;
+}
+
+.fa-circle-check {
+  font-size: 25px;
+}
+
+.check-completed {
+  color: lightgreen;
+}
+
+.check-not-completed {
+  color: lightgrey;
+}
+
+.text-completed {
+  text-decoration: line-through;
+}
+
+.text-not-completed {
+  text-decoration: none;
+}
+
+.text-container {
+  width: 80%;
+}
+
+.streak-icon-container,
+.remove-icon-container {
+  width: 10%;
+  cursor: pointer;
+}
+
+.streak,
+.remove {
+  color: lightcoral;
+}
+
+.streak {
+  margin-right: 5px;
+}
