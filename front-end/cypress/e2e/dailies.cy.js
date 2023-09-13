@@ -6,47 +6,47 @@ describe("To Dos tests", () => {
   })
 
   it("should have a 'Dailies' heading", () => {
-    cy.get("[data-test=dailies-heading]")
+    cy.get("[data-cy=dailies-heading]")
       .should("have.class", "display-1")
       .and("have.text", "Dailies")
   })
 
   it("should display a form with an input", () => {
-    cy.get("[data-test=dailies-form]").within(() => {
-      cy.get("[data-test=dailies-input]").should("be.visible")
+    cy.get("[data-cy=dailies-form]").within(() => {
+      cy.get("[data-cy=dailies-input]").should("be.visible")
     })
   })
 
   it("should display placeholder 'Add a new daily' on input", () => {
-    cy.get("[data-test=dailies-input]")
+    cy.get("[data-cy=dailies-input]")
       .should("be.visible")
       .and("have.attr", "placeholder", "Add a new daily...")
   })
 
   it("should add a new daily by writing on the input and pressing ENTER", () => {
-    cy.get("[data-test=dailies-input]").type("Clean room{enter}")
+    cy.get("[data-cy=dailies-input]").type("Clean room{enter}")
 
-    cy.get("[data-test=dailies-item]").should("be.visible")
+    cy.get("[data-cy=dailies-item]").should("be.visible")
   })
 
   it("should display new daily below the input form", () => {
-    cy.get("[data-test=dailies-input]").type("Clean room{enter}")
-    cy.get("[data-test=dailies-item]").should("be.visible")
+    cy.get("[data-cy=dailies-input]").type("Clean room{enter}")
+    cy.get("[data-cy=dailies-item]").should("be.visible")
   })
 
   it("should display correct text on daily", () => {
-    cy.get("[data-test=dailies-input]").type("Clean room{enter}")
-    cy.get("[data-test=dailies-item]")
+    cy.get("[data-cy=dailies-input]").type("Clean room{enter}")
+    cy.get("[data-cy=dailies-item]")
       .should("be.visible")
       .and("contain.text", "Clean room")
   })
 
   it("should display checkmark and remove buttons on daily", () => {
-    cy.get("[data-test=dailies-input]").type("Clean room{enter}")
-    cy.get("[data-test=dailies-item]")
+    cy.get("[data-cy=dailies-input]").type("Clean room{enter}")
+    cy.get("[data-cy=dailies-item]")
       .should("be.visible")
       .within(($el) => {
-        cy.get("[data-test=dailies-check-icon-container]")
+        cy.get("[data-cy=dailies-check-icon-container]")
           .should("be.visible")
           .within(() => {
             cy.get(".fa-circle-check").should("be.visible")
@@ -60,11 +60,11 @@ describe("To Dos tests", () => {
   })
 
   it("should change checkmark color on daily when clicked", () => {
-    cy.get("[data-test=dailies-input]").type("Clean room{enter}")
-    cy.get("[data-test=dailies-item]")
+    cy.get("[data-cy=dailies-input]").type("Clean room{enter}")
+    cy.get("[data-cy=dailies-item]")
       .should("be.visible")
       .within(() => {
-        cy.get("[data-test=dailies-check-icon-container]")
+        cy.get("[data-cy=dailies-check-icon-container]")
           .should("be.visible")
           .within(() => {
             cy.get(".fa-circle-check")
@@ -80,24 +80,24 @@ describe("To Dos tests", () => {
   })
 
   it("should display a strike-through on text when checkmark is clicked", () => {
-    cy.get("[data-test=dailies-input]").type("Clean room{enter}")
-    cy.get("[data-test=dailies-item]")
+    cy.get("[data-cy=dailies-input]").type("Clean room{enter}")
+    cy.get("[data-cy=dailies-item]")
       .should("be.visible")
       .within(() => {
-        cy.get("[data-test=dailies-text-container]")
+        cy.get("[data-cy=dailies-text-container]")
           .should("be.visible")
           .and("have.class", "text-not-completed")
         cy.get(".fa-circle-check").click()
 
-        cy.get("[data-test=dailies-text-container]")
+        cy.get("[data-cy=dailies-text-container]")
           .should("be.visible")
           .and("have.class", "text-completed")
       })
   })
 
   it("should remove daily when remove button on daily is clicked", () => {
-    cy.get("[data-test=dailies-input]").type("Clean room{enter}")
-    cy.get("[data-test=dailies-item]")
+    cy.get("[data-cy=dailies-input]").type("Clean room{enter}")
+    cy.get("[data-cy=dailies-item]")
       .should("be.visible")
       .within(() => {
         cy.get(".fa-xmark").should("be.visible")
@@ -105,12 +105,12 @@ describe("To Dos tests", () => {
         cy.get(".fa-xmark").click()
       })
 
-    cy.get("[data-test=dailies-item]").should("not.exist")
+    cy.get("[data-cy=dailies-item]").should("not.exist")
   })
 
   it("should add 2 dailies", () => {
-    cy.get("[data-test=dailies-input]").type("Clean room{enter}")
-    cy.get("[data-test=dailies-input]").type("Make lunch{enter}")
+    cy.get("[data-cy=dailies-input]").type("Clean room{enter}")
+    cy.get("[data-cy=dailies-input]").type("Make lunch{enter}")
 
     cy.get("ul > :nth-child(1)")
       .should("be.visible")
@@ -124,9 +124,9 @@ describe("To Dos tests", () => {
   it("should add 10 dailies", () => {
     let dailyStr = "Clean room"
     for (let i = 0; i < 10; i++) {
-      cy.get("[data-test=dailies-input]").type(`${dailyStr} ${i + 1} {enter}`)
+      cy.get("[data-cy=dailies-input]").type(`${dailyStr} ${i + 1} {enter}`)
     }
-    cy.get("[data-test=dailies-item]")
+    cy.get("[data-cy=dailies-item]")
       .should("have.length", 10)
       .each(($el, i) => {
         cy.get($el).should("contain.text", `Clean room ${i + 1}`)
@@ -134,9 +134,9 @@ describe("To Dos tests", () => {
   })
 
   it("should have completed dailies set to uncompleted on next days", () => {
-    // cy.get("[data-test=dailies-input]").type("Clean room{enter}")
-    // cy.get("[data-test=dailies-input]").type("Make lunch{enter}")
-    // cy.get("[data-test=dailies-item]").each(($el) => {
+    // cy.get("[data-cy=dailies-input]").type("Clean room{enter}")
+    // cy.get("[data-cy=dailies-input]").type("Make lunch{enter}")
+    // cy.get("[data-cy=dailies-item]").each(($el) => {
     //   cy.get($el)
     //     .should("be.visible")
     //     .within(() => {
@@ -156,7 +156,7 @@ describe("To Dos tests", () => {
     //   }
     // })
     // cy.reload()
-    // cy.get("[data-test=dailies-item]").each(($el) => {
+    // cy.get("[data-cy=dailies-item]").each(($el) => {
     //   cy.get($el)
     //     .should("be.visible")
     //     .within(() => {
@@ -171,8 +171,8 @@ describe("To Dos tests", () => {
     let initialStreakCounterValue
     let secondaryStreakCounterValue
 
-    cy.get("[data-test=dailies-input]").type("Clean room{enter}")
-    cy.get("[data-test=dailies-item]")
+    cy.get("[data-cy=dailies-input]").type("Clean room{enter}")
+    cy.get("[data-cy=dailies-item]")
       .should("be.visible")
       .within(() => {
         cy.get(".streak-icon-container")
@@ -182,7 +182,7 @@ describe("To Dos tests", () => {
             expect(initialStreakCounterValue).to.eq(0)
           })
 
-        cy.get("[data-test=dailies-check-icon-container]")
+        cy.get("[data-cy=dailies-check-icon-container]")
           .should("be.visible")
           .within(() => {
             cy.get(".fa-circle-check")
@@ -203,9 +203,9 @@ describe("To Dos tests", () => {
   })
 
   it("should NOT add a daily with empty text when pressing enter", () => {
-    cy.get("[data-test=dailies-input]").type("{enter}")
+    cy.get("[data-cy=dailies-input]").type("{enter}")
 
-    cy.get("[data-test=dailies-item]").should("not.exist")
+    cy.get("[data-cy=dailies-item]").should("not.exist")
   })
 
   it("should NOT add a daily with a text more than 40 characters long when pressing enter", () => {
@@ -215,11 +215,11 @@ describe("To Dos tests", () => {
     for (let i = 0; i <= 50; i++) {
       longDailyStr += "A"
     }
-    cy.get("[data-test=dailies-input]").type(`${longDailyStr} {enter}`)
-    cy.get("[data-test=dailies-item]")
+    cy.get("[data-cy=dailies-input]").type(`${longDailyStr} {enter}`)
+    cy.get("[data-cy=dailies-item]")
       .should("be.visible")
       .within(() => {
-        cy.get("[data-test=dailies-text-container]")
+        cy.get("[data-cy=dailies-text-container]")
           .should("be.visible")
           .invoke("text")
           .should("have.length", expectedLength)
