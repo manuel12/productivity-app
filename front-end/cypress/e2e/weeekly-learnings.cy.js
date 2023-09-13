@@ -6,15 +6,15 @@ describe("Weekly Learnings tests", () => {
   })
 
   it("should display a 'Weekly Learnings' heading", () => {
-    cy.get("[data-test=learnings-heading]")
+    cy.get("[data-cy=learnings-heading]")
       .should("have.class", "display-1")
       .and("have.text", "Weekly Learnings")
   })
 
   it("should display a form with an input and submit button", () => {
-    cy.get("[data-test=learnings-form]").within(() => {
-      cy.get("[data-test=learnings-input]").should("be.visible")
-      cy.get("[data-test=learnings-submit]").should("be.visible")
+    cy.get("[data-cy=learnings-form]").within(() => {
+      cy.get("[data-cy=learnings-input]").should("be.visible")
+      cy.get("[data-cy=learnings-submit]").should("be.visible")
     })
   })
 
@@ -24,15 +24,15 @@ describe("Weekly Learnings tests", () => {
   })
 
   it("should add a learning by writing on the form and submitting it ", () => {
-    cy.get("[data-test=learnings-input]").type("Do yoga everyday")
-    cy.get("[data-test=learnings-submit]").click()
+    cy.get("[data-cy=learnings-input]").type("Do yoga everyday")
+    cy.get("[data-cy=learnings-submit]").click()
     cy.get("canvas")
     //.matchImageSnapshot()
   })
 
   it("should add a repeated learning and make sure it's value increases", () => {
-    cy.get("[data-test=learnings-input]").type("Do yoga everyday")
-    cy.get("[data-test=learnings-submit]").click()
+    cy.get("[data-cy=learnings-input]").type("Do yoga everyday")
+    cy.get("[data-cy=learnings-submit]").click()
     cy.get("canvas")
     //.matchImageSnapshot()
   })
@@ -40,8 +40,8 @@ describe("Weekly Learnings tests", () => {
   it("should add a repeated learning 10 times and make sure value increases", () => {
     let i = 0
     while (i < 10) {
-      cy.get("[data-test=learnings-input]").type("Do yoga everyday")
-      cy.get("[data-test=learnings-submit]").click()
+      cy.get("[data-cy=learnings-input]").type("Do yoga everyday")
+      cy.get("[data-cy=learnings-submit]").click()
       i++
     }
     cy.get("canvas")
@@ -53,25 +53,25 @@ describe("Weekly Learnings tests", () => {
     for (let i = 0; i < 50; i++) {
       longLearning += "a"
     }
-    cy.get("[data-test=learnings-input]").type(longLearning)
-    cy.get("[data-test=learnings-submit]").click()
+    cy.get("[data-cy=learnings-input]").type(longLearning)
+    cy.get("[data-cy=learnings-submit]").click()
     cy.get("canvas")
     //.matchImageSnapshot()
   })
 
   // HERE!!!
   it("should clear input field after adding learning", () => {
-    cy.get("[data-test=learnings-input]").type("Do yoga everyday")
-    cy.get("[data-test=learnings-submit]").click()
-    cy.get("[data-test=learnings-input]").should("have.value", "")
+    cy.get("[data-cy=learnings-input]").type("Do yoga everyday")
+    cy.get("[data-cy=learnings-submit]").click()
+    cy.get("[data-cy=learnings-input]").should("have.value", "")
   })
 
   it("should add 2 learnings", () => {
-    cy.get("[data-test=learnings-input]").type("Do yoga everyday")
-    cy.get("[data-test=learnings-submit]").click()
+    cy.get("[data-cy=learnings-input]").type("Do yoga everyday")
+    cy.get("[data-cy=learnings-submit]").click()
 
-    cy.get("[data-test=learnings-input]").type("Wake up early")
-    cy.get("[data-test=learnings-submit]").click()
+    cy.get("[data-cy=learnings-input]").type("Wake up early")
+    cy.get("[data-cy=learnings-submit]").click()
     cy.get("canvas")
     //.matchImageSnapshot()
   })
@@ -82,26 +82,26 @@ describe("Weekly Learnings tests", () => {
       longLearning += "a"
     }
 
-    cy.get("[data-test=learnings-input]").type("Do yoga everyday")
-    cy.get("[data-test=learnings-submit]").click()
+    cy.get("[data-cy=learnings-input]").type("Do yoga everyday")
+    cy.get("[data-cy=learnings-submit]").click()
 
-    cy.get("[data-test=learnings-input]").type(longLearning)
-    cy.get("[data-test=learnings-submit]").click()
+    cy.get("[data-cy=learnings-input]").type(longLearning)
+    cy.get("[data-cy=learnings-submit]").click()
   })
 
   it("should add a learning by pressing ENTER", () => {
-    cy.get("[data-test=learnings-input]").type("Do yoga everyday{enter}")
+    cy.get("[data-cy=learnings-input]").type("Do yoga everyday{enter}")
   })
 
   it("should NOT be able to add a learning leaving text empty", () => {
-    cy.get("[data-test=learnings-submit]").click()
+    cy.get("[data-cy=learnings-submit]").click()
     cy.get("canvas")
     //.matchImageSnapshot()
   })
 
   it("should display learning after page is reloaded", () => {
-    cy.get("[data-test=learnings-input]").type("Do yoga everyday")
-    cy.get("[data-test=learnings-submit]").click()
+    cy.get("[data-cy=learnings-input]").type("Do yoga everyday")
+    cy.get("[data-cy=learnings-submit]").click()
 
     cy.reload()
     cy.get("canvas")
