@@ -6,20 +6,14 @@ import {
   faRemove,
   faForward,
 } from "@fortawesome/free-solid-svg-icons"
+import IDaily from "../../interfaces/IDaily"
 import { setItem, getItem, checkAndUpdateCompletedStatus } from "../../utils"
 
-export interface Daily {
-  completed: boolean
-  dailyText: string
-  dateCreated: Date | string
-  streakCounter: number
-}
-
 const DailiesList: FC = () => {
-  const [DailiesList, setDailiesList] = useState<Daily[]>(
+  const [DailiesList, setDailiesList] = useState<IDaily[]>(
     getItem("dailies") || []
   )
-  const [newDaily, setNewDaily] = useState<Daily>({
+  const [newDaily, setNewDaily] = useState<IDaily>({
     completed: false,
     dailyText: "",
     dateCreated: "",
