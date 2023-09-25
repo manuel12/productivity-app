@@ -1,65 +1,34 @@
 import "./styles.css"
-import React, { useState, FC } from "react"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faCircleCheck, faRemove } from "@fortawesome/free-solid-svg-icons"
+import React, { useState, useEffect } from "react"
+import Todo from "../Todo/Todo"
+import ITodo from "../../interfaces/ITodo"
 import { setItem, getItem } from "../../utils"
 
-interface Todo {
-  completed: boolean
-  todoText: string
+interface ITodoListProps {
+  todos: ITodo[]
+  setTodos: (todos: ITodo[]) => void
+  setCompletedTodos: (completedTodos: number) => void
 }
 
-const TodoList: React.FC = () => {
-  const [todos, setTodos] = useState<Todo[]>(getItem("todos") || [])
-  const [newTodo, setNewTodo] = useState<Todo>({
+const TodoList: React.FC<ITodoListProps> = ({
+  todos,
+  setTodos,
+  setCompletedTodos,
+}) => {
+  const [newTodo, setNewTodo] = useState<ITodo>({
     completed: false,
-    todoText: "",
+    text: "",
   })
-
-  const playTodoCompletedSound = () => {
-    let audio = new Audio("complete-todo.ogg")
-    audio.play()
-  }
-
-  const playTodoRemovedSound = () => {
-    let audio = new Audio("remove-todo.mp3")
-    audio.volume = 0.2
-    audio.play()
-  }
 
   const handleAddTodo = (e: any) => {
     e.preventDefault()
 
-    if (newTodo.todoText === "") return
+    if (newTodo.text === "") return
 
     const newTodosArray = [...todos, newTodo]
     setTodos(newTodosArray)
     setItem("todos", newTodosArray)
-    setNewTodo({ completed: false, todoText: "" })
-  }
-
-  const handleCheckClick = (todoIndex: number) => {
-    const tempTodos = todos
-
-    const todoToUpdate = todos[todoIndex]
-    const updatedTodoCompleted = todoToUpdate.completed
-    todoToUpdate.completed = !updatedTodoCompleted
-
-    tempTodos[todoIndex] = todoToUpdate
-    setTodos([...tempTodos])
-    setItem("todos", [...tempTodos])
-
-    todoToUpdate.completed && playTodoCompletedSound()
-  }
-
-  const handleRemoveClick = (todoIndex: number) => {
-    const todoToRemove = todos[todoIndex]
-    const newTodos = todos.filter(
-      (todo) => todoToRemove.todoText !== todo.todoText
-    )
-
-    setTodos([...newTodos])
-    playTodoRemovedSound()
+    setNewTodo({ completed: false, text: "" })
   }
 
   return (
@@ -78,11 +47,11 @@ const TodoList: React.FC = () => {
             placeholder="Add a new todo..."
             aria-label="Add a new todo..."
             aria-describedby="button-addon2"
-            value={newTodo.todoText}
+            value={newTodo.text}
             onChange={(e) => {
               const inputValue = e.target.value
               if (inputValue.length <= 40) {
-                setNewTodo({ completed: false, todoText: e.target.value })
+                setNewTodo({ completed: false, text: e.target.value })
               }
             }}
             maxLength={40}
@@ -105,41 +74,13 @@ const TodoList: React.FC = () => {
         <ul className="list-group" data-cy="todos-list">
           {todos.length > 0 ? (
             todos.map((todo, i) => (
-              <li key={i} className="list-group-item" data-cy="todos-item">
-                <div
-                  className="check-icon-container"
-                  data-cy="todos-check-icon-container"
-                >
-                  <FontAwesomeIcon
-                    className={
-                      todos[i].completed
-                        ? "check-completed"
-                        : "check-not-completed"
-                    }
-                    icon={faCircleCheck}
-                    onClick={() => {
-                      handleCheckClick(i)
-                    }}
-                  />
-                </div>
-                <div
-                  className={`text-container ${
-                    todos[i].completed ? "text-completed" : "text-not-completed"
-                  }`}
-                  data-cy="todos-text-container"
-                >
-                  {todo.todoText}
-                </div>
-                <div className="remove-icon-container">
-                  <FontAwesomeIcon
-                    icon={faRemove}
-                    className="remove"
-                    onClick={() => {
-                      handleRemoveClick(i)
-                    }}
-                  />
-                </div>
-              </li>
+              <Todo
+                index={i}
+                todo={todo}
+                todos={todos}
+                setTodos={setTodos}
+                setCompletedTodos={setCompletedTodos}
+              />
             ))
           ) : (
             <div className="display-4">No todos added yet...</div>
