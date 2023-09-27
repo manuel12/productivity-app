@@ -4,11 +4,9 @@ import WeeklyLearningsList from "../../components/WeeklyLearningsList/WeeklyLear
 
 const WeeklyLearningPage: React.FC = () => {
   return (
-    <CustomPage
-      headingText="Weekly Learnings"
-      dataCyAttr="learnings-heading"
-      listComponent={WeeklyLearningsList}
-    />
+    <CustomPage headingText="Weekly Learnings" dataCyAttr="learnings-heading">
+      <WeeklyLearningsList />
+    </CustomPage>
   )
 }
 
