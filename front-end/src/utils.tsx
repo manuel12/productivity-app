@@ -1,4 +1,5 @@
-import { Daily } from "./components/DailiesList/DailiesList"
+import IDaily from "../src/interfaces/IDaily"
+import ITodo from "./interfaces/ITodo"
 
 /**
  * Stores an item with the specified key in localStorage.
@@ -29,7 +30,7 @@ export const getItem = (key: string): any | null => {
  * and updates the completed property accordingly.
  *  * @param {object} daily - The daily object to check.
  */
-export const checkAndUpdateCompletedStatus = (daily: Daily) => {
+export const checkAndUpdateCompletedStatus = (daily: IDaily) => {
   /**
    * @type {Date}
    */
@@ -67,4 +68,29 @@ export const checkAndUpdateCompletedStatus = (daily: Daily) => {
   }
 
   return daily
+}
+
+/**
+ * Calculates the number of completed todos in the given array of todos.
+ *
+ * @param {ITodo[]} todos - The array of todo items.
+ * @returns {number} The number of completed todos.
+ */
+export const getNumCompletedTodos = (todos: ITodo[]) => {
+  return todos.filter((todo) => todo.completed === true).length
+}
+
+/**
+ * Calculates the percentage difference between the number of completed todos
+ * and the average number of completed todos.
+ *
+ * @param {number} numCompleted - The number of completed todos.
+ * @param {number} numAvgCompleted - The average number of completed todos.
+ * @returns {string} The percentage difference as a string with no decimal places.
+ */
+export const percentageDiff = (
+  numCompleted: number,
+  numAvgCompleted: number
+) => {
+  return ((numCompleted / numAvgCompleted) * 100).toFixed(0)
 }
