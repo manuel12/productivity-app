@@ -8,35 +8,27 @@ interface ITodoListProps {
   completedTodos: number
 }
 
-const TodoStatistics: React.FC<ITodoListProps> = ({
-  todos,
-  completedTodos,
-}) => {
+const TStatistics: React.FC<ITodoListProps> = ({ todos, completedTodos }) => {
   const [numAverageCompletedTodos, setNumAvgCompletedTodos] = useState(12)
   const [perfecentageDiff, setPercentageDiff] = useState(
     percentageDiff(completedTodos, numAverageCompletedTodos)
   )
 
   useEffect(() => {
-    console.log("todos updated!")
-  }, [todos])
-
-  useEffect(() => {
-    console.log("completedTodos updated!")
     setPercentageDiff(percentageDiff(completedTodos, numAverageCompletedTodos))
   }, [completedTodos])
 
   return (
-    <div className="w-50 TodoStatistics">
-      <div className="TodoStatistics__statistics-container">
+    <div className="w-50 TStatistics">
+      <div className="TStatistics__stats-container border-danger">
         Completed todos:
         <div className="display-1">{completedTodos}</div>
       </div>
-      <div className="TodoStatistics__statistics-container">
+      <div className="TStatistics__stats-container border-success">
         Avg daily completed todos
         <div className="display-1">{numAverageCompletedTodos}</div>
       </div>
-      <div className="TodoStatistics__statistics-container ">
+      <div className="TStatistics__stats-container border-warning">
         Percentage difference
         <div className="display-1">{perfecentageDiff}%</div>
       </div>
@@ -44,4 +36,4 @@ const TodoStatistics: React.FC<ITodoListProps> = ({
   )
 }
 
-export default TodoStatistics
+export default TStatistics
