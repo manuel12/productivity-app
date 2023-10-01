@@ -52,8 +52,6 @@ const Todo: React.FC<ITodoItemProps> = ({
     setTodos(tempTodos)
     setCompletedTodos(getNumCompletedTodos(tempTodos))
     setItem("todos", tempTodos)
-    console.log("Saved todos!")
-    console.log(todos)
 
     todoToUpdate.completed && playTodoCompletedSound()
   }
