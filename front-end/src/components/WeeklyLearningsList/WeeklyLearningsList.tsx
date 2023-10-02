@@ -57,9 +57,9 @@ const WeeklyLearningsList: FC = () => {
         <div className="input-group my-5 mx-auto w-50">
           <input
             style={{
-              borderRadius: "20px",
+              borderRadius: "25px",
               borderWidth: "2px",
-              padding: "15px",
+              padding: "7px 15px",
             }}
             type="text"
             className="form-control mx-1"
