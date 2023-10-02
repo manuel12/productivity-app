@@ -11,8 +11,6 @@ const TodoPage: React.FC = () => {
     getNumCompletedTodos(todos)
   )
 
-  useEffect(() => {})
-
   return (
     <>
       <CustomPage headingText="To Dos" dataCyAttr="todos-heading">
