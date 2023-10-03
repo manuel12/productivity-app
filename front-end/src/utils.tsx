@@ -87,5 +87,45 @@ export const percentageDiff = (
   numCompleted: number,
   numAvgCompleted: number
 ) => {
-  return ((numCompleted / numAvgCompleted) * 100).toFixed(0)
+  if (numCompleted == numAvgCompleted) return 0
+  else if (numCompleted > numAvgCompleted)
+    return percentageIncrease(numCompleted, numAvgCompleted)
+  else if (numAvgCompleted > numCompleted)
+    return percentageDecrease(numCompleted, numAvgCompleted)
+}
+
+/**
+ * Calculates the percentage increase between the number of completed todos
+ * and the average number of completed todos.
+ *
+ * @param {number} numCompleted - The number of completed todos.
+ * @param {number} numAvgCompleted - The average number of completed todos.
+ * @returns {string} The percentage increase as a string with no decimal places preceded by a (+) sign.
+ */
+export const percentageIncrease = (
+  numCompleted: number,
+  numAvgCompleted: number
+) => {
+  return `+${(
+    ((numCompleted - numAvgCompleted) / numAvgCompleted) *
+    100
+  ).toFixed(0)}`
+}
+
+/**
+ * Calculates the percentage decrease between the number of completed todos
+ * and the average number of completed todos.
+ *
+ * @param {number} numCompleted - The number of completed todos.
+ * @param {number} numAvgCompleted - The average number of completed todos.
+ * @returns {string} The percentage decrease as a string with no decimal places preceded by a (-) sign.
+ */
+export const percentageDecrease = (
+  numCompleted: number,
+  numAvgCompleted: number
+) => {
+  return `-${(
+    ((numAvgCompleted - numCompleted) / numAvgCompleted) *
+    100
+  ).toFixed(0)}`
 }
