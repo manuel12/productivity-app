@@ -1,6 +1,6 @@
 export default interface IDaily {
   completed: boolean
-  dailyText: string
+  text: string
   dateCreated: Date | string
   streakCounter: number
 }
