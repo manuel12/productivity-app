@@ -1,16 +1,14 @@
-import React, { ReactNode, ComponentType } from "react"
+import React, { ReactNode } from "react"
 
 interface CustomPageProps {
   headingText: string
   dataCyAttr: string
-  // listComponent: ComponentType<any>
   children: ReactNode
 }
 const CustomPage: React.FC<CustomPageProps> = ({
   headingText = "",
   dataCyAttr = "",
   children,
-  // listComponent: ListComponent,
 }) => {
   return (
     <div className="my-5">
