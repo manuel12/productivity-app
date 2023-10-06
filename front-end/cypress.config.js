@@ -10,6 +10,8 @@ module.exports = defineConfig({
       addMatchImageSnapshotPlugin(on)
     },
     baseUrl: "http://localhost:3000/",
+    specPattern: "cypress/e2e/todo/**/*.cy.{js,jsx,ts,tsx}",
+    experimentalRunAllSpecs: true,
   },
 
   component: {
