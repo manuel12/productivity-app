@@ -1,3 +1,9 @@
+.LearningsList__input {
+  border-radius: 25px !important;
+  border-width: 2px;
+  padding: 7px 15px;
+}
+
 .chart-container {
   height: max-content;
   border-radius: 20px;
