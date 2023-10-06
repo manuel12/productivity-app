@@ -56,13 +56,8 @@ const WeeklyLearningsList: FC = () => {
       <form onSubmit={handleAddLearningClick} data-cy="learnings-form">
         <div className="input-group my-5 mx-auto w-50">
           <input
-            style={{
-              borderRadius: "25px",
-              borderWidth: "2px",
-              padding: "7px 15px",
-            }}
             type="text"
-            className="form-control mx-1"
+            className="form-control mx-1 LearningsList__input"
             data-cy="learnings-input"
             placeholder="Add a new learning..."
             aria-label="Add a new learning..."
