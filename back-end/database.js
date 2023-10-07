@@ -25,7 +25,7 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
         const insertSQL =
           "INSERT OR REPLACE INTO Todo (completed, todoText) VALUES (?, ?)"
 
-        db.run(insertSQL, ["false", "Feed the cats"])
+        db.run(insertSQL, [false, "Feed the cats"])
       }
     })
     console.log("Succesfully created Todo database!")
