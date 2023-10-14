@@ -12,7 +12,7 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
     const createTableSQL = `CREATE TABLE IF NOT EXISTS Todo (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       completed BOOLEAN,
-      todoText VARCHAR(40)
+      description VARCHAR(40)
     )`
 
     db.run(createTableSQL, (err) => {
@@ -21,14 +21,10 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
         console.error(err.message)
         throw err
       } else {
-        // Table just created, creating some rows
-        const insertSQL =
-          "INSERT OR REPLACE INTO Todo (completed, todoText) VALUES (?, ?)"
-
-        db.run(insertSQL, [false, "Feed the cats"])
+        // Table created!
+        console.log("Succesfully created Todo database!")
       }
     })
-    console.log("Succesfully created Todo database!")
   }
 })
 
