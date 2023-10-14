@@ -2,7 +2,6 @@ const express = require("express")
 const router = express.Router()
 const db = require("../database")
 
-/* GET a single todo */
 router.get("/api/todos/:id", function (req, res, next) {
   const querySQL = "SELECT * FROM Todo WHERE id = ?"
   const params = [req.params.id]
