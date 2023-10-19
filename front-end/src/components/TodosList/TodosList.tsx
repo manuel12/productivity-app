@@ -8,6 +8,7 @@ import CustomInput from "../CustomInput/CustomInput"
 import CustomList from "../CustomList/CustomList"
 
 import { setItem } from "../../utils"
+import API from "../../api"
 
 interface ITodoListProps {
   todos: ITodo[]
@@ -22,18 +23,25 @@ const TodoList: React.FC<ITodoListProps> = ({
 }) => {
   const [newTodo, setNewTodo] = useState<ITodo>({
     completed: false,
-    text: "",
+    description: "",
   })
 
   const handleAddTodo = (e: any) => {
     e.preventDefault()
 
-    if (newTodo.text === "") return
+    if (newTodo.description === "") return
 
     const newTodosArray = [...todos, newTodo]
     setTodos(newTodosArray)
-    setItem("todos", newTodosArray)
-    setNewTodo({ completed: false, text: "" })
+
+    const useDB = true
+    if (useDB) {
+      API.addTodo(newTodo)
+    } else {
+      setItem("todos", newTodosArray)
+    }
+
+    setNewTodo({ completed: false, description: "" })
   }
 
   return (
@@ -45,7 +53,7 @@ const TodoList: React.FC<ITodoListProps> = ({
         onChange={(e) => {
           const inputValue = e.target.value
           if (inputValue.length <= 40) {
-            setNewTodo({ completed: false, text: e.target.value })
+            setNewTodo({ completed: false, description: e.target.value })
           }
         }}
       />
