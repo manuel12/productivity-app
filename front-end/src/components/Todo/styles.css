@@ -11,15 +11,15 @@
   color: lightgrey;
 }
 
-.text-container {
+.description-container {
   width: 80%;
 }
 
-.text-completed {
+.description-completed {
   text-decoration: line-through;
 }
 
-.text-not-completed {
+.description-not-completed {
   text-decoration: none;
 }
 
