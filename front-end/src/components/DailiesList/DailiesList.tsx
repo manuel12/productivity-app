@@ -17,7 +17,7 @@ const DailiesList: React.FC = () => {
   const [dailies, setDailies] = useState<IDaily[]>(getItem("dailies") || [])
   const [newDaily, setNewDaily] = useState<IDaily>({
     completed: false,
-    text: "",
+    description: "",
     dateCreated: "",
     streakCounter: 0,
   })
@@ -42,7 +42,7 @@ const DailiesList: React.FC = () => {
   const handleAddDaily = (e: any) => {
     e.preventDefault()
 
-    if (newDaily.text === "") return
+    if (newDaily.description === "") return
 
     const newDailiesListArray = [...dailies, newDaily]
     setDailies(newDailiesListArray)
@@ -50,7 +50,7 @@ const DailiesList: React.FC = () => {
 
     setNewDaily({
       completed: false,
-      text: "",
+      description: "",
       dateCreated: "",
       streakCounter: 0,
     })
@@ -83,7 +83,7 @@ const DailiesList: React.FC = () => {
   const handleRemoveClick = (dailyIndex: number) => {
     const dailyToRemove = dailies[dailyIndex]
     const newDailiesList = dailies.filter(
-      (daily) => dailyToRemove.text !== daily.text
+      (daily) => dailyToRemove.description !== daily.description
     )
 
     const newDailiesListArray = [...newDailiesList]
@@ -114,7 +114,7 @@ const DailiesList: React.FC = () => {
           if (inputValue.length <= 40) {
             setNewDaily({
               completed: false,
-              text: e.target.value,
+              description: e.target.value,
               dateCreated: new Date().toDateString(),
               streakCounter: 0,
             })
@@ -147,7 +147,7 @@ const DailiesList: React.FC = () => {
               }`}
               data-cy="dailies-text-container"
             >
-              {daily.text}
+              {daily.description}
             </div>
 
             <div className="streak-icon-container">
