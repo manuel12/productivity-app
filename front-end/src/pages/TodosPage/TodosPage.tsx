@@ -4,12 +4,29 @@ import TodoStatistics from "../../components/TodoStatistics/TodoStatistics"
 import TodoList from "../../components/TodosList/TodosList"
 import { getItem, getNumCompletedTodos } from "../../utils"
 import ITodo from "../../interfaces/ITodo"
+import API from "../../api"
 
 const TodoPage: React.FC = () => {
-  const [todos, setTodos] = useState<ITodo[]>(getItem("todos") || [])
-  const [completedTodos, setCompletedTodos] = useState(
-    getNumCompletedTodos(todos)
-  )
+  const useDB = true
+
+  const getTodosFromDbOrStorage = (setTodos: any) => {
+    if (useDB) {
+      API.getTodos(setTodos)
+    } else {
+      setTodos(getItem("todos") || [])
+    }
+  }
+
+  const [todos, setTodos] = useState<ITodo[]>([])
+  const [completedTodos, setCompletedTodos] = useState(0)
+
+  useEffect(() => {
+    getTodosFromDbOrStorage(setTodos)
+  }, [])
+
+  useEffect(() => {
+    setCompletedTodos(getNumCompletedTodos(todos))
+  }, [todos])
 
   return (
     <>
