@@ -10,6 +10,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faCircleCheck, faRemove } from "@fortawesome/free-solid-svg-icons"
 import ITodoItemProps from "../../interfaces/ITodoItemProps"
 import { setItem, getNumCompletedTodos } from "../../utils"
+import API from "../../api"
 
 const Todo: React.FC<ITodoItemProps> = ({
   index,
@@ -20,14 +21,14 @@ const Todo: React.FC<ITodoItemProps> = ({
 }) => {
   const [completed, setCompleted] = useState(todo.completed)
   const [isEditing, setIsEditing] = useState(false)
-  const [editedText, setEditedText] = useState(todo.text)
+  const [editedDescription, setEditedDescription] = useState(todo.description)
 
   useEffect(() => {
     setCompleted(todo.completed)
   }, [todo])
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setEditedText(e.target.value)
+    setEditedDescription(e.target.value)
   }
 
   const handleKeyDown = (
@@ -51,7 +52,14 @@ const Todo: React.FC<ITodoItemProps> = ({
     tempTodos[todoIndex] = todoToUpdate
     setTodos(tempTodos)
     setCompletedTodos(getNumCompletedTodos(tempTodos))
-    setItem("todos", tempTodos)
+
+    const useDB = true
+    if (useDB) {
+      const todoId = todoToUpdate.id
+      todoId && API.editTodo(todoToUpdate, todoId)
+    } else {
+      setItem("todos", tempTodos)
+    }
 
     todoToUpdate.completed && playTodoCompletedSound()
   }
@@ -61,17 +69,24 @@ const Todo: React.FC<ITodoItemProps> = ({
   }
 
   const handleSaveClick = (todoIndex: number) => {
-    // Save the edited text and exit edit mode
-    // You can implement the logic to save the edited text here
+    // Save the edited description and exit edit mode
+    // You can implement the logic to save the edited description here
     // For example, you can call an API endpoint to update the todo item on the server
     const tempTodos = todos
 
     const todoToUpdate = todos[todoIndex]
-    todoToUpdate.text = editedText
+    todoToUpdate.description = editedDescription
 
     tempTodos[todoIndex] = todoToUpdate
     setTodos(tempTodos)
-    setItem("todos", tempTodos)
+
+    const useDB = true
+    if (useDB) {
+      const todoId = todoToUpdate.id
+      todoId && API.editTodo(todoToUpdate, todoId)
+    } else {
+      setItem("todos", tempTodos)
+    }
 
     // todoToUpdate.completed && playTodoCompletedSound()
 
@@ -80,10 +95,20 @@ const Todo: React.FC<ITodoItemProps> = ({
 
   const handleRemoveClick = (todoIndex: number) => {
     const todoToRemove = todos[todoIndex]
-    const newTodos = todos.filter((todo) => todoToRemove.text !== todo.text)
+    const newTodos = todos.filter(
+      (todo) => todoToRemove.description !== todo.description
+    )
 
     setTodos(newTodos)
-    setItem("todos", newTodos)
+
+    const useDB = true
+    if (useDB) {
+      const todoId = todoToRemove.id
+      todoId && API.deleteTodo(todoId)
+    } else {
+      setItem("todos", newTodos)
+    }
+
     playTodoRemovedSound()
   }
 
@@ -117,7 +142,7 @@ const Todo: React.FC<ITodoItemProps> = ({
 
   return (
     <li
-      key={todo.text}
+      key={todo.description}
       className="list-group-item"
       data-cy="todos-item"
       draggable
@@ -142,24 +167,24 @@ const Todo: React.FC<ITodoItemProps> = ({
         // If editing display an input field
         <input
           type="text"
-          value={editedText}
+          value={editedDescription}
           onChange={handleInputChange}
-          onBlur={() => handleSaveClick(index)} // Save the edited text when the input field loses focus
+          onBlur={() => handleSaveClick(index)} // Save the edited description when the input field loses focus
           onKeyDown={(e) => {
             handleKeyDown(e, index)
           }}
           autoFocus // Automatically focus on the input field when editing starts
         />
       ) : (
-        // If not editing, display the todo text
+        // If not editing, display the todo description
         <div
-          className={`text-container ${
-            completed ? "text-completed" : "text-not-completed"
+          className={`description-container ${
+            completed ? "description-completed" : "description-not-completed"
           }`}
-          data-cy="todos-text-container"
-          onClick={handleEditClick} // Enable editing mode when the text is clicked
+          data-cy="todos-description-container"
+          onClick={handleEditClick} // Enable editing mode when the description is clicked
         >
-          {todo.text}
+          {todo.description}
         </div>
       )}
       <div className="remove-icon-container">
