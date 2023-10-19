@@ -3,7 +3,7 @@ import React, { ReactNode } from "react"
 interface CustomInputProps {
   itemName: string
   handleAddItem: (e: any) => void
-  newItem: { text: string }
+  newItem: { description: string }
   onChange: (e: any) => void
 }
 
@@ -23,7 +23,7 @@ const CustomInput: React.FC<CustomInputProps> = ({
           placeholder={`Add a new ${itemName}...`}
           aria-label={`Add a new ${itemName}...`}
           aria-describedby="button-addon2"
-          value={newItem.text}
+          value={newItem.description}
           onChange={onChange}
           maxLength={40}
         />
