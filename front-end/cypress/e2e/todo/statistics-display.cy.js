@@ -12,7 +12,7 @@ describe("Todo Section - Todo Statistics Display ", () => {
     // Perform actions to add todos
     const numTodosToAdd = 5
     for (let i = 1; i <= numTodosToAdd; i++) {
-      cy.get("[data-cy=todos-input]").type(`Todo #${i}{enter}`)
+      cy.get("[data-cy=todos-input]").type(`Todo #${i} (test){enter}`)
     }
 
     // Check initial completed todos displays 0
@@ -70,7 +70,7 @@ describe("Todo Section - Todo Statistics Display ", () => {
 
       // Perform actions to add todos
       for (let i = 1; i <= numTodosToAdd; i++) {
-        cy.get("[data-cy=todos-input]").type(`Todo #${i}{enter}`)
+        cy.get("[data-cy=todos-input]").type(`Todo #${i} (test){enter}`)
       }
 
       // Perform actions to complete todos
@@ -94,6 +94,14 @@ describe("Todo Section - Todo Statistics Display ", () => {
           `${percentageDifference}%`
         )
       }
+    })
+  })
+
+  afterEach(() => {
+    // Call an API function that
+    cy.request({
+      method: "DELETE",
+      url: "http://localhost:4000/api/todos/delete-test-todos/",
     })
   })
 })
