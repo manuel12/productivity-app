@@ -8,7 +8,7 @@ describe("Todo Section - Delete Todo", () => {
 
   it("Should delete a todo and remove it from the todo list", () => {
     // Create a todo with the text 'Todo to Delete' that you want to delete
-    const todoTextToDelete = "Todo to Delete"
+    const todoTextToDelete = "Todo to Delete (test)"
     cy.get("[data-cy=todos-input]").type(todoTextToDelete)
     cy.get('[data-cy="todos-submit"]').click()
 
@@ -20,5 +20,13 @@ describe("Todo Section - Delete Todo", () => {
 
     // // Validate that the todo with text 'Todo to Delete' no longer exists in the todo list
     cy.contains(todoTextToDelete).should("not.exist")
+  })
+
+  afterEach(() => {
+    // Call an API function that
+    cy.request({
+      method: "DELETE",
+      url: "http://localhost:4000/api/todos/delete-test-todos/",
+    })
   })
 })
