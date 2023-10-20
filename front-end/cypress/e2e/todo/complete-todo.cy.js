@@ -8,13 +8,14 @@ describe("Todo Section - Mark Todo as Complete:", () => {
 
   it("Should mark a todo as complete and move it to the completed todos list", () => {
     // Assuming there's a todo with the text 'Todo to Complete' that you want to mark as complete
-    const todoTextToComplete = "Todo to Complete"
+    const todoTextToComplete = "Todo to Complete (test)"
     cy.get("[data-cy=todos-input]").type(todoTextToComplete)
     cy.get('[data-cy="todos-submit"]').click()
 
     // Validate that the todo with text 'Todo to Complete' has initially .check--not-completed class
     cy.get("[data-cy=todos-item]")
       .should("be.visible")
+      .first()
       .within(() => {
         cy.get("[data-cy=todos-check-icon-container]")
           .should("be.visible")
@@ -44,5 +45,13 @@ describe("Todo Section - Mark Todo as Complete:", () => {
               .and("have.class", "check-completed")
           })
       })
+  })
+
+  afterEach(() => {
+    // Call an API function that
+    cy.request({
+      method: "DELETE",
+      url: "http://localhost:4000/api/todos/delete-test-todos/",
+    })
   })
 })
