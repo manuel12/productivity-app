@@ -2,8 +2,8 @@ const express = require("express")
 const bodyParser = require("body-parser")
 const cors = require("cors")
 
-const getTodosRouter = require("./routes/getTodos")
-const getTodoRouter = require("./routes/getTodo")
+const readTodosRouter = require("./routes/readTodos")
+const readTodoRouter = require("./routes/readTodo")
 const createTodoRouter = require("./routes/createTodo")
 const updateTodoRouter = require("./routes/updateTodo")
 const deleteTodoRouter = require("./routes/deleteTodo")
@@ -17,10 +17,10 @@ app.use(bodyParser.json())
 app.use(cors())
 
 // Get all todos
-app.use(getTodosRouter)
+app.use(readTodosRouter)
 
 // Get a single todo
-app.use(getTodoRouter)
+app.use(readTodoRouter)
 
 // Create a todo
 app.use(createTodoRouter)
