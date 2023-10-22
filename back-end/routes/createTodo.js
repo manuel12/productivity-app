@@ -3,32 +3,34 @@ const router = express.Router()
 const db = require("../database")
 
 router.post("/api/todos", (req, res, next) => {
+  const errors = []
   const newTodo = {
-    completed: req.body.completed, // Make sure these properties exist in req.body
+    completed: req.body.completed,
     description: req.body.description,
   }
-  const errors = []
-  if (typeof req.body.completed !== "boolean") {
+
+  if (typeof newTodo.completed !== "boolean") {
     errors.push("No completed (boolean) specified")
   }
 
-  if (!req.body.description) {
+  if (
+    typeof newTodo.description !== "string" ||
+    newTodo.description.length == 0
+  ) {
     errors.push("No description specified")
   }
 
   if (errors.length) {
-    res.status(400).json({ error: errors.join(", ") })
-    return
+    return res.status(400).json({ error: errors.join(", ") + "." })
   }
 
   const insertSQL = "INSERT INTO Todo (completed, description) VALUES (?, ?)"
 
   db.run(insertSQL, [newTodo.completed, newTodo.description], function (err) {
     if (err) {
-      console.error(err.message)
-      return res.status(500).json({ error: "Internal Server Error" })
+      return res.status(500).json({ error: res.error })
     }
-    res.json({
+    res.status(201).json({
       message: "Todo successfully created!",
       data: newTodo,
       id: this.lastID,
