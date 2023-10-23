@@ -6,18 +6,18 @@ describe("Todo Section - Mark Todo as Complete:", () => {
     cy.visit("/")
   })
 
-  it("Should mark a todo as complete and move it to the completed todos list", () => {
+  it("verify a todo can be marked as complete", () => {
     // Assuming there's a todo with the text 'Todo to Complete' that you want to mark as complete
     const todoTextToComplete = "Todo to Complete (test)"
-    cy.get("[data-cy=todos-input]").type(todoTextToComplete)
+    cy.getBySel("todos-input").type(todoTextToComplete)
     cy.get('[data-cy="todos-submit"]').click()
 
     // Validate that the todo with text 'Todo to Complete' has initially .check--not-completed class
-    cy.get("[data-cy=todos-item]")
+    cy.getBySel("todos-item")
       .should("be.visible")
       .first()
       .within(() => {
-        cy.get("[data-cy=todos-check-icon-container]")
+        cy.getBySel("todos-check-icon-container")
           .should("be.visible")
           .within(() => {
             cy.get(".fa-circle-check")
@@ -27,17 +27,17 @@ describe("Todo Section - Mark Todo as Complete:", () => {
       })
 
     // Find the todo item complete button, then click it
-    cy.get("[data-cy=todos-item]")
+    cy.getBySel("todos-item")
       .should("be.visible")
       .within(() => {
-        cy.get("[data-cy=todos-check-icon-container]").click()
+        cy.getBySel("todos-check-icon-container").click()
       })
 
     // Validate that the todo with text 'Todo to Complete' has .check-completed class
-    cy.get("[data-cy=todos-item]")
+    cy.getBySel("todos-item")
       .should("be.visible")
       .within(() => {
-        cy.get("[data-cy=todos-check-icon-container]")
+        cy.getBySel("todos-check-icon-container")
           .should("be.visible")
           .within(() => {
             cy.get(".fa-circle-check")
@@ -46,6 +46,8 @@ describe("Todo Section - Mark Todo as Complete:", () => {
           })
       })
   })
+
+  it("verify the todo moves to the completed todo list")
 
   afterEach(() => {
     // Call an API function that
