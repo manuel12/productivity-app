@@ -6,19 +6,19 @@ describe("Todo Section - Edit Todo", () => {
     cy.visit("/")
   })
 
-  it("should edit a todo and update it correctly", () => {
+  it("verify an existing todo can be edited and updates correctly", () => {
     const updatedTodo = "Updated Todo Item (test)"
 
     // Create a todo
-    cy.get("[data-cy=todos-input]").type("Existing Todo (test")
-    cy.get('[data-cy="todos-submit"]').click()
+    cy.getBySel("todos-input").type("Existing Todo (test")
+    cy.getBySel("todos-submit").click()
 
     // Find and edit that existing todo
     //cy.contains(".todo-list-item", "Existing Todo").find(".edit-button").click()
-    cy.get("[data-cy=todos-list]")
+    cy.getBySel("todos-list")
       .first()
       .within(() => {
-        cy.get('[data-cy="todos-description-container"]').click()
+        cy.getBySel("todos-description-container").click()
         cy.get("input").clear()
         cy.get("input").type(`${updatedTodo}{enter}`)
       })
