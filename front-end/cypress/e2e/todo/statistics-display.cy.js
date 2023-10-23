@@ -8,15 +8,15 @@ describe("Todo Section - Todo Statistics Display ", () => {
     cy.visit("/")
   })
 
-  it("should display number of completed todos for the day", () => {
+  it("verify the number of completed todos for the day is displayed", () => {
     // Perform actions to add todos
     const numTodosToAdd = 5
     for (let i = 1; i <= numTodosToAdd; i++) {
-      cy.get("[data-cy=todos-input]").type(`Todo #${i} (test){enter}`)
+      cy.getBySel("todos-input").type(`Todo #${i} (test){enter}`)
     }
 
     // Check initial completed todos displays 0
-    cy.get('[data-cy="statistics-daily-completed-todos"]').should(
+    cy.getBySel("statistics-daily-completed-todos").should(
       "include.text",
       "Completed todos:0"
     )
@@ -34,14 +34,14 @@ describe("Todo Section - Todo Statistics Display ", () => {
         .and("have.class", "check-completed")
 
       // Check completed todos number increases with each todo set as completed
-      cy.get('[data-cy="statistics-daily-completed-todos"]').should(
+      cy.getBySel("statistics-daily-completed-todos").should(
         "include.text",
         `Completed todos:${i}`
       )
     }
   })
 
-  it.skip("should display average number of completed todos per day", () => {
+  it.skip("verify the average number of completed todos per day is displayed", () => {
     // Perform actions to complete todos on different days (assuming todos are already added and completed)
     // ...
 
@@ -50,7 +50,7 @@ describe("Todo Section - Todo Statistics Display ", () => {
     // Add more assertions as needed based on the specific implementation and UI structure
   })
 
-  it("should display percentage increase/decrease indicator for completed todos", () => {
+  it("verify the percentage increase/decrease indicator for completed todos is displayed", () => {
     // Get number of average completed todos per day
     const numTodosToAdd = 10
     let completedTodos = 0
@@ -63,14 +63,11 @@ describe("Todo Section - Todo Statistics Display ", () => {
 
       // Check initial percentage displays a -100% decrease
 
-      cy.get('[data-cy="statistics-percentage-diff"]').should(
-        "contain",
-        "-100%"
-      )
+      cy.getBySel("statistics-percentage-diff").should("contain", "-100%")
 
       // Perform actions to add todos
       for (let i = 1; i <= numTodosToAdd; i++) {
-        cy.get("[data-cy=todos-input]").type(`Todo #${i} (test){enter}`)
+        cy.getBySel("todos-input").type(`Todo #${i} (test){enter}`)
       }
 
       // Perform actions to complete todos
@@ -88,8 +85,8 @@ describe("Todo Section - Todo Statistics Display ", () => {
         )
 
         // Validate the display of the percentage increase/decrease indicator
-        cy.get('[data-cy="statistics-percentage-diff"]').should("exist")
-        cy.get('[data-cy="statistics-percentage-diff"]').should(
+        cy.getBySel("statistics-percentage-diff").should("exist")
+        cy.getBySel("statistics-percentage-diff").should(
           "contain",
           `${percentageDifference}%`
         )
