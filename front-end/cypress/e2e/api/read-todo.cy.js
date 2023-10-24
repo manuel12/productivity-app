@@ -1,18 +1,30 @@
 /// <reference types="cypress" />
 
-describe("READ Todo API tests", () => {
+describe("READ Todo - (GET) /api/todos/", () => {
   const apiUrl = "http://localhost:4000"
   const testTodo = {
     completed: true,
     description: "Run a marathon (test)",
   }
+  const invalidId = 999999999
+  const ctx = {}
+
+  before(() => {
+    // Create 1 todo
+    cy.request({
+      method: "POST",
+      url: `${apiUrl}/api/todos/`,
+      body: testTodo,
+    }).then((res) => {
+      ctx.todoId = res.body.id
+    })
+  })
 
   // GET  - /api/todos/ getTodos
-  it("GET - /api/todos/ - should retrieve all existing todos", () => {
+  it("should retrieve all existing todos", () => {
     cy.request({
       method: "GET",
       url: `${apiUrl}/api/todos/`,
-      body: testTodo,
     }).then((res) => {
       expect(res.body.message).to.eq(`Todos successfully retrieved!`)
       expect(res.body.data.length).to.be.above(0)
@@ -20,14 +32,46 @@ describe("READ Todo API tests", () => {
     })
   })
 
-  // GET  - /api/todos/:id getTodo
-  it("GET - /api/todos/:id - should retrieve a specific todo", () => {
+  it("should have completed and description properties on todos", () => {
     cy.request({
       method: "GET",
-      url: `${apiUrl}/api/todos/1`,
+      url: `${apiUrl}/api/todos/`,
       body: testTodo,
+    }).then((res) => {
+      const todos = res.body.data
+      todos.forEach((todo) => {
+        expect(todo).to.have.ownProperty("completed")
+        expect(todo).to.have.ownProperty("description")
+      })
+    })
+  })
+
+  // GET  - /api/todos/:id getTodo
+  it("should retrieve a specific todo when requesting with valid id", () => {
+    cy.request({
+      method: "GET",
+      url: `${apiUrl}/api/todos/${ctx.todoId}`,
+      failOnStatusCode: false,
     }).then((res) => {
       expect(res.body.message).to.eq(`Todo successfully retrieved!`)
     })
   })
+
+  it("should NOT retrieve a todo when reque.onlysting with invalid id", () => {
+    cy.request({
+      method: "GET",
+      url: `${apiUrl}/api/todos/${invalidId}`,
+      failOnStatusCode: false,
+    }).then((res) => {
+      expect(res.body.message).to.eq(`Todo with id ${invalidId} not found.`)
+    })
+  })
+
+  // afterEach(() => {
+  //   // Delete created test todos
+  //   cy.request({
+  //     method: "DELETE",
+  //     url: "http://localhost:4000/api/todos/delete-test-todos/",
+  //   })
+  // })
 })
