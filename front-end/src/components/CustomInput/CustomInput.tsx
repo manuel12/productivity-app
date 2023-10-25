@@ -20,8 +20,8 @@ const CustomInput: React.FC<CustomInputProps> = ({
           type="text"
           className="form-control mx-1 TodoList__input"
           data-cy={`${itemName}-input`}
-          placeholder={`Add a new ${itemName}...`}
-          aria-label={`Add a new ${itemName}...`}
+          placeholder={`Add new ${itemName}...`}
+          aria-label={`Add new ${itemName}...`}
           aria-describedby="button-addon2"
           value={newItem.description}
           onChange={onChange}
@@ -37,7 +37,7 @@ const CustomInput: React.FC<CustomInputProps> = ({
           type="submit"
           id="button-addon2"
         >
-          Add todo
+          Add Todo
         </button>
       </div>
     </form>
