@@ -31,14 +31,14 @@ const TStatistics: React.FC<ITodoListProps> = ({ todos, completedTodos }) => {
         className="TStatistics__stats-container border-success"
         data-cy="statistics-daily-avg-completed-todos"
       >
-        Avg daily completed todos
+        Avg daily completed todos:
         <div className="display-1">{numAverageCompletedTodos}</div>
       </div>
       <div
         className="TStatistics__stats-container border-warning"
         data-cy="statistics-percentage-diff"
       >
-        Percentage difference
+        Percentage difference:
         <div className="display-1">{perfecentageDiff}%</div>
       </div>
     </div>
