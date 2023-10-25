@@ -1,3 +1,4 @@
+import "./styles.css"
 import React, { useState, useEffect } from "react"
 import CustomPage from "../CustomPage/CustomPage"
 import TodoStatistics from "../../components/TodoStatistics/TodoStatistics"
