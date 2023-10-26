@@ -6,7 +6,7 @@ describe("Todo Section - Reorder Todos", () => {
     cy.visit("/")
   })
 
-  it("verify todos can be reordered by dragging them up and down and the order updates correctly", () => {
+  it("Verify todos can be reordered by dragging them up and down and the order updates correctly", () => {
     cy.getBySel("todos-input").type("First Todo Item (test)") // Type the todo text
     cy.getBySel("todos-submit").click() // Click on the "Add" button
 

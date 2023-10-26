@@ -13,14 +13,14 @@ describe("Todo Section - Add Todo", () => {
     cy.visit("/")
   })
 
-  it('verify a new todo can be added by clicking "Add todo" button', () => {
+  it('Verify a new todo can be added by clicking "Add todo" button', () => {
     cy.getBySel("todos-input").type(testTodoOne) // Type the todo text
     cy.get('[data-cy="todos-submit"]').click() // Click on the "Add" button
 
     cy.getBySel("todos-item").should("be.visible")
   })
 
-  it("verify a new todo can be added by pressing Enter", () => {
+  it("Verify a new todo can be added by pressing Enter", () => {
     cy.getBySel("todos-input").type(testTodoTwo + "{enter}") // Type todo and press Enter
 
     // Assuming a new todo item is appended to the todo list
@@ -32,7 +32,7 @@ describe("Todo Section - Add Todo", () => {
     cy.getBySel("todos-item").should("be.visible")
   })
 
-  it("verify added  todo appears in the todo list", () => {
+  it("Verify added  todo appears in the todo list", () => {
     cy.getBySel("todos-input").type(testTodoOne + "{enter}")
 
     // Assuming a new todo item is appended to the todo list
@@ -40,7 +40,7 @@ describe("Todo Section - Add Todo", () => {
     cy.getBySel("todos-list").first().should("contain.text", testTodoOne) // Verify todo text
   })
 
-  it("verify todos cannot be added with more than 40 characters", () => {
+  it("Verify todos cannot be added with more than 40 characters", () => {
     cy.getBySel("todos-input").type(todoTextLongerThan40Char + "{enter}")
 
     // Assuming the input field is cleared after attempting to add a long todo

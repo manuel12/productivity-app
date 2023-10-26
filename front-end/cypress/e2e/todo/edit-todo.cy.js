@@ -6,7 +6,7 @@ describe("Todo Section - Edit Todo", () => {
     cy.visit("/")
   })
 
-  it("verify an existing todo can be edited and updates correctly", () => {
+  it("Verify an existing todo can be edited and updates correctly", () => {
     const updatedTodo = "Updated Todo Item (test)"
 
     // Create a todo

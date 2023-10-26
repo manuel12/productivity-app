@@ -6,7 +6,7 @@ describe("Todo Section - Mark Todo as Complete:", () => {
     cy.visit("/")
   })
 
-  it("verify a todo can be marked as complete", () => {
+  it("Verify a todo can be marked as complete", () => {
     // Assuming there's a todo with the text 'Todo to Complete' that you want to mark as complete
     const todoTextToComplete = "Todo to Complete (test)"
     cy.getBySel("todos-input").type(todoTextToComplete)
@@ -47,7 +47,7 @@ describe("Todo Section - Mark Todo as Complete:", () => {
       })
   })
 
-  it("verify the todo moves to the completed todo list")
+  it("Verify the todo moves to the completed todo list")
 
   afterEach(() => {
     // Call an API function that

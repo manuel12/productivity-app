@@ -6,7 +6,7 @@ describe("Todo Section - Delete Todo", () => {
     cy.visit("/")
   })
 
-  it("verify a todo can be deleted and removed from the todo list", () => {
+  it("Verify a todo can be deleted and removed from the todo list", () => {
     // Create a todo with the text 'Todo to Delete' that you want to delete
     const todoTextToDelete = "Todo to Delete (test)"
     cy.getBySel("todos-input").type(todoTextToDelete)
