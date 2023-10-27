@@ -24,6 +24,7 @@ const Todo: React.FC<ITodoItemProps> = ({
   const [editedDescription, setEditedDescription] = useState(todo.description)
 
   useEffect(() => {
+    console.log(todo)
     setCompleted(todo.completed)
   }, [todo])
 
@@ -162,31 +163,30 @@ const Todo: React.FC<ITodoItemProps> = ({
           }}
         />
       </div>
-
-      {isEditing ? (
-        // If editing display an input field
-        <input
-          type="text"
-          value={editedDescription}
-          onChange={handleInputChange}
-          onBlur={() => handleSaveClick(index)} // Save the edited description when the input field loses focus
-          onKeyDown={(e) => {
-            handleKeyDown(e, index)
-          }}
-          autoFocus // Automatically focus on the input field when editing starts
-        />
-      ) : (
-        // If not editing, display the todo description
-        <div
-          className={`description-container ${
-            completed ? "description-completed" : "description-not-completed"
-          }`}
-          data-cy="todos-description-container"
-          onClick={handleEditClick} // Enable editing mode when the description is clicked
-        >
-          {todo.description}
-        </div>
-      )}
+      {/* If editing display an input field*/}
+      <div
+        className={`description-container ${
+          completed ? "description-completed" : "description-not-completed"
+        }`}
+        data-cy="todos-description-container"
+        onClick={handleEditClick} // Enable editing mode when the description is clicked
+      >
+        {isEditing ? (
+          <input
+            type="text"
+            value={editedDescription}
+            onChange={handleInputChange}
+            onBlur={() => handleSaveClick(index)} // Save the edited description when the input field loses focus
+            onKeyDown={(e) => {
+              handleKeyDown(e, index)
+            }}
+            data-cy="todos-text-input"
+            autoFocus // Automatically focus on the input field when editing starts
+          />
+        ) : (
+          todo.description
+        )}
+      </div>
       <div className="remove-icon-container">
         <FontAwesomeIcon
           icon={faRemove}

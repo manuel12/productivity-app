@@ -1,9 +1,8 @@
 import "./styles.css"
 import React, { useState } from "react"
 
-import Todo from "../Todo/Todo"
 import ITodo from "../../interfaces/ITodo"
-
+import Todo from "../Todo/Todo"
 import CustomInput from "../CustomInput/CustomInput"
 import CustomList from "../CustomList/CustomList"
 
