@@ -35,9 +35,7 @@ router.delete("/api/todos/:id", (req, res, next) => {
         return res.status(404).json({ error: `Todo with id ${id} not found` })
       }
 
-      return res
-        .status(204)
-        .json({ message: "Todo successfully deleted!", id: Number(id) })
+      return res.status(204).end()
     })
   })
 })
