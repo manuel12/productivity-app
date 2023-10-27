@@ -1,19 +1,25 @@
 import "./styles.css"
 import React, { useState, useEffect } from "react"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import {
-  faCircleCheck,
-  faRemove,
-  faForward,
-} from "@fortawesome/free-solid-svg-icons"
 
 import IDaily from "../../interfaces/IDaily"
+import Daily from "../Daily/Daily"
 import CustomInput from "../CustomInput/CustomInput"
 import CustomList from "../CustomList/CustomList"
 
-import { setItem, getItem, checkAndUpdateCompletedStatus } from "../../utils"
+import {
+  setItem,
+  getItem,
+  checkAndUpdateCompletedStatus,
+  checkAndUpdateStreakCounter,
+} from "../../utils"
 
-const DailiesList: React.FC = () => {
+interface IDaliesListProps {
+  dailies: IDaily[]
+  setDailies: (dailies: IDaily[]) => void
+  setCompletedDailies: (completedDailies: number) => void
+}
+
+const DailiesList: React.FC<IDaliesListProps> = () => {
   const [dailies, setDailies] = useState<IDaily[]>(getItem("dailies") || [])
   const [newDaily, setNewDaily] = useState<IDaily>({
     completed: false,
@@ -23,11 +29,15 @@ const DailiesList: React.FC = () => {
   })
 
   useEffect(() => {
-    if (DailiesList.length > 0) {
+    if (dailies.length > 0) {
       // If there are any dailies pass them through checkAndUpdateCompletedStatus
       // and update their 'completed' property value if needed
-      const updatedDailiesList = dailies.map((daily) =>
+      let updatedDailiesList = dailies.map((daily) =>
         checkAndUpdateCompletedStatus(daily)
+      )
+
+      updatedDailiesList = dailies.map((daily) =>
+        checkAndUpdateStreakCounter(daily)
       )
 
       const newDailiesListArray = [...updatedDailiesList]
@@ -56,53 +66,6 @@ const DailiesList: React.FC = () => {
     })
   }
 
-  const handleCheckClick = (dailyIndex: number) => {
-    const tempDailiesList = dailies
-    const dailyToUpdate = dailies[dailyIndex]
-
-    // Update daily completed property
-    const updatedTodoCompleted = dailyToUpdate.completed
-    dailyToUpdate.completed = !updatedTodoCompleted
-
-    if (dailyToUpdate.completed) {
-      // Update daily streak counter property
-      dailyToUpdate.streakCounter += 1
-    } else {
-      // Update daily streak counter property
-      dailyToUpdate.streakCounter -= 1
-    }
-
-    tempDailiesList[dailyIndex] = dailyToUpdate
-    const newDailiesListArray = [...tempDailiesList]
-    setDailies(newDailiesListArray)
-    setItem("dailies", newDailiesListArray)
-
-    dailyToUpdate.completed && playTodoCompletedSound()
-  }
-
-  const handleRemoveClick = (dailyIndex: number) => {
-    const dailyToRemove = dailies[dailyIndex]
-    const newDailiesList = dailies.filter(
-      (daily) => dailyToRemove.description !== daily.description
-    )
-
-    const newDailiesListArray = [...newDailiesList]
-    setDailies(newDailiesListArray)
-    setItem("dailies", newDailiesListArray)
-    playTodoRemovedSound()
-  }
-
-  const playTodoCompletedSound = () => {
-    let audio = new Audio("complete-todo.ogg")
-    audio.play()
-  }
-
-  const playTodoRemovedSound = () => {
-    let audio = new Audio("remove-todo.mp3")
-    audio.volume = 0.2
-    audio.play()
-  }
-
   return (
     <>
       <CustomInput
@@ -124,52 +87,13 @@ const DailiesList: React.FC = () => {
 
       <CustomList items={dailies} itemName="dailies" dataCyAttr="dailies-list">
         {dailies.map((daily, i) => (
-          <li key={i} className="list-group-item" data-cy="dailies-item">
-            <div
-              className="check-icon-container"
-              data-cy="dailies-check-icon-container"
-            >
-              <FontAwesomeIcon
-                className={
-                  dailies[i].completed
-                    ? "check-completed"
-                    : "check-not-completed"
-                }
-                icon={faCircleCheck}
-                onClick={() => {
-                  handleCheckClick(i)
-                }}
-              />
-            </div>
-            <div
-              className={`text-container ${
-                dailies[i].completed ? "text-completed" : "text-not-completed"
-              }`}
-              data-cy="dailies-text-container"
-            >
-              {daily.description}
-            </div>
-
-            <div className="streak-icon-container">
-              <FontAwesomeIcon
-                icon={faForward}
-                className="streak"
-                onClick={() => {
-                  handleRemoveClick(i)
-                }}
-              />
-              {daily.streakCounter}
-            </div>
-            <div className="remove-icon-container">
-              <FontAwesomeIcon
-                icon={faRemove}
-                className="remove"
-                onClick={() => {
-                  handleRemoveClick(i)
-                }}
-              />
-            </div>
-          </li>
+          <Daily
+            index={i}
+            daily={daily}
+            dailies={dailies}
+            setDailies={setDailies}
+            setCompletedDailies={() => {}}
+          />
         ))}
       </CustomList>
     </>
