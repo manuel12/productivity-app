@@ -29,15 +29,15 @@ li {
   color: lightgrey;
 }
 
-.text-completed {
+.description-completed {
   text-decoration: line-through;
 }
 
-.text-not-completed {
+.description-not-completed {
   text-decoration: none;
 }
 
-.text-container {
+.description-container {
   width: 80%;
 }
 
