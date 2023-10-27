@@ -3,4 +3,5 @@ export default interface IDaily {
   description: string
   dateCreated: Date | string
   streakCounter: number
+  lastCompletedDate?: Date | string
 }
