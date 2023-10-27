@@ -26,9 +26,9 @@ export const getItem = (key: string): any | null => {
 }
 
 /**
- * Checks if it's a new day compared to the dateCreated property of the daily
+ * Checks if it's a new day compared to the lastCompletedDate property of the daily
  * and updates the completed property accordingly.
- *  * @param {object} daily - The daily object to check.
+ *  * @param {IDaily} daily - The daily object to check.
  */
 export const checkAndUpdateCompletedStatus = (daily: IDaily) => {
   /**
@@ -62,6 +62,28 @@ export const checkAndUpdateCompletedStatus = (daily: IDaily) => {
     daily.dateCreated = currentDate
   }
 
+  return daily
+}
+
+/**
+ * Checks and updates the streak counter of a daily task based on the last completed date.
+ * If the last completed date is more than 1 day ago, resets the streak counter to 0.
+ *
+ * @param {IDaily} daily - The daily task object containing completed status and last completed date.
+ */
+export const checkAndUpdateStreakCounter = (daily: IDaily) => {
+  const currentDate = new Date()
+  if (daily.lastCompletedDate) {
+    const lastCompletedDate = new Date(daily.lastCompletedDate)
+    // Calculate the time difference in milliseconds
+    const timeDifference = currentDate.getTime() - lastCompletedDate.getTime()
+    // Calculate the number of days between currentDate and lastCompletedDate
+    const daysDifference = Math.floor(timeDifference / (1000 * 3600 * 24))
+
+    if (daysDifference > 1) {
+      daily.streakCounter = 0
+    }
+  }
   return daily
 }
 
