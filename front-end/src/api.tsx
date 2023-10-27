@@ -78,15 +78,11 @@ class API {
       headers: {
         "Content-Type": "application/json",
       },
+    }).then((res) => {
+      if (res.status === 204) {
+        console.warn("Todo successfuully deleted!")
+      }
     })
-      .then((res) => res.json())
-      .then((res) => {
-        if (res.error) {
-          console.warn(res.error)
-        } else {
-          console.warn(res.message)
-        }
-      })
   }
 }
 
