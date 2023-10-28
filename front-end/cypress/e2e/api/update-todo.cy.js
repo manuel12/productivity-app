@@ -36,7 +36,6 @@ describe("UPDATE Todo - (PATCH) /api/todos/:id", () => {
       body: updatedTestTodo,
       failOnStatusCode: false,
     }).then((res) => {
-      console.log(res)
       expect(res.body.message).to.eq(`Todo successfully updated!`)
       expect(res.body.data.completed).to.eq(updatedTestTodo.completed)
       expect(res.body.data.description).to.eq(updatedTestTodo.description)
@@ -65,9 +64,8 @@ describe("UPDATE Todo - (PATCH) /api/todos/:id", () => {
       body: testTodo,
       failOnStatusCode: false,
     }).then((res) => {
-      console.log(res)
-      expect(res.status).to.eq(400)
-      expect(res.body.error).to.eq("Todo not found")
+      expect(res.status).to.eq(404)
+      expect(res.body.error).to.eq(`Todo with id ${invalidId} not found`)
     })
   })
 
