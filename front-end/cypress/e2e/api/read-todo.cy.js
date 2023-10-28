@@ -57,7 +57,7 @@ describe("READ Todo - (GET) /api/todos/", () => {
     })
   })
 
-  it("should NOT retrieve a todo when reque.onlysting with invalid id", () => {
+  it("should NOT retrieve a todo when requesting with invalid id", () => {
     cy.request({
       method: "GET",
       url: `${apiUrl}/api/todos/${invalidId}`,
