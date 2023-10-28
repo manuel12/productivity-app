@@ -15,17 +15,29 @@ describe("Todo Section - Reorder Todos", () => {
 
     // Find the todo items you want to reorder and drag them using Cypress commands
     const dataTransfer = new DataTransfer()
-    cy.getBySel("todos-item").first().trigger("dragstart", { dataTransfer })
+    cy.getBySel("todos-item")
+      .filter(`:contains("test")`)
+      .eq(0)
+      .trigger("dragstart", { dataTransfer })
 
-    cy.get("[data-cy=todos-list] > :nth-child(2)").trigger("drop", {
-      dataTransfer,
-    })
+    cy.getBySel("todos-item")
+      .filter(`:contains("test")`)
+      .eq(1)
+      .trigger("drop", {
+        dataTransfer,
+      })
 
     // Validate the order of todos has updated correctly after reordering
     // Check the visual indicators or specific order-related properties of todos
     // For example, you can check the text of todos to verify the order
-    cy.getBySel("todos-item").eq(0).contains("Second Todo Item (test)") // Assuming 'First Todo Text' is the text of the first todo after reordering
-    cy.getBySel("todos-item").eq(1).contains("First Todo Item (test)") // Assuming 'Second Todo Text' is the text of the second todo after reordering
+    cy.getBySel("todos-item")
+      .filter(`:contains("test")`)
+      .eq(0)
+      .contains("Second Todo Item (test)") // Assuming 'First Todo Text' is the text of the first todo after reordering
+    cy.getBySel("todos-item")
+      .filter(`:contains("test")`)
+      .eq(1)
+      .contains("First Todo Item (test)") // Assuming 'Second Todo Text' is the text of the second todo after reordering
   })
 
   afterEach(() => {
