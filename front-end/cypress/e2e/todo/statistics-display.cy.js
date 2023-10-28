@@ -72,7 +72,10 @@ describe("Todo Section - Todo Statistics Display ", () => {
 
       // Perform actions to complete todos
       for (let i = 1; i <= numTodosToAdd; i++) {
-        cy.get(`[data-cy="todos-list"] > :nth-child(${i})`)
+        cy.getBySel("todos-item")
+          .filter(":contains('test')")
+          .eq(i - 1)
+          //cy.get(`[data-cy="todos-list"] > :nth-child(${i})`)
           .find("[data-cy=todos-check-icon-container]")
           .click()
 
