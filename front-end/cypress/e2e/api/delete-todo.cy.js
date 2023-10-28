@@ -17,7 +17,6 @@ describe("DELETE Todo - (DELETE) /api/todos/:id", () => {
       body: testTodo,
     }).then((res) => {
       ctx.todoId = res.body.id
-      console.log(ctx.todoId)
     })
   })
 
@@ -28,18 +27,7 @@ describe("DELETE Todo - (DELETE) /api/todos/:id", () => {
       url: `${apiUrl}/api/todos/${ctx.todoId}`,
       failOnStatusCode: false,
     }).then((res) => {
-      console.log(res)
-      expect(res.body.message).to.eq(`Todo successfully deleted!`)
-    })
-  })
-
-  it("Verify the id returned is the id from the deleted todo", () => {
-    cy.request({
-      method: "DELETE",
-      url: `${apiUrl}/api/todos/${ctx.todoId}`,
-    }).then((res) => {
-      expect(res.body).to.have.ownProperty("id")
-      expect(res.body.id).to.be.a("number")
+      expect(res.status).to.eq(204)
     })
   })
 
@@ -74,8 +62,8 @@ describe("DELETE Todo - (DELETE) /api/todos/:id", () => {
       url: `${apiUrl}/api/todos/${invalidId}`,
       failOnStatusCode: false,
     }).then((res) => {
-      expect(res.status).to.eq(400)
-      expect(res.body.error).to.eq("Todo not found")
+      expect(res.status).to.eq(404)
+      expect(res.body.error).to.eq(`Todo with id ${invalidId} not found`)
     })
   })
 
