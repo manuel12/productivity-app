@@ -7,24 +7,25 @@ describe("Todo Section - Edit Todo", () => {
   })
 
   it("Verify an existing todo can be edited and updates correctly", () => {
+    const createdTodo = "Created Todo (test)"
     const updatedTodo = "Updated Todo Item (test)"
 
     // Create a todo
-    cy.getBySel("todos-input").type("Existing Todo (test")
+    cy.getBySel("todos-input").type(createdTodo)
     cy.getBySel("todos-submit").click()
 
     // Find and edit that existing todo
-    //cy.contains(".todo-list-item", "Existing Todo").find(".edit-button").click()
-    cy.getBySel("todos-list")
-      .first()
+    cy.getBySel("todos-item")
+      .filter(`:contains(${createdTodo})`)
       .within(() => {
         cy.getBySel("todos-description-container").click()
-        cy.get("input").clear()
-        cy.get("input").type(`${updatedTodo}{enter}`)
       })
 
+    cy.getBySel("todos-text-input").clear()
+    cy.getBySel("todos-text-input").type(`${updatedTodo}{enter}`)
+
     // Validate the todo is updated correctly
-    cy.contains("Existing Todo").should("not.exist")
+    cy.contains(createdTodo).should("not.exist")
     cy.contains("[data-cy=todos-item]", updatedTodo).should("exist")
   })
 
