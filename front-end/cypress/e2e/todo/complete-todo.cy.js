@@ -7,15 +7,13 @@ describe("Todo Section - Mark Todo as Complete:", () => {
   })
 
   it("Verify a todo can be marked as complete", () => {
-    // Assuming there's a todo with the text 'Todo to Complete' that you want to mark as complete
     const todoTextToComplete = "Todo to Complete (test)"
     cy.getBySel("todos-input").type(todoTextToComplete)
     cy.get('[data-cy="todos-submit"]').click()
 
     // Validate that the todo with text 'Todo to Complete' has initially .check--not-completed class
     cy.getBySel("todos-item")
-      .should("be.visible")
-      .first()
+      .filter(":contains('test')")
       .within(() => {
         cy.getBySel("todos-check-icon-container")
           .should("be.visible")
@@ -28,14 +26,14 @@ describe("Todo Section - Mark Todo as Complete:", () => {
 
     // Find the todo item complete button, then click it
     cy.getBySel("todos-item")
-      .should("be.visible")
+      .filter(":contains('test')")
       .within(() => {
         cy.getBySel("todos-check-icon-container").click()
       })
 
     // Validate that the todo with text 'Todo to Complete' has .check-completed class
     cy.getBySel("todos-item")
-      .should("be.visible")
+      .filter(":contains('test')")
       .within(() => {
         cy.getBySel("todos-check-icon-container")
           .should("be.visible")
