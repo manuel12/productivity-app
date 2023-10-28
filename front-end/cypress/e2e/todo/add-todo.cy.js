@@ -9,23 +9,21 @@ describe("Todo Section - Add Todo", () => {
   const todoTextWith40Char = todoTextLongerThan40Char.slice(0, 40)
 
   beforeEach(() => {
-    // Visit the app or the specific page
     cy.visit("/")
   })
 
   it('Verify a new todo can be added by clicking "Add todo" button', () => {
-    cy.getBySel("todos-input").type(testTodoOne) // Type the todo text
-    cy.get('[data-cy="todos-submit"]').click() // Click on the "Add" button
+    cy.getBySel("todos-input").type(testTodoOne)
+    cy.get('[data-cy="todos-submit"]').click()
 
     cy.getBySel("todos-item").should("be.visible")
   })
 
   it("Verify a new todo can be added by pressing Enter", () => {
-    cy.getBySel("todos-input").type(testTodoTwo + "{enter}") // Type todo and press Enter
+    cy.getBySel("todos-input").type(testTodoTwo + "{enter}")
 
-    // Assuming a new todo item is appended to the todo list
-    cy.getBySel("todos-list").should("have.length", 1) // Verify another new todo is added
-    cy.getBySel("todos-list").first().should("contain.text", testTodoTwo) // Verify todo text
+    cy.getBySel("todos-list").should("have.length", 1)
+    cy.getBySel("todos-list").first().should("contain.text", testTodoTwo)
 
     cy.getBySel("todos-input").type(testTodoThree + "{ENTER}")
 
@@ -35,20 +33,21 @@ describe("Todo Section - Add Todo", () => {
   it("Verify added  todo appears in the todo list", () => {
     cy.getBySel("todos-input").type(testTodoOne + "{enter}")
 
-    // Assuming a new todo item is appended to the todo list
-    cy.getBySel("todos-list").should("have.length", 1) // Verify a new todo is added
-    cy.getBySel("todos-list").first().should("contain.text", testTodoOne) // Verify todo text
+    cy.getBySel("todos-list").should("have.length", 1)
+    cy.getBySel("todos-list").first().should("contain.text", testTodoOne)
   })
 
   it("Verify todos cannot be added with more than 40 characters", () => {
     cy.getBySel("todos-input").type(todoTextLongerThan40Char + "{enter}")
 
-    // Assuming the input field is cleared after attempting to add a long todo
-    cy.getBySel("todos-input").should("have.value", "") // Verify input field is empty
-
+    cy.getBySel("todos-input").should("have.value", "")
     cy.getBySel("todos-item")
+      // Filter only through the todo items that contain the '(test)' substring
+      .filter(":contains('test')")
       .should("have.length", 1)
-      .and("contain.text", todoTextWith40Char) // Verify no new todo is added
+
+      // Verify todo added only has 40 characters
+      .and("contain.text", todoTextWith40Char)
   })
 
   afterEach(() => {
