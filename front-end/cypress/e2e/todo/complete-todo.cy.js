@@ -48,10 +48,6 @@ describe("Todo Section - Mark Todo as Complete:", () => {
   it("Verify the todo moves to the completed todo list")
 
   afterEach(() => {
-    // Call an API function that
-    cy.request({
-      method: "DELETE",
-      url: "http://localhost:4000/api/todos/delete-test-todos/",
-    })
+    cy.deleteTestTodos()
   })
 })
