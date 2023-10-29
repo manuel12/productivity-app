@@ -12,14 +12,14 @@ describe("Daily Section - Add Daily Todo", () => {
     cy.visit("/dailies")
   })
 
-  it("Verify a dailies can be added by writing on input and clicking the Add Todo button", () => {
+  it("Verify a daily can be added by writing on input and clicking the Add Todo button", () => {
     cy.getBySel("dailies-input").type(testDailyOne)
     cy.get('[data-cy="dailies-submit"]').click()
 
     cy.getBySel("dailies-item").should("be.visible")
   })
 
-  it("Verify a dailies can be added by writing on input and pressing enter key", () => {
+  it("Verify a daily can be added by writing on input and pressing enter key", () => {
     cy.getBySel("dailies-input").type(testDailyTwo + "{enter}")
 
     cy.getBySel("dailies-list").should("have.length", 1)
@@ -30,7 +30,7 @@ describe("Daily Section - Add Daily Todo", () => {
     cy.getBySel("dailies-item").should("be.visible")
   })
 
-  it("Verify the dailies appears correctly on the list", () => {
+  it("Verify the daily appears correctly on the list", () => {
     cy.getBySel("dailies-input").type(testDailyOne)
     cy.getBySel("dailies-submit").click()
 

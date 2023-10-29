@@ -12,14 +12,14 @@ describe("Todo Section - Add Todo", () => {
     cy.visit("/")
   })
 
-  it('Verify a new todo can be added by clicking "Add todo" button', () => {
+  it('Verify a todo can be added by writing on input and clicking on a "Add todo" button', () => {
     cy.getBySel("todos-input").type(testTodoOne)
     cy.get('[data-cy="todos-submit"]').click()
 
     cy.getBySel("todos-item").should("be.visible")
   })
 
-  it("Verify a new todo can be added by pressing Enter", () => {
+  it("Verify a todo can be added by writing on input and pressing enter key", () => {
     cy.getBySel("todos-input").type(testTodoTwo + "{enter}")
 
     cy.getBySel("todos-list").should("have.length", 1)
@@ -30,7 +30,7 @@ describe("Todo Section - Add Todo", () => {
     cy.getBySel("todos-item").should("be.visible")
   })
 
-  it("Verify added  todo appears in the todo list", () => {
+  it("Verify the todo appears correctly on the list", () => {
     cy.getBySel("todos-input").type(testTodoOne + "{enter}")
 
     cy.getBySel("todos-list").should("have.length", 1)

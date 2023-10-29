@@ -15,7 +15,7 @@ describe("Daily Section - Next Day Activation", () => {
     cy.visit("/dailies")
   })
 
-  it("Verify completed daily todos are reactivated at the start of the next day", () => {
+  it("Verify completed dailies are reactivated at the start of the next day", () => {
     cy.getBySel("dailies-input").type("Clean room{enter}")
     cy.getBySel("dailies-input").type("Make lunch{enter}")
     cy.getBySel("dailies-item").each(($el) => {

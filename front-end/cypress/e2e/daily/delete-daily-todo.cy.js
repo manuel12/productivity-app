@@ -5,7 +5,7 @@ describe("Daily Section - Delete Daily Todo", () => {
     cy.visit("/dailies")
   })
 
-  it("Verify a daily todo can be deleted and removed from the todo list", () => {
+  it("Verify a daily can be deleted and removed from the todo list", () => {
     // Create a todo with the text 'Todo to Delete' that you want to delete
     const todoTextToDelete = "Todo to Delete (test)"
     cy.getBySel("dailies-input").type(todoTextToDelete)

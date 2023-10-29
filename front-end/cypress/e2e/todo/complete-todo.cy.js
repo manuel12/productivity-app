@@ -45,7 +45,7 @@ describe("Todo Section - Mark Todo as Complete:", () => {
       })
   })
 
-  it("Verify the todo moves to the completed todo list")
+  it.skip("Verify the todo moves to the completed todo list", () => {})
 
   afterEach(() => {
     cy.deleteTestTodos()
