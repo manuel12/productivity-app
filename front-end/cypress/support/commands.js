@@ -27,3 +27,17 @@
 Cypress.Commands.add("getBySel", (selector) => {
   cy.get(`[data-cy=${selector}]`)
 })
+
+Cypress.Commands.add("deleteTestTodos", () => {
+  cy.request({
+    method: "DELETE",
+    url: "http://localhost:4000/api/todos/delete-test-todos/",
+  }).then((res) => expect(res.status).to.eq(204))
+})
+
+Cypress.Commands.add("deleteTestDailies", () => {
+  cy.request({
+    method: "DELETE",
+    url: "http://localhost:4000/api/todos/delete-test-dailies/",
+  }).then((res) => expect(res.status).to.eq(204))
+})
