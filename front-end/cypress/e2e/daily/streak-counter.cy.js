@@ -90,6 +90,6 @@ describe("Daily Section - Streak Counter", () => {
   })
 
   afterEach(() => {
-    cy.deleteTestTodos()
+    cy.deleteTestDailies()
   })
 })
