@@ -98,10 +98,6 @@ describe("Todo Section - Todo Statistics Display ", () => {
   })
 
   afterEach(() => {
-    // Call an API function that
-    cy.request({
-      method: "DELETE",
-      url: "http://localhost:4000/api/todos/delete-test-todos/",
-    })
+    cy.deleteTestTodos()
   })
 })
