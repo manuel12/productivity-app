@@ -111,9 +111,6 @@ describe("CREATE Todo - (POST) /api/todos/:id", () => {
 
   afterEach(() => {
     // Delete created test todos
-    cy.request({
-      method: "DELETE",
-      url: "http://localhost:4000/api/todos/delete-test-todos/",
-    })
+    cy.deleteTestTodos()
   })
 })

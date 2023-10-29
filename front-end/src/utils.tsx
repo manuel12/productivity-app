@@ -31,35 +31,19 @@ export const getItem = (key: string): any | null => {
  *  * @param {IDaily} daily - The daily object to check.
  */
 export const checkAndUpdateCompletedStatus = (daily: IDaily) => {
-  /**
-   * @type {Date}
-   */
   const currentDate = new Date()
+  if (daily.lastCompletedDate) {
+    const lastCompletedDate = new Date(daily.lastCompletedDate)
 
-  /**
-   * @type {Date}
-   */
-  const createdDate = new Date(daily.dateCreated)
-
-  // Check if it's a new day
-  if (
-    currentDate.getDate() !== createdDate.getDate() ||
-    currentDate.getMonth() !== createdDate.getMonth() ||
-    currentDate.getFullYear() !== createdDate.getFullYear()
-  ) {
-    // It's a new day, update the completed property
-    daily.completed = false
-
-    // Set the dateCreated to the currentDate so that user can only complete
-    // the daily once per day and therefore only get 1 streak point for completing
-    // the task each day.
-
-    // Before we had the issue where daily was created on say Jan 1st and user would complete
-    // and get 1st streak point. Then on Jan 2nd daily would appear uncomplete user would complete
-    // and then get 2nd streak point. Then he would reload the page and since Jan 1st !==  Jan 2nd
-    // daily appear uncomplete again and user could complete and get a 3rd streak point on the 2nd
-    // day. Updating dateCreated solves this issue.
-    daily.dateCreated = currentDate
+    // Check if it's a new day
+    if (
+      currentDate.getDate() !== lastCompletedDate.getDate() ||
+      currentDate.getMonth() !== lastCompletedDate.getMonth() ||
+      currentDate.getFullYear() !== lastCompletedDate.getFullYear()
+    ) {
+      // It's a new day, update the completed property
+      daily.completed = false
+    }
   }
 
   return daily
