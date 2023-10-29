@@ -37,6 +37,17 @@ describe("Todo Section - Add Todo", () => {
     cy.getBySel("todos-list").first().should("contain.text", testTodoOne)
   })
 
+  it("Verify added todos persist after page reload", () => {
+    cy.getBySel("todos-input").type(testTodoOne + "{enter}")
+
+    cy.getBySel("todos-list").should("have.length", 1)
+    cy.getBySel("todos-list").first().should("contain.text", testTodoOne)
+
+    cy.reload()
+    cy.getBySel("todos-list").should("have.length", 1)
+    cy.getBySel("todos-list").first().should("contain.text", testTodoOne)
+  })
+
   it("Verify todos cannot be added with more than 40 characters", () => {
     cy.getBySel("todos-input").type(todoTextLongerThan40Char + "{enter}")
 
@@ -50,11 +61,26 @@ describe("Todo Section - Add Todo", () => {
       .and("contain.text", todoTextWith40Char)
   })
 
-  afterEach(() => {
-    // Call an API function that
-    cy.request({
-      method: "DELETE",
-      url: "http://localhost:4000/api/todos/delete-test-todos/",
+  it("Verify todos cannot be added with when leaving the input empty", () => {
+    // Check current number of existing todos
+    let currentNumTodos
+    let newNumTodos
+
+    cy.getBySel("todos-item").then(($el) => {
+      currentNumTodos = Cypress.$($el).length
     })
+
+    // Click on submit button
+    cy.get('[data-cy="todos-submit"]').click()
+
+    // Check current number of todos remains the same
+    cy.getBySel("todos-item").then(($el) => {
+      newNumTodos = Cypress.$($el).length
+      expect(newNumTodos).to.eq(currentNumTodos)
+    })
+  })
+
+  afterEach(() => {
+    cy.deleteTestTodos()
   })
 })
