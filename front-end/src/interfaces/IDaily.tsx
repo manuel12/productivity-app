@@ -1,4 +1,5 @@
 export default interface IDaily {
+  id?: number
   completed: boolean
   description: string
   dateCreated: Date | string
