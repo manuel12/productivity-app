@@ -24,7 +24,6 @@ const Todo: React.FC<ITodoItemProps> = ({
   const [editedDescription, setEditedDescription] = useState(todo.description)
 
   useEffect(() => {
-    console.log(todo)
     setCompleted(todo.completed)
   }, [todo])
 
