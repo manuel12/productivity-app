@@ -9,7 +9,7 @@ router.delete("/api/todos/delete-test-todos", (req, res, next) => {
       if (err) {
         return res.status(400).json({ error: res.message })
       }
-      res.json({ message: "Todos deleted!", rows: this.changes })
+      res.status(204).end()
     }
   )
 })
