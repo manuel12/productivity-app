@@ -32,7 +32,7 @@ describe("READ Todo - (GET) /api/todos/", () => {
     })
   })
 
-  it("should have completed and description properties on todos", () => {
+  it("should have completed and description properties on returned todos", () => {
     cy.request({
       method: "GET",
       url: `${apiUrl}/api/todos/`,

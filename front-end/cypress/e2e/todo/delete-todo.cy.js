@@ -6,7 +6,7 @@ describe("Todo Section - Delete Todo", () => {
     cy.visit("/")
   })
 
-  it("Verify a todo can be deleted and removed from the todo list", () => {
+  it("should delete a todo and remove it from the list", () => {
     // Create a todo with the text 'Todo to Delete' that you want to delete
     const todoTextToDelete = "Todo to Delete (test)"
     cy.getBySel("todos-input").type(todoTextToDelete)
@@ -22,7 +22,7 @@ describe("Todo Section - Delete Todo", () => {
     cy.contains(todoTextToDelete).should("not.exist")
   })
 
-  it("Verify deleted todos persist after page reload", () => {
+  it("should not show deleted todos after page reload", () => {
     // Create a todo with the text 'Todo to Delete' that you want to delete
     const todoTextToDelete = "Todo to Delete (test)"
     cy.getBySel("todos-input").type(todoTextToDelete)

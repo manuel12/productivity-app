@@ -29,7 +29,7 @@ describe("UPDATE Todo - (PATCH) /api/todos/:id", () => {
   })
 
   // PATCH  - /api/todos/:id updateTodo
-  it("Verify a specific todo can be updated when requesting with valid data", () => {
+  it("should update a specific todo with valid data", () => {
     cy.request({
       method: "PATCH",
       url: `${apiUrl}/api/todos/${ctx.todoId}`,
@@ -42,7 +42,7 @@ describe("UPDATE Todo - (PATCH) /api/todos/:id", () => {
     })
   })
 
-  it("Verify a todo is not updated with invalid data", () => {
+  it("should not update a todo with invalid data", () => {
     cy.request({
       method: "PATCH",
       url: `${apiUrl}/api/todos/${ctx.todoId}`,
@@ -56,7 +56,7 @@ describe("UPDATE Todo - (PATCH) /api/todos/:id", () => {
     })
   })
 
-  it("Verify a todo is not updated when requesting with invalid id", () => {
+  it("should not update a todo with invalid id", () => {
     // Delete todo with invalid id
     cy.request({
       method: "PATCH",

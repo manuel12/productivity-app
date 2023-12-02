@@ -17,7 +17,7 @@ describe("Daily Section - Streak Counter", () => {
     cy.visit("/dailies")
   })
 
-  it("Verify the streak counter updates correctly when a daily is completed consecutively", () => {
+  it("should update streak counter correctly when a daily is completed consecutively", () => {
     let initialStreakCounterValue
     let secondaryStreakCounterValue
 
@@ -52,7 +52,7 @@ describe("Daily Section - Streak Counter", () => {
       })
   })
 
-  it("Verify the streak counter resets to 0 when a daily is not completed for more than 1 day", () => {
+  it("should reset the streak counter to 0 when a daily is not completed for more than 1 day", () => {
     cy.get("[data-cy=dailies-input]").type("Clean room{enter}")
 
     // Complete daily (in the current date)

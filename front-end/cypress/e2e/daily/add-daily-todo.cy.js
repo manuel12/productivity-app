@@ -12,14 +12,14 @@ describe("Daily Section - Add Daily Todo", () => {
     cy.visit("/dailies")
   })
 
-  it("Verify a daily can be added by writing on input and clicking the Add Todo button", () => {
+  it("should add a daily by writing on input and clicking the 'Add daily' button", () => {
     cy.getBySel("dailies-input").type(testDailyOne)
     cy.get('[data-cy="dailies-submit"]').click()
 
     cy.getBySel("dailies-item").should("be.visible")
   })
 
-  it("Verify a daily can be added by writing on input and pressing enter key", () => {
+  it("should add a daily by writing on input and pressing enter key", () => {
     cy.getBySel("dailies-input").type(testDailyTwo + "{enter}")
 
     cy.getBySel("dailies-list").should("have.length", 1)
@@ -30,14 +30,14 @@ describe("Daily Section - Add Daily Todo", () => {
     cy.getBySel("dailies-item").should("be.visible")
   })
 
-  it("Verify the daily appears correctly on the list", () => {
+  it("should display the daily correctly on the list", () => {
     cy.getBySel("dailies-input").type(testDailyOne)
     cy.getBySel("dailies-submit").click()
 
     cy.getBySel("dailies-item").should("be.visible")
   })
 
-  it("Verify added dailies persist after page reload", () => {
+  it("should persist added dailies after page reload", () => {
     cy.getBySel("dailies-input").type(testDailyOne + "{enter}")
 
     cy.getBySel("dailies-list").should("have.length", 1)
@@ -48,7 +48,7 @@ describe("Daily Section - Add Daily Todo", () => {
     cy.getBySel("dailies-list").first().should("contain.text", testDailyOne)
   })
 
-  it("Verify dailies cannot be added with more than 40 characters", () => {
+  it("should not add dailies with more than 40 characters", () => {
     cy.getBySel("dailies-input").type(todoTextLongerThan40Char + "{enter}")
 
     cy.getBySel("dailies-input").should("have.value", "")
@@ -61,7 +61,7 @@ describe("Daily Section - Add Daily Todo", () => {
       .and("contain.text", todoTextWith40Char)
   })
 
-  it("Verify dailies cannot be added with when leaving the input empty", () => {
+  it("should not add dailies when leaving the input empty", () => {
     cy.get('[data-cy="dailies-submit"]').click()
     cy.getBySel("dailies-item").should("not.exist")
 

@@ -21,7 +21,7 @@ describe("DELETE Todo - (DELETE) /api/todos/:id", () => {
   })
 
   // DELETE  - /api/todos/:id updateTodo
-  it("Verify a specific todo can be deleted when requesting with valid id", () => {
+  it("should delete a specific todo with valid id", () => {
     cy.request({
       method: "DELETE",
       url: `${apiUrl}/api/todos/${ctx.todoId}`,
@@ -31,7 +31,7 @@ describe("DELETE Todo - (DELETE) /api/todos/:id", () => {
     })
   })
 
-  it("Verify deleting a todo subtracts -1 to the current amount of todos", () => {
+  it("should subtract -1 to the current number of todos when deleting one", () => {
     // Check current amount of todos
     let amountTodos
     let newAmountTodos
@@ -55,7 +55,7 @@ describe("DELETE Todo - (DELETE) /api/todos/:id", () => {
       })
   })
 
-  it("Verify a todo is not deleted with invalid id", () => {
+  it("should not delete a todo with invalid id", () => {
     // Delete todo with invalid id
     cy.request({
       method: "DELETE",

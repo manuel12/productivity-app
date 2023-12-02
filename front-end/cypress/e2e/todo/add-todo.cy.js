@@ -12,14 +12,14 @@ describe("Todo Section - Add Todo", () => {
     cy.visit("/")
   })
 
-  it('Verify a todo can be added by writing on input and clicking on a "Add todo" button', () => {
+  it('should add a todo by writing on input and clicking on a "Add todo" button', () => {
     cy.getBySel("todos-input").type(testTodoOne)
     cy.get('[data-cy="todos-submit"]').click()
 
     cy.getBySel("todos-item").should("be.visible")
   })
 
-  it("Verify a todo can be added by writing on input and pressing enter key", () => {
+  it("should add a todo by writing on input and pressing enter key", () => {
     cy.getBySel("todos-input").type(testTodoTwo + "{enter}")
 
     cy.getBySel("todos-list").should("have.length", 1)
@@ -30,14 +30,14 @@ describe("Todo Section - Add Todo", () => {
     cy.getBySel("todos-item").should("be.visible")
   })
 
-  it("Verify the todo appears correctly on the list", () => {
+  it("should display addded todos correctly on the list", () => {
     cy.getBySel("todos-input").type(testTodoOne + "{enter}")
 
     cy.getBySel("todos-list").should("have.length", 1)
     cy.getBySel("todos-list").first().should("contain.text", testTodoOne)
   })
 
-  it("Verify added todos persist after page reload", () => {
+  it("should persist todos after page reload", () => {
     cy.getBySel("todos-input").type(testTodoOne + "{enter}")
 
     cy.getBySel("todos-list").should("have.length", 1)
@@ -48,7 +48,7 @@ describe("Todo Section - Add Todo", () => {
     cy.getBySel("todos-list").first().should("contain.text", testTodoOne)
   })
 
-  it("Verify todos cannot be added with more than 40 characters", () => {
+  it("should not allow to add a todo with more than 40 characters", () => {
     cy.getBySel("todos-input").type(todoTextLongerThan40Char + "{enter}")
 
     cy.getBySel("todos-input").should("have.value", "")
@@ -61,7 +61,7 @@ describe("Todo Section - Add Todo", () => {
       .and("contain.text", todoTextWith40Char)
   })
 
-  it("Verify todos cannot be added with when leaving the input empty", () => {
+  it("should not allow to add a todo when leaving input field empty", () => {
     // Check current number of existing todos
     let currentNumTodos
     let newNumTodos

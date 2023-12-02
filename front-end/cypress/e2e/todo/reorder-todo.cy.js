@@ -6,7 +6,7 @@ describe("Todo Section - Reorder Todos", () => {
     cy.visit("/")
   })
 
-  it("Verify todos can be reordered by dragging them up and down and the order updates correctly", () => {
+  it("should reorder todos by dragging them up and down.", () => {
     cy.getBySel("todos-input").type("First Todo Item (test)") // Type the todo text
     cy.getBySel("todos-submit").click() // Click on the "Add" button
 
@@ -38,7 +38,7 @@ describe("Todo Section - Reorder Todos", () => {
       .contains("First Todo Item (test)")
   })
 
-  it("Verify reordered todos persists after a page reload", () => {
+  it("should persist reordered todos order after page reload", () => {
     cy.getBySel("todos-input").type("First Todo Item (test)") // Type the todo text
     cy.getBySel("todos-submit").click() // Click on the "Add" button
 
@@ -72,7 +72,7 @@ describe("Todo Section - Reorder Todos", () => {
       .contains("First Todo Item (test)")
   })
 
-  it("Verify reordered todos can be edited and update correctly", () => {
+  it("should edit reordered todos", () => {
     cy.getBySel("todos-input").type("First Todo Item (test)") // Type the todo text
     cy.getBySel("todos-submit").click() // Click on the "Add" button
 

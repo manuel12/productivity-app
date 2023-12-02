@@ -8,7 +8,7 @@ describe("Todo Section - Todo Statistics Display ", () => {
     cy.visit("/")
   })
 
-  it("Verify the number of completed todos for the day is displayed", () => {
+  it("should display the number of completed todos for the day", () => {
     // Perform actions to add todos
     const numTodosToAdd = 5
     for (let i = 1; i <= numTodosToAdd; i++) {
@@ -41,7 +41,7 @@ describe("Todo Section - Todo Statistics Display ", () => {
     }
   })
 
-  it.skip("Verify the average number of completed todos per day is displayed", () => {
+  it.skip("should display the average number of completed todos per day", () => {
     // Perform actions to complete todos on different days (assuming todos are already added and completed)
     // ...
 
@@ -50,7 +50,7 @@ describe("Todo Section - Todo Statistics Display ", () => {
     // Add more assertions as needed based on the specific implementation and UI structure
   })
 
-  it("Verify the percentage increase/decrease indicator for completed todos is displayed", () => {
+  it("should display the percentage increase/decrease indicator for completed todos", () => {
     // Get number of average completed todos per day
     const numTodosToAdd = 10
     let completedTodos = 0

@@ -12,7 +12,7 @@ describe("CREATE Todo - (POST) /api/todos/:id", () => {
   }
 
   // POST  - /api/todos/:id createTodo
-  it("Verify a todo is created when requesting with valid data", () => {
+  it("should create a todo with valid data", () => {
     // Create todo
     cy.request({
       method: "POST",
@@ -31,7 +31,7 @@ describe("CREATE Todo - (POST) /api/todos/:id", () => {
     })
   })
 
-  it("Verify created todo has correct success message on response ", () => {
+  it("should have correct success message on response ", () => {
     cy.request({
       method: "POST",
       url: `${apiUrl}/api/todos`,
@@ -41,7 +41,7 @@ describe("CREATE Todo - (POST) /api/todos/:id", () => {
     })
   })
 
-  it("Verify created todo has correct properties on response", () => {
+  it("should have properties of correct type", () => {
     cy.request({
       method: "POST",
       url: `${apiUrl}/api/todos`,
@@ -58,7 +58,7 @@ describe("CREATE Todo - (POST) /api/todos/:id", () => {
     })
   })
 
-  it("Verify created todo has last id on response", () => {
+  it("should have last id on response", () => {
     cy.request({
       method: "POST",
       url: `${apiUrl}/api/todos`,
@@ -69,7 +69,7 @@ describe("CREATE Todo - (POST) /api/todos/:id", () => {
     })
   })
 
-  it("Verify creating a todo add +1 to the current amount of todos", () => {
+  it("should add +1 to the current number of todos", () => {
     // Check current amount of todos
     let amountTodos
     let newAmountTodos
@@ -94,7 +94,7 @@ describe("CREATE Todo - (POST) /api/todos/:id", () => {
       })
   })
 
-  it("Verify a todo is not created when requesting with invalid data", () => {
+  it("should not create a todo with invalid data", () => {
     // Create todo
     cy.request({
       method: "POST",

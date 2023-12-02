@@ -6,7 +6,7 @@ describe("Daily Section - Reorder Dailies", () => {
     cy.visit("/dailies")
   })
 
-  it("Verify dailies can be reordered by dragging them up and down and the order updates correctly", () => {
+  it("should reordered dailies by dragging them up and down", () => {
     cy.getBySel("dailies-input").type("First Todo Item (test)") // Type the todo text
     cy.getBySel("dailies-submit").click() // Click on the "Add" button
 
@@ -38,7 +38,7 @@ describe("Daily Section - Reorder Dailies", () => {
       .contains("First Todo Item (test)")
   })
 
-  it("Verify reordered dailies persists after a page reload", () => {
+  it("should persist reordered dailies after a page reload", () => {
     cy.getBySel("dailies-input").type("First Todo Item (test)") // Type the todo text
     cy.getBySel("dailies-submit").click() // Click on the "Add" button
 
@@ -72,7 +72,7 @@ describe("Daily Section - Reorder Dailies", () => {
       .contains("First Todo Item (test)")
   })
 
-  it("Verify reordered dailies can be edited and update correctly", () => {
+  it("should edit reordered dailies", () => {
     cy.getBySel("dailies-input").type("First Todo Item (test)") // Type the todo text
     cy.getBySel("dailies-submit").click() // Click on the "Add" button
 

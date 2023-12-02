@@ -9,7 +9,7 @@ describe("Todo Section - Edit Todo", () => {
     cy.visit("/")
   })
 
-  it("Verify an existing todo can be edited and updates correctly", () => {
+  it("should edit a todo", () => {
     // Create a todo
     cy.getBySel("todos-input").type(createdTodo)
     cy.getBySel("todos-submit").click()
@@ -29,7 +29,7 @@ describe("Todo Section - Edit Todo", () => {
     cy.contains("[data-cy=todos-item]", updatedTodo).should("exist")
   })
 
-  it("Verify edited todos persist after page reload", () => {
+  it("should persist edited todos after page reload", () => {
     cy.getBySel("todos-input").type(createdTodo + "{enter}")
 
     cy.getBySel("todos-list").should("have.length", 1)

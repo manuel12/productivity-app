@@ -6,7 +6,7 @@ describe("Todo Section - Mark Todo as Complete:", () => {
     cy.visit("/")
   })
 
-  it("Verify a todo can be marked as complete", () => {
+  it("should mark a todo as complete", () => {
     const todoTextToComplete = "Todo to Complete (test)"
     cy.getBySel("todos-input").type(todoTextToComplete)
     cy.get('[data-cy="todos-submit"]').click()
@@ -45,7 +45,7 @@ describe("Todo Section - Mark Todo as Complete:", () => {
       })
   })
 
-  it.skip("Verify the todo moves to the completed todo list", () => {})
+  it.skip("should move the completed todo to the completed todos list", () => {})
 
   afterEach(() => {
     cy.deleteTestTodos()

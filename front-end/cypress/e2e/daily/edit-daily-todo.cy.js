@@ -5,7 +5,7 @@ describe("Daily Section - Edit Daily Todo", () => {
     cy.visit("/dailies")
   })
 
-  it("Verify an existing daily can be edited and updates correctly", () => {
+  it("should edit an existing daily", () => {
     const createdTodo = "Created Todo (test)"
     const updatedTodo = "Updated Todo Item (test)"
 
@@ -28,7 +28,7 @@ describe("Daily Section - Edit Daily Todo", () => {
     cy.contains("[data-cy=dailies-item]", updatedTodo).should("exist")
   })
 
-  it("Verify edited dailies persist after page reload", () => {
+  it("should persist edited dailies after page reload", () => {
     const createdTodo = "Created Todo (test)"
     const updatedTodo = "Updated Todo Item (test)"
 

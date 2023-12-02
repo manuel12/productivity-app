@@ -5,7 +5,7 @@ describe("Daily Section - Complete Daily Todo", () => {
     cy.visit("/dailies")
   })
 
-  it("Verify a daily can be marked as complete", () => {
+  it("should mark a daily as complete", () => {
     const todoTextToComplete = "Todo to Complete (test)"
     cy.getBySel("dailies-input").type(todoTextToComplete)
     cy.get('[data-cy="dailies-submit"]').click()
@@ -44,7 +44,7 @@ describe("Daily Section - Complete Daily Todo", () => {
       })
   })
 
-  it("Verify a daily text gets a line-though when marked as completed", () => {
+  it("should add a line-through to daily text when marked as completed", () => {
     const todoTextToComplete = "Todo to Complete (test)"
     cy.getBySel("dailies-input").type(todoTextToComplete)
     cy.get('[data-cy="dailies-submit"]').click()
