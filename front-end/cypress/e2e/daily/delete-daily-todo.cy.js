@@ -42,7 +42,7 @@ describe("Daily Section - Delete Daily Todo", () => {
     cy.contains(todoTextToDelete).should("not.exist")
   })
 
-  afterEach(() => {
-    cy.deleteTestDailies()
-  })
+  // afterEach(() => {
+  //   cy.deleteTestDailies()
+  // })
 })

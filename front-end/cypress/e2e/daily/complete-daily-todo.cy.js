@@ -77,7 +77,7 @@ describe("Daily Section - Complete Daily Todo", () => {
       })
   })
 
-  afterEach(() => {
-    cy.deleteTestDailies()
-  })
+  // afterEach(() => {
+  //   cy.deleteTestDailies()
+  // })
 })

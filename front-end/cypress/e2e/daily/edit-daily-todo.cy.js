@@ -54,7 +54,7 @@ describe("Daily Section - Edit Daily Todo", () => {
     cy.contains("[data-cy=dailies-item]", updatedTodo).should("exist")
   })
 
-  afterEach(() => {
-    cy.deleteTestDailies()
-  })
+  // afterEach(() => {
+  //   cy.deleteTestDailies()
+  // })
 })

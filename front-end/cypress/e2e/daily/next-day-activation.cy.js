@@ -45,7 +45,7 @@ describe("Daily Section - Next Day Activation", () => {
     })
   })
 
-  afterEach(() => {
-    cy.deleteTestDailies()
-  })
+  // afterEach(() => {
+  //   cy.deleteTestDailies()
+  // })
 })

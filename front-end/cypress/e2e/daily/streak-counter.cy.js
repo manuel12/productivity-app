@@ -2,12 +2,9 @@
 
 const getDayAfterTomorrowISODate = () => {
   const today = new Date()
-  console.log(today)
 
   const dayAfterTomorrow = new Date(today)
   dayAfterTomorrow.setDate(today.getDate() + 2)
-  console.log(dayAfterTomorrow)
-
   const dayAfterTomorrowISODate = dayAfterTomorrow.toISOString().split("T")[0]
   return dayAfterTomorrowISODate
 }
@@ -78,7 +75,6 @@ describe("Daily Section - Streak Counter", () => {
 
     cy.clock(dateToTestDailies)
     cy.reload().then(() => {
-      console.log(new Date())
       // Check that streak counter is back to 0
       cy.get(".streak-icon-container")
         .invoke("text")
@@ -89,7 +85,7 @@ describe("Daily Section - Streak Counter", () => {
     })
   })
 
-  afterEach(() => {
-    cy.deleteTestDailies()
-  })
+  // afterEach(() => {
+  //   cy.deleteTestDailies()
+  // })
 })

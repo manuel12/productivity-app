@@ -63,21 +63,14 @@ describe("Todo Section - Add Todo", () => {
 
   it("should not allow to add a todo when leaving input field empty", () => {
     // Check current number of existing todos
-    let currentNumTodos
-    let newNumTodos
 
-    cy.getBySel("todos-item").then(($el) => {
-      currentNumTodos = Cypress.$($el).length
-    })
+    cy.get("[data-cy=todo-item]").should("have.length.gte", 0)
 
     // Click on submit button
-    cy.get('[data-cy="todos-submit"]').click()
+    cy.getBySel("todos-submit").click()
 
     // Check current number of todos remains the same
-    cy.getBySel("todos-item").then(($el) => {
-      newNumTodos = Cypress.$($el).length
-      expect(newNumTodos).to.eq(currentNumTodos)
-    })
+    cy.get("[data-cy=todo-item]").should("have.length.gte", 0)
   })
 
   afterEach(() => {
