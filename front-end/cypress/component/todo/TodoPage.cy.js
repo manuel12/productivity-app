@@ -7,34 +7,34 @@ describe("Todo Section", () => {
     cy.mount(<TodoPage />)
   })
 
-  it('Verify an h1 heading with the text "To Dos" is displayed', () => {
+  it('should display h1 heading with the text "To Dos"', () => {
     cy.get('[data-cy="todos-heading"]')
       .should("have.prop", "tagName", "H1")
       .and("have.text", "To Dos")
   })
 
-  it('Verify the first statistics block displays the text "Completed todos:"', () => {
+  it('should display first statistics block with the text "Completed todos:"', () => {
     cy.get('[data-cy="statistics-daily-completed-todos"]').should(
       "contain.text",
       "Completed todos:"
     )
   })
 
-  it('Verify the second statistics block displays the text "Avg daily completed todos:"', () => {
+  it('should display second statistics block with the text "Avg daily completed todos:"', () => {
     cy.get('[data-cy="statistics-daily-avg-completed-todos"]').should(
       "contain.text",
       "Avg daily completed todos:"
     )
   })
 
-  it('Verify the third statistics block displays the text "Percentage difference:"', () => {
+  it('should display third statistics block with the text "Percentage difference:"', () => {
     cy.get('[data-cy="statistics-percentage-diff"]').should(
       "contain.text",
       "Percentage difference:"
     )
   })
 
-  it('Verify the input has placeholder text "Add new todos..."', () => {
+  it('should display input with placeholder text "Add new todos..."', () => {
     cy.get('[data-cy="todos-input"]').should(
       "have.attr",
       "placeholder",
@@ -42,7 +42,7 @@ describe("Todo Section", () => {
     )
   })
 
-  it('Verify the button has text "Add Todo"', () => {
+  it('should display button with the text "Add Todo"', () => {
     cy.get('[data-cy="todos-submit"]').should("have.text", "Add Todo")
   })
 })
