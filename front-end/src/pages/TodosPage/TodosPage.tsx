@@ -8,9 +8,8 @@ import ITodo from "../../interfaces/ITodo"
 import API from "../../api"
 
 const TodoPage: React.FC = () => {
-  const useDB = true
-
   const getTodosFromDbOrStorage = (setTodos: any) => {
+    const useDB = true
     if (useDB) {
       API.getTodos(setTodos)
     } else {
@@ -19,24 +18,24 @@ const TodoPage: React.FC = () => {
   }
 
   const [todos, setTodos] = useState<ITodo[]>([])
-  const [completedTodos, setCompletedTodos] = useState(0)
+  const [numCompletedTodos, setNumCompletedTodos] = useState(0)
 
   useEffect(() => {
     getTodosFromDbOrStorage(setTodos)
   }, [])
 
   useEffect(() => {
-    setCompletedTodos(getNumCompletedTodos(todos))
+    setNumCompletedTodos(getNumCompletedTodos(todos))
   }, [todos])
 
   return (
     <>
       <CustomPage headingText="To Dos" dataCyAttr="todos-heading">
-        <TodoStatistics todos={todos} completedTodos={completedTodos} />
+        <TodoStatistics todos={todos} numCompletedTodos={numCompletedTodos} />
         <TodoList
           todos={todos}
           setTodos={setTodos}
-          setCompletedTodos={setCompletedTodos}
+          setNumCompletedTodos={setNumCompletedTodos}
         />
       </CustomPage>
     </>

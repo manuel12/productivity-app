@@ -36,7 +36,7 @@ class API {
       })
   }
 
-  static addTodo(todoData: ITodo): void {
+  static addTodo(todoData: ITodo, addNewTodo: any): void {
     fetch("http://localhost:4000/api/todos", {
       method: "POST",
       headers: {
@@ -50,6 +50,7 @@ class API {
           console.warn(res.error)
         } else {
           console.warn(res.message)
+          addNewTodo(res.data)
         }
       })
   }

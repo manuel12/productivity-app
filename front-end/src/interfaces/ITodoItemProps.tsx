@@ -5,5 +5,5 @@ export default interface ITodoItemProps {
   todo: ITodo
   todos: ITodo[]
   setTodos: (todos: ITodo[]) => void
-  setCompletedTodos: (completedTodos: number) => void
+  setNumCompletedTodos: (numCompletedTodos: number) => void
 }

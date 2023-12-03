@@ -38,6 +38,6 @@ Cypress.Commands.add("deleteTestTodos", () => {
 Cypress.Commands.add("deleteTestDailies", () => {
   cy.request({
     method: "DELETE",
-    url: "http://localhost:4000/api/todos/delete-test-dailies/",
+    url: "http://localhost:4000/api/dailies/delete-test-dailies/",
   }).then((res) => expect(res.status).to.eq(204))
 })

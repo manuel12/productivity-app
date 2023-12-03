@@ -82,6 +82,38 @@ export const getNumCompletedTodos = (todos: ITodo[]) => {
 }
 
 /**
+ * Calculates the average number of completed todos per day in the given array of todos.
+ *
+ * @param {ITodo[]} todos - The array of todo items.
+ * @returns {number} The average number of completed todos per day.
+ */
+export const getAvgDailyCompletedTodos = (todos: ITodo[]) => {
+  const todosPerDate: any = {}
+
+  todos.forEach((todo) => {
+    if (todo.completed) {
+      const dateKey = todo.dateCompleted?.split("T")[0]
+      if (dateKey) {
+        todosPerDate[dateKey] = (todosPerDate[dateKey] || 0) + 1
+      }
+    }
+  })
+
+  const totalDaysOfCompletedTodos = Object.keys(todosPerDate).length
+
+  const totalCompletedTodos = todos.filter(
+    (todo) => todo.completed === true
+  ).length
+
+  if (totalDaysOfCompletedTodos === 0) {
+    return 0
+  }
+
+  const avgDailyCompletedTodos = totalCompletedTodos / totalDaysOfCompletedTodos
+  return parseFloat(avgDailyCompletedTodos.toFixed(1))
+}
+
+/**
  * Calculates the percentage difference between the number of completed todos
  * and the average number of completed todos.
  *

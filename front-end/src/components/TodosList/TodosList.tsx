@@ -1,5 +1,5 @@
 import "./styles.css"
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 
 import ITodo from "../../interfaces/ITodo"
 import Todo from "../Todo/Todo"
@@ -12,14 +12,26 @@ import API from "../../api"
 interface ITodoListProps {
   todos: ITodo[]
   setTodos: (todos: ITodo[]) => void
-  setCompletedTodos: (completedTodos: number) => void
+  setNumCompletedTodos: (numCompletedTodos: number) => void
 }
 
 const TodoList: React.FC<ITodoListProps> = ({
   todos,
   setTodos,
-  setCompletedTodos,
+  setNumCompletedTodos,
 }) => {
+  const [completedTodos, setCompletedTodos] = useState<ITodo[]>([])
+  const [uncompletedTodos, setUncompletedTodos] = useState<ITodo[]>([])
+  const [listTodos, setListTodos] = useState(todos)
+
+  useEffect(() => {
+    const completedTodos = todos.filter((todo) => todo.completed === true)
+    setCompletedTodos(completedTodos)
+
+    const uncompletedTodos = todos.filter((todo) => todo.completed === false)
+    setUncompletedTodos(uncompletedTodos)
+  }, [todos])
+
   const [newTodo, setNewTodo] = useState<ITodo>({
     completed: false,
     description: "",
@@ -30,13 +42,16 @@ const TodoList: React.FC<ITodoListProps> = ({
 
     if (newTodo.description === "") return
 
-    const newTodosArray = [...todos, newTodo]
-    setTodos(newTodosArray)
-
     const useDB = true
     if (useDB) {
-      API.addTodo(newTodo)
+      const addNewTodoToArray = (newTodo: any) => {
+        const newTodosArray = [...todos, newTodo]
+        setTodos(newTodosArray)
+      }
+      API.addTodo(newTodo, addNewTodoToArray)
     } else {
+      const newTodosArray = [...todos, newTodo]
+      setTodos(newTodosArray)
       setItem("todos", newTodosArray)
     }
 
@@ -58,15 +73,41 @@ const TodoList: React.FC<ITodoListProps> = ({
       />
 
       <CustomList items={todos} itemName="todos" dataCyAttr="todos-list">
-        {todos.map((todo, i) => (
-          <Todo
-            index={i}
-            todo={todo}
-            todos={todos}
-            setTodos={setTodos}
-            setCompletedTodos={setCompletedTodos}
-          />
-        ))}
+        <ul className="nav nav-tabs">
+          <li className="nav-item">
+            <div
+              className="nav-link active"
+              aria-current="page"
+              onClick={() => setListTodos(todos)}
+            >
+              All
+            </div>
+            <div
+              className="nav-link active"
+              aria-current="page"
+              onClick={() => setListTodos(completedTodos)}
+            >
+              Completed
+            </div>
+            <div
+              className="nav-link active"
+              aria-current="page"
+              onClick={() => setListTodos(uncompletedTodos)}
+            >
+              Uncompleted
+            </div>
+          </li>
+        </ul>
+        {listTodos &&
+          listTodos.map((todo, i) => (
+            <Todo
+              index={i}
+              todo={todo}
+              todos={todos}
+              setTodos={setTodos}
+              setNumCompletedTodos={setNumCompletedTodos}
+            />
+          ))}
       </CustomList>
     </>
   )
