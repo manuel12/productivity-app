@@ -43,6 +43,7 @@ const Todo: React.FC<ITodoItemProps> = ({
 
   const handleCheckClick = (todoIndex: number) => {
     const tempTodos = todos
+    console.log(tempTodos)
 
     // Get specific todo to update
     const todoToUpdate = todos[todoIndex]
@@ -56,6 +57,8 @@ const Todo: React.FC<ITodoItemProps> = ({
     todoToUpdate.dateCompleted = new Date().toISOString()
 
     tempTodos[todoIndex] = todoToUpdate
+    console.log(tempTodos)
+
     setTodos(tempTodos)
     setNumCompletedTodos(getNumCompletedTodos(tempTodos))
 

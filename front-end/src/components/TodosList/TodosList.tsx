@@ -20,17 +20,28 @@ const TodoList: React.FC<ITodoListProps> = ({
   setTodos,
   setNumCompletedTodos,
 }) => {
-  const [completedTodos, setCompletedTodos] = useState<ITodo[]>([])
-  const [uncompletedTodos, setUncompletedTodos] = useState<ITodo[]>([])
-  const [listTodos, setListTodos] = useState(todos)
+  const [completedTodos, setCompletedTodos] = useState<ITodo[]>(
+    todos.filter((todo) => todo.completed === true)
+  )
+  const [uncompletedTodos, setUncompletedTodos] = useState<ITodo[]>(
+    todos.filter((todo) => todo.completed === false)
+  )
+  const [listTodos, setListTodos] = useState<ITodo[]>([])
 
   useEffect(() => {
-    const completedTodos = todos.filter((todo) => todo.completed === true)
+    console.log("Todos updated. Re-rendering!")
+    const completedTodos = todos.filter((todo) => todo.completed === false)
     setCompletedTodos(completedTodos)
 
     const uncompletedTodos = todos.filter((todo) => todo.completed === false)
     setUncompletedTodos(uncompletedTodos)
+
+    setListTodos(todos)
   }, [todos])
+
+  useEffect(() => {
+    console.log("Todos updated. Re-rendering! 2")
+  }, [listTodos])
 
   const [newTodo, setNewTodo] = useState<ITodo>({
     completed: false,
@@ -72,32 +83,32 @@ const TodoList: React.FC<ITodoListProps> = ({
         }}
       />
 
+      <ul className="nav nav-tabs my-3 mx-auto w-50" data-cy="todos-tabs">
+        <li className="nav-item">
+          <div
+            className="nav-link active"
+            aria-current="page"
+            onClick={() => setListTodos(todos)}
+          >
+            All
+          </div>
+          <div
+            className="nav-link"
+            aria-current="page"
+            onClick={() => setListTodos(completedTodos)}
+          >
+            Completed
+          </div>
+          <div
+            className="nav-link"
+            aria-current="page"
+            onClick={() => setListTodos(uncompletedTodos)}
+          >
+            Uncompleted
+          </div>
+        </li>
+      </ul>
       <CustomList items={todos} itemName="todos" dataCyAttr="todos-list">
-        <ul className="nav nav-tabs">
-          <li className="nav-item">
-            <div
-              className="nav-link active"
-              aria-current="page"
-              onClick={() => setListTodos(todos)}
-            >
-              All
-            </div>
-            <div
-              className="nav-link active"
-              aria-current="page"
-              onClick={() => setListTodos(completedTodos)}
-            >
-              Completed
-            </div>
-            <div
-              className="nav-link active"
-              aria-current="page"
-              onClick={() => setListTodos(uncompletedTodos)}
-            >
-              Uncompleted
-            </div>
-          </li>
-        </ul>
         {listTodos &&
           listTodos.map((todo, i) => (
             <Todo
