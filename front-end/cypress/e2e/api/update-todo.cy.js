@@ -28,6 +28,8 @@ describe("UPDATE Todo - (PATCH) /api/todos/:id", () => {
     })
   })
 
+  // Positive tests
+
   // PATCH  - /api/todos/:id updateTodo
   it("should update a specific todo with valid data", () => {
     cy.request({
@@ -41,6 +43,8 @@ describe("UPDATE Todo - (PATCH) /api/todos/:id", () => {
       expect(res.body.data.description).to.eq(updatedTestTodo.description)
     })
   })
+
+  // Negative tests
 
   it("should not update a todo with invalid data", () => {
     cy.request({

@@ -8,6 +8,8 @@ describe("Todo Section - Todo Statistics Display ", () => {
     cy.visit("/")
   })
 
+  // Positive tests
+
   it("should display the number of completed todos for the day", () => {
     // Perform actions to add todos
     const numTodosToAdd = 5

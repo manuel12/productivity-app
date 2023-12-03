@@ -12,6 +12,8 @@ describe("Daily Section - Add Daily Todo", () => {
     cy.visit("/dailies")
   })
 
+  // Positive tests
+
   it("should add a daily by writing on input and clicking the 'Add daily' button", () => {
     cy.getBySel("dailies-input").type(testDailyOne)
     cy.get('[data-cy="dailies-submit"]').click()
@@ -47,6 +49,8 @@ describe("Daily Section - Add Daily Todo", () => {
     cy.getBySel("dailies-list").should("have.length", 1)
     cy.getBySel("dailies-list").first().should("contain.text", testDailyOne)
   })
+
+  // Negative tests
 
   it("should not add dailies with more than 40 characters", () => {
     cy.getBySel("dailies-input").type(todoTextLongerThan40Char + "{enter}")

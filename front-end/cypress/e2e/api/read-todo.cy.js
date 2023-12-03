@@ -20,6 +20,8 @@ describe("READ Todo - (GET) /api/todos/", () => {
     })
   })
 
+  // Positive tests
+
   // GET  - /api/todos/ getTodos
   it("should retrieve all existing todos", () => {
     cy.request({
@@ -56,6 +58,8 @@ describe("READ Todo - (GET) /api/todos/", () => {
       expect(res.body.message).to.eq(`Todo successfully retrieved!`)
     })
   })
+
+  // Negative tests
 
   it("should NOT retrieve a todo when requesting with invalid id", () => {
     cy.request({

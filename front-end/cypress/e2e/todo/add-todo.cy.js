@@ -12,6 +12,8 @@ describe("Todo Section - Add Todo", () => {
     cy.visit("/")
   })
 
+  // Positive tests
+
   it('should add a todo by writing on input and clicking on a "Add todo" button', () => {
     cy.getBySel("todos-input").type(testTodoOne)
     cy.get('[data-cy="todos-submit"]').click()
@@ -47,6 +49,8 @@ describe("Todo Section - Add Todo", () => {
     cy.getBySel("todos-list").should("have.length", 1)
     cy.getBySel("todos-list").first().should("contain.text", testTodoOne)
   })
+
+  // Negative tests
 
   it("should not allow to add a todo with more than 40 characters", () => {
     cy.getBySel("todos-input").type(todoTextLongerThan40Char + "{enter}")

@@ -20,6 +20,8 @@ describe("DELETE Todo - (DELETE) /api/todos/:id", () => {
     })
   })
 
+  // Positive tests
+
   // DELETE  - /api/todos/:id updateTodo
   it("should delete a specific todo with valid id", () => {
     cy.request({
@@ -54,6 +56,8 @@ describe("DELETE Todo - (DELETE) /api/todos/:id", () => {
         })
       })
   })
+
+  // Negative tests
 
   it("should not delete a todo with invalid id", () => {
     // Delete todo with invalid id

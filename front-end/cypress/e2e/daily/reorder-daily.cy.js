@@ -6,6 +6,8 @@ describe("Daily Section - Reorder Dailies", () => {
     cy.visit("/dailies")
   })
 
+  // Positive tests
+
   it("should reordered dailies by dragging them up and down", () => {
     cy.getBySel("dailies-input").type("First Todo Item (test)") // Type the todo text
     cy.getBySel("dailies-submit").click() // Click on the "Add" button

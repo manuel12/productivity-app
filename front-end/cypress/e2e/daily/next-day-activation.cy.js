@@ -15,6 +15,8 @@ describe("Daily Section - Next Day Activation", () => {
     cy.visit("/dailies")
   })
 
+  // Positive tests
+
   it("should reactivate completed dailies at the start of the next day", () => {
     cy.getBySel("dailies-input").type("Clean room{enter}")
     cy.getBySel("dailies-input").type("Make lunch{enter}")

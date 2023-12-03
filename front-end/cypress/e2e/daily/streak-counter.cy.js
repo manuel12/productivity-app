@@ -14,6 +14,8 @@ describe("Daily Section - Streak Counter", () => {
     cy.visit("/dailies")
   })
 
+  // Positive tests
+
   it("should update streak counter correctly when a daily is completed consecutively", () => {
     let initialStreakCounterValue
     let secondaryStreakCounterValue

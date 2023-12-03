@@ -6,6 +6,8 @@ describe("Todo Section - Mark Todo as Complete:", () => {
     cy.visit("/")
   })
 
+  // Positive tests
+
   it("should mark a todo as complete", () => {
     const todoTextToComplete = "Todo to Complete (test)"
     cy.getBySel("todos-input").type(todoTextToComplete)

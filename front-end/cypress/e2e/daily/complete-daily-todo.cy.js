@@ -5,6 +5,8 @@ describe("Daily Section - Complete Daily Todo", () => {
     cy.visit("/dailies")
   })
 
+  // Positive tests
+
   it("should mark a daily as complete", () => {
     const todoTextToComplete = "Todo to Complete (test)"
     cy.getBySel("dailies-input").type(todoTextToComplete)

@@ -11,6 +11,8 @@ describe("CREATE Todo - (POST) /api/todos/:id", () => {
     description: ["Run a marathon"],
   }
 
+  // Positive tests
+
   // POST  - /api/todos/:id createTodo
   it("should create a todo with valid data", () => {
     // Create todo
@@ -93,6 +95,8 @@ describe("CREATE Todo - (POST) /api/todos/:id", () => {
         })
       })
   })
+
+  // Negative tests
 
   it("should not create a todo with invalid data", () => {
     // Create todo

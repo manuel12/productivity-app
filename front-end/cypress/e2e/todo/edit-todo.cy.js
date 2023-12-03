@@ -9,6 +9,8 @@ describe("Todo Section - Edit Todo", () => {
     cy.visit("/")
   })
 
+  // Positive tests
+
   it("should edit a todo", () => {
     // Create a todo
     cy.getBySel("todos-input").type(createdTodo)
