@@ -10,6 +10,9 @@ const deleteTodoRouter = require("./routes/deleteTodo")
 // WARNING!
 const deleteTestTodos = require("./routes/deleteTestTodos")
 
+// WARNING!
+const deleteTestDailies = require("./routes/deleteTestDailies")
+
 const app = express()
 const port = process.env.PORT || 4000
 
@@ -33,6 +36,9 @@ app.use(deleteTodoRouter)
 
 // Delete test todos
 app.use(deleteTestTodos)
+
+// Delete test dailies
+app.use(deleteTestDailies)
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`)

@@ -6,13 +6,16 @@ router.patch("/api/todos/:id", (req, res, next) => {
   const id = Number(req.params.id)
 
   if (isNaN(id) || id <= 0) {
+    console.log("400 - 1")
     return res.status(400).json({ error: "Invalid (NaN) todo id" })
   }
 
   const updatedTodo = {
     completed: req.body.completed,
     description: req.body.description,
+    dateCompleted: req.body.dateCompleted,
   }
+  console.log(updatedTodo)
 
   const errors = []
   if (typeof updatedTodo.completed !== "boolean") {
@@ -27,13 +30,15 @@ router.patch("/api/todos/:id", (req, res, next) => {
   }
 
   if (errors.length) {
+    console.log("400 - 2")
     return res.status(400).json({ error: errors.join(", ") + "." })
   }
 
   const checkTodoExistsSQL = "SELECT * FROM Todo WHERE id = ?"
   const updateSQL = `UPDATE Todo set 
     completed = coalesce(?,completed), 
-    description = coalesce(?,description)
+    description = coalesce(?,description), 
+    dateCompleted = coalesce(?,dateCompleted)
     WHERE id = ?`
 
   db.all(checkTodoExistsSQL, [id], (err, row) => {
@@ -43,15 +48,23 @@ router.patch("/api/todos/:id", (req, res, next) => {
 
     if (!row) {
       // Todo with given id does not exist
+      console.log("400 - 3")
       return res.status(400).json({ error: "Todo not found" })
     }
 
     // Todo with  specific id exists proceed with update
     db.run(
       updateSQL,
-      [updatedTodo.completed, updatedTodo.description, id],
+      [
+        updatedTodo.completed,
+        updatedTodo.description,
+        updatedTodo.dateCompleted,
+        id,
+      ],
       function (err) {
         if (err) {
+          console.log("400 - 4")
+          console.log(err)
           return res.status(400).json({ error: res.message })
         }
 

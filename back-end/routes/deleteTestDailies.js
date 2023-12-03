@@ -2,7 +2,7 @@ const express = require("express")
 const router = express.Router()
 const db = require("../database")
 
-router.delete("/api/todos/delete-test-dailies", (req, res, next) => {
+router.delete("/api/dailies/delete-test-dailies", (req, res, next) => {
   db.run(
     `DELETE FROM Daily WHERE description LIKE '%test%'`,
     function (err, result) {

@@ -12,7 +12,8 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
     const createTableSQL = `CREATE TABLE IF NOT EXISTS Todo (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       completed BOOLEAN,
-      description VARCHAR(40)
+      description VARCHAR(40),
+      dateCompleted TEXT
     )`
 
     db.run(createTableSQL, (err) => {

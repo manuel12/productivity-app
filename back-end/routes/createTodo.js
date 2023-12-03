@@ -32,7 +32,11 @@ router.post("/api/todos", (req, res, next) => {
     }
     res.status(201).json({
       message: "Todo successfully created!",
-      data: newTodo,
+      data: {
+        id: this.lastID,
+        completed: newTodo.completed,
+        description: newTodo.description,
+      },
       id: this.lastID,
     })
   })
