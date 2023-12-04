@@ -29,7 +29,6 @@ const TodoList: React.FC<ITodoListProps> = ({
   const [listTodos, setListTodos] = useState<ITodo[]>([])
 
   useEffect(() => {
-    console.log("Todos updated. Re-rendering!")
     const completedTodos = todos.filter((todo) => todo.completed === false)
     setCompletedTodos(completedTodos)
 
@@ -39,9 +38,7 @@ const TodoList: React.FC<ITodoListProps> = ({
     setListTodos(todos)
   }, [todos])
 
-  useEffect(() => {
-    console.log("Todos updated. Re-rendering! 2")
-  }, [listTodos])
+  useEffect(() => {}, [listTodos])
 
   const [newTodo, setNewTodo] = useState<ITodo>({
     completed: false,
