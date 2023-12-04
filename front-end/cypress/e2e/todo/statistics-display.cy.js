@@ -4,14 +4,15 @@ import { percentageDiff } from "../../../src/utils"
 
 describe("Todo Section - Todo Statistics Display ", () => {
   beforeEach(() => {
+    cy.deleteTestTodos()
     // Visit the app or the specific page
     cy.visit("/")
   })
 
   // Positive tests
 
-  it("should display the number of completed todos for the day", () => {
-    // Perform actions to add todos
+  it("should display the number of completed todos today", () => {
+    // Perform actions to add todos (today)
     const numTodosToAdd = 5
     for (let i = 1; i <= numTodosToAdd; i++) {
       cy.getBySel("todos-input").type(`Todo #${i} (test){enter}`)
@@ -20,10 +21,10 @@ describe("Todo Section - Todo Statistics Display ", () => {
     // Check initial completed todos displays 0
     cy.getBySel("statistics-daily-completed-todos").should(
       "include.text",
-      "Completed todos:0"
+      "Completed todos today:0"
     )
 
-    // Perform actions to complete todos
+    // Perform actions to complete todos (today)
     for (let i = 1; i <= numTodosToAdd; i++) {
       cy.get(`[data-cy="todos-list"] > :nth-child(${i})`)
         .find("[data-cy=todos-check-icon-container]")
@@ -38,65 +39,82 @@ describe("Todo Section - Todo Statistics Display ", () => {
       // Check completed todos number increases with each todo set as completed
       cy.getBySel("statistics-daily-completed-todos").should(
         "include.text",
-        `Completed todos:${i}`
+        `Completed todos today:${i}`
       )
     }
   })
 
-  it.skip("should display the average number of completed todos per day", () => {
-    // Perform actions to complete todos on different days (assuming todos are already added and completed)
-    // ...
+  it("should display the average number of completed todos per day", () => {
+    // Add todos (today)
+    const numTodosToAdd = 5
+    for (let i = 1; i <= numTodosToAdd; i++) {
+      cy.getBySel("todos-input").type(`Todo #${i} (test){enter}`)
+    }
 
-    // Validate the display of average completed todos per day
-    cy.get(".average-completed-todos-per-day").should("exist")
-    // Add more assertions as needed based on the specific implementation and UI structure
+    // Complete todos (today)
+    cy.get(".check-not-completed").each(($el) => {
+      cy.get($el).click()
+    })
+
+    cy.get('[data-cy="todos-list"]').should("be.visible")
+
+    // Stub the Date object to make it tomorrow
+    const tomorrow = new Date()
+    tomorrow.setDate(new Date().getDate() + 1)
+    cy.clock(tomorrow.getTime(), ["Date"])
+
+    // Add todos (tomorrow)
+    for (let i = 1; i <= numTodosToAdd; i++) {
+      cy.getBySel("todos-input").type(
+        `Todo #${i + numTodosToAdd} (test){enter}`
+      )
+    }
+
+    // Complete todos (tomorrow)
+    cy.get(".check-not-completed").each(($el) => {
+      cy.get($el).click()
+    })
+
+    cy.get('[data-cy="todos-list"]').should("be.visible")
+
+    cy.get('[data-cy="statistics-daily-avg-completed-todos"]').should(
+      "include.text",
+      "Avg daily completed todos:5"
+    )
   })
 
   it("should display the percentage increase/decrease indicator for completed todos", () => {
-    // Get number of average completed todos per day
-    const numTodosToAdd = 10
-    let completedTodos = 0
-    let avgDailyCompletedTodos = 0
+    // Add todos (today)
+    const numTodosToAddToday = 1
+    for (let i = 1; i <= numTodosToAddToday; i++) {
+      cy.getBySel("todos-input").type(`Todo #${i}  (today) (test){enter}`)
+    }
 
-    cy.get(
-      '[data-cy="statistics-daily-avg-completed-todos"] > .display-1'
-    ).then(($el) => {
-      avgDailyCompletedTodos = $el.text()
-
-      // Check initial percentage displays a -100% decrease
-
-      cy.getBySel("statistics-percentage-diff").should("contain", "-100%")
-
-      // Perform actions to add todos
-      for (let i = 1; i <= numTodosToAdd; i++) {
-        cy.getBySel("todos-input").type(`Todo #${i} (test){enter}`)
-      }
-
-      // Perform actions to complete todos
-      for (let i = 1; i <= numTodosToAdd; i++) {
-        cy.getBySel("todos-item")
-          .filter(":contains('test')")
-          .eq(i - 1)
-          //cy.get(`[data-cy="todos-list"] > :nth-child(${i})`)
-          .find("[data-cy=todos-check-icon-container]")
-          .click()
-
-        completedTodos += 1
-
-        // Calculate the average completed todos per day and the percentage increase/decrease
-        const percentageDifference = percentageDiff(
-          completedTodos,
-          avgDailyCompletedTodos
-        )
-
-        // Validate the display of the percentage increase/decrease indicator
-        cy.getBySel("statistics-percentage-diff").should("exist")
-        cy.getBySel("statistics-percentage-diff").should(
-          "contain",
-          `${percentageDifference}%`
-        )
-      }
+    // Complete todos (today)
+    cy.get(".check-not-completed").each(($el) => {
+      cy.get($el).click()
     })
+
+    // Stub the Date object to make it tomorrow
+    const tomorrow = new Date()
+    tomorrow.setDate(new Date().getDate() + 1)
+    cy.clock(tomorrow.getTime(), ["Date"])
+
+    // Add todos (tomorrow)
+    const numTodosToAddTomorrow = 5
+    for (let i = 1; i <= numTodosToAddTomorrow; i++) {
+      cy.getBySel("todos-input").type(`Todo #${i} (tomorrow) (test){enter}`)
+    }
+
+    // Complete todos (tomorrow)
+    cy.get(".check-not-completed").each(($el) => {
+      cy.get($el).click()
+    })
+
+    cy.get('[data-cy="statistics-percentage-diff"]').should(
+      "include.text",
+      "Percentage difference:+67%"
+    )
   })
 
   afterEach(() => {
