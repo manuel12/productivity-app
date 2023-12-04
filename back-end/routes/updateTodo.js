@@ -6,7 +6,6 @@ router.patch("/api/todos/:id", (req, res, next) => {
   const id = Number(req.params.id)
 
   if (isNaN(id) || id <= 0) {
-    console.log("400 - 1")
     return res.status(400).json({ error: "Invalid (NaN) todo id" })
   }
 
@@ -15,7 +14,6 @@ router.patch("/api/todos/:id", (req, res, next) => {
     description: req.body.description,
     dateCompleted: req.body.dateCompleted,
   }
-  console.log(updatedTodo)
 
   const errors = []
   if (typeof updatedTodo.completed !== "boolean") {
@@ -30,7 +28,6 @@ router.patch("/api/todos/:id", (req, res, next) => {
   }
 
   if (errors.length) {
-    console.log("400 - 2")
     return res.status(400).json({ error: errors.join(", ") + "." })
   }
 
@@ -48,7 +45,6 @@ router.patch("/api/todos/:id", (req, res, next) => {
 
     if (!row) {
       // Todo with given id does not exist
-      console.log("400 - 3")
       return res.status(400).json({ error: "Todo not found" })
     }
 
@@ -63,8 +59,6 @@ router.patch("/api/todos/:id", (req, res, next) => {
       ],
       function (err) {
         if (err) {
-          console.log("400 - 4")
-          console.log(err)
           return res.status(400).json({ error: res.message })
         }
 
