@@ -138,17 +138,9 @@ const Todo: React.FC<ITodoItemProps> = ({
   const handleDrop = (e: DragEvent<HTMLLIElement>, targetIndex: number) => {
     e.preventDefault()
     const sourceIndex = parseInt(e.dataTransfer.getData("index"))
-    // console.log("sourceIndex", sourceIndex)
-
     const updatedTodos = [...todos]
-    // console.log("updatedTodos", updatedTodos)
-
     const [movedTodo] = updatedTodos.splice(sourceIndex, 1)
-    // console.log("movedTodo", movedTodo)
-
     updatedTodos.splice(targetIndex, 0, movedTodo)
-    // console.log("updatedTodos", updatedTodos)
-
     setTodos(updatedTodos)
   }
 
