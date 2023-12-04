@@ -82,6 +82,20 @@ export const getNumCompletedTodos = (todos: ITodo[]) => {
 }
 
 /**
+ * Calculates the number of completed todos for today.
+ *
+ * @param {ITodo[]} todos - The array of todo items.
+ * @returns {number} The number of completed todos for today.
+ */
+export const getNumCompletedTodosToday = (todos: ITodo[]) => {
+  const todaysDate = new Date().toISOString().split("T")[0]
+  return todos.filter((todo) => {
+    const todosDate = todo.dateCompleted?.split("T")[0]
+    return todaysDate === todosDate
+  }).length
+}
+
+/**
  * Calculates the average number of completed todos per day in the given array of todos.
  *
  * @param {ITodo[]} todos - The array of todo items.
@@ -109,8 +123,11 @@ export const getAvgDailyCompletedTodos = (todos: ITodo[]) => {
     return 0
   }
 
-  const avgDailyCompletedTodos = totalCompletedTodos / totalDaysOfCompletedTodos
-  return parseFloat(avgDailyCompletedTodos.toFixed(1))
+  const avgDailyCompletedTodos = parseFloat(
+    String(totalCompletedTodos / totalDaysOfCompletedTodos)
+  ).toFixed(1)
+
+  return Number(avgDailyCompletedTodos)
 }
 
 /**
@@ -125,11 +142,13 @@ export const percentageDiff = (
   numCompleted: number,
   numAvgCompleted: number
 ) => {
-  if (numCompleted == numAvgCompleted) return 0
+  if (numCompleted === numAvgCompleted) return 0
+  if (numCompleted === 0 || numAvgCompleted === 0) return 0
   else if (numCompleted > numAvgCompleted)
     return percentageIncrease(numCompleted, numAvgCompleted)
   else if (numAvgCompleted > numCompleted)
     return percentageDecrease(numCompleted, numAvgCompleted)
+  else return 0
 }
 
 /**
