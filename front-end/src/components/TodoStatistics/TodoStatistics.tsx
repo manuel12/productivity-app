@@ -1,7 +1,11 @@
 import "./styles.css"
 import React, { useState, useEffect } from "react"
 import ITodo from "../../interfaces/ITodo"
-import { percentageDiff, getAvgDailyCompletedTodos } from "../../utils"
+import {
+  getNumCompletedTodosToday,
+  getAvgDailyCompletedTodos,
+  percentageDiff,
+} from "../../utils"
 
 interface ITodoListProps {
   todos: ITodo[]
@@ -12,10 +16,18 @@ const TStatistics: React.FC<ITodoListProps> = ({
   todos,
   numCompletedTodos,
 }) => {
+  const [numCompletedTodosToday, setNumCompletedTodosToday] = useState(0)
   const [numAverageCompletedTodos, setNumAvgCompletedTodos] = useState(0)
   const [perfecentageDiff, setPercentageDiff] = useState(
     percentageDiff(numCompletedTodos, numAverageCompletedTodos)
   )
+
+  useEffect(() => {
+    // Print all completed todos dates.
+    const numTodosCompletedToday = getNumCompletedTodosToday(todos)
+
+    setNumCompletedTodosToday(numTodosCompletedToday)
+  })
 
   useEffect(() => {
     const numAverageCompletedTodos = getAvgDailyCompletedTodos(todos)
@@ -24,9 +36,9 @@ const TStatistics: React.FC<ITodoListProps> = ({
 
   useEffect(() => {
     setPercentageDiff(
-      percentageDiff(numCompletedTodos, numAverageCompletedTodos)
+      percentageDiff(numCompletedTodosToday, numAverageCompletedTodos)
     )
-  }, [numCompletedTodos])
+  }, [numCompletedTodos, numAverageCompletedTodos])
 
   return (
     <div className="w-50 TStatistics">
@@ -34,8 +46,8 @@ const TStatistics: React.FC<ITodoListProps> = ({
         className="TStatistics__stats-container border-danger"
         data-cy="statistics-daily-completed-todos"
       >
-        Completed todos:
-        <div className="display-1">{numCompletedTodos}</div>
+        Completed todos today:
+        <div className="display-1">{numCompletedTodosToday}</div>
       </div>
       <div
         className="TStatistics__stats-container border-success"
