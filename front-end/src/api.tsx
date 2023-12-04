@@ -11,9 +11,9 @@ class API {
       .then((res) => res.json())
       .then((res) => {
         if (res.error) {
-          console.warn(res.error)
+          console.log(res.error)
         } else {
-          console.warn(res.message)
+          console.log(res.message)
           setTodos(res.data)
         }
       })
@@ -29,9 +29,9 @@ class API {
       .then((res) => res.json())
       .then((res) => {
         if (res.error) {
-          console.warn(res.error)
+          console.log(res.error)
         } else {
-          console.warn(res.message)
+          console.log(res.message)
         }
       })
   }
@@ -47,9 +47,9 @@ class API {
       .then((res) => res.json())
       .then((res) => {
         if (res.error) {
-          console.warn(res.error)
+          console.log(res.error)
         } else {
-          console.warn(res.message)
+          console.log(res.message)
           addNewTodo(res.data)
         }
       })
@@ -66,9 +66,9 @@ class API {
       .then((res) => res.json())
       .then((res) => {
         if (res.error) {
-          console.warn(res.error)
+          console.log(res.error)
         } else {
-          console.warn(res.message)
+          console.log(res.message)
         }
       })
   }
@@ -81,7 +81,7 @@ class API {
       },
     }).then((res) => {
       if (res.status === 204) {
-        console.warn("Todo successfuully deleted!")
+        console.log("Todo successfuully deleted!")
       }
     })
   }
