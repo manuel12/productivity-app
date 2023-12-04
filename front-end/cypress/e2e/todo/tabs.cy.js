@@ -72,7 +72,7 @@ describe("Todo Section - Tabs", () => {
       })
 
     // Click on uncompleted tab
-    cy.get(".nav-item > :nth-child(2)").click()
+    cy.get(".nav-item > :nth-child(3)").click()
 
     // Check there are 2 todos shown
     cy.getBySel("todos-item").should("have.length", 2)
