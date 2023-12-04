@@ -29,7 +29,7 @@ const TodoList: React.FC<ITodoListProps> = ({
   const [listTodos, setListTodos] = useState<ITodo[]>([])
 
   useEffect(() => {
-    const completedTodos = todos.filter((todo) => todo.completed === false)
+    const completedTodos = todos.filter((todo) => todo.completed === true)
     setCompletedTodos(completedTodos)
 
     const uncompletedTodos = todos.filter((todo) => todo.completed === false)
@@ -37,8 +37,6 @@ const TodoList: React.FC<ITodoListProps> = ({
 
     setListTodos(todos)
   }, [todos])
-
-  useEffect(() => {}, [listTodos])
 
   const [newTodo, setNewTodo] = useState<ITodo>({
     completed: false,
