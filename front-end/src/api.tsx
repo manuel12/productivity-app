@@ -1,6 +1,7 @@
 import ITodo from "./interfaces/ITodo"
 
 class API {
+  static verbose = false
   static getTodos(setTodos: any): void {
     fetch("http://localhost:4000/api/todos", {
       method: "GET",
@@ -11,9 +12,9 @@ class API {
       .then((res) => res.json())
       .then((res) => {
         if (res.error) {
-          console.log(res.error)
+          API.verbose && console.log(res.error)
         } else {
-          console.log(res.message)
+          API.verbose && console.log(res.message)
           setTodos(res.data)
         }
       })
@@ -29,9 +30,9 @@ class API {
       .then((res) => res.json())
       .then((res) => {
         if (res.error) {
-          console.log(res.error)
+          API.verbose && console.log(res.error)
         } else {
-          console.log(res.message)
+          API.verbose && console.log(res.message)
         }
       })
   }
@@ -47,9 +48,9 @@ class API {
       .then((res) => res.json())
       .then((res) => {
         if (res.error) {
-          console.log(res.error)
+          API.verbose && console.log(res.error)
         } else {
-          console.log(res.message)
+          API.verbose && console.log(res.message)
           addNewTodo(res.data)
         }
       })
@@ -66,9 +67,9 @@ class API {
       .then((res) => res.json())
       .then((res) => {
         if (res.error) {
-          console.log(res.error)
+          API.verbose && console.log(res.error)
         } else {
-          console.log(res.message)
+          API.verbose && console.log(res.message)
         }
       })
   }
@@ -81,7 +82,7 @@ class API {
       },
     }).then((res) => {
       if (res.status === 204) {
-        console.log("Todo successfuully deleted!")
+        API.verbose && console.log("Todo successfuully deleted!")
       }
     })
   }
