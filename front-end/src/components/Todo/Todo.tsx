@@ -43,7 +43,6 @@ const Todo: React.FC<ITodoItemProps> = ({
 
   const handleCheckClick = (todoIndex: number) => {
     const tempTodos = todos
-    console.log(tempTodos)
 
     // Get specific todo to update
     const todoToUpdate = todos[todoIndex]
@@ -55,9 +54,7 @@ const Todo: React.FC<ITodoItemProps> = ({
 
     // Set todo dateCompleted prop to the current date
     todoToUpdate.dateCompleted = new Date().toISOString()
-
     tempTodos[todoIndex] = todoToUpdate
-    console.log(tempTodos)
 
     setTodos(tempTodos)
     setNumCompletedTodos(getNumCompletedTodos(tempTodos))
@@ -143,16 +140,16 @@ const Todo: React.FC<ITodoItemProps> = ({
   const handleDrop = (e: DragEvent<HTMLLIElement>, targetIndex: number) => {
     e.preventDefault()
     const sourceIndex = parseInt(e.dataTransfer.getData("index"))
-    console.log("sourceIndex", sourceIndex)
+    // console.log("sourceIndex", sourceIndex)
 
     const updatedTodos = [...todos]
-    console.log("updatedTodos", updatedTodos)
+    // console.log("updatedTodos", updatedTodos)
 
     const [movedTodo] = updatedTodos.splice(sourceIndex, 1)
-    console.log("movedTodo", movedTodo)
+    // console.log("movedTodo", movedTodo)
 
     updatedTodos.splice(targetIndex, 0, movedTodo)
-    console.log("updatedTodos", updatedTodos)
+    // console.log("updatedTodos", updatedTodos)
 
     setTodos(updatedTodos)
   }
