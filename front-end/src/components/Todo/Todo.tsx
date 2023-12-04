@@ -56,7 +56,8 @@ const Todo: React.FC<ITodoItemProps> = ({
     todoToUpdate.dateCompleted = new Date().toISOString()
     tempTodos[todoIndex] = todoToUpdate
 
-    setTodos(tempTodos)
+    const updatedTempTodos = [...tempTodos]
+    setTodos(updatedTempTodos)
     setNumCompletedTodos(getNumCompletedTodos(tempTodos))
 
     const useDB = true
@@ -75,9 +76,6 @@ const Todo: React.FC<ITodoItemProps> = ({
   }
 
   const handleSaveClick = (todoIndex: number) => {
-    // Save the edited description and exit edit mode
-    // You can implement the logic to save the edited description here
-    // For example, you can call an API endpoint to update the todo item on the server
     const tempTodos = todos
 
     const todoToUpdate = todos[todoIndex]
