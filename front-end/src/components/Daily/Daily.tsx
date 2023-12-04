@@ -28,7 +28,6 @@ const Daily: React.FC<IDailyItemProps> = ({
   const [editedDescription, setEditedDescription] = useState(daily.description)
 
   useEffect(() => {
-    console.log(daily)
     setCompleted(daily.completed)
   }, [daily])
 
