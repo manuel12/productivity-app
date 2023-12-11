@@ -6,7 +6,6 @@ import Todo from "../Todo/Todo"
 import CustomInput from "../CustomInput/CustomInput"
 import CustomList from "../CustomList/CustomList"
 
-import { setItem } from "../../utils"
 import API from "../../api"
 
 interface ITodoListProps {
@@ -28,6 +27,12 @@ const TodoList: React.FC<ITodoListProps> = ({
   )
   const [listTodos, setListTodos] = useState<ITodo[]>([])
 
+  const [tabState, setTabState] = useState({
+    all: "active",
+    complete: "",
+    uncomplete: "",
+  })
+
   useEffect(() => {
     const completedTodos = todos.filter((todo) => todo.completed === true)
     setCompletedTodos(completedTodos)
@@ -48,18 +53,11 @@ const TodoList: React.FC<ITodoListProps> = ({
 
     if (newTodo.description === "") return
 
-    const useDB = true
-    if (useDB) {
-      const addNewTodoToArray = (newTodo: any) => {
-        const newTodosArray = [...todos, newTodo]
-        setTodos(newTodosArray)
-      }
-      API.addTodo(newTodo, addNewTodoToArray)
-    } else {
+    const addNewTodoToArray = (newTodo: any) => {
       const newTodosArray = [...todos, newTodo]
       setTodos(newTodosArray)
-      setItem("todos", newTodosArray)
     }
+    API.addTodo(newTodo, addNewTodoToArray)
 
     setNewTodo({ completed: false, description: "" })
   }
@@ -81,23 +79,47 @@ const TodoList: React.FC<ITodoListProps> = ({
       <ul className="nav nav-tabs my-3 mx-auto w-50" data-cy="todos-tabs">
         <li className="nav-item">
           <div
-            className="nav-link active"
+            className={`nav-link ${tabState.all}`}
             aria-current="page"
-            onClick={() => setListTodos(todos)}
+            onClick={() => {
+              setTabState({
+                all: "active",
+                complete: "",
+                uncomplete: "",
+              })
+              setListTodos(todos)
+            }}
+            data-cy="all-tab"
           >
             All
           </div>
           <div
-            className="nav-link"
+            className={`nav-link ${tabState.complete}`}
             aria-current="page"
-            onClick={() => setListTodos(completedTodos)}
+            onClick={() => {
+              setTabState({
+                all: "",
+                complete: "active",
+                uncomplete: "",
+              })
+              setListTodos(completedTodos)
+            }}
+            data-cy="complete-tab"
           >
             Completed
           </div>
           <div
-            className="nav-link"
+            className={`nav-link ${tabState.uncomplete}`}
             aria-current="page"
-            onClick={() => setListTodos(uncompletedTodos)}
+            onClick={() => {
+              setTabState({
+                all: "",
+                complete: "",
+                uncomplete: "active",
+              })
+              setListTodos(uncompletedTodos)
+            }}
+            data-cy="uncomplete-tab"
           >
             Uncompleted
           </div>

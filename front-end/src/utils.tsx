@@ -25,6 +25,30 @@ export const getItem = (key: string): any | null => {
   return JSON.parse(item)
 }
 
+const differenceInDays = (date1: any, date2: any) => {
+  const oneDay = 24 * 60 * 60 * 1000 // hours * minutes * seconds * milliseconds
+
+  // Convert both dates to UTC to ensure the same day is being compared
+  const utcDate1 = Date.UTC(
+    date1.getFullYear(),
+    date1.getMonth(),
+    date1.getDate()
+  )
+  const utcDate2 = Date.UTC(
+    date2.getFullYear(),
+    date2.getMonth(),
+    date2.getDate()
+  )
+
+  // Calculate the difference in milliseconds
+  const timeDifference = utcDate2 - utcDate1
+
+  // Convert the difference to days
+  const daysDifference = Math.floor(timeDifference / oneDay)
+
+  return daysDifference
+}
+
 /**
  * Checks if it's a new day compared to the lastCompletedDate property of the daily
  * and updates the completed property accordingly.
@@ -32,6 +56,7 @@ export const getItem = (key: string): any | null => {
  */
 export const checkAndUpdateCompletedStatus = (daily: IDaily) => {
   const currentDate = new Date()
+
   if (daily.lastCompletedDate) {
     const lastCompletedDate = new Date(daily.lastCompletedDate)
 
@@ -45,7 +70,6 @@ export const checkAndUpdateCompletedStatus = (daily: IDaily) => {
       daily.completed = false
     }
   }
-
   return daily
 }
 
@@ -57,12 +81,15 @@ export const checkAndUpdateCompletedStatus = (daily: IDaily) => {
  */
 export const checkAndUpdateStreakCounter = (daily: IDaily) => {
   const currentDate = new Date()
+
   if (daily.lastCompletedDate) {
     const lastCompletedDate = new Date(daily.lastCompletedDate)
+
     // Calculate the time difference in milliseconds
     const timeDifference = currentDate.getTime() - lastCompletedDate.getTime()
+
     // Calculate the number of days between currentDate and lastCompletedDate
-    const daysDifference = Math.floor(timeDifference / (1000 * 3600 * 24))
+    const daysDifference = differenceInDays(lastCompletedDate, currentDate)
 
     if (daysDifference > 1) {
       daily.streakCounter = 0

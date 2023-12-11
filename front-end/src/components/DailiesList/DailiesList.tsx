@@ -8,10 +8,10 @@ import CustomList from "../CustomList/CustomList"
 
 import {
   setItem,
-  getItem,
   checkAndUpdateCompletedStatus,
   checkAndUpdateStreakCounter,
 } from "../../utils"
+import API from "../../api"
 
 interface IDaliesListProps {
   dailies: IDaily[]
@@ -19,19 +19,20 @@ interface IDaliesListProps {
   setCompletedDailies: (completedDailies: number) => void
 }
 
-const DailiesList: React.FC<IDaliesListProps> = () => {
-  const [dailies, setDailies] = useState<IDaily[]>(getItem("dailies") || [])
+const DailiesList: React.FC<IDaliesListProps> = ({ dailies, setDailies }) => {
   const [newDaily, setNewDaily] = useState<IDaily>({
     completed: false,
     description: "",
     dateCreated: "",
     streakCounter: 0,
+    lastCompletedDate: "",
   })
 
   useEffect(() => {
-    if (dailies.length > 0) {
+    if (dailies) {
       // If there are any dailies pass them through checkAndUpdateCompletedStatus
       // and update their 'completed' property value if needed
+
       let updatedDailiesList = dailies.map((daily) =>
         checkAndUpdateCompletedStatus(daily)
       )
@@ -43,26 +44,28 @@ const DailiesList: React.FC<IDaliesListProps> = () => {
       const newDailiesListArray = [...updatedDailiesList]
 
       if (newDailiesListArray) {
-        setDailies(newDailiesListArray)
-        setItem("dailies", newDailiesListArray)
+        // setDailies(newDailiesListArray)
       }
     }
-  }, [])
+  }, [dailies])
 
   const handleAddDaily = (e: any) => {
     e.preventDefault()
 
     if (newDaily.description === "") return
 
-    const newDailiesListArray = [...dailies, newDaily]
-    setDailies(newDailiesListArray)
-    setItem("dailies", newDailiesListArray)
+    const addNewDailyToArray = (newDaily: any) => {
+      const newDailiesListArray = [...dailies, newDaily]
+      setDailies(newDailiesListArray)
+    }
+    API.addDaily(newDaily, addNewDailyToArray)
 
     setNewDaily({
       completed: false,
       description: "",
       dateCreated: "",
       streakCounter: 0,
+      lastCompletedDate: "",
     })
   }
 

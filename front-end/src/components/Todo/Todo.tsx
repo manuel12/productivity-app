@@ -9,7 +9,7 @@ import React, {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faCircleCheck, faRemove } from "@fortawesome/free-solid-svg-icons"
 import ITodoItemProps from "../../interfaces/ITodoItemProps"
-import { setItem, getNumCompletedTodos } from "../../utils"
+import { getNumCompletedTodos } from "../../utils"
 import API from "../../api"
 
 const Todo: React.FC<ITodoItemProps> = ({
@@ -22,6 +22,7 @@ const Todo: React.FC<ITodoItemProps> = ({
   const [completed, setCompleted] = useState(todo.completed)
   const [isEditing, setIsEditing] = useState(false)
   const [editedDescription, setEditedDescription] = useState(todo.description)
+  const [errorLabel, setErrorLabel] = useState("")
 
   useEffect(() => {
     setCompleted(todo.completed)
@@ -60,13 +61,8 @@ const Todo: React.FC<ITodoItemProps> = ({
     setTodos(updatedTempTodos)
     setNumCompletedTodos(getNumCompletedTodos(tempTodos))
 
-    const useDB = true
-    if (useDB) {
-      const todoId = todoToUpdate.id
-      todoId && API.editTodo(todoToUpdate, todoId)
-    } else {
-      setItem("todos", tempTodos)
-    }
+    const todoId = todoToUpdate.id
+    todoId && API.editTodo(todoToUpdate, todoId)
 
     todoToUpdate.completed && playTodoCompletedSound()
   }
@@ -76,25 +72,25 @@ const Todo: React.FC<ITodoItemProps> = ({
   }
 
   const handleSaveClick = (todoIndex: number) => {
-    const tempTodos = todos
+    if (editedDescription.length > 40) {
+      setErrorLabel("Todo cannot contain more than 40 characters")
+    } else if (editedDescription.length < 3) {
+      setErrorLabel("Todo cannot contain less than 3 characters")
+    } else {
+      setErrorLabel("")
+      const tempTodos = todos
 
-    const todoToUpdate = todos[todoIndex]
-    todoToUpdate.description = editedDescription
+      const todoToUpdate = todos[todoIndex]
+      todoToUpdate.description = editedDescription
 
-    tempTodos[todoIndex] = todoToUpdate
-    setTodos(tempTodos)
+      tempTodos[todoIndex] = todoToUpdate
+      setTodos(tempTodos)
 
-    const useDB = true
-    if (useDB) {
       const todoId = todoToUpdate.id
       todoId && API.editTodo(todoToUpdate, todoId)
-    } else {
-      setItem("todos", tempTodos)
+
+      setIsEditing(false)
     }
-
-    // todoToUpdate.completed && playTodoCompletedSound()
-
-    setIsEditing(false)
   }
 
   const handleRemoveClick = (todoIndex: number) => {
@@ -105,13 +101,8 @@ const Todo: React.FC<ITodoItemProps> = ({
 
     setTodos(newTodos)
 
-    const useDB = true
-    if (useDB) {
-      const todoId = todoToRemove.id
-      todoId && API.deleteTodo(todoId)
-    } else {
-      setItem("todos", newTodos)
-    }
+    const todoId = todoToRemove.id
+    todoId && API.deleteTodo(todoId)
 
     playTodoRemovedSound()
   }
@@ -174,6 +165,11 @@ const Todo: React.FC<ITodoItemProps> = ({
         data-cy="todos-description-container"
         onClick={handleEditClick} // Enable editing mode when the description is clicked
       >
+        {errorLabel && (
+          <label className="text-danger w-100 mb-3" data-cy="todo-error-label">
+            {errorLabel}
+          </label>
+        )}
         {isEditing ? (
           <input
             type="text"

@@ -1,0 +1,7 @@
+form > div {
+  display: flex;
+}
+
+label {
+  display: block !important;
+}

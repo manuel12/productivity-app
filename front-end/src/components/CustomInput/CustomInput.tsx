@@ -1,4 +1,5 @@
-import React, { ReactNode } from "react"
+import "./styles.css"
+import React, { useState } from "react"
 
 interface CustomInputProps {
   itemName: string
@@ -13,9 +14,29 @@ const CustomInput: React.FC<CustomInputProps> = ({
   newItem,
   onChange,
 }) => {
+  const [errorLabel, setErrorLabel] = useState("")
+
   return (
-    <form onSubmit={handleAddItem} data-cy={`${itemName}-form`}>
+    <form
+      onSubmit={(e) => {
+        e.preventDefault()
+        if (newItem.description.length < 3)
+          setErrorLabel("Todos cannot be less than 3 characters")
+        else if (newItem.description.length > 39)
+          return setErrorLabel("Todos cannot be more than 40 characters")
+        else {
+          setErrorLabel("")
+          handleAddItem(e)
+        }
+      }}
+      data-cy={`${itemName}-form`}
+    >
       <div className="input-group my-5 mx-auto w-50">
+        {errorLabel && (
+          <label className="text-danger w-100 mb-3" data-cy="input-error-label">
+            {errorLabel}
+          </label>
+        )}
         <input
           type="text"
           className="form-control mx-1 TodoList__input"

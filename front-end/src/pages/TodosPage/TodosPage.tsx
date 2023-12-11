@@ -3,18 +3,13 @@ import React, { useState, useEffect } from "react"
 import CustomPage from "../CustomPage/CustomPage"
 import TodoStatistics from "../../components/TodoStatistics/TodoStatistics"
 import TodoList from "../../components/TodosList/TodosList"
-import { getItem, getNumCompletedTodos } from "../../utils"
+import { getNumCompletedTodos } from "../../utils"
 import ITodo from "../../interfaces/ITodo"
 import API from "../../api"
 
 const TodoPage: React.FC = () => {
   const getTodosFromDbOrStorage = (setTodos: any) => {
-    const useDB = true
-    if (useDB) {
-      API.getTodos(setTodos)
-    } else {
-      setTodos(getItem("todos") || [])
-    }
+    API.getTodos(setTodos)
   }
 
   const [todos, setTodos] = useState<ITodo[]>([])

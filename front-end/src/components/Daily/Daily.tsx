@@ -12,7 +12,6 @@ import {
   faRemove,
   faForward,
 } from "@fortawesome/free-solid-svg-icons"
-import { setItem } from "../../utils"
 import IDailyItemProps from "../../interfaces/IDailyItemProps"
 import API from "../../api"
 
@@ -50,8 +49,8 @@ const Daily: React.FC<IDailyItemProps> = ({
     const dailyToUpdate = dailies[dailyIndex]
 
     // Update daily completed property
-    const updatedTodoCompleted = dailyToUpdate.completed
-    dailyToUpdate.completed = !updatedTodoCompleted
+    const updatedDailyCompleted = dailyToUpdate.completed
+    dailyToUpdate.completed = !updatedDailyCompleted
     setCompleted(dailyToUpdate.completed)
 
     if (dailyToUpdate.completed) {
@@ -67,7 +66,11 @@ const Daily: React.FC<IDailyItemProps> = ({
     tempDailiesList[dailyIndex] = dailyToUpdate
     const newDailiesListArray = [...tempDailiesList]
     setDailies(newDailiesListArray)
-    setItem("dailies", newDailiesListArray)
+
+    const dailyId = dailyToUpdate.id
+    dailyId && API.editDaily(dailyToUpdate, dailyId)
+
+    dailyToUpdate.completed && playTodoCompletedSound()
   }
 
   const handleEditClick = () => {
@@ -78,21 +81,16 @@ const Daily: React.FC<IDailyItemProps> = ({
     // Save the edited description and exit edit mode
     // You can implement the logic to save the edited description here
     // For example, you can call an API endpoint to update the todo item on the server
-    const tempTodos = dailies
+    const tempDailies = dailies
 
     const dailyToUpdate = dailies[dailyIndex]
     dailyToUpdate.description = editedDescription
 
-    tempTodos[dailyIndex] = dailyToUpdate
-    setDailies(tempTodos)
+    tempDailies[dailyIndex] = dailyToUpdate
+    setDailies(tempDailies)
 
-    const useDB = true
-    if (useDB) {
-      const todoId = dailyToUpdate.id
-      todoId && API.editTodo(dailyToUpdate, todoId)
-    } else {
-      setItem("todos", tempTodos)
-    }
+    const dailyId = dailyToUpdate.id
+    dailyId && API.editDaily(dailyToUpdate, dailyId)
 
     // todoToUpdate.completed && playTodoCompletedSound()
 
@@ -107,7 +105,10 @@ const Daily: React.FC<IDailyItemProps> = ({
 
     const newDailiesListArray = [...newDailiesList]
     setDailies(newDailiesListArray)
-    setItem("dailies", newDailiesListArray)
+
+    const dailyId = dailyToRemove.id
+    dailyId && API.deleteDaily(dailyId)
+
     playTodoRemovedSound()
   }
 
