@@ -1,3 +1,4 @@
+import "./styles.css"
 import React, { ReactNode } from "react"
 
 interface CustomListProps {
@@ -14,8 +15,8 @@ const CustomList: React.FC<CustomListProps> = ({
   children,
 }) => {
   return (
-    <div className="mx-auto w-50">
-      <ul className="list-group" data-cy={dataCyAttr}>
+    <div className="mx-auto mb-5">
+      <ul className="list-group mx-auto" data-cy={dataCyAttr}>
         {items.length > 0 ? (
           children
         ) : (
