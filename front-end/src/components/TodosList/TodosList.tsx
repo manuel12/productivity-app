@@ -5,6 +5,7 @@ import ITodo from "../../interfaces/ITodo"
 import Todo from "../Todo/Todo"
 import CustomInput from "../CustomInput/CustomInput"
 import CustomList from "../CustomList/CustomList"
+import Tabs from "../Tabs/Tabs"
 
 import API from "../../api"
 
@@ -76,55 +77,15 @@ const TodoList: React.FC<ITodoListProps> = ({
         }}
       />
 
-      <ul className="nav nav-tabs my-3 mx-auto w-50" data-cy="todos-tabs">
-        <li className="nav-item">
-          <div
-            className={`nav-link ${tabState.all}`}
-            aria-current="page"
-            onClick={() => {
-              setTabState({
-                all: "active",
-                complete: "",
-                uncomplete: "",
-              })
-              setListTodos(todos)
-            }}
-            data-cy="all-tab"
-          >
-            All
-          </div>
-          <div
-            className={`nav-link ${tabState.complete}`}
-            aria-current="page"
-            onClick={() => {
-              setTabState({
-                all: "",
-                complete: "active",
-                uncomplete: "",
-              })
-              setListTodos(completedTodos)
-            }}
-            data-cy="complete-tab"
-          >
-            Completed
-          </div>
-          <div
-            className={`nav-link ${tabState.uncomplete}`}
-            aria-current="page"
-            onClick={() => {
-              setTabState({
-                all: "",
-                complete: "",
-                uncomplete: "active",
-              })
-              setListTodos(uncompletedTodos)
-            }}
-            data-cy="uncomplete-tab"
-          >
-            Uncompleted
-          </div>
-        </li>
-      </ul>
+      <Tabs
+        tabState={tabState}
+        setTabState={setTabState}
+        setListTodos={setListTodos}
+        todos={todos}
+        completedTodos={completedTodos}
+        uncompletedTodos={uncompletedTodos}
+      ></Tabs>
+
       <CustomList items={todos} itemName="todos" dataCyAttr="todos-list">
         {listTodos &&
           listTodos.map((todo, i) => (
