@@ -31,7 +31,7 @@ const CustomInput: React.FC<CustomInputProps> = ({
       }}
       data-cy={`${itemName}-form`}
     >
-      <div className="input-group my-5 mx-auto w-50">
+      <div className="input-group my-5 mx-auto">
         {errorLabel && (
           <label className="text-danger w-100 mb-3" data-cy="input-error-label">
             {errorLabel}
@@ -39,7 +39,7 @@ const CustomInput: React.FC<CustomInputProps> = ({
         )}
         <input
           type="text"
-          className="form-control mx-1 TodoList__input"
+          className="form-control input"
           data-cy={`${itemName}-input`}
           placeholder={`Add new ${itemName}...`}
           aria-label={`Add new ${itemName}...`}
@@ -53,7 +53,7 @@ const CustomInput: React.FC<CustomInputProps> = ({
           style={{
             borderRadius: "20px",
           }}
-          className="btn btn-primary"
+          className="form-control btn btn-primary button"
           data-cy={`${itemName}-submit`}
           type="submit"
           id="button-addon2"
