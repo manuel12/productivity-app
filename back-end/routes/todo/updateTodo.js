@@ -1,6 +1,6 @@
 const express = require("express")
 const router = express.Router()
-const db = require("../database")
+const db = require("../../database")
 
 router.patch("/api/todos/:id", (req, res, next) => {
   const id = Number(req.params.id)

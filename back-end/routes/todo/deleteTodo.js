@@ -1,6 +1,6 @@
 const express = require("express")
 const router = express.Router()
-const db = require("../database")
+const db = require("../../database")
 
 router.delete("/api/todos/:id", (req, res, next) => {
   if (req.params.id === "delete-test-todos") return next()

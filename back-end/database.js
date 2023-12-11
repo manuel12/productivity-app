@@ -9,14 +9,14 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
   } else {
     console.log("Connected to Sqlite DB.")
 
-    const createTableSQL = `CREATE TABLE IF NOT EXISTS Todo (
+    const createTodoTableSQL = `CREATE TABLE IF NOT EXISTS Todo (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       completed BOOLEAN,
       description VARCHAR(40),
       dateCompleted TEXT
     )`
 
-    db.run(createTableSQL, (err) => {
+    db.run(createTodoTableSQL, (err) => {
       if (err) {
         // Table already created
         console.error(err.message)
@@ -24,6 +24,26 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
       } else {
         // Table created!
         console.log("Succesfully created Todo database!")
+      }
+    })
+
+    const createDailyTableSQL = `CREATE TABLE IF NOT EXISTS Daily (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    completed BOOLEAN,
+    description VARCHAR(40),
+    dateCreated TEXT,
+    streakCounter INTEGER,
+    lastCompletedDate TEXT
+  )`
+
+    db.run(createDailyTableSQL, (err) => {
+      if (err) {
+        // Table already created
+        console.error(err.message)
+        throw err
+      } else {
+        // Table created!
+        console.log("Succesfully created Daily database!")
       }
     })
   }

@@ -1,16 +1,16 @@
 const express = require("express")
 const router = express.Router()
-const db = require("../database")
+const db = require("../../database")
 
-router.get("/api/todos/", function (req, res, next) {
-  const querySQL = "SELECT * FROM Todo"
+router.get("/api/dailies/", function (req, res, next) {
+  const querySQL = "SELECT * FROM Daily"
   const params = []
   db.all(querySQL, params, (err, row) => {
     if (err) {
       return res.status(400).json({ error: err.message })
     }
     res.json({
-      message: "Todos successfully retrieved!",
+      message: "Dailies successfully retrieved!",
       data: row.map((dbItem) => {
         // Convert completed value from 1 or 0 to true or false
         const completed = dbItem.completed
