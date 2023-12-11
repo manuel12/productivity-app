@@ -108,7 +108,7 @@ describe("Daily Section - Reorder Dailies", () => {
       .contains("First Todo Item (test)")
   })
 
-  // afterEach(() => {
-  //   cy.deleteTestDailies()
-  // })
+  afterEach(() => {
+    cy.deleteTestDailies()
+  })
 })

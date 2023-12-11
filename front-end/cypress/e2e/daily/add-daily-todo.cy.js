@@ -73,7 +73,7 @@ describe("Daily Section - Add Daily Todo", () => {
     cy.getBySel("dailies-item").should("not.exist")
   })
 
-  // afterEach(() => {
-  //   cy.deleteTestDailies()
-  // })
+  afterEach(() => {
+    cy.deleteTestDailies()
+  })
 })

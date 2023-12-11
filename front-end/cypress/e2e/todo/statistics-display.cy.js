@@ -1,7 +1,5 @@
 /// <reference types="cypress" />
 
-import { percentageDiff } from "../../../src/utils"
-
 describe("Todo Section - Todo Statistics Display ", () => {
   beforeEach(() => {
     cy.deleteTestTodos()
@@ -114,6 +112,80 @@ describe("Todo Section - Todo Statistics Display ", () => {
     cy.get('[data-cy="statistics-percentage-diff"]').should(
       "include.text",
       "Percentage difference:+67%"
+    )
+  })
+
+  // Negative tests
+
+  it("should display 0 as the number of completed todos today when user sets todos as complete and then sets them as uncomplete", () => {
+    // Add todos (today)
+    const numTodosToAdd = 5
+    for (let i = 1; i <= numTodosToAdd; i++) {
+      cy.getBySel("todos-input").type(`Todo #${i} (test){enter}`)
+    }
+
+    // Complete todos (today)
+    cy.get(".check-not-completed").each(($el) => {
+      cy.get($el).click()
+    })
+
+    // Uncomplete all todos
+    cy.get(".check-completed").each(($el) => {
+      cy.get($el).click()
+    })
+
+    // Check avg daily completed todos is 0
+    cy.getBySel("statistics-daily-completed-todos").should(
+      "have.text",
+      "Avg daily completed todos:0"
+    )
+  })
+
+  it("should display 0 as the number of average daily completed todos today when user sets todos as complete and then sets them as uncomplete", () => {
+    // Add todos (today)
+    const numTodosToAdd = 5
+    for (let i = 1; i <= numTodosToAdd; i++) {
+      cy.getBySel("todos-input").type(`Todo #${i} (test){enter}`)
+    }
+
+    // Complete todos (today)
+    cy.get(".check-not-completed").each(($el) => {
+      cy.get($el).click()
+    })
+
+    // Uncomplete all todos
+    cy.get(".check-completed").each(($el) => {
+      cy.get($el).click()
+    })
+
+    // Check avg daily completed todos is 0
+    cy.getBySel("statistics-daily-avg-completed-todos").should(
+      "have.text",
+      "Avg daily completed todos:0"
+    )
+  })
+
+  it("should display 0% as the number of percentage difference when user sets todos as complete and then sets them as uncomplete", () => {
+    // Add todos (today)
+    const numTodosToAdd = 5
+    for (let i = 1; i <= numTodosToAdd; i++) {
+      cy.getBySel("todos-input").type(`Todo #${i} (test){enter}`)
+    }
+
+    // Complete todos (today)
+    cy.get(".check-not-completed").each(($el) => {
+      cy.get($el).click()
+    })
+
+    // Uncomplete all todos
+    cy.get(".check-completed").each(($el) => {
+      cy.get($el).click()
+    })
+
+    // Check percentage difference is 0%
+    cy.getBySel("statistics-percentage-diff").should(
+      "have.text",
+      "Percentage difference:0%"
     )
   })
 

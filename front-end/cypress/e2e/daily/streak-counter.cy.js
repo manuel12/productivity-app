@@ -1,14 +1,5 @@
 /// <reference types="cypress" />
 
-const getDayAfterTomorrowISODate = () => {
-  const today = new Date()
-
-  const dayAfterTomorrow = new Date(today)
-  dayAfterTomorrow.setDate(today.getDate() + 2)
-  const dayAfterTomorrowISODate = dayAfterTomorrow.toISOString().split("T")[0]
-  return dayAfterTomorrowISODate
-}
-
 describe("Daily Section - Streak Counter", () => {
   beforeEach(() => {
     cy.visit("/dailies")
@@ -20,7 +11,7 @@ describe("Daily Section - Streak Counter", () => {
     let initialStreakCounterValue
     let secondaryStreakCounterValue
 
-    cy.get("[data-cy=dailies-input]").type("Clean room{enter}")
+    cy.get("[data-cy=dailies-input]").type("Clean room (test){enter}")
     cy.get("[data-cy=dailies-item]")
       .should("be.visible")
       .within(() => {
@@ -52,7 +43,7 @@ describe("Daily Section - Streak Counter", () => {
   })
 
   it("should reset the streak counter to 0 when a daily is not completed for more than 1 day", () => {
-    cy.get("[data-cy=dailies-input]").type("Clean room{enter}")
+    cy.get("[data-cy=dailies-input]").type("Clean room (test){enter}")
 
     // Complete daily (in the current date)
     cy.get("[data-cy=dailies-check-icon-container]")
@@ -71,23 +62,23 @@ describe("Daily Section - Streak Counter", () => {
         expect(streakCounterValue).to.eq(1)
       })
 
-    // Go to a date +2 days in the future
-    const dayAfterTomorrowISODate = getDayAfterTomorrowISODate()
-    const dateToTestDailies = new Date(dayAfterTomorrowISODate)
+    // Stub the Date object to make it +2 days in the future
+    const dayAfterTomorrow = new Date()
+    dayAfterTomorrow.setDate(new Date().getDate() + 2.1)
 
-    cy.clock(dateToTestDailies)
-    cy.reload().then(() => {
-      // Check that streak counter is back to 0
-      cy.get(".streak-icon-container")
-        .invoke("text")
-        .then((text) => {
-          let streakCounterValue = Number(text)
-          expect(streakCounterValue).to.eq(0)
-        })
-    })
+    cy.clock(dayAfterTomorrow)
+    cy.reload(true)
+
+    // Check that streak counter is back to 0
+    cy.get(".streak-icon-container")
+      .invoke("text")
+      .then((text) => {
+        let streakCounterValue = Number(text)
+        expect(streakCounterValue).to.eq(0)
+      })
   })
 
-  // afterEach(() => {
-  //   cy.deleteTestDailies()
-  // })
+  afterEach(() => {
+    cy.deleteTestDailies()
+  })
 })

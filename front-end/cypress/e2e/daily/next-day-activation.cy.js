@@ -1,25 +1,16 @@
 /// <reference types="cypress" />
 
-const getTomorrowISODate = () => {
-  const today = new Date()
-
-  const tomorrow = new Date(today)
-  tomorrow.setDate(today.getDate() + 1)
-
-  const tomorrowISODate = tomorrow.toISOString().split("T")[0]
-  return tomorrowISODate
-}
-
 describe("Daily Section - Next Day Activation", () => {
   beforeEach(() => {
+    cy.deleteTestDailies()
     cy.visit("/dailies")
   })
 
   // Positive tests
 
   it("should reactivate completed dailies at the start of the next day", () => {
-    cy.getBySel("dailies-input").type("Clean room{enter}")
-    cy.getBySel("dailies-input").type("Make lunch{enter}")
+    cy.getBySel("dailies-input").type("Clean room (test){enter}")
+    cy.getBySel("dailies-input").type("Make lunch (test){enter}")
     cy.getBySel("dailies-item").each(($el) => {
       cy.get($el)
         .should("be.visible")
@@ -31,10 +22,11 @@ describe("Daily Section - Next Day Activation", () => {
         })
     })
 
-    const tomorrowISODate = getTomorrowISODate()
-    const dateToTestDailies = new Date(tomorrowISODate)
-    cy.clock(dateToTestDailies)
-    cy.reload()
+    // Stub the Date object to make it tomorrow
+    const tomorrow = new Date()
+    tomorrow.setDate(new Date().getDate() + 1)
+    cy.clock(tomorrow.getTime(), ["Date"])
+    cy.reload(true)
 
     cy.getBySel("dailies-item").each(($el) => {
       cy.get($el)
@@ -47,7 +39,7 @@ describe("Daily Section - Next Day Activation", () => {
     })
   })
 
-  // afterEach(() => {
-  //   cy.deleteTestDailies()
-  // })
+  afterEach(() => {
+    cy.deleteTestDailies()
+  })
 })

@@ -24,8 +24,6 @@ describe("Todo Section - Delete Todo", () => {
     cy.contains(todoTextToDelete).should("not.exist")
   })
 
-  // Negative tests
-
   it("should not show deleted todos after page reload", () => {
     // Create a todo with the text 'Todo to Delete' that you want to delete
     const todoTextToDelete = "Todo to Delete (test)"

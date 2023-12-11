@@ -7,6 +7,7 @@ describe("Todo Section - Add Todo", () => {
   const todoTextLongerThan40Char =
     "(test) This is a todo item with more than 40 characters, which should not be allowed"
   const todoTextWith40Char = todoTextLongerThan40Char.slice(0, 40)
+  const todoTextShorterThan3Char = "ab"
 
   beforeEach(() => {
     cy.visit("/")
@@ -55,14 +56,17 @@ describe("Todo Section - Add Todo", () => {
   it("should not allow to add a todo with more than 40 characters", () => {
     cy.getBySel("todos-input").type(todoTextLongerThan40Char + "{enter}")
 
-    cy.getBySel("todos-input").should("have.value", "")
-    cy.getBySel("todos-item")
-      // Filter only through the todo items that contain the '(test)' substring
-      .filter(":contains('test')")
-      .should("have.length", 1)
+    cy.getBySel("todos-input").should("have.value", todoTextWith40Char)
+    cy.getBySel("todos-item").should("have.length", 0)
+  })
 
-      // Verify todo added only has 40 characters
-      .and("contain.text", todoTextWith40Char)
+  it('should display an error label "Todos cannot be more than 40 characters" when exceeding that amount', () => {
+    cy.getBySel("todos-input").type(todoTextLongerThan40Char + "{enter}")
+
+    cy.getBySel("input-error-label").should(
+      "have.text",
+      "Todos cannot be more than 40 characters"
+    )
   })
 
   it("should not allow to add a todo when leaving input field empty", () => {
@@ -75,6 +79,18 @@ describe("Todo Section - Add Todo", () => {
 
     // Check current number of todos remains the same
     cy.get("[data-cy=todo-item]").should("have.length.gte", 0)
+  })
+
+  it('should display an error label "Todos cannot be less than 3 characters" when falling below that amount', () => {
+    // At the beginning  when todo is empty it should not show any error message
+    cy.getBySel("input-error-label").should("not.exist")
+    // When the user adds a todo with less than 3 characters and submits the error label
+    // should be shown
+    cy.getBySel("todos-input").type(todoTextShorterThan3Char + "{enter}")
+
+    cy.getBySel("input-error-label")
+      .should("be.visible")
+      .and("contain.text", "Todos cannot be less than 3 characters")
   })
 
   afterEach(() => {

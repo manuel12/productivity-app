@@ -78,6 +78,24 @@ describe("Todo Section - Tabs", () => {
     cy.getBySel("todos-item").should("have.length", 2)
   })
 
+  it("should only have 1 active tab at any moment", () => {
+    cy.getBySel("todos-tabs").find(".active").should("have.length", 1)
+  })
+
+  it("should have as active tab the last tab clicked", () => {
+    // Click on All and check it has .active class
+    cy.getBySel("all-tab").click()
+    cy.getBySel("all-tab").should("have.class", "active")
+
+    // Click on Complete and check it has .active class
+    cy.getBySel("complete-tab").click()
+    cy.getBySel("complete-tab").should("have.class", "active")
+
+    // Click on Uncomplete and check it has .active class
+    cy.getBySel("uncomplete-tab").click()
+    cy.getBySel("uncomplete-tab").should("have.class", "active")
+  })
+
   afterEach(() => {
     cy.deleteTestTodos()
   })

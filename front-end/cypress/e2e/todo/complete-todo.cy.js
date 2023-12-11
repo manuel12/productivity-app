@@ -1,6 +1,8 @@
 /// <reference types="cypress" />
 
 describe("Todo Section - Mark Todo as Complete:", () => {
+  const todoTextToComplete = "Todo to Complete (test)"
+
   beforeEach(() => {
     // Visit the app or the specific page
     cy.visit("/")
@@ -9,7 +11,6 @@ describe("Todo Section - Mark Todo as Complete:", () => {
   // Positive tests
 
   it("should mark a todo as complete", () => {
-    const todoTextToComplete = "Todo to Complete (test)"
     cy.getBySel("todos-input").type(todoTextToComplete)
     cy.get('[data-cy="todos-submit"]').click()
 
@@ -47,7 +48,25 @@ describe("Todo Section - Mark Todo as Complete:", () => {
       })
   })
 
-  it.skip("should move the completed todo to the completed todos list", () => {})
+  it("should move the completed todo to the completed todos list", () => {
+    cy.getBySel("todos-input").type(todoTextToComplete)
+    cy.get('[data-cy="todos-submit"]').click()
+
+    // Find the todo item complete button, then click it
+    cy.getBySel("todos-item")
+      .filter(":contains('test')")
+      .within(() => {
+        cy.getBySel("todos-check-icon-container").click()
+      })
+
+    // Click  on 'Completed' todo tab
+    cy.get(".nav-item > :nth-child(2)").click()
+
+    // Check there is 1 todo and it has the correct text
+    cy.getBySel("todos-item")
+      .should("have.length", 1)
+      .and("have.text", todoTextToComplete)
+  })
 
   afterEach(() => {
     cy.deleteTestTodos()
