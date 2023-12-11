@@ -138,7 +138,7 @@ const Todo: React.FC<ITodoItemProps> = ({
   return (
     <li
       key={todo.description}
-      className="list-group-item"
+      className="list-group-item todo-item"
       data-cy="todos-item"
       draggable
       onDragStart={(e) => handleDragStart(e, index)}

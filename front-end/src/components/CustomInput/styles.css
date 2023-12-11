@@ -1,7 +1,39 @@
-form > div {
-  display: flex;
+.input {
+  border-radius: 25px !important;
+  border-width: 2px;
+  display: block !important;
+  width: 100% !important;
+  max-width: 400px;
+  margin: auto;
+  margin-bottom: 10px !important;
+  padding: 7px 15px;
 }
 
-label {
+.button {
   display: block !important;
+  width: 100% !important;
+  max-width: 400px;
+  margin: auto !important;
+}
+
+@media only screen and (min-width: 600px) {
+  .input {
+    margin-bottom: 10px !important;
+  }
+}
+
+@media only screen and (min-width: 992px) {
+  form > div {
+    display: flex;
+    width: 60% !important;
+  }
+
+  .input {
+    max-width: 75% !important;
+    margin: auto !important;
+  }
+
+  .button {
+    max-width: 20% !important;
+  }
 }

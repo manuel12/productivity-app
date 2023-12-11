@@ -12,10 +12,7 @@ interface ITodoListProps {
   numCompletedTodos: number
 }
 
-const TStatistics: React.FC<ITodoListProps> = ({
-  todos,
-  numCompletedTodos,
-}) => {
+const TStats: React.FC<ITodoListProps> = ({ todos, numCompletedTodos }) => {
   const [numCompletedTodosToday, setNumCompletedTodosToday] = useState(0)
   const [numAverageCompletedTodos, setNumAvgCompletedTodos] = useState(0)
   const [perfecentageDiff, setPercentageDiff] = useState(
@@ -41,30 +38,37 @@ const TStatistics: React.FC<ITodoListProps> = ({
   }, [numCompletedTodos, numAverageCompletedTodos])
 
   return (
-    <div className="w-50 TStatistics">
+    <div className="TStats">
       <div
-        className="TStatistics__stats-container border-danger"
+        className="TStats__stats-container border-danger"
         data-cy="statistics-daily-completed-todos"
       >
-        Completed todos today:
-        <div className="display-1">{numCompletedTodosToday}</div>
+        <div className="TStats_text-container">Completed todos today:</div>
+        <div className="display-1 TStats_num-container">
+          {numCompletedTodosToday}
+        </div>
       </div>
       <div
-        className="TStatistics__stats-container border-success"
+        className="TStats__stats-container border-success"
         data-cy="statistics-daily-avg-completed-todos"
       >
-        Avg daily completed todos:
-        <div className="display-1">{numAverageCompletedTodos}</div>
+        <div className="TStats_text-container">Avg daily completed todos:</div>
+        <div className="display-1 TStats_num-container">
+          {numAverageCompletedTodos}
+        </div>
       </div>
       <div
-        className="TStatistics__stats-container border-warning"
+        className="TStats__stats-container border-warning"
         data-cy="statistics-percentage-diff"
       >
-        Percentage difference:
-        <div className="display-1">{perfecentageDiff}%</div>
+        <div className="TStats_text-container">Percentage difference:</div>
+
+        <div className="display-1 TStats_num-container TStats-percentage">
+          {perfecentageDiff}%
+        </div>
       </div>
     </div>
   )
 }
 
-export default TStatistics
+export default TStats
