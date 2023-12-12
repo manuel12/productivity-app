@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, Fragment } from "react"
 import CustomPage from "../CustomPage/CustomPage"
 import DailiesList from "../../components/DailiesList/DailiesList"
 import IDaily from "../../interfaces/IDaily"
@@ -18,13 +18,19 @@ const DailyPage: React.FC = () => {
   }, [])
 
   return (
-    <CustomPage headingText="Dailies" dataCyAttr="dailies-heading">
-      <DailiesList
-        dailies={dailies}
-        setDailies={setDailies}
-        setCompletedDailies={setCompletedDalies}
-      />
-    </CustomPage>
+    <>
+      <div className="display-6 text-danger mt-5">
+        {" "}
+        ⚠️ Under Construction ⚠️
+      </div>
+      <CustomPage headingText="Dailies" dataCyAttr="dailies-heading">
+        <DailiesList
+          dailies={dailies}
+          setDailies={setDailies}
+          setCompletedDailies={setCompletedDalies}
+        />
+      </CustomPage>
+    </>
   )
 }
 
