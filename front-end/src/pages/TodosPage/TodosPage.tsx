@@ -26,12 +26,17 @@ const TodoPage: React.FC = () => {
   return (
     <div className="container">
       <CustomPage headingText="To Dos" dataCyAttr="todos-heading">
-        <TodoStatistics todos={todos} numCompletedTodos={numCompletedTodos} />
+        <div className="TodosPage-upper-stats">
+          <TodoStatistics todos={todos} numCompletedTodos={numCompletedTodos} />
+        </div>
         <TodoList
           todos={todos}
           setTodos={setTodos}
           setNumCompletedTodos={setNumCompletedTodos}
         />
+        <div className="TodosPage-lower-stats">
+          <TodoStatistics todos={todos} numCompletedTodos={numCompletedTodos} />
+        </div>
       </CustomPage>
     </div>
   )
