@@ -1,3 +1,21 @@
 * {
   text-align: center;
 }
+
+.TodosPage-upper-stats {
+  display: none;
+}
+
+.TodosPage-lower-stats {
+  display: block;
+}
+
+@media only screen and (min-width: 992px) {
+  .TodosPage-upper-stats {
+    display: block;
+  }
+
+  .TodosPage-lower-stats {
+    display: none;
+  }
+}
