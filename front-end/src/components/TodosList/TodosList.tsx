@@ -1,4 +1,3 @@
-import "./styles.css"
 import React, { useState, useEffect } from "react"
 
 import ITodo from "../../interfaces/ITodo"
