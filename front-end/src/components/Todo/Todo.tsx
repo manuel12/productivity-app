@@ -152,6 +152,7 @@ const Todo: React.FC<ITodoItemProps> = ({
         <FontAwesomeIcon
           className={completed ? "check-completed" : "check-not-completed"}
           icon={faCircleCheck}
+          data-cy="fa-circle-check"
           onClick={() => {
             handleCheckClick(index)
           }}
