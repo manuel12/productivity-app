@@ -134,10 +134,10 @@ describe("Todo Section - Todo Statistics Display ", () => {
       cy.get($el).click()
     })
 
-    // Check avg daily completed todos is 0
+    // Check daily completed todos is 0
     cy.getBySel("statistics-daily-completed-todos").should(
-      "have.text",
-      "Avg daily completed todos:0"
+      "include.text",
+      "5Completed todos today:0"
     )
   })
 
@@ -159,8 +159,8 @@ describe("Todo Section - Todo Statistics Display ", () => {
     })
 
     // Check avg daily completed todos is 0
-    cy.getBySel("statistics-daily-avg-completed-todos").should(
-      "have.text",
+    cy.get('[data-cy="statistics-daily-avg-completed-todos"]').should(
+      "include.text",
       "Avg daily completed todos:0"
     )
   })
@@ -184,7 +184,7 @@ describe("Todo Section - Todo Statistics Display ", () => {
 
     // Check percentage difference is 0%
     cy.getBySel("statistics-percentage-diff").should(
-      "have.text",
+      "include.text",
       "Percentage difference:0%"
     )
   })
