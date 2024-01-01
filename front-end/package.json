@@ -22,6 +22,12 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
+    "test:chrome": "cypress run --browser chrome",
+    "test:firefox": "cypress run --browser firefox",
+    "test:edge": "cypress run --browser edge",
+    "test:electron": "cypress run --browser electron",
+    "test:all": "npm run test:chrome && npm run test:firefox && npm run test:edge && npm run test:electron" ,
+
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
