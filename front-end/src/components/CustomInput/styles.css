@@ -36,4 +36,9 @@
   .button {
     max-width: 20% !important;
   }
+
+  form > div > label {
+    position: relative;
+    right: 10%;
+  }
 }
