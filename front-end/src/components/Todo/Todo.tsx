@@ -140,10 +140,10 @@ const Todo: React.FC<ITodoItemProps> = ({
       key={todo.description}
       className="list-group-item todo-item"
       data-cy="todos-item"
-      draggable
-      onDragStart={(e) => handleDragStart(e, index)}
-      onDragOver={handleDragOver}
-      onDrop={(e) => handleDrop(e, index)}
+      draggable={false}
+      // onDragStart={(e) => handleDragStart(e, index)}
+      // onDragOver={handleDragOver}
+      // onDrop={(e) => handleDrop(e, index)}
     >
       <div
         className="check-icon-container"
@@ -174,6 +174,7 @@ const Todo: React.FC<ITodoItemProps> = ({
         {isEditing ? (
           <input
             type="text"
+            className="form-control input"
             value={editedDescription}
             onChange={handleInputChange}
             onBlur={() => handleSaveClick(index)} // Save the edited description when the input field loses focus
