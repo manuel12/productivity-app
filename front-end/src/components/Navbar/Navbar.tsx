@@ -2,7 +2,10 @@ import React from "react"
 
 const Navbar: React.FC = () => {
   return (
-    <nav className="navbar navbar-expand-lg navbar-light bg-light">
+    <nav
+      className="navbar navbar-expand-lg navbar-light bg-light"
+      data-cy="app-navbar"
+    >
       <div className="container">
         <a href="#" className="navbar-brand">
           Productivity App
