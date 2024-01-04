@@ -17,10 +17,10 @@ const CustomList: React.FC<CustomListProps> = ({
   return (
     <div className="mx-auto mb-5">
       <ul className="list-group mx-auto" data-cy={dataCyAttr}>
-        {items.length > 0 ? (
-          children
-        ) : (
+        {items.length < 1 ? (
           <div className="display-4">No {itemName} added yet...</div>
+        ) : (
+          children
         )}
       </ul>
     </div>
