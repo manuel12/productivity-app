@@ -1,10 +1,8 @@
+ul {
+  max-width: max-content;
+}
+
 ul > li > div {
   min-width: 100px;
   cursor: pointer;
-}
-
-@media only screen and (min-width: 600px) {
-  ul {
-    width: 80%;
-  }
 }
