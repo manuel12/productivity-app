@@ -33,13 +33,16 @@ const CustomInput: React.FC<CustomInputProps> = ({
     >
       <div className="input-group my-5 mx-auto">
         {errorLabel && (
-          <label className="text-danger w-100 mb-3" data-cy="input-error-label">
+          <label
+            className="d-block w-100 form-label text-danger mx-auto"
+            data-cy="input-error-label"
+          >
             {errorLabel}
           </label>
         )}
         <input
           type="text"
-          className="form-control input"
+          className="form-control input mx-auto"
           data-cy={`${itemName}-input`}
           placeholder={`Add new ${itemName}...`}
           aria-label={`Add new ${itemName}...`}
