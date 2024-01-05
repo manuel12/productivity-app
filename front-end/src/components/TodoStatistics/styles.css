@@ -23,11 +23,6 @@
   font-size: 5rem;
 }
 
-.TStats-percentage {
-  position: relative;
-  left: 32.5px;
-}
-
 @media only screen and (min-width: 992px) {
   .TStats {
     margin: auto;
