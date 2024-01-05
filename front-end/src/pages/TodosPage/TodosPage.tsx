@@ -24,7 +24,7 @@ const TodoPage: React.FC = () => {
   }, [todos])
 
   return (
-    <div className="container">
+    <div className="container" data-cy="todo-page-container">
       <CustomPage headingText="To Dos" dataCyAttr="todos-heading">
         <div className="TodosPage-upper-stats">
           <TodoStatistics todos={todos} numCompletedTodos={numCompletedTodos} />
