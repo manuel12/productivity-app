@@ -6,15 +6,13 @@ describe("Todo Section - Mark Todo as Complete:", () => {
   beforeEach(() => {
     // Visit the app or the specific page
     cy.visit("/")
+    cy.getBySel("todos-input").type(todoTextToComplete + "{enter}")
   })
 
   // Positive tests
 
   it("should mark a todo as complete", () => {
-    cy.getBySel("todos-input").type(todoTextToComplete)
-    cy.get('[data-cy="todos-submit"]').click()
-
-    // Validate that the todo with text 'Todo to Complete' has initially .check--not-completed class
+    // Validate that the todo with text 'Todo to Complete' has initially .check-not-completed class
     cy.getBySel("todos-item")
       .filter(":contains('test')")
       .within(() => {
@@ -49,9 +47,6 @@ describe("Todo Section - Mark Todo as Complete:", () => {
   })
 
   it("should move the completed todo to the completed todos list", () => {
-    cy.getBySel("todos-input").type(todoTextToComplete)
-    cy.get('[data-cy="todos-submit"]').click()
-
     // Find the todo item complete button, then click it
     cy.getBySel("todos-item")
       .filter(":contains('test')")
@@ -60,7 +55,7 @@ describe("Todo Section - Mark Todo as Complete:", () => {
       })
 
     // Click  on 'Completed' todo tab
-    cy.get(".nav-item > :nth-child(2)").click()
+    cy.getBySel("complete-tab").click()
 
     // Check there is 1 todo and it has the correct text
     cy.getBySel("todos-item")
