@@ -10,7 +10,7 @@ describe("Todo Section - Todo Statistics Display ", () => {
   // Positive tests
 
   it("should display the number of completed todos today", () => {
-    // Perform actions to add todos (today)
+    // Add todos (today)
     const numTodosToAdd = 5
     for (let i = 1; i <= numTodosToAdd; i++) {
       cy.getBySel("todos-input").type(`Todo #${i} (test){enter}`)
@@ -19,15 +19,17 @@ describe("Todo Section - Todo Statistics Display ", () => {
     // Check initial completed todos displays 0
     cy.getBySel("statistics-daily-completed-todos").should(
       "include.text",
-      "Completed todos today:0"
+      "Completed today:0"
     )
 
-    // Perform actions to complete todos (today)
+    // Complete todos (today)
     for (let i = 1; i <= numTodosToAdd; i++) {
+      // Click on todo's check icon
       cy.get(`[data-cy="todos-list"] > :nth-child(${i})`)
         .find("[data-cy=todos-check-icon-container]")
         .click()
 
+      // Make sure check icon has .check-completed class
       cy.get(`[data-cy="todos-list"] > :nth-child(${i})`)
         .find("[data-cy=todos-check-icon-container]")
         .find(".fa-circle-check")
@@ -37,7 +39,7 @@ describe("Todo Section - Todo Statistics Display ", () => {
       // Check completed todos number increases with each todo set as completed
       cy.getBySel("statistics-daily-completed-todos").should(
         "include.text",
-        `Completed todos today:${i}`
+        `Completed today:${i}`
       )
     }
   })
@@ -75,9 +77,10 @@ describe("Todo Section - Todo Statistics Display ", () => {
 
     cy.get('[data-cy="todos-list"]').should("be.visible")
 
+    // Check  avg daily completed todos
     cy.get('[data-cy="statistics-daily-avg-completed-todos"]').should(
       "include.text",
-      "Avg daily completed todos:5"
+      "Avg daily completed:5"
     )
   })
 
@@ -109,6 +112,7 @@ describe("Todo Section - Todo Statistics Display ", () => {
       cy.get($el).click()
     })
 
+    // Check percentage difference
     cy.get('[data-cy="statistics-percentage-diff"]').should(
       "include.text",
       "Percentage difference:+67%"
@@ -137,7 +141,7 @@ describe("Todo Section - Todo Statistics Display ", () => {
     // Check daily completed todos is 0
     cy.getBySel("statistics-daily-completed-todos").should(
       "include.text",
-      "5Completed todos today:0"
+      "Completed today:0"
     )
   })
 
@@ -161,7 +165,7 @@ describe("Todo Section - Todo Statistics Display ", () => {
     // Check avg daily completed todos is 0
     cy.get('[data-cy="statistics-daily-avg-completed-todos"]').should(
       "include.text",
-      "Avg daily completed todos:0"
+      "Avg daily completed:0"
     )
   })
 
