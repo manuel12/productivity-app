@@ -17,7 +17,7 @@ describe("Todo Section - Add Todo", () => {
 
   it('should add a todo by writing on input and clicking on a "Add todo" button', () => {
     cy.getBySel("todos-input").type(testTodoOne)
-    cy.get('[data-cy="todos-submit"]').click()
+    cy.getBySel("todos-submit").click()
 
     cy.getBySel("todos-item").should("be.visible")
   })
@@ -71,19 +71,19 @@ describe("Todo Section - Add Todo", () => {
 
   it("should not allow to add a todo when leaving input field empty", () => {
     // Check current number of existing todos
-
-    cy.get("[data-cy=todo-item]").should("have.length.gte", 0)
+    cy.getBySel("todo-item").should("have.length.gte", 0)
 
     // Click on submit button
     cy.getBySel("todos-submit").click()
 
     // Check current number of todos remains the same
-    cy.get("[data-cy=todo-item]").should("have.length.gte", 0)
+    cy.getBySel("todo-item").should("have.length.gte", 0)
   })
 
   it('should display an error label "Todos cannot be less than 3 characters" when falling below that amount', () => {
     // At the beginning  when todo is empty it should not show any error message
     cy.getBySel("input-error-label").should("not.exist")
+
     // When the user adds a todo with less than 3 characters and submits the error label
     // should be shown
     cy.getBySel("todos-input").type(todoTextShorterThan3Char + "{enter}")
