@@ -1,19 +1,17 @@
 /// <reference types="cypress" />
 
 describe("Todo Section - Delete Todo", () => {
+  const todoTextToDelete = "Todo to Delete (test)"
+
   beforeEach(() => {
     // Visit the app or the specific page
     cy.visit("/")
+    cy.getBySel("todos-input").type(todoTextToDelete + "{enter}")
   })
 
   // Positive tests
 
   it("should delete a todo and remove it from the list", () => {
-    // Create a todo with the text 'Todo to Delete' that you want to delete
-    const todoTextToDelete = "Todo to Delete (test)"
-    cy.getBySel("todos-input").type(todoTextToDelete)
-    cy.getBySel("todos-submit").click()
-
     // Find the todo item with text 'Todo to Delete' and locate its delete button, then click it
     cy.contains(todoTextToDelete)
       .parent()
@@ -25,11 +23,6 @@ describe("Todo Section - Delete Todo", () => {
   })
 
   it("should not show deleted todos after page reload", () => {
-    // Create a todo with the text 'Todo to Delete' that you want to delete
-    const todoTextToDelete = "Todo to Delete (test)"
-    cy.getBySel("todos-input").type(todoTextToDelete)
-    cy.getBySel("todos-submit").click()
-
     // Find the todo item with text 'Todo to Delete' and locate its delete button, then click it
     cy.contains(todoTextToDelete)
       .parent()
