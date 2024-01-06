@@ -20,14 +20,14 @@ describe("Todo Section - Tabs", () => {
     cy.getBySel("todos-tabs")
       .should("be.visible")
       .within(() => {
-        cy.get("li.nav-item div").eq(0).should("have.text", "All")
-        cy.get("li.nav-item div").eq(1).should("have.text", "Completed")
-        cy.get("li.nav-item div").eq(2).should("have.text", "Uncompleted")
+        cy.getBySel("all-tab").should("have.text", "All")
+        cy.getBySel("complete-tab").should("have.text", "Completed")
+        cy.getBySel("uncomplete-tab").should("have.text", "Uncompleted")
       })
   })
 
   it("should by default have 'All' tab active", () => {
-    cy.get("li.nav-item div").eq(0).should("have.class", "active")
+    cy.getBySel("all-tab").should("have.class", "active")
   })
 
   it("should by default display all existing todos", () => {
@@ -39,7 +39,7 @@ describe("Todo Section - Tabs", () => {
   })
 
   it("should display all todos when user clicks on the 'All' tab", () => {
-    cy.get(".nav-item > :nth-child(1)")
+    cy.getBySel("all-tab").click()
 
     cy.getBySel("todos-list")
       .should("be.visible")
