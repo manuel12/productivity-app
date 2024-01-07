@@ -4,10 +4,14 @@ describe("Todo Section - Smoke tests", () => {
   const testTodoOne = "Feed the cats (test)"
   const createdTodo = "Created Todo (test)"
   const updatedTodo = "Updated Todo Item (test)"
+  const todoTextShorterThan3Char = "ab"
 
   beforeEach(() => {
+    cy.deleteTestTodos()
     cy.visit("/")
   })
+
+  // Positive tests
 
   it('should add a todo by writing on input and clicking on a "Add todo" button', () => {
     cy.getBySel("todos-input").type(testTodoOne)
@@ -15,7 +19,7 @@ describe("Todo Section - Smoke tests", () => {
 
     cy.getBySel("todos-item").should("be.visible")
 
-    //cy.get(".App > :nth-child(2) > :nth-child(1)").matchImageSnapshot()
+    cy.getBySel("todo-page-container").matchImageSnapshot("Added todo")
   })
 
   it("should edit a todo", () => {
@@ -37,7 +41,7 @@ describe("Todo Section - Smoke tests", () => {
     cy.contains(createdTodo).should("not.exist")
     cy.contains("[data-cy=todos-item]", updatedTodo).should("exist")
 
-    //cy.get(".App > :nth-child(2) > :nth-child(1)").matchImageSnapshot()
+    cy.getBySel("todo-page-container").matchImageSnapshot("Edited todo")
   })
 
   it("should delete a todo and remove it from the list", () => {
@@ -55,7 +59,7 @@ describe("Todo Section - Smoke tests", () => {
     // Verify that the todo with text 'Todo to Delete' no longer exists in the todo list
     cy.contains(todoTextToDelete).should("not.exist")
 
-    //cy.get(".App > :nth-child(2) > :nth-child(1)").matchImageSnapshot()
+    cy.getBySel("todo-page-container").matchImageSnapshot("Deleted todo")
   })
 
   it("should mark a todo as complete", () => {
@@ -96,7 +100,9 @@ describe("Todo Section - Smoke tests", () => {
           })
       })
 
-    //cy.get(".App > :nth-child(2) > :nth-child(1)").matchImageSnapshot()
+    cy.getBySel("todo-page-container").matchImageSnapshot(
+      "Marked todo as complete"
+    )
   })
 
   it("should display the number of completed todos today", () => {
@@ -109,7 +115,7 @@ describe("Todo Section - Smoke tests", () => {
     // Check initial completed todos displays 0
     cy.getBySel("statistics-daily-completed-todos").should(
       "include.text",
-      "Completed todos today:0"
+      "Completed today:0"
     )
 
     // Perform actions to complete todos (today)
@@ -128,11 +134,16 @@ describe("Todo Section - Smoke tests", () => {
       // Check completed todos number increases with each todo set as completed
       cy.getBySel("statistics-daily-completed-todos").should(
         "include.text",
-        `Completed todos today:${i + 1}`
+        `Completed today:${i + 1}`
       )
     }
 
-    //cy.get(".App > :nth-child(2) > :nth-child(1)").matchImageSnapshot()
+    cy.scrollTo(0, 0)
+    cy.wait(1000)
+
+    cy.get(".TodosPage-upper-stats").matchImageSnapshot(
+      "Displays number of todos completed today"
+    )
   })
 
   it("should display the average number of completed todos per day", () => {
@@ -170,10 +181,53 @@ describe("Todo Section - Smoke tests", () => {
 
     cy.getBySel("statistics-daily-avg-completed-todos").should(
       "include.text",
-      "Avg daily completed todos:5"
+      "Avg daily completed:5"
     )
 
-    //cy.get(".App > :nth-child(2) > :nth-child(1)").matchImageSnapshot()
+    cy.scrollTo(0, 0)
+    cy.wait(1000)
+
+    cy.get(".TodosPage-upper-stats").matchImageSnapshot(
+      "Displays average number of completed todos"
+    )
+  })
+
+  // Negative tests
+
+  it("should display 0 todos initially", () => {
+    cy.getBySel("todo-page-container").matchImageSnapshot(
+      "Displays 0 todos initially"
+    )
+  })
+
+  it('should display an error label "Todos cannot be less than 3 characters" when falling below that amount', () => {
+    cy.getBySel("todos-input").type(todoTextShorterThan3Char + "{enter}")
+
+    cy.getBySel("todo-page-container").matchImageSnapshot(
+      "Displays 'todo cannot be less than 3 characters' error label"
+    )
+  })
+
+  it('should display an error label "Todo cannot contain less than 3 characters" when edited todo falls below that amount', () => {
+    // Create a todo
+    cy.getBySel("todos-input").type(createdTodo)
+    cy.getBySel("todos-submit").click()
+
+    cy.getBySel("todos-list").should("have.length", 1)
+
+    // Find and edit that existing todo
+    cy.getBySel("todos-item")
+      .filter(`:contains(${createdTodo})`)
+      .within(() => {
+        cy.getBySel("todos-description-container").click()
+      })
+
+    cy.getBySel("todos-text-input").clear()
+    cy.getBySel("todos-text-input").type(`${todoTextShorterThan3Char}{enter}`)
+
+    cy.getBySel("todo-page-container").matchImageSnapshot(
+      "Displays 'todo cannot be less than 3 characters' error label for edits"
+    )
   })
 
   afterEach(() => {
