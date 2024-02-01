@@ -2,21 +2,33 @@ const express = require("express")
 const bodyParser = require("body-parser")
 const cors = require("cors")
 
-const readTodosRouter = require("./routes/todo/readTodos")
-const readTodoRouter = require("./routes/todo/readTodo")
-const createTodoRouter = require("./routes/todo/createTodo")
-const updateTodoRouter = require("./routes/todo/updateTodo")
-const deleteTodoRouter = require("./routes/todo/deleteTodo")
-// WARNING!
-const deleteTestTodos = require("./routes/todo/deleteTestTodos")
+// User routes
+const loginUserRouter = require("./routes/users/loginUser")
+const createUserRouter = require("./routes/users/createUser")
 
-const readDailiesRouter = require("./routes/daily/readDailies")
-const readDailyRouter = require("./routes/daily/readDaily")
-const createDailyRouter = require("./routes/daily/createDaily")
-const updateDailyRouter = require("./routes/daily/updateDaily")
-const deleteDailyRouter = require("./routes/daily/deleteDaily")
+const getUsersRouter = require("./routes/users/getUsers")
+const getUserRouter = require("./routes/users/getUser")
+const updateUserRouter = require("./routes/users/updateUser")
+const deleteUserRouter = require("./routes/users/deleteUser")
+
+// Warning!
+const deleteTestUsersRouter = require("./routes/users/deleteTestUsers")
+
+const readTodosRouter = require("./routes/todos/readTodos")
+const readTodoRouter = require("./routes/todos/readTodo")
+const createTodoRouter = require("./routes/todos/createTodo")
+const updateTodoRouter = require("./routes/todos/updateTodo")
+const deleteTodoRouter = require("./routes/todos/deleteTodo")
 // WARNING!
-const deleteTestDailies = require("./routes/daily/deleteTestDailies")
+const deleteTestTodos = require("./routes/todos/deleteTestTodos")
+
+const readDailiesRouter = require("./routes/dailies/readDailies")
+const readDailyRouter = require("./routes/dailies/readDaily")
+const createDailyRouter = require("./routes/dailies/createDaily")
+const updateDailyRouter = require("./routes/dailies/updateDaily")
+const deleteDailyRouter = require("./routes/dailies/deleteDaily")
+// WARNING!
+const deleteTestDailies = require("./routes/dailies/deleteTestDailies")
 
 const app = express()
 const port = process.env.PORT || 4000
@@ -24,41 +36,53 @@ const port = process.env.PORT || 4000
 app.use(bodyParser.json())
 app.use(cors())
 
-// Get all todos
+// AUTHENTICATION ----------
+app.use(loginUserRouter)
+
+app.use(createUserRouter)
+// -------------------------
+
+// USERS -------------------
+app.use(getUsersRouter)
+
+app.use(getUserRouter)
+
+app.use(updateUserRouter)
+
+app.use(deleteUserRouter)
+// Warning!
+app.use(deleteTestUsersRouter)
+// -------------------------
+
+// TODOS -------------------
 app.use(readTodosRouter)
 
-// Get a single todo
 app.use(readTodoRouter)
 
-// Create a todo
 app.use(createTodoRouter)
 
-// Update a todo
 app.use(updateTodoRouter)
 
-// Delete a todo
 app.use(deleteTodoRouter)
 
-// Delete test todos
+// Warning!
 app.use(deleteTestTodos)
+// -------------------------
 
-// Get all dailies
+// DAILIES -------------------
 app.use(readDailiesRouter)
 
-// Get a single daily
 app.use(readDailyRouter)
 
-// Create a daily
 app.use(createDailyRouter)
 
-// Update a daily
 app.use(updateDailyRouter)
 
-// Delete a daily
 app.use(deleteDailyRouter)
 
-// Delete test dailies
+// Warning!
 app.use(deleteTestDailies)
+// -------------------------
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`)
