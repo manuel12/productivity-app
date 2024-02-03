@@ -3,6 +3,44 @@ import IDaily from "./interfaces/IDaily"
 
 class API {
   static verbose = true
+
+  static login(userCredentials: any, error: any, success: any) {
+    // Call /api/login with userData
+    fetch("http://localhost:4000/api/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(userCredentials),
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        if (res.error) {
+          error(res)
+        } else {
+          success(res)
+        }
+      })
+  }
+
+  static register(newUserCredentials: any, error: any, success: any) {
+    fetch("http://localhost:4000/api/user", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(newUserCredentials),
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        if (res.error) {
+          error(res)
+        } else {
+          success(res)
+        }
+      })
+  }
+
   static getTodos(setTodos: any): void {
     fetch("http://localhost:4000/api/todos", {
       method: "GET",
