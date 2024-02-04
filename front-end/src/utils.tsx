@@ -25,6 +25,27 @@ export const getItem = (key: string): any | null => {
   return JSON.parse(item)
 }
 
+/**
+ * Stores a boolean value of `true` in the Local Storage under the key "userLoggedIn".
+ */
+
+export const setUserLoggedInKey = () => {
+  setItem("userLoggedIn", true)
+}
+
+/**
+ * Removes the "userLoggedIn" key from the browser's local storage.
+ * This function is intended to be used to clear the user's login status.
+ *
+ * @function
+ * @throws {Error} If there's an issue accessing the local storage.
+ *
+ */
+
+export const removeUserLoggedInKey = () => {
+  localStorage.removeItem("userLoggedIn")
+}
+
 const differenceInDays = (date1: any, date2: any) => {
   const oneDay = 24 * 60 * 60 * 1000 // hours * minutes * seconds * milliseconds
 
