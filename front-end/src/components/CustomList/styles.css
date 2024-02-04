@@ -1,5 +1,5 @@
 @media only screen and (min-width: 992px) {
-  div > ul {
+  .CL__unordered-list {
     width: 60%;
   }
 }
