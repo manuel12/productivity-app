@@ -1,10 +1,15 @@
 import React from "react"
+import { removeUserLoggedInKey } from "../../utils"
 
 const Navbar: React.FC = () => {
+  const handleLogoutClick = () => {
+    removeUserLoggedInKey()
+  }
+
   return (
     <nav
       className="navbar navbar-expand-lg navbar-light bg-light"
-      data-cy="app-navbar"
+      data-cy="navbar"
     >
       <div className="container">
         <a href="#" className="navbar-brand">
@@ -38,6 +43,16 @@ const Navbar: React.FC = () => {
             <li className="nav-item">
               <a href="/weekly-learnings" className="nav-link">
                 Weekly Learnings
+              </a>
+            </li>
+            <li className="nav-item">
+              <a
+                href="/"
+                className="nav-link"
+                onClick={handleLogoutClick}
+                data-cy="nav-link-logout"
+              >
+                Logout
               </a>
             </li>
           </ul>
