@@ -1,4 +1,4 @@
-.input {
+.CI__input {
   border-radius: 25px !important;
   border-width: 2px;
   display: block !important;
@@ -9,7 +9,7 @@
   padding: 7px 15px;
 }
 
-.button {
+.CI__button {
   display: block !important;
   width: 100% !important;
   max-width: 400px;
@@ -17,27 +17,27 @@
 }
 
 @media only screen and (min-width: 600px) {
-  .input {
+  .CI__input {
     margin-bottom: 10px !important;
   }
 }
 
 @media only screen and (min-width: 992px) {
-  form > div {
+  .CI_input-container {
     display: flex;
     width: 60% !important;
   }
 
-  .input {
+  .CI__input {
     max-width: 75% !important;
     margin: auto !important;
   }
 
-  .button {
+  .CI__button {
     max-width: 20% !important;
   }
 
-  form > div > label {
+  .CI_input-label {
     position: relative;
     right: 10%;
   }
