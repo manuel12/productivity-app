@@ -17,11 +17,27 @@ describe("UPDATE Todo - (PATCH) /api/todos/:id", () => {
   const invalidId = 999999999
   const ctx = {}
 
+  before(() => {
+    // Login with API
+    cy.request({
+      method: "POST",
+      url: `${apiUrl}/api/login/`,
+      body: { email: "manuelpinedacabeza@gmail.com", password: "Testpass1!" },
+      failOnStatusCode: false,
+    }).then((res) => {
+      ctx.token = res.body.token
+    })
+  })
+
   beforeEach(() => {
     // Create todo to update and get it's ID
     cy.request({
       method: "POST",
       url: `${apiUrl}/api/todos/`,
+      headers: {
+        Authorization: `Bearer ${ctx.token}`,
+        "Content-Type": "application/json",
+      },
       body: testTodo,
     }).then((res) => {
       ctx.todoId = res.body.id
@@ -35,6 +51,10 @@ describe("UPDATE Todo - (PATCH) /api/todos/:id", () => {
     cy.request({
       method: "PATCH",
       url: `${apiUrl}/api/todos/${ctx.todoId}`,
+      headers: {
+        Authorization: `Bearer ${ctx.token}`,
+        "Content-Type": "application/json",
+      },
       body: updatedTestTodo,
       failOnStatusCode: false,
     }).then((res) => {
@@ -50,6 +70,10 @@ describe("UPDATE Todo - (PATCH) /api/todos/:id", () => {
     cy.request({
       method: "PATCH",
       url: `${apiUrl}/api/todos/${ctx.todoId}`,
+      headers: {
+        Authorization: `Bearer ${ctx.token}`,
+        "Content-Type": "application/json",
+      },
       body: invalidDataTestTodo,
       failOnStatusCode: false,
     }).then((res) => {
@@ -61,10 +85,14 @@ describe("UPDATE Todo - (PATCH) /api/todos/:id", () => {
   })
 
   it("should not update a todo with invalid id", () => {
-    // Delete todo with invalid id
+    // Update todo with invalid id
     cy.request({
       method: "PATCH",
       url: `${apiUrl}/api/todos/${invalidId}`,
+      headers: {
+        Authorization: `Bearer ${ctx.token}`,
+        "Content-Type": "application/json",
+      },
       body: testTodo,
       failOnStatusCode: false,
     }).then((res) => {
@@ -73,8 +101,52 @@ describe("UPDATE Todo - (PATCH) /api/todos/:id", () => {
     })
   })
 
+  it("should not update todo with empty data", () => {
+    cy.request({
+      method: "PATCH",
+      url: `${apiUrl}/api/todos/${ctx.todoId}`,
+      headers: {
+        Authorization: `Bearer ${ctx.token}`,
+        "Content-Type": "application/json",
+      },
+      body: {},
+      failOnStatusCode: false,
+    }).then((res) => {
+      expect(res.status).to.eq(400)
+    })
+  })
+
+  it("should respond with a message indicating any missing data", () => {
+    cy.request({
+      method: "PATCH",
+      url: `${apiUrl}/api/todos/${ctx.todoId}`,
+      headers: {
+        Authorization: `Bearer ${ctx.token}`,
+        "Content-Type": "application/json",
+      },
+      body: {},
+      failOnStatusCode: false,
+    }).then((res) => {
+      expect(res.body.error).to.eq(
+        "No completed (boolean) specified, No description specified."
+      )
+    })
+  })
+
+  it("should not update a todo with invalid token", () => {
+    cy.request({
+      method: "PATCH",
+      url: `${apiUrl}/api/todos/${ctx.todoId}`,
+      body: {},
+      failOnStatusCode: false,
+    }).then((res) => {
+      expect(res.status).to.eq(401)
+      expect(res.body.error).to.eq("Unauthorized: No token provided.")
+    })
+  })
+
   afterEach(() => {
     // Delete created test todos
-    cy.deleteTestTodos()
+    cy.deleteTestTodos(ctx.token)
   })
 })
