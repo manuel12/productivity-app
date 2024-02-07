@@ -10,10 +10,26 @@ describe("READ Todo - (GET) /api/todos/", () => {
   const ctx = {}
 
   before(() => {
+    // Login with API
+    cy.request({
+      method: "POST",
+      url: `${apiUrl}/api/login/`,
+      body: { email: "manuelpinedacabeza@gmail.com", password: "Testpass1!" },
+      failOnStatusCode: false,
+    }).then((res) => {
+      ctx.token = res.body.token
+    })
+  })
+
+  beforeEach(() => {
     // Create 1 todo
     cy.request({
       method: "POST",
       url: `${apiUrl}/api/todos/`,
+      headers: {
+        Authorization: `Bearer ${ctx.token}`,
+        "Content-Type": "application/json",
+      },
       body: testTodo,
     }).then((res) => {
       ctx.todoId = res.body.id
@@ -27,6 +43,10 @@ describe("READ Todo - (GET) /api/todos/", () => {
     cy.request({
       method: "GET",
       url: `${apiUrl}/api/todos/`,
+      headers: {
+        Authorization: `Bearer ${ctx.token}`,
+        "Content-Type": "application/json",
+      },
     }).then((res) => {
       expect(res.body.message).to.eq(`Todos successfully retrieved!`)
       expect(res.body.data.length).to.be.above(0)
@@ -38,6 +58,10 @@ describe("READ Todo - (GET) /api/todos/", () => {
     cy.request({
       method: "GET",
       url: `${apiUrl}/api/todos/`,
+      headers: {
+        Authorization: `Bearer ${ctx.token}`,
+        "Content-Type": "application/json",
+      },
       body: testTodo,
     }).then((res) => {
       const todos = res.body.data
@@ -53,6 +77,10 @@ describe("READ Todo - (GET) /api/todos/", () => {
     cy.request({
       method: "GET",
       url: `${apiUrl}/api/todos/${ctx.todoId}`,
+      headers: {
+        Authorization: `Bearer ${ctx.token}`,
+        "Content-Type": "application/json",
+      },
       failOnStatusCode: false,
     }).then((res) => {
       expect(res.body.message).to.eq(`Todo successfully retrieved!`)
@@ -65,17 +93,29 @@ describe("READ Todo - (GET) /api/todos/", () => {
     cy.request({
       method: "GET",
       url: `${apiUrl}/api/todos/${invalidId}`,
+      headers: {
+        Authorization: `Bearer ${ctx.token}`,
+        "Content-Type": "application/json",
+      },
       failOnStatusCode: false,
     }).then((res) => {
       expect(res.body.message).to.eq(`Todo with id ${invalidId} not found.`)
     })
   })
 
-  // afterEach(() => {
-  //   // Delete created test todos
-  //   cy.request({
-  //     method: "DELETE",
-  //     url: "http://localhost:4000/api/todos/delete-test-todos/",
-  //   })
-  // })
+  it("should not retrieve a todo with invalid token", () => {
+    cy.request({
+      method: "GET",
+      url: `${apiUrl}/api/todos/`,
+      failOnStatusCode: false,
+    }).then((res) => {
+      expect(res.status).to.eq(401)
+      expect(res.body.error).to.eq("Unauthorized: No token provided.")
+    })
+  })
+
+  afterEach(() => {
+    // Delete created test todos
+    cy.deleteTestTodos(ctx.token)
+  })
 })
