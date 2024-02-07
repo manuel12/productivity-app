@@ -9,11 +9,27 @@ describe("DELETE Todo - (DELETE) /api/todos/:id", () => {
   const invalidId = 999999999
   const ctx = {}
 
+  before(() => {
+    // Login with API
+    cy.request({
+      method: "POST",
+      url: `${apiUrl}/api/login/`,
+      body: { email: "manuelpinedacabeza@gmail.com", password: "Testpass1!" },
+      failOnStatusCode: false,
+    }).then((res) => {
+      ctx.token = res.body.token
+    })
+  })
+
   beforeEach(() => {
     // Create todo to delete and get it's ID
     cy.request({
       method: "POST",
       url: `${apiUrl}/api/todos/`,
+      headers: {
+        Authorization: `Bearer ${ctx.token}`,
+        "Content-Type": "application/json",
+      },
       body: testTodo,
     }).then((res) => {
       ctx.todoId = res.body.id
@@ -27,8 +43,13 @@ describe("DELETE Todo - (DELETE) /api/todos/:id", () => {
     cy.request({
       method: "DELETE",
       url: `${apiUrl}/api/todos/${ctx.todoId}`,
+      headers: {
+        Authorization: `Bearer ${ctx.token}`,
+        "Content-Type": "application/json",
+      },
       failOnStatusCode: false,
     }).then((res) => {
+      console.log(res)
       expect(res.status).to.eq(204)
     })
   })
@@ -38,7 +59,14 @@ describe("DELETE Todo - (DELETE) /api/todos/:id", () => {
     let amountTodos
     let newAmountTodos
 
-    cy.request("http://localhost:4000/api/todos/")
+    cy.request({
+      method: "GET",
+      url: `${apiUrl}/api/todos/`,
+      headers: {
+        Authorization: `Bearer ${ctx.token}`,
+        "Content-Type": "application/json",
+      },
+    })
       .then((res) => {
         amountTodos = res.body.data.length
       })
@@ -47,9 +75,20 @@ describe("DELETE Todo - (DELETE) /api/todos/:id", () => {
         cy.request({
           method: "DELETE",
           url: `${apiUrl}/api/todos/${ctx.todoId}`,
+          headers: {
+            Authorization: `Bearer ${ctx.token}`,
+            "Content-Type": "application/json",
+          },
         }).then(() => {
           // Check new amount of todos is now -1
-          cy.request("http://localhost:4000/api/todos/").then((res) => {
+          cy.request({
+            method: "GET",
+            url: `${apiUrl}/api/todos/`,
+            headers: {
+              Authorization: `Bearer ${ctx.token}`,
+              "Content-Type": "application/json",
+            },
+          }).then((res) => {
             newAmountTodos = res.body.data.length
             expect(newAmountTodos).to.eq(amountTodos - 1)
           })
@@ -64,6 +103,10 @@ describe("DELETE Todo - (DELETE) /api/todos/:id", () => {
     cy.request({
       method: "DELETE",
       url: `${apiUrl}/api/todos/${invalidId}`,
+      headers: {
+        Authorization: `Bearer ${ctx.token}`,
+        "Content-Type": "application/json",
+      },
       failOnStatusCode: false,
     }).then((res) => {
       expect(res.status).to.eq(404)
@@ -71,8 +114,20 @@ describe("DELETE Todo - (DELETE) /api/todos/:id", () => {
     })
   })
 
+  it("should not delete a todo with invalid token", () => {
+    // Delete todo with invalid id
+    cy.request({
+      method: "DELETE",
+      url: `${apiUrl}/api/todos/${invalidId}`,
+      failOnStatusCode: false,
+    }).then((res) => {
+      expect(res.status).to.eq(401)
+      expect(res.body.error).to.eq("Unauthorized: No token provided.")
+    })
+  })
+
   afterEach(() => {
     // Delete created test todos
-    cy.deleteTestTodos()
+    cy.deleteTestTodos(ctx.token)
   })
 })
