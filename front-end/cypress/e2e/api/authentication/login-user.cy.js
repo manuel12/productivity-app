@@ -14,6 +14,8 @@ describe("LOGIN User - (POST) /api/login", () => {
     cy.deleteTestUsers()
   })
 
+  // Positive tests
+
   // POST - /api/login loginUser
   it("should allow a user to log in with valid (existing) data", () => {
     // Register user
@@ -79,6 +81,8 @@ describe("LOGIN User - (POST) /api/login", () => {
       expect(userData).to.haveOwnProperty("password")
     })
   })
+
+  // Negative tests
 
   it("should not allow a user to log in with invalid (unexisting) data", () => {
     cy.request({
