@@ -12,8 +12,6 @@ router.post("/api/dailies", (req, res, next) => {
     lastCompletedDate: req.body.lastCompletedDate || "",
   }
 
-  console.log(newDaily)
-
   if (typeof newDaily.completed !== "boolean") {
     errors.push("No completed (boolean) specified")
   }
