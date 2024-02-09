@@ -5,17 +5,18 @@ const md5 = require("md5")
 
 // Create new user, fail if user credentials already exist
 router.post("/api/user/", (req, res, next) => {
+  const { username, email, password } = req.body
   const errors = []
 
-  if (!req.body.username) {
+  if (!username) {
     errors.push("No username specified")
   }
 
-  if (!req.body.email) {
+  if (!email) {
     errors.push("No email specified")
   }
 
-  if (!req.body.password) {
+  if (!password) {
     errors.push("No password specified")
   }
 
@@ -25,8 +26,8 @@ router.post("/api/user/", (req, res, next) => {
   }
 
   const data = {
-    username: req.body.username,
-    email: req.body.email,
+    username,
+    email,
     password: md5(req.body.password),
   }
 
