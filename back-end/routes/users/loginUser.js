@@ -7,15 +7,17 @@ const { getSecretKey } = require("../../utils.js")
 
 // Login user, fail if user credentials do not exists
 router.post("/api/login", (req, res, next) => {
+  const { email, password } = req.body
+
   const errors = []
   const selectSQL = "select * from User"
   const params = []
 
-  if (!req.body.email) {
+  if (!email) {
     errors.push("No email specified")
   }
 
-  if (!req.body.password) {
+  if (!password) {
     errors.push("No password specified")
   }
 
@@ -25,7 +27,7 @@ router.post("/api/login", (req, res, next) => {
   }
 
   const data = {
-    email: req.body.email,
+    email,
     password: md5(req.body.password),
   }
 
