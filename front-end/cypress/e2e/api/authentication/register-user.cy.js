@@ -14,6 +14,8 @@ describe("REGISTER User - (POST) /api/user", () => {
     cy.deleteTestUsers()
   })
 
+  // Positive tests
+
   // POST - /api/user/ registerUser"
   it("should allow a user to register with valid data", () => {
     // Register credentials
@@ -52,6 +54,8 @@ describe("REGISTER User - (POST) /api/user", () => {
       expect(userData).to.haveOwnProperty("password")
     })
   })
+
+  // Negative tests
 
   // POST - /api/user/ registerUser"
   it("should not allow a user to register with invalid (existing) data", () => {
