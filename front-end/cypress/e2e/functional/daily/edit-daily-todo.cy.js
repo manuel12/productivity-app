@@ -5,6 +5,8 @@ describe("Daily Section - Edit Daily Todo", () => {
     cy.visit("/dailies")
   })
 
+  // Positive tests
+
   it("should edit an existing daily", () => {
     const createdTodo = "Created Todo (test)"
     const updatedTodo = "Updated Todo Item (test)"
