@@ -49,7 +49,6 @@ describe("DELETE Todo - (DELETE) /api/todos/:id", () => {
       },
       failOnStatusCode: false,
     }).then((res) => {
-      console.log(res)
       expect(res.status).to.eq(204)
     })
   })
