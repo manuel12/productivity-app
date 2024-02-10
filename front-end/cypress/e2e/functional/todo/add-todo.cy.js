@@ -9,7 +9,15 @@ describe("Todo Section - Add Todo", () => {
   const todoTextWith40Char = todoTextLongerThan40Char.slice(0, 40)
   const todoTextShorterThan3Char = "ab"
 
+  const ctx = {}
+
   beforeEach(() => {
+    cy.registerWithAPI()
+    cy.loginWithAPI((res) => {
+      ctx.token = res.body.token
+      console.log(`Fetched token: ${ctx.token}`)
+      window.localStorage.setItem("token", JSON.stringify(ctx.token))
+    })
     cy.visit("/")
   })
 
@@ -94,6 +102,7 @@ describe("Todo Section - Add Todo", () => {
   })
 
   afterEach(() => {
-    cy.deleteTestTodos()
+    cy.deleteTestUsers(ctx.token)
+    cy.deleteTestTodos(ctx.token)
   })
 })
