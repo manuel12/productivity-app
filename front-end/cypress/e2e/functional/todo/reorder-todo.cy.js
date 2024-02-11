@@ -1,7 +1,18 @@
 /// <reference types="cypress" />
 
 describe("Todo Section - Reorder Todos", () => {
+  const ctx = {}
+
   beforeEach(() => {
+    cy.deleteTestUsers(ctx.token)
+    cy.registerWithAPI()
+    cy.loginWithAPI((res) => {
+      ctx.token = res.body.token
+      console.log(`Fetched token: ${ctx.token}`)
+      window.localStorage.setItem("token", JSON.stringify(ctx.token))
+    })
+    cy.visit("/")
+    cy.login()
     // Visit the app or the specific page
     cy.visit("/")
   })
@@ -109,6 +120,7 @@ describe("Todo Section - Reorder Todos", () => {
   })
 
   afterEach(() => {
-    cy.deleteTestTodos()
+    cy.deleteTestUsers(ctx.token)
+    cy.deleteTestTodos(ctx.token)
   })
 })
