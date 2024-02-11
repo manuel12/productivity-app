@@ -6,8 +6,17 @@ describe("Todo Section - Edit Todo", () => {
   const todoTextLongerThan40Char =
     "(test) This is a todo item with more than 40 characters, which should not be allowed"
   const todoTextShorterThan3Char = "ab"
+  const ctx = {}
 
   beforeEach(() => {
+    cy.deleteTestUsers(ctx.token)
+    cy.registerWithAPI()
+    cy.loginWithAPI((res) => {
+      ctx.token = res.body.token
+      console.log(`Fetched token: ${ctx.token}`)
+      window.localStorage.setItem("token", JSON.stringify(ctx.token))
+    })
+
     // Visit the app or the specific page
     cy.visit("/")
     cy.getBySel("todos-input").type(createdTodo + "{enter}")
@@ -124,6 +133,7 @@ describe("Todo Section - Edit Todo", () => {
   })
 
   afterEach(() => {
-    cy.deleteTestTodos()
+    cy.deleteTestUsers(ctx.token)
+    cy.deleteTestTodos(ctx.token)
   })
 })
