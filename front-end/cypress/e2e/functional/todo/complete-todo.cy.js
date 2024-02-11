@@ -2,8 +2,17 @@
 
 describe("Todo Section - Mark Todo as Complete:", () => {
   const todoTextToComplete = "Todo to Complete (test)"
+  const ctx = {}
 
   beforeEach(() => {
+    cy.deleteTestUsers(ctx.token)
+    cy.registerWithAPI()
+    cy.loginWithAPI((res) => {
+      ctx.token = res.body.token
+      console.log(`Fetched token: ${ctx.token}`)
+      window.localStorage.setItem("token", JSON.stringify(ctx.token))
+    })
+
     // Visit the app or the specific page
     cy.visit("/")
     cy.getBySel("todos-input").type(todoTextToComplete + "{enter}")
@@ -63,7 +72,5 @@ describe("Todo Section - Mark Todo as Complete:", () => {
       .and("have.text", todoTextToComplete)
   })
 
-  afterEach(() => {
-    cy.deleteTestTodos()
-  })
+  afterEach(() => {})
 })
