@@ -26,6 +26,7 @@
 
 const apiUrl = "http://localhost:4000"
 const testuser = require("../../cypress/fixtures/testuser.json")
+const { setItem } = require("../../src/utils")
 
 Cypress.Commands.add("getBySel", (selector) => {
   cy.get(`[data-cy=${selector}]`)
@@ -49,6 +50,16 @@ Cypress.Commands.add("login", () => {
   })
 })
 
+Cypress.Commands.add("loginWithAPI", (cb) => {
+  setItem("userLoggedIn", true)
+  cy.request({
+    method: "POST",
+    url: `${apiUrl}/api/login/`,
+    body: { email: testuser.email, password: testuser.password },
+    failOnStatusCode: false,
+  }).then(cb)
+})
+
 Cypress.Commands.add("register", () => {
   cy.visit("/account/register")
 
@@ -60,18 +71,27 @@ Cypress.Commands.add("register", () => {
 })
 
 Cypress.Commands.add("registerWithAPI", () => {
-  cy.request("POST", `${apiUrl}/api/user/`, {
-    username: testuser.username,
-    email: testuser.email,
-    password: testuser.password,
+  cy.request({
+    method: "POST",
+    url: `${apiUrl}/api/user/`,
+    body: {
+      username: testuser.username,
+      email: testuser.email,
+      password: testuser.password,
+    },
+    failOnStatusCode: false,
   })
 })
 
-Cypress.Commands.add("deleteTestUsers", () => {
+Cypress.Commands.add("deleteTestUsers", (token) => {
   return cy
     .request({
       method: "DELETE",
       url: `${apiUrl}/api/users/delete-test-users/`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
     })
     .then((res) => {
       expect(res.status).to.eq(204)
