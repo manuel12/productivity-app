@@ -6,9 +6,23 @@ describe("Todo Section - Smoke tests", () => {
   const updatedTodo = "Updated Todo Item (test)"
   const todoTextShorterThan3Char = "ab"
 
+  const ctx = {}
+
   beforeEach(() => {
-    cy.deleteTestTodos()
+    cy.registerWithAPI()
+    cy.loginWithAPI((res) => {
+      ctx.token = res.body.token
+      console.log(`Fetched token: ${ctx.token}`)
+      window.localStorage.setItem("token", JSON.stringify(ctx.token))
+    })
+
+    // // Register testuser
+    // cy.register()
+
     cy.visit("/")
+
+    // // Login testuser
+    // cy.login()
   })
 
   // Positive tests
@@ -231,6 +245,6 @@ describe("Todo Section - Smoke tests", () => {
   })
 
   afterEach(() => {
-    cy.deleteTestTodos()
+    cy.deleteTestTodos(ctx.token)
   })
 })
