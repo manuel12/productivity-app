@@ -5,8 +5,18 @@ describe("Todo Section - Tabs", () => {
   const testTodoTwo = "Take out trash (test)"
   const testTodoThree = "Clean room (test)"
 
+  const ctx = {}
+
   beforeEach(() => {
+    cy.deleteTestUsers(ctx.token)
+    cy.registerWithAPI()
+    cy.loginWithAPI((res) => {
+      ctx.token = res.body.token
+      console.log(`Fetched token: ${ctx.token}`)
+      window.localStorage.setItem("token", JSON.stringify(ctx.token))
+    })
     cy.visit("/")
+
     // Create some initial todos
     const todos = [testTodoOne, testTodoTwo, testTodoThree]
     todos.forEach((todo) => {
@@ -97,6 +107,7 @@ describe("Todo Section - Tabs", () => {
   })
 
   afterEach(() => {
-    cy.deleteTestTodos()
+    cy.deleteTestUsers(ctx.token)
+    cy.deleteTestTodos(ctx.token)
   })
 })
