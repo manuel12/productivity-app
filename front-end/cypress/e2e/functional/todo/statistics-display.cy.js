@@ -1,8 +1,17 @@
 /// <reference types="cypress" />
 
 describe("Todo Section - Todo Statistics Display ", () => {
+  const ctx = {}
+
   beforeEach(() => {
-    cy.deleteTestTodos()
+    cy.deleteTestUsers(ctx.token)
+    cy.registerWithAPI()
+    cy.loginWithAPI((res) => {
+      ctx.token = res.body.token
+      console.log(`Fetched token: ${ctx.token}`)
+      window.localStorage.setItem("token", JSON.stringify(ctx.token))
+    })
+
     // Visit the app or the specific page
     cy.visit("/")
   })
@@ -194,6 +203,7 @@ describe("Todo Section - Todo Statistics Display ", () => {
   })
 
   afterEach(() => {
-    cy.deleteTestTodos()
+    cy.deleteTestUsers(ctx.token)
+    cy.deleteTestTodos(ctx.token)
   })
 })
