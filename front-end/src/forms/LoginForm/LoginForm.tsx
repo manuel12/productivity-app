@@ -40,27 +40,21 @@ const LoginForm: React.FC<LoginFormProps> = ({ setLogin }) => {
     const email = data.email
     const password = data.password
     const userCredentials = { email, password }
-    console.log(userCredentials)
 
     API.login(
       userCredentials,
       (res: any) => {
-        console.log(res.error)
         return setInvalidCredentialsError(true)
       },
       (res: any) => {
-        console.log(res)
-
         // Save token in localStorage
         const token = res.token
-        console.log(token)
         setItem("token", token)
 
         const currentUser = res.data.filter((user: any) => {
           return user.email === email
         })[0]
         const currentUserUsername = currentUser.username
-        console.log(currentUserUsername)
 
         if (rememberMe) {
           setItem("rememberMe", true)
@@ -72,8 +66,6 @@ const LoginForm: React.FC<LoginFormProps> = ({ setLogin }) => {
 
         setItem("currentUser", currentUserUsername)
         setUserLoginSuccessfull(true)
-        console.log(setLogin)
-        console.log(typeof setLogin)
         setTimeout(() => setLogin(true), 500)
       }
     )
