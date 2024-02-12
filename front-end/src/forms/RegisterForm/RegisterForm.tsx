@@ -58,8 +58,6 @@ const RegisterForm = () => {
   const [passwordsNotMatchError, setPasswordsNotMatchError] = useState(false)
 
   const validSubmit = (data: any) => {
-    console.log(data)
-
     const username = data.username
     const email = data.email
     const password = data.password
@@ -86,7 +84,6 @@ const RegisterForm = () => {
   }
 
   const invalidSubmit = (data: any) => {
-    console.log(data)
     setInvalidCredentialsError(true)
     if (getValues("password") !== getValues("password-confirmation")) {
       setPasswordsNotMatchError(true)
