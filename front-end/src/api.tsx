@@ -1,10 +1,17 @@
 import ITodo from "./interfaces/ITodo"
 import IDaily from "./interfaces/IDaily"
+import { getItem } from "./utils"
 
 class API {
   static verbose = true
+  static getToken = () => {
+    const token = getItem("token")
+    console.log(`Using token on API: ${token}`)
+    return token
+  }
 
   static login(userCredentials: any, error: any, success: any) {
+    console.log(userCredentials)
     // Call /api/login with userData
     fetch("http://localhost:4000/api/login", {
       method: "POST",
@@ -46,6 +53,7 @@ class API {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${API.getToken()}`,
       },
     })
       .then((res) => res.json())
@@ -64,6 +72,7 @@ class API {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${this.getToken()}`,
       },
     })
       .then((res) => res.json())
@@ -81,6 +90,7 @@ class API {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${this.getToken()}`,
       },
       body: JSON.stringify(todoData),
     })
@@ -100,6 +110,7 @@ class API {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${this.getToken()}`,
       },
       body: JSON.stringify(todoData),
     })
@@ -118,6 +129,7 @@ class API {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${this.getToken()}`,
       },
     }).then((res) => {
       if (res.status === 204) {
@@ -131,6 +143,7 @@ class API {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${this.getToken()}`,
       },
     })
       .then((res) => res.json())
@@ -149,6 +162,7 @@ class API {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${this.getToken()}`,
       },
     })
       .then((res) => res.json())
@@ -166,6 +180,7 @@ class API {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${this.getToken()}`,
       },
       body: JSON.stringify(todoData),
     })
@@ -185,6 +200,7 @@ class API {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${this.getToken()}`,
       },
       body: JSON.stringify(dailyData),
     })
@@ -203,6 +219,7 @@ class API {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${this.getToken()}`,
       },
     }).then((res) => {
       if (res.status === 204) {
