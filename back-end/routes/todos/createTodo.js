@@ -3,7 +3,7 @@ const router = express.Router()
 const db = require("../../database")
 const { authenticateToken } = require("../../utils")
 
-router.post("/api/todos", authenticateToken, (req, res, next) => {
+router.post("/api/todo", authenticateToken, (req, res, next) => {
   const errors = []
   const newTodo = {
     completed: req.body.completed,
