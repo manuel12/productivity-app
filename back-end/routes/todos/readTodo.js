@@ -3,7 +3,7 @@ const router = express.Router()
 const db = require("../../database")
 const { authenticateToken } = require("../../utils")
 
-router.get("/api/todos/:id", authenticateToken, (req, res, next) => {
+router.get("/api/todo/:id", authenticateToken, (req, res, next) => {
   const querySQL = "SELECT * FROM Todo WHERE id = ?"
   const id = req.params.id
 
