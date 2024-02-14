@@ -40,7 +40,7 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
         db.run(insert, ["testuser", "testuser@gmail.com", md5("Testpass1!")])
       }
     })
-    console.log("Succesfully created User database table!")
+    console.log("Succesfully created User table!")
 
     const createTodoTableSQL = `CREATE TABLE IF NOT EXISTS Todo (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -56,7 +56,7 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
         throw err
       } else {
         // Table created!
-        console.log("Succesfully created Todo database!")
+        console.log("Succesfully created Todo table!")
       }
     })
 
@@ -76,7 +76,7 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
         throw err
       } else {
         // Table created!
-        console.log("Succesfully created Daily database!")
+        console.log("Succesfully created Daily table!")
       }
     })
   }
