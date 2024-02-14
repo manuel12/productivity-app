@@ -3,7 +3,7 @@ const router = express.Router()
 const db = require("../../database")
 const { authenticateToken } = require("../../utils")
 
-router.patch("/api/todos/:id", authenticateToken, (req, res, next) => {
+router.patch("/api/todo/:id", authenticateToken, (req, res, next) => {
   const id = Number(req.params.id)
 
   if (isNaN(id) || id <= 0) {
