@@ -6,7 +6,6 @@ class API {
   static verbose = true
   static getToken = () => {
     const token = getItem("token")
-    console.log(`Using token on API: ${token}`)
     return token
   }
 
@@ -68,7 +67,7 @@ class API {
   }
 
   static getTodo(id: number): void {
-    fetch(`http://localhost:4000/api/todos/${id}`, {
+    fetch(`http://localhost:4000/api/todo/${id}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -86,7 +85,10 @@ class API {
   }
 
   static addTodo(todoData: ITodo, addNewTodo: any): void {
-    fetch("http://localhost:4000/api/todos", {
+    console.log(todoData)
+    console.log(addNewTodo)
+
+    fetch("http://localhost:4000/api/todo", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -106,7 +108,7 @@ class API {
   }
 
   static editTodo(todoData: ITodo, id: number): void {
-    fetch(`http://localhost:4000/api/todos/${id}`, {
+    fetch(`http://localhost:4000/api/todo/${id}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -125,7 +127,7 @@ class API {
   }
 
   static deleteTodo(id: number): void {
-    fetch(`http://localhost:4000/api/todos/${id}`, {
+    fetch(`http://localhost:4000/api/todo/${id}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
