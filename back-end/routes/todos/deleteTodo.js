@@ -3,9 +3,7 @@ const router = express.Router()
 const db = require("../../database")
 const { authenticateToken } = require("../../utils")
 
-router.delete("/api/todos/:id", authenticateToken, (req, res, next) => {
-  if (req.params.id === "delete-test-todos") return next()
-
+router.delete("/api/todo/:id", authenticateToken, (req, res, next) => {
   const id = Number(req.params.id)
 
   if (isNaN(id) || id <= 0) {
