@@ -42,8 +42,8 @@ Cypress.Commands.add("login", () => {
     } else {
       cy.log("Logging in...")
 
-      cy.getBySel("user-email").type(testuser.email)
-      cy.getBySel("user-password").type(testuser.password)
+      cy.getBySel("email").type(testuser.email)
+      cy.getBySel("password").type(testuser.password)
       cy.getBySel("remember-me-button").click()
       cy.getBySel("login-button").click()
     }
@@ -83,31 +83,25 @@ Cypress.Commands.add("registerWithAPI", () => {
   })
 })
 
-Cypress.Commands.add("deleteTestUsers", (token) => {
+Cypress.Commands.add("deleteTestUsers", () => {
   return cy
     .request({
       method: "DELETE",
       url: `${apiUrl}/api/users/delete-test-users/`,
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
+      failOnStatusCode: false,
     })
     .then((res) => {
       expect(res.status).to.eq(204)
     })
 })
 
-Cypress.Commands.add("deleteTestTodos", (token) => {
+Cypress.Commands.add("deleteTestTodos", () => {
   cy.request({
     method: "DELETE",
-    url: "http://localhost:4000/api/todos/delete-test-todos/",
-    headers: {
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json",
-    },
+    url: `${apiUrl}/api/todos/delete-test-todos/`,
     failOnStatusCode: false,
   }).then((res) => {
+    console.log(res)
     expect(res.status).to.eq(204)
   })
 })
@@ -115,6 +109,6 @@ Cypress.Commands.add("deleteTestTodos", (token) => {
 Cypress.Commands.add("deleteTestDailies", () => {
   cy.request({
     method: "DELETE",
-    url: "http://localhost:4000/api/dailies/delete-test-dailies/",
+    url: `${apiUrl}/api/dailies/delete-test-dailies/`,
   }).then((res) => expect(res.status).to.eq(204))
 })
