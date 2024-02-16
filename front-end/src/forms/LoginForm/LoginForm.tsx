@@ -4,14 +4,37 @@ import LabeledInput from "../../components/LabeledInput/LabeledInput"
 import FormAlert from "../../components/FormAlert/FormAlert"
 
 import API from "../../api"
-
 import { getItem, setItem, setUserLoggedInKey } from "../../utils"
+
+import { yupResolver } from "@hookform/resolvers/yup"
+import * as yup from "yup"
 
 interface LoginFormProps {
   setLogin: (login: boolean) => any
 }
 
 const LoginForm: React.FC<LoginFormProps> = ({ setLogin }) => {
+  const [rememberMe, setRememberMe] = useState(getItem("rememberMe"))
+  const [userLoginSuccessfull, setUserLoginSuccessfull] = useState(false)
+  const [invalidCredentialsError, setInvalidCredentialsError] = useState(false)
+
+  const schema = yup.object({
+    email: yup
+      .string()
+      .required("An email address is required.")
+      .email("Email must be valid."),
+    password: yup
+      .string()
+      .required("A password is required.")
+      .password()
+
+      .min(8, "Password must be at least 8 characters.")
+      .minLowercase(1, "Password must contain at least 1 lowercase character.")
+      .minUppercase(1, "Password must contain at least 1 uppercase character.")
+      .minNumber(1, "Password must contain at least 1 number character.")
+      .minSymbols(1, "Password must contain at least 1 special character."),
+  })
+
   const {
     register,
     handleSubmit,
@@ -19,11 +42,8 @@ const LoginForm: React.FC<LoginFormProps> = ({ setLogin }) => {
     formState: { errors },
   } = useForm({
     criteriaMode: "all",
+    resolver: yupResolver(schema),
   })
-
-  const [rememberMe, setRememberMe] = useState(getItem("rememberMe"))
-  const [userLoginSuccessfull, setUserLoginSuccessfull] = useState(false)
-  const [invalidCredentialsError, setInvalidCredentialsError] = useState(false)
 
   useEffect(() => {
     if (rememberMe) {
@@ -112,7 +132,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ setLogin }) => {
                     required
                     errors={errors}
                     errorLabel={"An email address is required."}
-                    dataCy="user-email"
+                    dataCy="email"
                   />
                 </div>
 
@@ -125,7 +145,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ setLogin }) => {
                     required
                     errors={errors}
                     errorLabel={"A password is required."}
-                    dataCy="user-password"
+                    dataCy="password"
                   />
                 </div>
 
