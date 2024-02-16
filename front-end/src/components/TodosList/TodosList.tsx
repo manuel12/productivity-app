@@ -8,6 +8,8 @@ import Tabs from "../Tabs/Tabs"
 
 import API from "../../api"
 
+import * as yup from "yup"
+
 interface ITodoListProps {
   todos: ITodo[]
   setTodos: (todos: ITodo[]) => void
@@ -33,6 +35,14 @@ const TodoList: React.FC<ITodoListProps> = ({
     uncomplete: "",
   })
 
+  const schema = yup.object({
+    todo: yup
+      .string()
+      .required("Todo is required.")
+      .min(3, "Todos cannot be less than 3 characters.")
+      .max(40, "Todos cannot be more than 40 characters."),
+  })
+
   useEffect(() => {
     const completedTodos = todos.filter((todo) => todo.completed === true)
     setCompletedTodos(completedTodos)
@@ -43,37 +53,27 @@ const TodoList: React.FC<ITodoListProps> = ({
     setListTodos(todos)
   }, [todos])
 
-  const [newTodo, setNewTodo] = useState<ITodo>({
-    completed: false,
-    description: "",
-  })
-
-  const handleAddTodo = (e: any) => {
+  const handleAddTodo = (todoData: any, e: any) => {
     e.preventDefault()
 
-    if (newTodo.description === "") return
+    const newTodo = {
+      completed: false,
+      description: todoData.todo,
+    }
 
     const addNewTodoToArray = (newTodo: any) => {
       const newTodosArray = [...todos, newTodo]
       setTodos(newTodosArray)
     }
     API.addTodo(newTodo, addNewTodoToArray)
-
-    setNewTodo({ completed: false, description: "" })
   }
 
   return (
     <>
       <CustomInput
-        itemName="todos"
+        itemName="todo"
         handleAddItem={handleAddTodo}
-        newItem={newTodo}
-        onChange={(e) => {
-          const inputValue = e.target.value
-          if (inputValue.length <= 40) {
-            setNewTodo({ completed: false, description: e.target.value })
-          }
-        }}
+        schema={schema}
       />
 
       <Tabs
