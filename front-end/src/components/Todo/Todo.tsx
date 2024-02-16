@@ -72,10 +72,12 @@ const Todo: React.FC<ITodoItemProps> = ({
   }
 
   const handleSaveClick = (todoIndex: number) => {
-    if (editedDescription.length > 40) {
-      setErrorLabel("Todo cannot contain more than 40 characters")
+    if (editedDescription.length === 0) {
+      setErrorLabel("Todos is required.")
+    } else if (editedDescription.length > 40) {
+      setErrorLabel("Todos cannot be more than 40 characters.")
     } else if (editedDescription.length < 3) {
-      setErrorLabel("Todo cannot contain less than 3 characters")
+      setErrorLabel("Todos cannot be less than 3 characters.")
     } else {
       setErrorLabel("")
       const tempTodos = todos
@@ -139,7 +141,7 @@ const Todo: React.FC<ITodoItemProps> = ({
     <li
       key={todo.description}
       className="list-group-item todo-item"
-      data-cy="todos-item"
+      data-cy="todo-item"
       draggable={false}
       // onDragStart={(e) => handleDragStart(e, index)}
       // onDragOver={handleDragOver}
