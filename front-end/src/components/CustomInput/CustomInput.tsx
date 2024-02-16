@@ -1,55 +1,59 @@
 import "./styles.css"
-import React, { useState } from "react"
+import React from "react"
+import { useForm } from "react-hook-form"
+import { yupResolver } from "@hookform/resolvers/yup"
 
 interface CustomInputProps {
   itemName: string
-  handleAddItem: (e: any) => void
-  newItem: { description: string }
-  onChange: (e: any) => void
+  handleAddItem: (data: any, e: any) => void
+  schema: any
 }
 
 const CustomInput: React.FC<CustomInputProps> = ({
   itemName,
   handleAddItem,
-  newItem,
-  onChange,
+  schema,
 }) => {
-  const [errorLabel, setErrorLabel] = useState("")
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+  } = useForm({
+    criteriaMode: "all",
+    resolver: yupResolver(schema),
+  })
 
   return (
     <form
-      onSubmit={(e) => {
-        e.preventDefault()
-        if (newItem.description.length < 3)
-          setErrorLabel("Todos cannot be less than 3 characters")
-        else if (newItem.description.length > 39)
-          return setErrorLabel("Todos cannot be more than 40 characters")
-        else {
-          setErrorLabel("")
-          handleAddItem(e)
+      onSubmit={handleSubmit(
+        (data: any, e: any) => {
+          console.log("Submit successful!")
+          handleAddItem(data, e)
+          setValue(itemName, "")
+        },
+        (data: any) => {
+          console.log("Submit unsuccessful!")
         }
-      }}
+      )}
       data-cy={`${itemName}-form`}
     >
       <div className="input-group my-5 mx-auto CI_input-container">
-        {errorLabel && (
+        {errors && (
           <label
             className="d-block w-100 form-label text-danger mx-auto CI_input-label"
             data-cy="input-error-label"
           >
-            {errorLabel}
+            {errors[itemName]?.message && String(errors[itemName]?.message)}
           </label>
         )}
         <input
-          type="text"
           className="form-control mx-auto CI__input "
           data-cy={`${itemName}-input`}
+          {...register(itemName)}
           placeholder={`Add new ${itemName}...`}
           aria-label={`Add new ${itemName}...`}
           aria-describedby="button-addon2"
-          value={newItem.description}
-          onChange={onChange}
-          maxLength={40}
         />
 
         <button
