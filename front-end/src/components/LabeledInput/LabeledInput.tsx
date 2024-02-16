@@ -36,6 +36,7 @@ const LabeledInput: React.FC<LabeledInputProps> = ({
         <label
           htmlFor="email"
           className="form-label w-100 text-danger text-start fw-bold"
+          data-cy={`${dataCy}-error-label`}
         >
           {errors[registerLabel].message}
         </label>
