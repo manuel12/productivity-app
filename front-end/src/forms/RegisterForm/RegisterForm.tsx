@@ -20,15 +20,16 @@ const RegisterForm = () => {
     email: yup
       .string()
       .required("An email address is required.")
-      .email("Email must be  valid."),
+      .email("Email must be valid."),
     password: yup
       .string()
       .required("A password is required.")
       .password()
-      .minLowercase(1, "Password must contain at least 1 lowercase character")
-      .minUppercase(1, "Password must contain at least 1 uppercase character")
-      .minNumber(1, "Password must contain at least 1 number character")
-      .minSymbols(1, "Password must contain at least 1 special character"),
+      .min(8, "Password must be at least 8 characters.")
+      .minLowercase(1, "Password must contain at least 1 lowercase character.")
+      .minUppercase(1, "Password must contain at least 1 uppercase character.")
+      .minNumber(1, "Password must contain at least 1 number character.")
+      .minSymbols(1, "Password must contain at least 1 special character."),
     "password-confirmation": yup
       .string()
       .required("A password confirmation is required."),
