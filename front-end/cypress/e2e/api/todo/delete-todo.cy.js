@@ -1,6 +1,6 @@
 /// <reference types="cypress" />
 
-describe("DELETE Todo - (DELETE) /api/todos/:id", () => {
+describe("DELETE Todo - (DELETE) /api/todo/:id", () => {
   const apiUrl = "http://localhost:4000"
   const testTodo = {
     completed: true,
@@ -25,7 +25,7 @@ describe("DELETE Todo - (DELETE) /api/todos/:id", () => {
     // Create todo to delete and get it's ID
     cy.request({
       method: "POST",
-      url: `${apiUrl}/api/todos/`,
+      url: `${apiUrl}/api/todo/`,
       headers: {
         Authorization: `Bearer ${ctx.token}`,
         "Content-Type": "application/json",
@@ -38,11 +38,11 @@ describe("DELETE Todo - (DELETE) /api/todos/:id", () => {
 
   // Positive tests
 
-  // DELETE  - /api/todos/:id updateTodo
+  // DELETE  - /api/todo/:id updateTodo
   it("should delete a specific todo with valid id", () => {
     cy.request({
       method: "DELETE",
-      url: `${apiUrl}/api/todos/${ctx.todoId}`,
+      url: `${apiUrl}/api/todo/${ctx.todoId}`,
       headers: {
         Authorization: `Bearer ${ctx.token}`,
         "Content-Type": "application/json",
@@ -73,7 +73,7 @@ describe("DELETE Todo - (DELETE) /api/todos/:id", () => {
         // Delete todo
         cy.request({
           method: "DELETE",
-          url: `${apiUrl}/api/todos/${ctx.todoId}`,
+          url: `${apiUrl}/api/todo/${ctx.todoId}`,
           headers: {
             Authorization: `Bearer ${ctx.token}`,
             "Content-Type": "application/json",
@@ -101,7 +101,7 @@ describe("DELETE Todo - (DELETE) /api/todos/:id", () => {
     // Delete todo with invalid id
     cy.request({
       method: "DELETE",
-      url: `${apiUrl}/api/todos/${invalidId}`,
+      url: `${apiUrl}/api/todo/${invalidId}`,
       headers: {
         Authorization: `Bearer ${ctx.token}`,
         "Content-Type": "application/json",
@@ -117,7 +117,7 @@ describe("DELETE Todo - (DELETE) /api/todos/:id", () => {
     // Delete todo with invalid id
     cy.request({
       method: "DELETE",
-      url: `${apiUrl}/api/todos/${invalidId}`,
+      url: `${apiUrl}/api/todo/${invalidId}`,
       failOnStatusCode: false,
     }).then((res) => {
       expect(res.status).to.eq(401)
