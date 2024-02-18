@@ -1,6 +1,6 @@
 /// <reference types="cypress" />
 
-describe("UPDATE Todo - (PATCH) /api/todos/:id", () => {
+describe("UPDATE Todo - (PATCH) /api/todo/:id", () => {
   const apiUrl = "http://localhost:4000"
   const testTodo = {
     completed: true,
@@ -33,7 +33,7 @@ describe("UPDATE Todo - (PATCH) /api/todos/:id", () => {
     // Create todo to update and get it's ID
     cy.request({
       method: "POST",
-      url: `${apiUrl}/api/todos/`,
+      url: `${apiUrl}/api/todo/`,
       headers: {
         Authorization: `Bearer ${ctx.token}`,
         "Content-Type": "application/json",
@@ -46,11 +46,11 @@ describe("UPDATE Todo - (PATCH) /api/todos/:id", () => {
 
   // Positive tests
 
-  // PATCH  - /api/todos/:id updateTodo
+  // PATCH  - /api/todo/:id updateTodo
   it("should update a specific todo with valid data", () => {
     cy.request({
       method: "PATCH",
-      url: `${apiUrl}/api/todos/${ctx.todoId}`,
+      url: `${apiUrl}/api/todo/${ctx.todoId}`,
       headers: {
         Authorization: `Bearer ${ctx.token}`,
         "Content-Type": "application/json",
@@ -69,7 +69,7 @@ describe("UPDATE Todo - (PATCH) /api/todos/:id", () => {
   it("should not update a todo with invalid data", () => {
     cy.request({
       method: "PATCH",
-      url: `${apiUrl}/api/todos/${ctx.todoId}`,
+      url: `${apiUrl}/api/todo/${ctx.todoId}`,
       headers: {
         Authorization: `Bearer ${ctx.token}`,
         "Content-Type": "application/json",
@@ -88,7 +88,7 @@ describe("UPDATE Todo - (PATCH) /api/todos/:id", () => {
     // Update todo with invalid id
     cy.request({
       method: "PATCH",
-      url: `${apiUrl}/api/todos/${invalidId}`,
+      url: `${apiUrl}/api/todo/${invalidId}`,
       headers: {
         Authorization: `Bearer ${ctx.token}`,
         "Content-Type": "application/json",
@@ -104,7 +104,7 @@ describe("UPDATE Todo - (PATCH) /api/todos/:id", () => {
   it("should not update todo with empty data", () => {
     cy.request({
       method: "PATCH",
-      url: `${apiUrl}/api/todos/${ctx.todoId}`,
+      url: `${apiUrl}/api/todo/${ctx.todoId}`,
       headers: {
         Authorization: `Bearer ${ctx.token}`,
         "Content-Type": "application/json",
@@ -119,7 +119,7 @@ describe("UPDATE Todo - (PATCH) /api/todos/:id", () => {
   it("should respond with a message indicating any missing data", () => {
     cy.request({
       method: "PATCH",
-      url: `${apiUrl}/api/todos/${ctx.todoId}`,
+      url: `${apiUrl}/api/todo/${ctx.todoId}`,
       headers: {
         Authorization: `Bearer ${ctx.token}`,
         "Content-Type": "application/json",
@@ -136,7 +136,7 @@ describe("UPDATE Todo - (PATCH) /api/todos/:id", () => {
   it("should not update a todo with invalid token", () => {
     cy.request({
       method: "PATCH",
-      url: `${apiUrl}/api/todos/${ctx.todoId}`,
+      url: `${apiUrl}/api/todo/${ctx.todoId}`,
       body: {},
       failOnStatusCode: false,
     }).then((res) => {
