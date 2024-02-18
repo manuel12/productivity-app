@@ -1,6 +1,6 @@
 /// <reference types="cypress" />
 
-describe("READ Todo - (GET) /api/todos/", () => {
+describe("READ Todo - (GET) /api/todo/", () => {
   const apiUrl = "http://localhost:4000"
   const testTodo = {
     completed: true,
@@ -25,7 +25,7 @@ describe("READ Todo - (GET) /api/todos/", () => {
     // Create 1 todo
     cy.request({
       method: "POST",
-      url: `${apiUrl}/api/todos/`,
+      url: `${apiUrl}/api/todo/`,
       headers: {
         Authorization: `Bearer ${ctx.token}`,
         "Content-Type": "application/json",
@@ -38,7 +38,7 @@ describe("READ Todo - (GET) /api/todos/", () => {
 
   // Positive tests
 
-  // GET  - /api/todos/ getTodos
+  // GET  - /api/todo/ getTodos
   it("should retrieve all existing todos", () => {
     cy.request({
       method: "GET",
@@ -72,11 +72,11 @@ describe("READ Todo - (GET) /api/todos/", () => {
     })
   })
 
-  // GET  - /api/todos/:id getTodo
+  // GET  - /api/todo/:id getTodo
   it("should retrieve a specific todo when requesting with valid id", () => {
     cy.request({
       method: "GET",
-      url: `${apiUrl}/api/todos/${ctx.todoId}`,
+      url: `${apiUrl}/api/todo/${ctx.todoId}`,
       headers: {
         Authorization: `Bearer ${ctx.token}`,
         "Content-Type": "application/json",
@@ -92,7 +92,7 @@ describe("READ Todo - (GET) /api/todos/", () => {
   it("should NOT retrieve a todo when requesting with invalid id", () => {
     cy.request({
       method: "GET",
-      url: `${apiUrl}/api/todos/${invalidId}`,
+      url: `${apiUrl}/api/todo/${invalidId}`,
       headers: {
         Authorization: `Bearer ${ctx.token}`,
         "Content-Type": "application/json",
@@ -106,7 +106,7 @@ describe("READ Todo - (GET) /api/todos/", () => {
   it("should not retrieve a todo with invalid token", () => {
     cy.request({
       method: "GET",
-      url: `${apiUrl}/api/todos/`,
+      url: `${apiUrl}/api/todo/1`,
       failOnStatusCode: false,
     }).then((res) => {
       expect(res.status).to.eq(401)
