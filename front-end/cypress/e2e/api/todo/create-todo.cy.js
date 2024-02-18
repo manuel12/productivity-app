@@ -1,6 +1,6 @@
 /// <reference types="cypress" />
 
-describe("CREATE Todo - (POST) /api/todos/:id", () => {
+describe("CREATE Todo - (POST) /api/todo/:id", () => {
   const apiUrl = "http://localhost:4000"
   const testTodo = {
     completed: true,
@@ -27,12 +27,12 @@ describe("CREATE Todo - (POST) /api/todos/:id", () => {
 
   // Positive tests
 
-  // POST  - /api/todos/:id createTodo
+  // POST  - /api/todo/:id createTodo
   it("should create a todo with valid data", () => {
     // Create todo
     cy.request({
       method: "POST",
-      url: `${apiUrl}/api/todos`,
+      url: `${apiUrl}/api/todo`,
       headers: {
         Authorization: `Bearer ${ctx.token}`,
         "Content-Type": "application/json",
@@ -50,7 +50,7 @@ describe("CREATE Todo - (POST) /api/todos/:id", () => {
   it("should have correct success message on response ", () => {
     cy.request({
       method: "POST",
-      url: `${apiUrl}/api/todos`,
+      url: `${apiUrl}/api/todo`,
       headers: {
         Authorization: `Bearer ${ctx.token}`,
         "Content-Type": "application/json",
@@ -64,7 +64,7 @@ describe("CREATE Todo - (POST) /api/todos/:id", () => {
   it("should have properties of correct type", () => {
     cy.request({
       method: "POST",
-      url: `${apiUrl}/api/todos`,
+      url: `${apiUrl}/api/todo`,
       headers: {
         Authorization: `Bearer ${ctx.token}`,
         "Content-Type": "application/json",
@@ -85,7 +85,7 @@ describe("CREATE Todo - (POST) /api/todos/:id", () => {
   it("should have last id on response", () => {
     cy.request({
       method: "POST",
-      url: `${apiUrl}/api/todos`,
+      url: `${apiUrl}/api/todo`,
       headers: {
         Authorization: `Bearer ${ctx.token}`,
         "Content-Type": "application/json",
@@ -117,7 +117,7 @@ describe("CREATE Todo - (POST) /api/todos/:id", () => {
         // Create todo
         cy.request({
           method: "POST",
-          url: `${apiUrl}/api/todos`,
+          url: `${apiUrl}/api/todo`,
           headers: {
             Authorization: `Bearer ${ctx.token}`,
             "Content-Type": "application/json",
@@ -146,7 +146,7 @@ describe("CREATE Todo - (POST) /api/todos/:id", () => {
     // Create todo
     cy.request({
       method: "POST",
-      url: `${apiUrl}/api/todos`,
+      url: `${apiUrl}/api/todo`,
       headers: {
         Authorization: `Bearer ${ctx.token}`,
         "Content-Type": "application/json",
@@ -164,7 +164,7 @@ describe("CREATE Todo - (POST) /api/todos/:id", () => {
   it("should not allow a user to create todo with empty data", () => {
     cy.request({
       method: "POST",
-      url: `${apiUrl}/api/todos`,
+      url: `${apiUrl}/api/todo`,
       headers: {
         Authorization: `Bearer ${ctx.token}`,
         "Content-Type": "application/json",
@@ -179,7 +179,7 @@ describe("CREATE Todo - (POST) /api/todos/:id", () => {
   it("should respond with a message indicating any missing data", () => {
     cy.request({
       method: "POST",
-      url: `${apiUrl}/api/todos`,
+      url: `${apiUrl}/api/todo`,
       headers: {
         Authorization: `Bearer ${ctx.token}`,
         "Content-Type": "application/json",
@@ -196,7 +196,7 @@ describe("CREATE Todo - (POST) /api/todos/:id", () => {
   it("should not create a todo with invalid token", () => {
     cy.request({
       method: "POST",
-      url: `${apiUrl}/api/todos`,
+      url: `${apiUrl}/api/todo`,
       body: {},
       failOnStatusCode: false,
     }).then((res) => {
