@@ -1,7 +1,8 @@
 /// <reference types="cypress" />
 
+const validTodo = require("../../../fixtures/todo.json")
+
 describe("Todo Section - Mark Todo as Complete:", () => {
-  const todoTextToComplete = "Todo to Complete (test)"
   const ctx = {}
 
   beforeEach(() => {
@@ -15,14 +16,14 @@ describe("Todo Section - Mark Todo as Complete:", () => {
 
     // Visit the app or the specific page
     cy.visit("/")
-    cy.getBySel("todos-input").type(todoTextToComplete + "{enter}")
+    cy.getBySel("todo-input").type(validTodo.validTodoDesc + "{enter}")
   })
 
   // Positive tests
 
   it("should mark a todo as complete", () => {
     // Validate that the todo with text 'Todo to Complete' has initially .check-not-completed class
-    cy.getBySel("todos-item")
+    cy.getBySel("todo-item")
       .filter(":contains('test')")
       .within(() => {
         cy.getBySel("todos-check-icon-container")
@@ -35,14 +36,14 @@ describe("Todo Section - Mark Todo as Complete:", () => {
       })
 
     // Find the todo item complete button, then click it
-    cy.getBySel("todos-item")
+    cy.getBySel("todo-item")
       .filter(":contains('test')")
       .within(() => {
         cy.getBySel("todos-check-icon-container").click()
       })
 
     // Validate that the todo with text 'Todo to Complete' has .check-completed class
-    cy.getBySel("todos-item")
+    cy.getBySel("todo-item")
       .filter(":contains('test')")
       .within(() => {
         cy.getBySel("todos-check-icon-container")
@@ -57,7 +58,7 @@ describe("Todo Section - Mark Todo as Complete:", () => {
 
   it("should move the completed todo to the completed todos list", () => {
     // Find the todo item complete button, then click it
-    cy.getBySel("todos-item")
+    cy.getBySel("todo-item")
       .filter(":contains('test')")
       .within(() => {
         cy.getBySel("todos-check-icon-container").click()
@@ -67,10 +68,13 @@ describe("Todo Section - Mark Todo as Complete:", () => {
     cy.getBySel("complete-tab").click()
 
     // Check there is 1 todo and it has the correct text
-    cy.getBySel("todos-item")
+    cy.getBySel("todo-item")
       .should("have.length", 1)
-      .and("have.text", todoTextToComplete)
+      .and("have.text", validTodo.validTodoDesc)
   })
 
-  afterEach(() => {})
+  afterEach(() => {
+    cy.deleteTestUsers()
+    cy.deleteTestTodos()
+  })
 })
