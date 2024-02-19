@@ -1,13 +1,10 @@
 /// <reference types="cypress" />
 
+const validTodo = require("../../../fixtures/todo.json")
+const invalidTodo = require("../../../fixtures/invalidTodo.json")
+
 describe("Todo Section - Add Todo", () => {
-  const testTodoOne = "Feed the cats (test)"
-  const testTodoTwo = "Take out trash (test)"
-  const testTodoThree = "Clean room (test)"
-  const todoTextLongerThan40Char =
-    "(test) This is a todo item with more than 40 characters, which should not be allowed"
-  const todoTextWith40Char = todoTextLongerThan40Char.slice(0, 40)
-  const todoTextShorterThan3Char = "ab"
+  const todoTextWith40Char = invalidTodo.todoDescLongerThan40Chars.slice(0, 40)
 
   const ctx = {}
 
@@ -24,56 +21,68 @@ describe("Todo Section - Add Todo", () => {
   // Positive tests
 
   it('should add a todo by writing on input and clicking on a "Add todo" button', () => {
-    cy.getBySel("todos-input").type(testTodoOne)
-    cy.getBySel("todos-submit").click()
+    cy.getBySel("todo-input").type(validTodo.validTodoDesc)
+    cy.getBySel("todo-submit").click()
 
-    cy.getBySel("todos-item").should("be.visible")
+    cy.getBySel("todo-item").should("be.visible")
   })
 
   it("should add a todo by writing on input and pressing enter key", () => {
-    cy.getBySel("todos-input").type(testTodoTwo + "{enter}")
+    cy.getBySel("todo-input").type(validTodo.validTodoDesc2 + "{enter}")
 
     cy.getBySel("todos-list").should("have.length", 1)
-    cy.getBySel("todos-list").first().should("contain.text", testTodoTwo)
+    cy.getBySel("todos-list")
+      .first()
+      .should("contain.text", validTodo.validTodoDesc2)
 
-    cy.getBySel("todos-input").type(testTodoThree + "{ENTER}")
+    cy.getBySel("todo-input").type(validTodo.validTodoDesc3 + "{ENTER}")
 
-    cy.getBySel("todos-item").should("be.visible")
+    cy.getBySel("todo-item").should("be.visible")
   })
 
   it("should display addded todos correctly on the list", () => {
-    cy.getBySel("todos-input").type(testTodoOne + "{enter}")
+    cy.getBySel("todo-input").type(validTodo.validTodoDesc + "{enter}")
 
     cy.getBySel("todos-list").should("have.length", 1)
-    cy.getBySel("todos-list").first().should("contain.text", testTodoOne)
+    cy.getBySel("todos-list")
+      .first()
+      .should("contain.text", validTodo.validTodoDesc)
   })
 
   it("should persist todos after page reload", () => {
-    cy.getBySel("todos-input").type(testTodoOne + "{enter}")
+    cy.getBySel("todo-input").type(validTodo.validTodoDesc + "{enter}")
 
     cy.getBySel("todos-list").should("have.length", 1)
-    cy.getBySel("todos-list").first().should("contain.text", testTodoOne)
+    cy.getBySel("todos-list")
+      .first()
+      .should("contain.text", validTodo.validTodoDesc)
 
     cy.reload()
     cy.getBySel("todos-list").should("have.length", 1)
-    cy.getBySel("todos-list").first().should("contain.text", testTodoOne)
+    cy.getBySel("todos-list")
+      .first()
+      .should("contain.text", validTodo.validTodoDesc)
   })
 
   // Negative tests
 
   it("should not allow to add a todo with more than 40 characters", () => {
-    cy.getBySel("todos-input").type(todoTextLongerThan40Char + "{enter}")
+    cy.getBySel("todo-input").type(
+      invalidTodo.todoDescLongerThan40Chars + "{enter}"
+    )
 
-    cy.getBySel("todos-input").should("have.value", todoTextWith40Char)
-    cy.getBySel("todos-item").should("have.length", 0)
+    cy.getBySel("todo-input").should("contain.value", todoTextWith40Char)
+    cy.getBySel("todo-item").should("have.length", 0)
   })
 
-  it('should display an error label "Todos cannot be more than 40 characters" when exceeding that amount', () => {
-    cy.getBySel("todos-input").type(todoTextLongerThan40Char + "{enter}")
+  it('should display an error label "Todos cannot contain more than 40 characters" when exceeding that amount', () => {
+    cy.getBySel("todo-input").type(
+      invalidTodo.todoDescLongerThan40Chars + "{enter}"
+    )
 
     cy.getBySel("input-error-label").should(
       "have.text",
-      "Todos cannot be more than 40 characters"
+      "Todos cannot contain more than 40 characters."
     )
   })
 
@@ -82,27 +91,29 @@ describe("Todo Section - Add Todo", () => {
     cy.getBySel("todo-item").should("have.length.gte", 0)
 
     // Click on submit button
-    cy.getBySel("todos-submit").click()
+    cy.getBySel("todo-submit").click()
 
     // Check current number of todos remains the same
     cy.getBySel("todo-item").should("have.length.gte", 0)
   })
 
-  it('should display an error label "Todos cannot be less than 3 characters" when falling below that amount', () => {
+  it('should display an error label "Todos cannot contain less than 3 characters" when falling below that amount', () => {
     // At the beginning  when todo is empty it should not show any error message
     cy.getBySel("input-error-label").should("not.exist")
 
     // When the user adds a todo with less than 3 characters and submits the error label
     // should be shown
-    cy.getBySel("todos-input").type(todoTextShorterThan3Char + "{enter}")
+    cy.getBySel("todo-input").type(
+      invalidTodo.todoDescShorterThan3Chars + "{enter}"
+    )
 
     cy.getBySel("input-error-label")
       .should("be.visible")
-      .and("contain.text", "Todos cannot be less than 3 characters")
+      .and("contain.text", "Todos cannot contain less than 3 characters")
   })
 
   afterEach(() => {
-    cy.deleteTestUsers(ctx.token)
-    cy.deleteTestTodos(ctx.token)
+    cy.deleteTestUsers()
+    cy.deleteTestTodos()
   })
 })
