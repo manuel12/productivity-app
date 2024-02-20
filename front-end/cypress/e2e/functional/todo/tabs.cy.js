@@ -1,10 +1,8 @@
 /// <reference types="cypress" />
 
-describe("Todo Section - Tabs", () => {
-  const testTodoOne = "Feed the cats (test)"
-  const testTodoTwo = "Take out trash (test)"
-  const testTodoThree = "Clean room (test)"
+const validTodo = require("../../../fixtures/todo.json")
 
+describe("Todo Section - Tabs", () => {
   const ctx = {}
 
   beforeEach(() => {
@@ -18,9 +16,13 @@ describe("Todo Section - Tabs", () => {
     cy.visit("/")
 
     // Create some initial todos
-    const todos = [testTodoOne, testTodoTwo, testTodoThree]
+    const todos = [
+      validTodo.validTodoDesc,
+      validTodo.validTodoDesc2,
+      validTodo.validTodoDesc3,
+    ]
     todos.forEach((todo) => {
-      cy.getBySel("todos-input").type(`${todo} {enter}`)
+      cy.getBySel("todo-input").type(`${todo} {enter}`)
     })
   })
 
@@ -44,7 +46,7 @@ describe("Todo Section - Tabs", () => {
     cy.getBySel("todos-list")
       .should("be.visible")
       .within(() => {
-        cy.getBySel("todos-item").should("be.visible").and("have.length", 3)
+        cy.getBySel("todo-item").should("be.visible").and("have.length", 3)
       })
   })
 
@@ -54,13 +56,13 @@ describe("Todo Section - Tabs", () => {
     cy.getBySel("todos-list")
       .should("be.visible")
       .within(() => {
-        cy.getBySel("todos-item").should("be.visible").and("have.length", 3)
+        cy.getBySel("todo-item").should("be.visible").and("have.length", 3)
       })
   })
 
   it("should display only completed todos when user clicks on the 'Completed' tab", () => {
     // Add 1 todo as completed.
-    cy.getBySel("todos-item")
+    cy.getBySel("todo-item")
       .eq(0)
       .within(() => {
         cy.getBySel("todos-check-icon-container").click()
@@ -70,12 +72,12 @@ describe("Todo Section - Tabs", () => {
     cy.getBySel("complete-tab").click()
 
     // Check there is only 1 todo shown
-    cy.getBySel("todos-item").should("have.length", 1)
+    cy.getBySel("todo-item").should("have.length", 1)
   })
 
   it("should display only uncomplete todos when user clicks on the 'Uncompleted' tab", () => {
     // Add 1 todo as completed.
-    cy.getBySel("todos-item")
+    cy.getBySel("todo-item")
       .eq(0)
       .within(() => {
         cy.getBySel("todos-check-icon-container").click()
@@ -85,7 +87,7 @@ describe("Todo Section - Tabs", () => {
     cy.getBySel("uncomplete-tab").click()
 
     // Check there are 2 todos shown
-    cy.getBySel("todos-item").should("have.length", 2)
+    cy.getBySel("todo-item").should("have.length", 2)
   })
 
   it("should only have 1 active tab at any moment", () => {
@@ -107,7 +109,7 @@ describe("Todo Section - Tabs", () => {
   })
 
   afterEach(() => {
-    cy.deleteTestUsers(ctx.token)
-    cy.deleteTestTodos(ctx.token)
+    cy.deleteTestUsers()
+    cy.deleteTestTodos()
   })
 })
