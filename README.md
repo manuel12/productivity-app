@@ -92,11 +92,11 @@ _Already installed if you installed front-end. Cypress folder is located in fron
 
 | Type           | Location                                                                               |
 | -------------- | -------------------------------------------------------------------------------------- |
-| api            | [front-end/cypress/e2e/api/todo](front-end/cypress/e2e/api/todo)                       |
-| component      | [front-end/cypress/component/todo](front-end/cypress/component/todo)                   |
-| functional     | [front-end/cypress/e2e/todo](front-end/cypress/e2e/functional/todo)                    |
-| responsiveness | [front-end/cypress/e2e/responsiveness/todo](front-end/cypress/e2e/responsiveness/todo) |
-| smoke          | [front-end/cypress/e2e/smoke/todo](front-end/cypress/e2e/smoke/todo)                   |
+| api            | [front-end/cypress/e2e/api/](front-end/cypress/e2e/api/)                       |
+| component      | [front-end/cypress/component/](front-end/cypress/component/)                   |
+| functional     | [front-end/cypress/e2e/](front-end/cypress/e2e/functional/)                    |
+| responsiveness | [front-end/cypress/e2e/responsiveness/](front-end/cypress/e2e/responsiveness/) |
+| smoke          | [front-end/cypress/e2e/smoke/](front-end/cypress/e2e/smoke/)                   |
 
 ## Running tests
 
@@ -118,10 +118,10 @@ Or if running from the CLI use one of the scripts found in package.json:
 "test:edge": "cypress run --browser edge",
 "test:electron": "cypress run --browser electron",
 "test:all-browsers": "npm run test:chrome && npm run test:firefox && npm run test:edge && npm run test:electron",
-"test:api": "cypress run --spec 'cypress/e2e/api/todo/'",
-"test:functional": "cypress run --spec 'cypress/e2e/functional/todo/'",
-"test:responsiveness": "cypress run --spec 'cypress/e2e/responsiveness/todo/todo-page.cy.js'",
-"test:smoke": "cypress run --spec 'cypress/e2e/smoke/todo/smoke.cy.js'",
+"test:api": "cypress run --spec 'cypress/e2e/api/'",
+"test:functional": "cypress run --spec 'cypress/e2e/functional/'",
+"test:responsiveness": "cypress run --spec 'cypress/e2e/responsiveness/'",
+"test:smoke": "cypress run --spec 'cypress/e2e/smoke/'",
 ```
 
 ## Uses
