@@ -6,11 +6,11 @@ class API {
   static verbose = true
   static getToken = () => {
     const token = getItem("token")
+    console.log(token)
     return token
   }
 
   static login(userCredentials: any, error: any, success: any) {
-    console.log(userCredentials)
     // Call /api/login with userData
     fetch("http://localhost:4000/api/login", {
       method: "POST",
@@ -85,9 +85,6 @@ class API {
   }
 
   static addTodo(todoData: ITodo, addNewTodo: any): void {
-    console.log(todoData)
-    console.log(addNewTodo)
-
     fetch("http://localhost:4000/api/todo", {
       method: "POST",
       headers: {
