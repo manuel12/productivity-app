@@ -1,5 +1,7 @@
 /// <reference types="cypress" />
 
+const validTodo = require("../../../fixtures/todo.json")
+
 describe("Todo Section - Todo Statistics Display ", () => {
   const ctx = {}
 
@@ -22,7 +24,9 @@ describe("Todo Section - Todo Statistics Display ", () => {
     // Add todos (today)
     const numTodosToAdd = 5
     for (let i = 1; i <= numTodosToAdd; i++) {
-      cy.getBySel("todos-input").type(`Todo #${i} (test){enter}`)
+      cy.getBySel("todo-input").type(
+        `#${i} ${validTodo.validCompletedTodoDesc}{enter}`
+      )
     }
 
     // Check initial completed todos displays 0
@@ -57,7 +61,9 @@ describe("Todo Section - Todo Statistics Display ", () => {
     // Add todos (today)
     const numTodosToAdd = 5
     for (let i = 1; i <= numTodosToAdd; i++) {
-      cy.getBySel("todos-input").type(`Todo #${i} (test){enter}`)
+      cy.getBySel("todo-input").type(
+        `#${i} ${validTodo.validCompletedTodoDesc}{enter}`
+      )
     }
 
     // Complete todos (today)
@@ -74,8 +80,8 @@ describe("Todo Section - Todo Statistics Display ", () => {
 
     // Add todos (tomorrow)
     for (let i = 1; i <= numTodosToAdd; i++) {
-      cy.getBySel("todos-input").type(
-        `Todo #${i + numTodosToAdd} (test){enter}`
+      cy.getBySel("todo-input").type(
+        `#${i + numTodosToAdd} ${validTodo.validCompletedTodoDesc}{enter}`
       )
     }
 
@@ -97,7 +103,9 @@ describe("Todo Section - Todo Statistics Display ", () => {
     // Add todos (today)
     const numTodosToAddToday = 1
     for (let i = 1; i <= numTodosToAddToday; i++) {
-      cy.getBySel("todos-input").type(`Todo #${i}  (today) (test){enter}`)
+      cy.getBySel("todo-input").type(
+        `#${i} ${validTodo.validCompletedTodoDesc} (today) {enter}`
+      )
     }
 
     // Complete todos (today)
@@ -113,7 +121,9 @@ describe("Todo Section - Todo Statistics Display ", () => {
     // Add todos (tomorrow)
     const numTodosToAddTomorrow = 5
     for (let i = 1; i <= numTodosToAddTomorrow; i++) {
-      cy.getBySel("todos-input").type(`Todo #${i} (tomorrow) (test){enter}`)
+      cy.getBySel("todo-input").type(
+        `#${i} ${validTodo.validCompletedTodoDesc} (tomorrow) {enter}`
+      )
     }
 
     // Complete todos (tomorrow)
@@ -134,7 +144,9 @@ describe("Todo Section - Todo Statistics Display ", () => {
     // Add todos (today)
     const numTodosToAdd = 5
     for (let i = 1; i <= numTodosToAdd; i++) {
-      cy.getBySel("todos-input").type(`Todo #${i} (test){enter}`)
+      cy.getBySel("todo-input").type(
+        `#${i} ${validTodo.validCompletedTodoDesc}{enter}`
+      )
     }
 
     // Complete todos (today)
@@ -158,7 +170,9 @@ describe("Todo Section - Todo Statistics Display ", () => {
     // Add todos (today)
     const numTodosToAdd = 5
     for (let i = 1; i <= numTodosToAdd; i++) {
-      cy.getBySel("todos-input").type(`Todo #${i} (test){enter}`)
+      cy.getBySel("todo-input").type(
+        `#${i} ${validTodo.validCompletedTodoDesc}{enter}`
+      )
     }
 
     // Complete todos (today)
@@ -182,7 +196,9 @@ describe("Todo Section - Todo Statistics Display ", () => {
     // Add todos (today)
     const numTodosToAdd = 5
     for (let i = 1; i <= numTodosToAdd; i++) {
-      cy.getBySel("todos-input").type(`Todo #${i} (test){enter}`)
+      cy.getBySel("todo-input").type(
+        `#${i} ${validTodo.validCompletedTodoDesc}{enter}`
+      )
     }
 
     // Complete todos (today)
@@ -203,7 +219,7 @@ describe("Todo Section - Todo Statistics Display ", () => {
   })
 
   afterEach(() => {
-    cy.deleteTestUsers(ctx.token)
-    cy.deleteTestTodos(ctx.token)
+    cy.deleteTestUsers()
+    cy.deleteTestTodos()
   })
 })
