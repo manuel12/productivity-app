@@ -1,5 +1,7 @@
 /// <reference types="cypress" />
 
+const validTodo = require("../../../fixtures/todo.json")
+
 describe("Todo Section - Reorder Todos", () => {
   const ctx = {}
 
@@ -20,107 +22,98 @@ describe("Todo Section - Reorder Todos", () => {
   // Positive tests
 
   it.skip("should reorder todos by dragging them up and down.", () => {
-    cy.getBySel("todos-input").type("First Todo Item (test)") // Type the todo text
-    cy.getBySel("todos-submit").click() // Click on the "Add" button
+    cy.getBySel("todo-input").type(validTodo.validTodoDesc) // Type the todo text
+    cy.getBySel("todo-submit").click() // Click on the "Add" button
 
-    cy.getBySel("todos-input").type("Second Todo Item (test)")
-    cy.getBySel("todos-submit").click()
+    cy.getBySel("todo-input").type(validTodo.validTodoDesc2)
+    cy.getBySel("todo-submit").click()
 
     // Find the todo items you want to reorder and drag them using Cypress commands
     const dataTransfer = new DataTransfer()
-    cy.getBySel("todos-item")
+    cy.getBySel("todo-item")
       .filter(`:contains("test")`)
       .eq(0)
       .trigger("dragstart", { dataTransfer })
 
-    cy.getBySel("todos-item")
-      .filter(`:contains("test")`)
-      .eq(1)
-      .trigger("drop", {
-        dataTransfer,
-      })
+    cy.getBySel("todo-item").filter(`:contains("test")`).eq(1).trigger("drop", {
+      dataTransfer,
+    })
 
     // Verify the order of todos has updated correctly after reordering
-    cy.getBySel("todos-item")
+    cy.getBySel("todo-item")
       .filter(`:contains("test")`)
       .eq(0)
-      .contains("Second Todo Item (test)")
-    cy.getBySel("todos-item")
+      .contains(validTodo.validTodoDesc2)
+    cy.getBySel("todo-item")
       .filter(`:contains("test")`)
       .eq(1)
-      .contains("First Todo Item (test)")
+      .contains(validTodo.validTodoDesc)
   })
 
   it.skip("should persist reordered todos order after page reload", () => {
-    cy.getBySel("todos-input").type("First Todo Item (test)") // Type the todo text
-    cy.getBySel("todos-submit").click() // Click on the "Add" button
+    cy.getBySel("todo-input").type(validTodo.validTodoDesc) // Type the todo text
+    cy.getBySel("todo-submit").click() // Click on the "Add" button
 
-    cy.getBySel("todos-input").type("Second Todo Item (test)")
-    cy.getBySel("todos-submit").click()
+    cy.getBySel("todo-input").type(validTodo.validTodoDesc2)
+    cy.getBySel("todo-submit").click()
 
     // Find the todo items you want to reorder and drag them using Cypress commands
     const dataTransfer = new DataTransfer()
-    cy.getBySel("todos-item")
+    cy.getBySel("todo-item")
       .filter(`:contains("test")`)
       .eq(0)
       .trigger("dragstart", { dataTransfer })
 
-    cy.getBySel("todos-item")
-      .filter(`:contains("test")`)
-      .eq(1)
-      .trigger("drop", {
-        dataTransfer,
-      })
+    cy.getBySel("todo-item").filter(`:contains("test")`).eq(1).trigger("drop", {
+      dataTransfer,
+    })
 
     cy.reload()
 
     // Verify the order of todos has updated correctly after reordering
-    cy.getBySel("todos-item")
+    cy.getBySel("todo-item")
       .filter(`:contains("test")`)
       .eq(0)
-      .contains("Second Todo Item (test)")
-    cy.getBySel("todos-item")
+      .contains(validTodo.validTodoDesc2)
+    cy.getBySel("todo-item")
       .filter(`:contains("test")`)
       .eq(1)
-      .contains("First Todo Item (test)")
+      .contains(validTodo.validTodoDesc)
   })
 
   it.skip("should edit reordered todos", () => {
-    cy.getBySel("todos-input").type("First Todo Item (test)") // Type the todo text
-    cy.getBySel("todos-submit").click() // Click on the "Add" button
+    cy.getBySel("todo-input").type(validTodo.validTodoDesc) // Type the todo text
+    cy.getBySel("todo-submit").click() // Click on the "Add" button
 
-    cy.getBySel("todos-input").type("Second Todo Item (test)")
-    cy.getBySel("todos-submit").click()
+    cy.getBySel("todo-input").type(validTodo.validTodoDesc2)
+    cy.getBySel("todo-submit").click()
 
     // Find the todo items you want to reorder and drag them using Cypress commands
     const dataTransfer = new DataTransfer()
-    cy.getBySel("todos-item")
+    cy.getBySel("todo-item")
       .filter(`:contains("test")`)
       .eq(0)
       .trigger("dragstart", { dataTransfer })
 
-    cy.getBySel("todos-item")
-      .filter(`:contains("test")`)
-      .eq(1)
-      .trigger("drop", {
-        dataTransfer,
-      })
+    cy.getBySel("todo-item").filter(`:contains("test")`).eq(1).trigger("drop", {
+      dataTransfer,
+    })
 
     cy.reload()
 
     // Verify the order of todos has updated correctly after reordering
-    cy.getBySel("todos-item")
+    cy.getBySel("todo-item")
       .filter(`:contains("test")`)
       .eq(0)
-      .contains("Second Todo Item (test)")
-    cy.getBySel("todos-item")
+      .contains(validTodo.validTodoDesc2)
+    cy.getBySel("todo-item")
       .filter(`:contains("test")`)
       .eq(1)
-      .contains("First Todo Item (test)")
+      .contains(validTodo.validTodoDesc)
   })
 
   afterEach(() => {
-    cy.deleteTestUsers(ctx.token)
-    cy.deleteTestTodos(ctx.token)
+    cy.deleteTestUsers()
+    cy.deleteTestTodos()
   })
 })
