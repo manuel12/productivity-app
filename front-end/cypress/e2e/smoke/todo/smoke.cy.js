@@ -1,6 +1,9 @@
 /// <reference types="cypress" />
 
 const testuser = require("../../../fixtures/testuser.json")
+const invalidCredentials = require("../../../fixtures/invalidCredentials.json")
+const validTodo = require("../../../fixtures/todo.json")
+const invalidTodo = require("../../../fixtures/invalidTodo.json")
 
 describe("Authentication Section - Register Smoke tests", () => {
   before(() => {
@@ -42,8 +45,8 @@ describe("Authentication Section - Register Smoke tests", () => {
     )
 
     // Check username error labels
-    cy.getBySel("username").type("abcde")
-    cy.get("button[type='submit']").click()
+    cy.getBySel("username").type(invalidCredentials.usernameShortThan6Chars)
+    cy.getBySel("register-button").click()
 
     cy.getBySel("username-error-label").should(
       "have.text",
@@ -51,46 +54,50 @@ describe("Authentication Section - Register Smoke tests", () => {
     )
 
     // Check email error labels
-    cy.getBySel("email").type("Invalid Email Address")
-    cy.get("button[type='submit']").click()
+    cy.getBySel("email").type(invalidCredentials.invalidEmail)
+    cy.getBySel("register-button").click()
 
     cy.getBySel("email-error-label").should("have.text", "Email must be valid.")
 
     // Check password error labels
-    cy.getBySel("password").clear().type("abcdefh")
-    cy.get("button[type='submit']").click()
+    cy.getBySel("password")
+      .clear()
+      .type(invalidCredentials.passwordShorterThan8Chars)
+    cy.getBySel("register-button").click()
 
     cy.getBySel("password-error-label").should(
       "have.text",
       "Password must be at least 8 characters."
     )
 
-    cy.getBySel("password").clear().type("abcdefhg")
-    cy.get("button[type='submit']").click()
+    cy.getBySel("password").clear().type(invalidCredentials.noUppercasePassword)
+    cy.getBySel("register-button").click()
 
     cy.getBySel("password-error-label").should(
       "have.text",
       "Password must contain at least 1 uppercase character."
     )
 
-    cy.getBySel("password").clear().type("ABCDEFGH")
-    cy.get("button[type='submit']").click()
+    cy.getBySel("password").clear().type(invalidCredentials.noLowercasePassword)
+    cy.getBySel("register-button").click()
 
     cy.getBySel("password-error-label").should(
       "have.text",
       "Password must contain at least 1 lowercase character."
     )
 
-    cy.getBySel("password").clear().type("Abcdefhg")
-    cy.get("button[type='submit']").click()
+    cy.getBySel("password").clear().type(invalidCredentials.noNumberPassword)
+    cy.getBySel("register-button").click()
 
     cy.getBySel("password-error-label").should(
       "have.text",
       "Password must contain at least 1 number character."
     )
 
-    cy.getBySel("password").clear().type("Abcdefhg1")
-    cy.get("button[type='submit']").click()
+    cy.getBySel("password")
+      .clear()
+      .type(invalidCredentials.noSpecialCharPassword)
+    cy.getBySel("register-button").click()
 
     cy.getBySel("password-error-label").should(
       "have.text",
@@ -98,8 +105,10 @@ describe("Authentication Section - Register Smoke tests", () => {
     )
 
     // Check password confirmation error labels
-    cy.getBySel("password").clear().type("CorrectPassword1!")
-    cy.getBySel("password-confirmation").type("INCORRECT_password_CONFIRMATION")
+    cy.getBySel("password").clear().type(invalidCredentials.correctPassword1)
+    cy.getBySel("password-confirmation").type(
+      invalidCredentials.correctPassword2
+    )
 
     cy.getBySel("register-button").click()
 
@@ -113,12 +122,17 @@ describe("Authentication Section - Register Smoke tests", () => {
     cy.getBySel("email").clear().type(testuser.email)
     cy.getBySel("password").clear().type(testuser.password)
     cy.getBySel("password-confirmation").clear().type(testuser.password)
-    cy.get("button[type='submit']").click()
+    cy.getBySel("register-button").click()
 
     // Check alert success message
     cy.getBySel("form-action-success")
       .should("be.visible")
       .and("have.text", `User ${testuser.email} successfully registered!`)
+  })
+
+  afterEach(() => {
+    cy.deleteTestUsers()
+    cy.deleteTestTodos()
   })
 })
 
@@ -150,13 +164,15 @@ describe("Authentication Section - Login Smoke tests", () => {
     )
 
     // Check email error labels
-    cy.getBySel("email").type("Invalid Email Address")
+    cy.getBySel("email").type(invalidCredentials.invalidEmail)
     cy.getBySel("login-button").click()
 
     cy.getBySel("email-error-label").should("have.text", "Email must be valid.")
 
     // Check password error labels
-    cy.getBySel("password").clear().type("abcdefh")
+    cy.getBySel("password")
+      .clear()
+      .type(invalidCredentials.passwordShorterThan8Chars)
     cy.getBySel("login-button").click()
 
     cy.getBySel("password-error-label").should(
@@ -164,7 +180,7 @@ describe("Authentication Section - Login Smoke tests", () => {
       "Password must be at least 8 characters."
     )
 
-    cy.getBySel("password").clear().type("abcdefhg")
+    cy.getBySel("password").clear().type(invalidCredentials.noUppercasePassword)
     cy.getBySel("login-button").click()
 
     cy.getBySel("password-error-label").should(
@@ -172,7 +188,7 @@ describe("Authentication Section - Login Smoke tests", () => {
       "Password must contain at least 1 uppercase character."
     )
 
-    cy.getBySel("password").clear().type("ABCDEFGH")
+    cy.getBySel("password").clear().type(invalidCredentials.noLowercasePassword)
     cy.getBySel("login-button").click()
 
     cy.getBySel("password-error-label").should(
@@ -180,7 +196,7 @@ describe("Authentication Section - Login Smoke tests", () => {
       "Password must contain at least 1 lowercase character."
     )
 
-    cy.getBySel("password").clear().type("Abcdefhg")
+    cy.getBySel("password").clear().type(invalidCredentials.noNumberPassword)
     cy.getBySel("login-button").click()
 
     cy.getBySel("password-error-label").should(
@@ -188,7 +204,9 @@ describe("Authentication Section - Login Smoke tests", () => {
       "Password must contain at least 1 number character."
     )
 
-    cy.getBySel("password").clear().type("Abcdefhg1")
+    cy.getBySel("password")
+      .clear()
+      .type(invalidCredentials.noSpecialCharPassword)
     cy.getBySel("login-button").click()
 
     cy.getBySel("password-error-label").should(
@@ -210,28 +228,32 @@ describe("Authentication Section - Login Smoke tests", () => {
     cy.getBySel("login-form").should("not.exist")
     cy.getBySel("navbar").should("be.visible")
   })
-})
 
-describe("Todo Section - Add Todo Smoke tests", () => {
-  const testTodoOne = "Feed the cats (test)"
-  const createdTodo = "Created Todo (test)"
-  const updatedTodo = "Updated Todo Item (test)"
-  const todoTextShorterThan3Char = "ab"
-  const todoTextLongerThan40Char =
-    "(test) This is a daily with more than 40 characters, which should not be allowed"
-
-  before(() => {
+  afterEach(() => {
     cy.deleteTestUsers()
     cy.deleteTestTodos()
-
-    // Register testuser
-    cy.register()
   })
+})
 
-  beforeEach(() => {
-    cy.visit("/")
-    // Login testuser
-    cy.login()
+const todoTestsPreconditions = () => {
+  cy.deleteTestUsers()
+  cy.deleteTestTodos()
+
+  // Register testuser
+  cy.registerWithAPI()
+
+  // Login testuser
+  cy.loginWithAPI((res) => {
+    console.log(res)
+    const token = res.body.token
+    window.localStorage.setItem("token", JSON.stringify(token))
+  })
+  cy.visit("/")
+}
+
+describe("Todo Section - Add Todo Smoke tests", () => {
+  before(() => {
+    todoTestsPreconditions()
   })
 
   it('should add a todo by writing on input and clicking on a "Add todo" button', () => {
@@ -241,56 +263,48 @@ describe("Todo Section - Add Todo Smoke tests", () => {
       .should("be.visible")
       .and("have.text", "Todo is required.")
 
-    cy.getBySel("todo-input").clear().type(todoTextShorterThan3Char)
+    cy.getBySel("todo-input")
+      .clear()
+      .type(invalidTodo.todoDescShorterThan3Chars)
     cy.getBySel("input-error-label")
       .should("be.visible")
-      .and("have.text", "Todos cannot be less than 3 characters.")
+      .and("have.text", "Todos cannot contain less than 3 characters.")
 
-    cy.getBySel("todo-input").clear().type(todoTextLongerThan40Char)
+    cy.getBySel("todo-input")
+      .clear()
+      .type(invalidTodo.todoDescLongerThan40Chars)
     cy.getBySel("input-error-label")
       .should("be.visible")
-      .and("have.text", "Todos cannot be more than 40 characters.")
+      .and("have.text", "Todos cannot contain more than 40 characters.")
 
-    cy.getBySel("todo-input").clear().type(testTodoOne)
+    cy.getBySel("todo-input").clear().type(validTodo.validTodoDesc)
     cy.getBySel("todo-submit").click()
 
     cy.getBySel("todo-item").should("be.visible")
 
     //cy.getBySel("todo-page-container").matchImageSnapshot("Added todo")
   })
-})
 
-describe("Todo Section - Todo Smoke tests", () => {
-  const testTodoOne = "Feed the cats (test)"
-  const createdTodo = "Created Todo (test)"
-  const updatedTodo = "Updated Todo Item (test)"
-  const todoTextShorterThan3Char = "ab"
-  const todoTextLongerThan40Char =
-    "(test) This is a daily with more than 40 characters, which should not be allowed"
-
-  before(() => {
+  afterEach(() => {
     cy.deleteTestUsers()
     cy.deleteTestTodos()
-
-    // Register testuser
-    cy.register()
   })
+})
 
-  beforeEach(() => {
-    cy.visit("/")
-    // Login testuser
-    cy.login()
+describe("Todo Section - Edit Todo Smoke tests", () => {
+  before(() => {
+    todoTestsPreconditions()
   })
 
   // Positive tests
 
   it("should edit a todo", () => {
     // Create a todo
-    cy.getBySel("todo-input").type(createdTodo)
+    cy.getBySel("todo-input").type(validTodo.validTodoDesc)
     cy.getBySel("todo-submit").click()
 
     cy.getBySel("todo-item")
-      .filter(`:contains(${createdTodo})`)
+      .filter(`:contains(${validTodo.validTodoDesc})`)
       .within(() => {
         cy.getBySel("todos-description-container").click()
       })
@@ -303,52 +317,81 @@ describe("Todo Section - Todo Smoke tests", () => {
       .and("have.text", "Todos is required.")
 
     cy.getBySel("todos-text-input").clear()
-    cy.getBySel("todos-text-input").type(`${todoTextShorterThan3Char}{enter}`)
+    cy.getBySel("todos-text-input").type(
+      `${invalidTodo.todoDescShorterThan3Chars}{enter}`
+    )
 
     cy.get('[data-cy="todo-error-label"]')
       .should("be.visible")
-      .and("have.text", "Todos cannot be less than 3 characters.")
+      .and("have.text", "Todos cannot contain less than 3 characters.")
 
     cy.getBySel("todos-text-input").clear()
-    cy.getBySel("todos-text-input").type(`${todoTextLongerThan40Char}{enter}`)
+    cy.getBySel("todos-text-input").type(
+      `${invalidTodo.todoDescLongerThan40Chars}{enter}`
+    )
 
     cy.get('[data-cy="todo-error-label"]')
       .should("be.visible")
-      .and("have.text", "Todos cannot be more than 40 characters.")
+      .and("have.text", "Todos cannot contain more than 40 characters.")
 
     // Find and edit that existing todo
     cy.getBySel("todos-text-input").clear()
-    cy.getBySel("todos-text-input").type(`${updatedTodo}{enter}`)
+    cy.getBySel("todos-text-input").type(
+      `${validTodo.validTodoUpdateDesc}{enter}`
+    )
 
     // Validate the todo is updated correctly
-    cy.contains(createdTodo).should("not.exist")
-    cy.contains("[data-cy=todo-item]", updatedTodo).should("exist")
+    cy.contains(validTodo.validTodoDesc).should("not.exist")
+    cy.contains("[data-cy=todo-item]", validTodo.validTodoUpdateDesc).should(
+      "exist"
+    )
 
     // cy.getBySel("todo-page-container").matchImageSnapshot("Edited todo")
   })
 
-  it.skip("should delete a todo and remove it from the list", () => {
+  afterEach(() => {
+    cy.deleteTestUsers()
+    cy.deleteTestTodos()
+  })
+})
+
+describe("Todo Section - Delete Todo Smoke tests", () => {
+  before(() => {
+    todoTestsPreconditions()
+  })
+
+  it("should delete a todo and remove it from the list", () => {
     // Create a todo with the text 'Todo to Delete' that you want to delete
-    const todoTextToDelete = "Todo to Delete (test)"
-    cy.getBySel("todos-input").type(todoTextToDelete)
-    cy.getBySel("todos-submit").click()
+
+    cy.getBySel("todo-input").type(validTodo.validTodoToDeleteDesc)
+    cy.getBySel("todo-submit").click()
 
     // Find the todo item with text 'Todo to Delete' and locate its delete button, then click it
-    cy.contains(todoTextToDelete)
+    cy.contains(validTodo.validTodoToDeleteDesc)
       .parent()
       .find(".remove-icon-container")
       .click()
 
     // Verify that the todo with text 'Todo to Delete' no longer exists in the todo list
-    cy.contains(todoTextToDelete).should("not.exist")
+    cy.contains(validTodo.validTodoToDeleteDesc).should("not.exist")
 
     //cy.getBySel("todo-page-container").matchImageSnapshot("Deleted todo")
   })
 
-  it.skip("should mark a todo as complete", () => {
-    const todoTextToComplete = "Todo to Complete (test)"
-    cy.getBySel("todos-input").type(todoTextToComplete)
-    cy.getBySel("todos-submit").click()
+  afterEach(() => {
+    cy.deleteTestUsers()
+    cy.deleteTestTodos()
+  })
+})
+
+describe("Todo Section - Mark Todo as Complete Smoke tests", () => {
+  before(() => {
+    todoTestsPreconditions()
+  })
+
+  it("should mark a todo as complete", () => {
+    cy.getBySel("todo-input").type(validTodo.validTodoDesc)
+    cy.getBySel("todo-submit").click()
 
     // Validate that the todo with text 'Todo to Complete' has initially .check--not-completed class
     cy.getBySel("todo-item")
@@ -388,11 +431,24 @@ describe("Todo Section - Todo Smoke tests", () => {
     // )
   })
 
-  it.skip("should display the number of completed todos today", () => {
+  afterEach(() => {
+    cy.deleteTestUsers()
+    cy.deleteTestTodos()
+  })
+})
+
+describe("Todo Section - Todos Completed Today Smoke tests", () => {
+  before(() => {
+    todoTestsPreconditions()
+  })
+
+  it("should display the number of completed todos today", () => {
     // Perform actions to add todos (today)
     const numTodosToAdd = 5
     for (let i = 0; i < numTodosToAdd; i++) {
-      cy.getBySel("todos-input").type(`Todo #${i + 1} (test){enter}`)
+      cy.getBySel("todo-input").type(
+        `#${i + 1} ${validTodo.validTodoToDeleteDesc}{enter}`
+      )
     }
 
     // Check initial completed todos displays 0
@@ -429,11 +485,24 @@ describe("Todo Section - Todo Smoke tests", () => {
     // )
   })
 
-  it.skip("should display the average number of completed todos per day", () => {
+  afterEach(() => {
+    cy.deleteTestUsers()
+    cy.deleteTestTodos()
+  })
+})
+
+describe("Todo Section - Average Todos Completed Smoke tests", () => {
+  before(() => {
+    todoTestsPreconditions()
+  })
+
+  it("should display the average number of completed todos per day", () => {
     // Add todos (today)
     const numTodosToAdd = 5
     for (let i = 1; i <= numTodosToAdd; i++) {
-      cy.getBySel("todos-input").type(`Todo #${i} (test){enter}`)
+      cy.getBySel("todo-input").type(
+        `#${i} ${validTodo.validTodoToDeleteDesc}{enter}`
+      )
     }
 
     // Complete todos (today)
@@ -450,8 +519,8 @@ describe("Todo Section - Todo Smoke tests", () => {
 
     // Add todos (tomorrow)
     for (let i = 1; i <= numTodosToAdd; i++) {
-      cy.getBySel("todos-input").type(
-        `Todo #${i + numTodosToAdd} (test){enter}`
+      cy.getBySel("todo-input").type(
+        `#${i + 5} ${validTodo.validTodoToDeleteDesc}{enter}`
       )
     }
 
@@ -475,45 +544,8 @@ describe("Todo Section - Todo Smoke tests", () => {
     // )
   })
 
-  // Negative tests
-
-  it.skip("should display 0 todos initially", () => {
-    // cy.getBySel("todo-page-container").matchImageSnapshot(
-    //   "Displays 0 todos initially"
-    // )
-  })
-
-  it.skip('should display an error label "Todos cannot be less than 3 characters" when falling below that amount', () => {
-    cy.getBySel("todos-input").type(todoTextShorterThan3Char + "{enter}")
-
-    // cy.getBySel("todo-page-container").matchImageSnapshot(
-    //   "Displays 'todo cannot be less than 3 characters' error label"
-    // )
-  })
-
-  it.skip('should display an error label "Todo cannot contain less than 3 characters" when edited todo falls below that amount', () => {
-    // Create a todo
-    cy.getBySel("todos-input").type(createdTodo)
-    cy.getBySel("todos-submit").click()
-
-    cy.getBySel("todos-list").should("have.length", 1)
-
-    // Find and edit that existing todo
-    cy.getBySel("todo-item")
-      .filter(`:contains(${createdTodo})`)
-      .within(() => {
-        cy.getBySel("todos-description-container").click()
-      })
-
-    cy.getBySel("todos-text-input").clear()
-    cy.getBySel("todos-text-input").type(`${todoTextShorterThan3Char}{enter}`)
-
-    // cy.getBySel("todo-page-container").matchImageSnapshot(
-    //   "Displays 'todo cannot be less than 3 characters' error label for edits"
-    // )
-  })
-
   afterEach(() => {
+    cy.deleteTestUsers()
     cy.deleteTestTodos()
   })
 })
