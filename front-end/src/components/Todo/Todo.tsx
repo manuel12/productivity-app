@@ -75,9 +75,9 @@ const Todo: React.FC<ITodoItemProps> = ({
     if (editedDescription.length === 0) {
       setErrorLabel("Todos is required.")
     } else if (editedDescription.length > 40) {
-      setErrorLabel("Todos cannot be more than 40 characters.")
+      setErrorLabel("Todos cannot contain more than 40 characters.")
     } else if (editedDescription.length < 3) {
-      setErrorLabel("Todos cannot be less than 3 characters.")
+      setErrorLabel("Todos cannot contain less than 3 characters.")
     } else {
       setErrorLabel("")
       const tempTodos = todos
