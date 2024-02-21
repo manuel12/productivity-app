@@ -39,8 +39,8 @@ const TodoList: React.FC<ITodoListProps> = ({
     todo: yup
       .string()
       .required("Todo is required.")
-      .min(3, "Todos cannot be less than 3 characters.")
-      .max(40, "Todos cannot be more than 40 characters."),
+      .min(3, "Todos cannot contain less than 3 characters.")
+      .max(40, "Todos cannot contain more than 40 characters."),
   })
 
   useEffect(() => {
