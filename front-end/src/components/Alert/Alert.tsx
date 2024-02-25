@@ -8,7 +8,12 @@ interface AlertProps {
 
 const Alert: React.FC<AlertProps> = ({ msg, severity, dataCy }) => {
   return (
-    <div className={`alert alert-${severity} `} role="alert" data-cy={dataCy}>
+    <div
+      className={`alert alert-${severity} `}
+      role="alert"
+      aria-live="assertive"
+      data-cy={dataCy}
+    >
       <span>{msg}</span>
     </div>
   )
