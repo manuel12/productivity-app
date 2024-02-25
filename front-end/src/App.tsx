@@ -37,12 +37,14 @@ const LoggedInRoutes = () => {
     <Router>
       <div className="App">
         <Navbar />
-        <Routes>
-          <Route path="/" element={<TodoPage />} />
-          <Route path="/dailies" element={<DailyPage />} />
-          <Route path="/weekly-learnings" element={<WeeklyLearningPage />} />
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
+        <main>
+          <Routes>
+            <Route path="/" element={<TodoPage />} />
+            <Route path="/dailies" element={<DailyPage />} />
+            <Route path="/weekly-learnings" element={<WeeklyLearningPage />} />
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+        </main>
       </div>
     </Router>
   )
@@ -55,14 +57,16 @@ interface LoggedOutRoutesProps {
 const LoggedOutRoutes: React.FC<LoggedOutRoutesProps> = ({ setLogin }) => {
   return (
     <Router>
-      <Routes>
-        <Route
-          path="/account/login"
-          element={<LoginPage setLogin={setLogin} />}
-        />
-        <Route path="/account/register" element={<RegisterPage />} />
-        <Route path="*" element={<Navigate to="/account/login" replace />} />
-      </Routes>
+      <main>
+        <Routes>
+          <Route
+            path="/account/login"
+            element={<LoginPage setLogin={setLogin} />}
+          />
+          <Route path="/account/register" element={<RegisterPage />} />
+          <Route path="*" element={<Navigate to="/account/login" replace />} />
+        </Routes>
+      </main>
     </Router>
   )
 }
