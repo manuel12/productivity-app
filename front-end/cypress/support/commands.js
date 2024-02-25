@@ -57,7 +57,7 @@ Cypress.Commands.add("loginWithAPI", (cb) => {
     url: `${apiUrl}/api/login/`,
     body: { email: testuser.email, password: testuser.password },
     failOnStatusCode: false,
-  }).then(cb)
+  }).then((res) => cb && cb(res))
 })
 
 Cypress.Commands.add("register", () => {
