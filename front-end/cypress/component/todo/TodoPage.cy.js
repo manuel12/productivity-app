@@ -35,7 +35,7 @@ describe("Todo Section", () => {
   })
 
   it('should display input with placeholder text "Add new todos..."', () => {
-    cy.get('[data-cy="todos-input"]').should(
+    cy.get('[data-cy="todo-input"]').should(
       "have.attr",
       "placeholder",
       "Add new todos..."
