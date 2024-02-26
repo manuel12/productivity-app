@@ -29,14 +29,20 @@ const LabeledInput: React.FC<LabeledInputProps> = ({
 }) => {
   return (
     <div className="mb-3">
-      <label htmlFor="email" className="form-label w-100 text-dark text-start">
-        {label}
-      </label>
+      {label && (
+        <label
+          htmlFor={dataCy}
+          className="form-label w-100 text-dark text-start"
+        >
+          {label}
+        </label>
+      )}
       {registerLabel && errors[registerLabel] && (
         <label
-          htmlFor="email"
+          htmlFor={dataCy}
           className="form-label w-100 text-danger text-start fw-bold"
           data-cy={`${dataCy}-error-label`}
+          aria-live="polite"
         >
           {errors[registerLabel].message}
         </label>
@@ -52,6 +58,8 @@ const LabeledInput: React.FC<LabeledInputProps> = ({
         })}
         data-cy={dataCy}
         autoFocus={autoFocus}
+        aria-invalid={errors ? "true" : "false"}
+        aria-describedby={`${dataCy}-error-label`}
       />
     </div>
   )
