@@ -24,6 +24,8 @@ const CustomInput: React.FC<CustomInputProps> = ({
     resolver: yupResolver(schema),
   })
 
+  const errorMessage = errors[itemName]?.message
+
   return (
     <form
       onSubmit={handleSubmit(
@@ -39,21 +41,25 @@ const CustomInput: React.FC<CustomInputProps> = ({
       data-cy={`${itemName}-form`}
     >
       <div className="input-group my-5 mx-auto CI_input-container">
-        {errors && (
+        {errorMessage && (
           <label
+            htmlFor={itemName}
+            id={`${itemName}-error`}
             className="d-block w-100 form-label text-danger mx-auto CI_input-label"
             data-cy="input-error-label"
+            aria-live="assertive"
           >
-            {errors[itemName]?.message && String(errors[itemName]?.message)}
+            {errorMessage && String(errorMessage)}
           </label>
         )}
         <input
+          id={itemName}
           className="form-control mx-auto CI__input "
           data-cy={`${itemName}-input`}
           {...register(itemName)}
           placeholder={`Add new ${itemName}...`}
-          aria-label={`Add new ${itemName}...`}
-          aria-describedby="button-addon2"
+          aria-label={`${itemName} input`}
+          aria-describedby={`${itemName}-error`}
         />
 
         <button
@@ -63,7 +69,9 @@ const CustomInput: React.FC<CustomInputProps> = ({
           className="form-control btn btn-primary CI__button"
           data-cy={`${itemName}-submit`}
           type="submit"
-          id="button-addon2"
+          role="button"
+          aria-label={`${itemName} submit button`}
+          id={`${itemName}-submit`}
         >
           Add Todo
         </button>
