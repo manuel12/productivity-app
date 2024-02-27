@@ -30,18 +30,22 @@ const Navbar: React.FC = () => {
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav ml-auto">
             <li className="nav-item">
-              <a href="/" className="nav-link">
+              <a href="/" className="nav-link" aria-label="Home">
                 Home
               </a>
             </li>
 
             <li className="nav-item">
-              <a href="/dailies" className="nav-link">
+              <a href="/dailies" className="nav-link" aria-label="Dailies">
                 Dailies
               </a>
             </li>
             <li className="nav-item">
-              <a href="/weekly-learnings" className="nav-link">
+              <a
+                href="/weekly-learnings"
+                className="nav-link"
+                aria-label="Weekly Learnings"
+              >
                 Weekly Learnings
               </a>
             </li>
