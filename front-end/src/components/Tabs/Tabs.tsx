@@ -24,7 +24,7 @@ const Tabs: React.FC<ITabsProps> = ({
       <li className="nav-item">
         <div
           className={`nav-link ${tabState.all}`}
-          aria-current="page"
+          aria-current={tabState.all}
           onClick={() => {
             setTabState({
               all: "active",
@@ -42,7 +42,7 @@ const Tabs: React.FC<ITabsProps> = ({
       <li className="nav-item">
         <div
           className={`nav-link ${tabState.complete}`}
-          aria-current="page"
+          aria-current={tabState.complete}
           onClick={() => {
             setTabState({
               all: "",
@@ -60,7 +60,7 @@ const Tabs: React.FC<ITabsProps> = ({
       <li className="nav-item">
         <div
           className={`nav-link ${tabState.uncomplete}`}
-          aria-current="page"
+          aria-current={tabState.uncomplete}
           onClick={() => {
             setTabState({
               all: "",
