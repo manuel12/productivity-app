@@ -38,13 +38,13 @@ const TStats: React.FC<ITodoListProps> = ({ todos, numCompletedTodos }) => {
   }, [numCompletedTodos, numAverageCompletedTodos])
 
   return (
-    <div className="TStats">
+    <div className="TStats" aria-label="Todo Statistics">
       <div
         className="TStats__stats-container border-danger"
         data-cy="statistics-daily-completed-todos"
       >
         <div className="TStats_text-container">Completed today:</div>
-        <div className="display-1 TStats_num-container">
+        <div className="display-1 TStats_num-container" aria-live="polite">
           {numCompletedTodosToday}
         </div>
       </div>
@@ -53,7 +53,7 @@ const TStats: React.FC<ITodoListProps> = ({ todos, numCompletedTodos }) => {
         data-cy="statistics-daily-avg-completed-todos"
       >
         <div className="TStats_text-container">Avg daily completed:</div>
-        <div className="display-1 TStats_num-container">
+        <div className="display-1 TStats_num-container" aria-live="polite">
           {numAverageCompletedTodos}
         </div>
       </div>
@@ -63,7 +63,7 @@ const TStats: React.FC<ITodoListProps> = ({ todos, numCompletedTodos }) => {
       >
         <div className="TStats_text-container">Percentage difference:</div>
 
-        <div className="display-1 TStats_num-container">
+        <div className="display-1 TStats_num-container" aria-live="polite">
           {perfecentageDiff}%
         </div>
       </div>
