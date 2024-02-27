@@ -139,6 +139,7 @@ const Todo: React.FC<ITodoItemProps> = ({
 
   return (
     <li
+      id={`todo-description-${index}`}
       key={todo.description}
       className="list-group-item todo-item"
       data-cy="todo-item"
@@ -146,6 +147,7 @@ const Todo: React.FC<ITodoItemProps> = ({
       // onDragStart={(e) => handleDragStart(e, index)}
       // onDragOver={handleDragOver}
       // onDrop={(e) => handleDrop(e, index)}
+      aria-label={`todo-description-${index}`}
     >
       <div
         className="check-icon-container"
