@@ -83,9 +83,15 @@ const TodoList: React.FC<ITodoListProps> = ({
         todos={todos}
         completedTodos={completedTodos}
         uncompletedTodos={uncompletedTodos}
+        aria-label="Todo Tabs"
       ></Tabs>
 
-      <CustomList items={todos} itemName="todos" dataCyAttr="todos-list">
+      <CustomList
+        items={todos}
+        itemName="todos"
+        dataCyAttr="todos-list"
+        aria-label="List of Todos"
+      >
         {listTodos &&
           listTodos.map((todo, i) => (
             <Todo

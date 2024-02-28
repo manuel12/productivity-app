@@ -61,7 +61,7 @@ const WeeklyLearningsList: FC = () => {
             data-cy="learnings-input"
             placeholder="Add a new learning..."
             aria-label="Add a new learning..."
-            aria-describedby="button-addon2"
+            aria-describedby="add-learning-button"
             value={newLearning?.learningText}
             onChange={(e) =>
               setNewLearning({
@@ -77,7 +77,7 @@ const WeeklyLearningsList: FC = () => {
             className="btn btn-primary"
             data-cy="learnings-submit"
             type="submit"
-            id="button-addon2"
+            id="add-learning-button"
           >
             Add Learning
           </button>
