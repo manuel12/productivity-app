@@ -12,7 +12,12 @@ const CustomPage: React.FC<CustomPageProps> = ({
 }) => {
   return (
     <div className="my-5">
-      <h1 className="display-1" data-cy={dataCyAttr}>
+      <h1
+        className="display-1"
+        data-cy={dataCyAttr}
+        tabIndex={0}
+        role="heading"
+      >
         {headingText}
       </h1>
       {children}

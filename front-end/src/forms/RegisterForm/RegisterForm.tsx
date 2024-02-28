@@ -164,7 +164,8 @@ const RegisterForm = () => {
 
                 <button
                   type="submit"
-                  id="register_button"
+                  id="register-button"
+                  aria-label="register button"
                   className="btn btn-outline-primary w-100"
                   data-cy="register-button"
                 >
@@ -174,9 +175,10 @@ const RegisterForm = () => {
                 <div className="mb-3">
                   <label>{"Already have an account? "}</label>
                   <button
-                    id="login_account_button"
+                    id="login-button"
                     className="btn btn-outline-secondary w-100"
-                    data-cy="login-link"
+                    aria-label="login button"
+                    data-cy="login-button"
                     onClick={() => {
                       window.location.href = "/"
                     }}

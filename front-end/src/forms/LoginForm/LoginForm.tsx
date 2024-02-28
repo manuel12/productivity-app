@@ -125,10 +125,10 @@ const LoginForm: React.FC<LoginFormProps> = ({ setLogin }) => {
                 <div className="form-group">
                   <LabeledInput
                     autoFocus={true}
+                    label="Email"
                     placeholder={"Email"}
                     registerLabel="email"
                     register={register}
-                    // className="text-dark"
                     required
                     errors={errors}
                     errorLabel={"An email address is required."}
@@ -139,6 +139,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ setLogin }) => {
                 <div className="form-group">
                   <LabeledInput
                     type="password"
+                    label="Password"
                     placeholder={"Password"}
                     registerLabel="password"
                     register={register}
@@ -152,9 +153,10 @@ const LoginForm: React.FC<LoginFormProps> = ({ setLogin }) => {
                 <div className="form-check mb-3">
                   <input
                     type="checkbox"
-                    id="user_remember_me"
+                    id="remember-me-button"
                     className="form-check-input"
                     data-cy="remember-me-button"
+                    aria-label="remember me checkbox"
                     defaultChecked={rememberMe}
                     onClick={handleRememberMeClick}
                   />
@@ -162,6 +164,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ setLogin }) => {
                     className="form-check-label float-start"
                     data-cy="remember-me"
                     htmlFor="user_remember_me"
+                    aria-labelledby="remember-me-button"
                   >
                     {"Remember Me"}
                   </label>
@@ -170,7 +173,8 @@ const LoginForm: React.FC<LoginFormProps> = ({ setLogin }) => {
                 <div className="form-group">
                   <button
                     type="submit"
-                    id="login_button"
+                    id="login-button"
+                    aria-label="login button"
                     className="btn btn-lg btn-outline-primary w-100 mb-2"
                     data-cy="login-button"
                   >
@@ -178,9 +182,10 @@ const LoginForm: React.FC<LoginFormProps> = ({ setLogin }) => {
                   </button>
 
                   <button
-                    id="create_account_button"
+                    id="register-button"
+                    aria-label="register button"
                     className="btn btn-outline-secondary w-100"
-                    data-cy="register-link"
+                    data-cy="register-button"
                     onClick={() => {
                       window.location.href = "/account/register"
                     }}
@@ -190,7 +195,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ setLogin }) => {
                 </div>
 
                 <div className="form-group">
-                  <label htmlFor="">
+                  <label htmlFor="" aria-label="forgot your password link">
                     <a href="" className="text-leo-blue">
                       {"Forgot your password?"}
                     </a>
