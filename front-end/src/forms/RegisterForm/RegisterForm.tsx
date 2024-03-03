@@ -111,6 +111,7 @@ const RegisterForm = () => {
                 <LabeledInput
                   autoFocus={true}
                   label={"Username"}
+                  placeholder={"Username"}
                   registerLabel="username"
                   register={register}
                   // className="text-dark"
@@ -121,6 +122,7 @@ const RegisterForm = () => {
                 />
                 <LabeledInput
                   label={"Email"}
+                  placeholder={"Email"}
                   registerLabel="email"
                   register={register}
                   pattern={{
@@ -136,6 +138,7 @@ const RegisterForm = () => {
                 <LabeledInput
                   type="password"
                   label={"Password"}
+                  placeholder={"Password"}
                   registerLabel="password"
                   register={register}
                   required
@@ -146,6 +149,7 @@ const RegisterForm = () => {
                 <LabeledInput
                   type="password"
                   label={"Password confirmation"}
+                  placeholder={"Password confirmation"}
                   registerLabel="password-confirmation"
                   register={register}
                   required
