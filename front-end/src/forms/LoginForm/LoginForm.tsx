@@ -8,6 +8,9 @@ import { getItem, setItem, setUserLoggedInKey } from "../../utils"
 
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from "yup"
+import YupPassword from "yup-password"
+
+YupPassword(yup)
 
 interface LoginFormProps {
   setLogin: (login: boolean) => any
