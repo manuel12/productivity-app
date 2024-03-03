@@ -7,10 +7,8 @@ interface LoggedOutRoutesProps {
 
 const LoginPage: React.FC<LoggedOutRoutesProps> = ({ setLogin }) => {
   return (
-    <div role="main" aria-label="Login Page">
-      <h1 className="display-1" data-cy="login-page">
-        Login
-      </h1>
+    <div role="main" aria-label="Login Page" data-cy="login-page">
+      <h1 className="display-1">Login</h1>
       <LoginForm setLogin={setLogin} />
     </div>
   )
