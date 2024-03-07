@@ -115,6 +115,20 @@ describe("Authentication Section - Login User", () => {
     cy.get("button[type='submit']").click()
   })
 
+  it("should display error label 'An email address is required.' when submitting an empty email address", () => {
+    cy.get("button[type='submit']").click()
+    cy.get('[data-cy="email-error-label"]')
+      .should("be.visible")
+      .and("contain.text", "An email address is required.")
+  })
+
+  it("should display error label 'A password is required.' when submitting an empty password", () => {
+    cy.get("button[type='submit']").click()
+    cy.get('[data-cy="password-error-label"]')
+      .should("be.visible")
+      .and("contain.text", "A password is required.")
+  })
+
   afterEach(() => {
     cy.deleteTestUsers()
   })
