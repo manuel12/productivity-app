@@ -67,6 +67,124 @@ describe("Authentication Section - Register User", () => {
     )
   })
 
+  it("should display error label 'A username is required.' when submitting empty username", () => {
+    cy.get("button[type='submit']").click()
+
+    cy.get('[data-cy="username-error-label"]').should(
+      "have.text",
+      "A username is required."
+    )
+  })
+
+  it("should display error label 'Username must be at least 6 characters.' when submitting an invalid username", () => {
+    cy.getBySel("username").type("abcde")
+    cy.get("button[type='submit']").click()
+
+    cy.get('[data-cy="username-error-label"]').should(
+      "have.text",
+      "Username must be at least 6 characters."
+    )
+  })
+
+  it("should display error label 'A email address is required.' when submitting empty email address", () => {
+    cy.get("button[type='submit']").click()
+
+    cy.get('[data-cy="email-error-label"]').should(
+      "have.text",
+      "An email address is required."
+    )
+  })
+
+  it("should display error label 'Email address is invalid.' when submitting an invalid email address", () => {
+    cy.getBySel("email").type("Invalid Email Address")
+    cy.get("button[type='submit']").click()
+
+    cy.get('[data-cy="email-error-label"]').should(
+      "have.text",
+      "Email must be valid."
+    )
+  })
+
+  it("should display error label 'A password is required.' appears submitting empty password", () => {
+    cy.get("button[type='submit']").click()
+
+    cy.get('[data-cy="password-error-label"]').should(
+      "have.text",
+      "A password is required."
+    )
+  })
+
+  it("should display error label 'A password confirmation is required.' when submitting empty password confirmation", () => {
+    cy.get("button[type='submit']").click()
+
+    cy.get('[data-cy="password-confirmation-error-label"]').should(
+      "have.text",
+      "A password confirmation is required."
+    )
+  })
+
+  it("should display error label 'Passwords do not match.' when submitting incorrect password confirmation", () => {
+    cy.getBySel("password").type("CorrectPassword1!")
+    cy.getBySel("password-confirmation").type("INCORRECT_password_CONFIRMATION")
+
+    cy.get("button[type='submit']").click()
+
+    cy.get('[data-cy="password-confirmation-error-label"]').should(
+      "have.text",
+      "Passwords do not match."
+    )
+  })
+
+  it("should display error label 'Password must be at least 8 characters.' when submitting a password without at least 8 characters", () => {
+    cy.getBySel("password").type("abcdefh")
+    cy.get("button[type='submit']").click()
+
+    cy.get('[data-cy="password-error-label"]').should(
+      "have.text",
+      "Password must be at least 8 characters."
+    )
+  })
+
+  it("should display error label 'Password must contain at least 1 uppercase character.' when submitting a password without at least 1 uppercase character", () => {
+    cy.getBySel("password").type("abcdefhg")
+    cy.get("button[type='submit']").click()
+
+    cy.get('[data-cy="password-error-label"]').should(
+      "have.text",
+      "Password must contain at least 1 uppercase character."
+    )
+  })
+
+  it("should display error label 'Password must contain at least 1 lowercase character.' when submitting a password without at least 1 lowercase", () => {
+    cy.getBySel("password").type("ABCDEFGH")
+    cy.get("button[type='submit']").click()
+
+    cy.get('[data-cy="password-error-label"]').should(
+      "have.text",
+      "Password must contain at least 1 lowercase character."
+    )
+  })
+
+  it("should display error label 'Password must contain at least 1 number character.' when submitting a password without at least 1 number character", () => {
+    cy.getBySel("password").type("Abcdefhg")
+    cy.get("button[type='submit']").click()
+
+    cy.get('[data-cy="password-error-label"]').should(
+      "have.text",
+      "Password must contain at least 1 number character."
+    )
+  })
+
+  it("should display error label 'Password must contain at least 1 special character.' when submitting a password without at least 1 special character", () => {
+    cy.getBySel("password").type("Abcdefhg1")
+    cy.get("button[type='submit']").click()
+
+    cy.get('[data-cy="password-error-label"]').should(
+      "have.text",
+      "Password must contain at least 1 special character."
+    )
+  })
+
   afterEach(() => {
     cy.deleteTestUsers()
   })
