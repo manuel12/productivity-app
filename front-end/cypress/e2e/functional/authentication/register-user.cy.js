@@ -67,6 +67,14 @@ describe("Authentication Section - Register User", () => {
     )
   })
 
+  it("should display an alert message when username, email, password or password confirmation are invalid", () => {
+    cy.get("button[type='submit']").click()
+
+    cy.get('[data-cy="form-action-error"]')
+      .should("be.visible")
+      .and("have.text", "Username, email or password invalid.")
+  })
+
   it("should display error label 'A username is required.' when submitting empty username", () => {
     cy.get("button[type='submit']").click()
 
