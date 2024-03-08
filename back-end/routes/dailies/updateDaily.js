@@ -26,7 +26,7 @@ router.patch("/api/dailies/:id", (req, res, next) => {
     typeof updatedDaily.description !== "string" ||
     updatedDaily.description.length == 0
   ) {
-    errors.push("No description specified")
+    errors.push("No description (string) specified")
   }
 
   if (errors.length) {
