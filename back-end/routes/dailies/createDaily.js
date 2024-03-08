@@ -20,7 +20,7 @@ router.post("/api/dailies", (req, res, next) => {
     typeof newDaily.description !== "string" ||
     newDaily.description.length == 0
   ) {
-    errors.push("No description specified")
+    errors.push("No description (string) specified")
   }
 
   if (errors.length) {

@@ -13,6 +13,7 @@ You can see see how many todos you've completed today, how many todos on average
 ## Usage
 
 ### Authentication
+
 You will need to create an account to use the app. When you see the login form click on "CREATE ACCOUNT" to be redirected to the register form. There you can fill in your credentials. Once you've successfully registered a user you can use those credentials on the login form to gain access.
 
 ### Adding Todos
@@ -20,7 +21,7 @@ You will need to create an account to use the app. When you see the login form c
 In order to add todos simply write a todo task on the input field and click Add Todo button or hit the ENTER key.
 
 **Note:**
-_todos cannot be less than 3 characters or more than 40 characters in length._
+_Todos cannot contain less than 3 characters or more than 40 characters in length._
 
 ### Editing Todos
 
@@ -90,8 +91,8 @@ _Already installed if you installed front-end. Cypress folder is located in fron
 
 ## Tests
 
-| Type           | Location                                                                               |
-| -------------- | -------------------------------------------------------------------------------------- |
+| Type           | Location                                                                       |
+| -------------- | ------------------------------------------------------------------------------ |
 | api            | [front-end/cypress/e2e/api/](front-end/cypress/e2e/api/)                       |
 | component      | [front-end/cypress/component/](front-end/cypress/component/)                   |
 | functional     | [front-end/cypress/e2e/](front-end/cypress/e2e/functional/)                    |
