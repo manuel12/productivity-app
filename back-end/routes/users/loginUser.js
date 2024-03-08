@@ -14,15 +14,15 @@ router.post("/api/login", (req, res, next) => {
   const params = []
 
   if (!email) {
-    errors.push("No email specified")
+    errors.push("No email (string) specified")
   }
 
   if (!password) {
-    errors.push("No password specified")
+    errors.push("No password (string) specified")
   }
 
   if (errors.length) {
-    res.status(400).json({ error: errors.join(", ") })
+    res.status(400).json({ error: errors.join(", ") + "." })
     return
   }
 
