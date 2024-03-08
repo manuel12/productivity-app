@@ -9,19 +9,19 @@ router.post("/api/user/", (req, res, next) => {
   const errors = []
 
   if (!username) {
-    errors.push("No username specified")
+    errors.push("No username (string) specified")
   }
 
   if (!email) {
-    errors.push("No email specified")
+    errors.push("No email (string) specified")
   }
 
   if (!password) {
-    errors.push("No password specified")
+    errors.push("No password (string) specified")
   }
 
   if (errors.length) {
-    res.status(400).json({ error: errors.join(", ") })
+    res.status(400).json({ error: errors.join(", ") + "." })
     return
   }
 
