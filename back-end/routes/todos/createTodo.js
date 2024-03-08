@@ -18,7 +18,7 @@ router.post("/api/todo", authenticateToken, (req, res, next) => {
     typeof newTodo.description !== "string" ||
     newTodo.description.length == 0
   ) {
-    errors.push("No description specified")
+    errors.push("No description (string) specified")
   }
 
   if (errors.length) {

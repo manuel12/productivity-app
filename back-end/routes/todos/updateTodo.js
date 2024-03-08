@@ -25,7 +25,7 @@ router.patch("/api/todo/:id", authenticateToken, (req, res, next) => {
     typeof updatedTodo.description !== "string" ||
     updatedTodo.description.length == 0
   ) {
-    errors.push("No description specified")
+    errors.push("No description (string) specified")
   }
 
   if (errors.length) {
@@ -65,7 +65,9 @@ router.patch("/api/todo/:id", authenticateToken, (req, res, next) => {
 
         // Check if any rows were affected (i.e., if the Todo was updated)
         if (this.changes === 0) {
-          return res.status(404).json({ error: `Todo with id ${id} not found` })
+          return res
+            .status(404)
+            .json({ error: `Todo with id ${id} not found.` })
         }
 
         return res.json({
