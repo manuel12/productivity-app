@@ -7,51 +7,56 @@ describe("RegisterForm", () => {
     cy.mount(<RegisterForm />)
   })
 
-  it("should display an username input", () => {})
+  it("should display an username input", () => {
+    cy.getBySel("username")
+      .should("be.visible")
+      .and("have.attr", "placeholder")
+      .and("contain", "Username")
+  })
 
   it("should display an email input", () => {
-    cy.get('[data-cy="email"]')
+    cy.getBySel("email")
       .should("be.visible")
       .and("have.attr", "placeholder")
       .and("contain", "Email")
   })
 
   it("should display an password input", () => {
-    cy.get('[data-cy="password"]')
+    cy.getBySel("password")
       .should("be.visible")
       .and("have.attr", "placeholder")
       .and("contain", "Password")
   })
 
   it("should display an password confirmation input", () => {
-    cy.get('[data-cy="password-confirmation"]')
+    cy.getBySel("password-confirmation")
       .should("be.visible")
       .and("have.attr", "placeholder")
       .and("contain", "Password confirmation")
   })
 
   it("should display a 'REGISTER' button", () => {
-    cy.get('[data-cy="register-button"]').should("be.visible")
+    cy.getBySel("register-button").should("be.visible")
   })
 
   it("should have focus set on then username field", () => {
-    cy.get('[data-cy="username"]').should("have.focus")
+    cy.getBySel("username").should("have.focus")
   })
 
   it("should display a password input field of type password", () => {
-    cy.get('input[type="password"]').should("be.visible")
+    cy.getBySel("password").should("be.visible")
   })
 
   it("should display a password confirmation input field of type password", () => {
-    cy.get('input[type="password"][data-cy="password-confirmation"]').should(
-      "be.visible"
-    )
+    cy.getBySel("password-confirmation").should("be.visible")
   })
 
-  it("should display a 'Already have an account? Login here!' link that redirects to login page", () => {
-    cy.get(":nth-child(6) > label")
+  it("display a 'Already have an account?' text and 'LOGIN' button that redirects to login page", () => {
+    cy.getBySel("login-section")
       .should("be.visible")
       .and("contain.text", "Already have an account?")
-    cy.get('[data-cy="login-button"]').should("be.visible")
+    cy.getBySel("login-button").should("be.visible").click()
+
+    cy.url().should("include", "/account/login")
   })
 })
