@@ -8,6 +8,6 @@ describe("RegisterPage", () => {
   })
 
   it("should display the register form.", () => {
-    cy.get('[data-cy="register-form"]').should("be.visible")
+    cy.getBySel("register-form").should("be.visible")
   })
 })
