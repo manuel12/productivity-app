@@ -8,6 +8,6 @@ describe("LoginPage", () => {
   })
 
   it("should display the login form", () => {
-    cy.get('[data-cy="login-form"]').should("be.visible")
+    cy.getBySel("login-form").should("be.visible")
   })
 })
