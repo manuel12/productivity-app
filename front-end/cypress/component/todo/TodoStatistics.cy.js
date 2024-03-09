@@ -20,21 +20,21 @@ describe("TodoStatistics", () => {
   })
 
   it("should display first statistics block with the text 'Completed today:'", () => {
-    cy.get('[data-cy="statistics-daily-completed-todos"]').should(
+    cy.getBySel("statistics-daily-completed-todos").should(
       "contain.text",
       "Completed today:"
     )
   })
 
   it("should display second statistics block with the text 'Avg daily completed:'", () => {
-    cy.get('[data-cy="statistics-daily-avg-completed-todos"]').should(
+    cy.getBySel("statistics-daily-avg-completed-todos").should(
       "contain.text",
       "Avg daily completed:"
     )
   })
 
   it("should display third statistics block with the text 'Percentage difference:'", () => {
-    cy.get('[data-cy="statistics-percentage-diff"]').should(
+    cy.getBySel("statistics-percentage-diff").should(
       "contain.text",
       "Percentage difference:"
     )

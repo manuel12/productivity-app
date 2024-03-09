@@ -9,15 +9,15 @@ describe("LOGIN User - (POST) /api/login", () => {
     password: "123456",
   }
 
+  const unexistingUser = {
+    username: "unexistingUser",
+    email: "unexistingUser@gmail.com",
+    password: "123456",
+  }
+
   beforeEach(() => {
     // Delete all db records
     cy.deleteTestUsers()
-  })
-
-  // Positive tests
-
-  // POST - /api/login loginUser
-  it("should allow a user to log in with valid (existing) data", () => {
     // Register user
     cy.request({
       method: "POST",
@@ -26,7 +26,12 @@ describe("LOGIN User - (POST) /api/login", () => {
     }).then((res) => {
       expect(res.status).to.eq(201)
     })
+  })
 
+  // Positive tests
+
+  // POST - /api/login loginUser
+  it("should allow a user to log in with valid (existing) data", () => {
     cy.request({
       method: "POST",
       url: `${apiUrl}/api/login`,
@@ -38,35 +43,17 @@ describe("LOGIN User - (POST) /api/login", () => {
   })
 
   it("should include a success message in its response", () => {
-    // Register user
-    cy.request({
-      method: "POST",
-      url: `${apiUrl}/api/user/`,
-      body: testUser,
-    }).then((res) => {
-      expect(res.status).to.eq(201)
-    })
-
     cy.request({
       method: "POST",
       url: `${apiUrl}/api/login`,
       body: testUser,
       failOnStatusCode: false,
     }).then((res) => {
-      expect(res.status).to.eq(200)
+      expect(res.body.message).to.eq("User successfully logged in!")
     })
   })
 
   it("should include the correct user properties in its response", () => {
-    // Register user
-    cy.request({
-      method: "POST",
-      url: `${apiUrl}/api/user/`,
-      body: testUser,
-    }).then((res) => {
-      expect(res.status).to.eq(201)
-    })
-
     cy.request({
       method: "POST",
       url: `${apiUrl}/api/login`,
@@ -88,11 +75,11 @@ describe("LOGIN User - (POST) /api/login", () => {
     cy.request({
       method: "POST",
       url: `${apiUrl}/api/login`,
-      body: testUser,
+      body: unexistingUser,
       failOnStatusCode: false,
     }).then((res) => {
       expect(res.body.error).to.eq(
-        `User ${testUser.email} does not exists, register a user first!`
+        `User ${unexistingUser.email} does not exists, register a user first!`
       )
     })
   })
@@ -115,7 +102,9 @@ describe("LOGIN User - (POST) /api/login", () => {
       body: {},
       failOnStatusCode: false,
     }).then((res) => {
-      expect(res.body.error).to.eq("No email specified, No password specified")
+      expect(res.body.error).to.eq(
+        "No email (string) specified, No password (string) specified."
+      )
     })
   })
 })
