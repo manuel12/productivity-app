@@ -22,14 +22,14 @@ describe("TodoList", () => {
   })
 
   it("should display input with placeholder text 'Add new todos...'", () => {
-    cy.get('[data-cy="todo-input"]')
+    cy.getBySel("todo-input")
       .should("be.visible")
       .and("have.attr", "placeholder")
       .and("contain", "Add new todo...")
   })
 
   it("should display button with the text 'Add Todo'", () => {
-    cy.get('[data-cy="todo-submit"]')
+    cy.getBySel("todo-submit")
       .should("be.visible")
       .and("contain.text", "Add Todo")
   })
