@@ -8,7 +8,7 @@ describe("TodoPage", () => {
   })
 
   it('should display h1 heading with the text "To Dos"', () => {
-    cy.get('[data-cy="todos-heading"]')
+    cy.getBySel("todos-heading")
       .should("have.prop", "tagName", "H1")
       .and("have.text", "To Dos")
   })
