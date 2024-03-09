@@ -104,7 +104,7 @@ describe("REGISTER User - (POST) /api/user", () => {
       failOnStatusCode: false,
     }).then((res) => {
       expect(res.body.error).to.eq(
-        "No username specified, No email specified, No password specified"
+        "No username (string) specified, No email (string) specified, No password (string) specified."
       )
     })
   })
