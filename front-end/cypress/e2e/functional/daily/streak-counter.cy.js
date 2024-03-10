@@ -11,8 +11,8 @@ describe("Daily Section - Streak Counter", () => {
     let initialStreakCounterValue
     let secondaryStreakCounterValue
 
-    cy.get("[data-cy=dailies-input]").type("Clean room (test){enter}")
-    cy.get("[data-cy=dailies-item]")
+    cy.getBySel("dailies-input").type("Clean room (test){enter}")
+    cy.getBySel("dailies-item")
       .should("be.visible")
       .within(() => {
         cy.get(".streak-icon-container")
@@ -22,7 +22,7 @@ describe("Daily Section - Streak Counter", () => {
             expect(initialStreakCounterValue).to.eq(0)
           })
 
-        cy.get("[data-cy=dailies-check-icon-container]")
+        cy.getBySel("dailies-check-icon-container")
           .should("be.visible")
           .within(() => {
             cy.get(".fa-circle-check")
@@ -43,10 +43,10 @@ describe("Daily Section - Streak Counter", () => {
   })
 
   it("should reset the streak counter to 0 when a daily is not completed for more than 1 day", () => {
-    cy.get("[data-cy=dailies-input]").type("Clean room (test){enter}")
+    cy.getBySel("dailies-input").type("Clean room (test){enter}")
 
     // Complete daily (in the current date)
-    cy.get("[data-cy=dailies-check-icon-container]")
+    cy.getBySel("dailies-check-icon-container")
       .should("be.visible")
       .within(() => {
         cy.get(".fa-circle-check")
