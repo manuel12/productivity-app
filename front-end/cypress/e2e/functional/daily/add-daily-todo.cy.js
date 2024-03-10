@@ -16,7 +16,7 @@ describe("Daily Section - Add Daily Todo", () => {
 
   it("should add a daily by writing on input and clicking the 'Add daily' button", () => {
     cy.getBySel("dailies-input").type(testDailyOne)
-    cy.get('[data-cy="dailies-submit"]').click()
+    cy.getBySel("dailies-submit")).click()
 
     cy.getBySel("dailies-item").should("be.visible")
   })
@@ -66,7 +66,7 @@ describe("Daily Section - Add Daily Todo", () => {
   })
 
   it("should not add dailies when leaving the input empty", () => {
-    cy.get('[data-cy="dailies-submit"]').click()
+    cy.getBySel("dailies-submit")).click()
     cy.getBySel("dailies-item").should("not.exist")
 
     cy.getBySel("dailies-input").type("{enter}")

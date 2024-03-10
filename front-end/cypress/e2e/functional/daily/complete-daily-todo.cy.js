@@ -10,7 +10,7 @@ describe("Daily Section - Complete Daily Todo", () => {
   it("should mark a daily as complete", () => {
     const todoTextToComplete = "Todo to Complete (test)"
     cy.getBySel("dailies-input").type(todoTextToComplete)
-    cy.get('[data-cy="dailies-submit"]').click()
+    cy.getBySel("dailies-submit")).click()
 
     // Verify that the daily todo with text 'Todo to Complete (test)' has initially .check--not-completed class
     cy.getBySel("dailies-item")
@@ -49,7 +49,7 @@ describe("Daily Section - Complete Daily Todo", () => {
   it("should add a line-through to daily text when marked as completed", () => {
     const todoTextToComplete = "Todo to Complete (test)"
     cy.getBySel("dailies-input").type(todoTextToComplete)
-    cy.get('[data-cy="dailies-submit"]').click()
+    cy.getBySel("dailies-submit")).click()
 
     // Verify daily todo text does not have line-through.
     cy.getBySel("dailies-item")
