@@ -156,7 +156,7 @@ describe("CREATE Todo - (POST) /api/todo/:id", () => {
     }).then((res) => {
       expect(res.status).to.eq(400)
       expect(res.body.error).to.eq(
-        "No completed (boolean) specified, No description specified."
+        "No completed (boolean) specified, No description (string) specified."
       )
     })
   })
@@ -188,7 +188,7 @@ describe("CREATE Todo - (POST) /api/todo/:id", () => {
       failOnStatusCode: false,
     }).then((res) => {
       expect(res.body.error).to.eq(
-        "No completed (boolean) specified, No description specified."
+        "No completed (boolean) specified, No description (string) specified."
       )
     })
   })

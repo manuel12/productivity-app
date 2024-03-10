@@ -54,6 +54,22 @@ describe("READ Todo - (GET) /api/todo/", () => {
     })
   })
 
+  // GET  - /api/todo/:id getTodo
+  it("should retrieve a specific todoshould retrieve a specific todo", () => {
+    cy.request({
+      method: "GET",
+      url: `${apiUrl}/api/todo/${ctx.todoId}`,
+      headers: {
+        Authorization: `Bearer ${ctx.token}`,
+        "Content-Type": "application/json",
+      },
+      failOnStatusCode: false,
+    }).then((res) => {
+      expect(res.body.message).to.eq(`Todo successfully retrieved!`)
+    })
+  })
+
+  // GET  - /api/todo/ getTodos
   it("should have completed and description properties on returned todos", () => {
     cy.request({
       method: "GET",
@@ -72,18 +88,21 @@ describe("READ Todo - (GET) /api/todo/", () => {
     })
   })
 
-  // GET  - /api/todo/:id getTodo
-  it("should retrieve a specific todo when requesting with valid id", () => {
+  it("should have the correct type on returned todos", () => {
     cy.request({
       method: "GET",
-      url: `${apiUrl}/api/todo/${ctx.todoId}`,
+      url: `${apiUrl}/api/todos/`,
       headers: {
         Authorization: `Bearer ${ctx.token}`,
         "Content-Type": "application/json",
       },
-      failOnStatusCode: false,
+      body: testTodo,
     }).then((res) => {
-      expect(res.body.message).to.eq(`Todo successfully retrieved!`)
+      const todos = res.body.data
+      todos.forEach((todo) => {
+        expect(todo.completed).to.be.a("boolean")
+        expect(todo.description).to.be.a("string")
+      })
     })
   })
 
