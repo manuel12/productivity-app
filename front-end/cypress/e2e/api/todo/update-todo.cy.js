@@ -79,7 +79,7 @@ describe("UPDATE Todo - (PATCH) /api/todo/:id", () => {
     }).then((res) => {
       expect(res.status).to.eq(400)
       expect(res.body.error).to.eq(
-        "No completed (boolean) specified, No description specified."
+        "No completed (boolean) specified, No description (string) specified."
       )
     })
   })
@@ -97,7 +97,7 @@ describe("UPDATE Todo - (PATCH) /api/todo/:id", () => {
       failOnStatusCode: false,
     }).then((res) => {
       expect(res.status).to.eq(404)
-      expect(res.body.error).to.eq(`Todo with id ${invalidId} not found`)
+      expect(res.body.error).to.eq(`Todo with id ${invalidId} not found.`)
     })
   })
 
@@ -128,7 +128,7 @@ describe("UPDATE Todo - (PATCH) /api/todo/:id", () => {
       failOnStatusCode: false,
     }).then((res) => {
       expect(res.body.error).to.eq(
-        "No completed (boolean) specified, No description specified."
+        "No completed (boolean) specified, No description (string) specified."
       )
     })
   })
