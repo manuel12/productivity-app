@@ -49,8 +49,8 @@ const DailiesList: React.FC<IDaliesListProps> = ({ dailies, setDailies }) => {
     }
   }, [dailies])
 
-  const handleAddDaily = (e: any) => {
-    e.preventDefault()
+  const handleAddDaily = () => {
+    // e.preventDefault()
 
     if (newDaily.description === "") return
 
@@ -74,18 +74,19 @@ const DailiesList: React.FC<IDaliesListProps> = ({ dailies, setDailies }) => {
       <CustomInput
         itemName="dailies"
         handleAddItem={handleAddDaily}
-        newItem={newDaily}
-        onChange={(e) => {
-          const inputValue = e.target.value
-          if (inputValue.length <= 40) {
-            setNewDaily({
-              completed: false,
-              description: e.target.value,
-              dateCreated: new Date().toDateString(),
-              streakCounter: 0,
-            })
-          }
-        }}
+        // newItem={newDaily}
+        // onChange={(e) => {
+        //   const inputValue = e.target.value
+        //   if (inputValue.length <= 40) {
+        //     setNewDaily({
+        //       completed: false,
+        //       description: e.target.value,
+        //       dateCreated: new Date().toDateString(),
+        //       streakCounter: 0,
+        //     })
+        //   }
+        // }}
+        schema={null}
       />
 
       <CustomList items={dailies} itemName="dailies" dataCyAttr="dailies-list">
