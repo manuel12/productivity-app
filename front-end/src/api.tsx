@@ -6,7 +6,6 @@ class API {
   static verbose = true
   static getToken = () => {
     const token = getItem("token")
-    console.log(token)
     return token
   }
 
