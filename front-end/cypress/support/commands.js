@@ -101,7 +101,6 @@ Cypress.Commands.add("deleteTestTodos", () => {
     url: `${apiUrl}/api/todos/delete-test-todos/`,
     failOnStatusCode: false,
   }).then((res) => {
-    console.log(res)
     expect(res.status).to.eq(204)
   })
 })
