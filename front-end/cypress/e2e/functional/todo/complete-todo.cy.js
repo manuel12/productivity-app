@@ -22,7 +22,7 @@ describe("Todo Section - Mark Todo as Complete:", () => {
   // Positive tests
 
   it("should mark a todo as complete", () => {
-    // Validate that the todo with text 'Todo to Complete' has initially .check-not-completed class
+    // Validate that the todo with text 'Feed the cats (test)' has initially .check-not-completed class
     cy.getBySel("todo-item")
       .filter(":contains('test')")
       .within(() => {
@@ -42,7 +42,7 @@ describe("Todo Section - Mark Todo as Complete:", () => {
         cy.getBySel("todos-check-icon-container").click()
       })
 
-    // Validate that the todo with text 'Todo to Complete' has .check-completed class
+    // Validate that the todo with text 'Feed the cats (test)' has .check-completed class
     cy.getBySel("todo-item")
       .filter(":contains('test')")
       .within(() => {

@@ -22,18 +22,18 @@ describe("Todo Section - Delete Todo", () => {
   // Positive tests
 
   it("should delete a todo and remove it from the list", () => {
-    // Find the todo item with text 'Todo to Delete' and locate its delete button, then click it
+    // Find the todo item with text 'Feed the cats' and locate its delete button, then click it
     cy.contains(validTodo.validTodoDesc)
       .parent()
       .find(".remove-icon-container")
       .click()
 
-    // Verify that the todo with text 'Todo to Delete' no longer exists in the todo list
+    // Verify that the todo with text 'Feed the cats' no longer exists in the todo list
     cy.contains(validTodo.validTodoDesc).should("not.exist")
   })
 
   it("should not show deleted todos after page reload", () => {
-    // Find the todo item with text 'Todo to Delete' and locate its delete button, then click it
+    // Find the todo item with text 'Feed the cats' and locate its delete button, then click it
     cy.contains(validTodo.validTodoDesc)
       .parent()
       .find(".remove-icon-container")
@@ -41,7 +41,7 @@ describe("Todo Section - Delete Todo", () => {
 
     cy.reload()
 
-    // Verify that the todo with text 'Todo to Delete' no longer exists in the todo list
+    // Verify that the todo with text 'Feed the cats' no longer exists in the todo list
     cy.contains(validTodo.validTodoDesc).should("not.exist")
   })
 

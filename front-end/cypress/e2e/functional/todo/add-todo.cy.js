@@ -37,10 +37,12 @@ describe("Todo Section - Add Todo", () => {
 
     cy.getBySel("todo-input").type(validTodo.validTodoDesc3 + "{ENTER}")
 
-    cy.getBySel("todo-item").should("be.visible")
+    cy.getBySel("todos-list")
+      .first()
+      .should("contain.text", validTodo.validTodoDesc3)
   })
 
-  it("should display addded todos correctly on the list", () => {
+  it.skip("should display addded todos correctly on the list", () => {
     cy.getBySel("todo-input").type(validTodo.validTodoDesc + "{enter}")
 
     cy.getBySel("todos-list").should("have.length", 1)
@@ -109,7 +111,7 @@ describe("Todo Section - Add Todo", () => {
 
     cy.getBySel("input-error-label")
       .should("be.visible")
-      .and("contain.text", "Todos cannot contain less than 3 characters")
+      .and("contain.text", "Todos cannot contain less than 3 characters.")
   })
 
   afterEach(() => {

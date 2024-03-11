@@ -125,7 +125,7 @@ describe("Todo Section - Edit Todo", () => {
     cy.getBySel("todos-text-input").should("be.visible")
   })
 
-  it('should display an error label "Todo cannot contain less than 3 characters" when edited todo falls below that amount', () => {
+  it('should display an error label "Todo cannot contain less than 3 characters." when edited todo falls below that amount', () => {
     cy.getBySel("todos-list").should("have.length", 1)
 
     // Find and edit that existing todo
