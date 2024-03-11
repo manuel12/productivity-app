@@ -244,7 +244,6 @@ const todoTestsPreconditions = () => {
 
   // Login testuser
   cy.loginWithAPI((res) => {
-    console.log(res)
     const token = res.body.token
     window.localStorage.setItem("token", JSON.stringify(token))
   })
@@ -312,7 +311,7 @@ describe("Todo Section - Edit Todo Smoke tests", () => {
     cy.getBySel("todos-text-input").clear()
     cy.getBySel("todos-text-input").type(`{enter}`)
 
-    cy.get('[data-cy="todo-error-label"]')
+    cy.getBySel("todo-error-label")
       .should("be.visible")
       .and("have.text", "Todos is required.")
 
@@ -321,7 +320,7 @@ describe("Todo Section - Edit Todo Smoke tests", () => {
       `${invalidTodo.todoDescShorterThan3Chars}{enter}`
     )
 
-    cy.get('[data-cy="todo-error-label"]')
+    cy.getBySel("todo-error-label")
       .should("be.visible")
       .and("have.text", "Todos cannot contain less than 3 characters.")
 
@@ -330,7 +329,7 @@ describe("Todo Section - Edit Todo Smoke tests", () => {
       `${invalidTodo.todoDescLongerThan40Chars}{enter}`
     )
 
-    cy.get('[data-cy="todo-error-label"]')
+    cy.getBySel("todo-error-label")
       .should("be.visible")
       .and("have.text", "Todos cannot contain more than 40 characters.")
 

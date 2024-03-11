@@ -22,7 +22,7 @@ describe("Responsiveness Section - Todo Page", () => {
 
         if (isMobile(resolution)) {
           // Open the navbar and take snapshot of the menu
-          cy.get(".navbar-toggler").click()
+          cy.getBySel("navbar-toggler").click()
           cy.getBySel("navbar")
             .should("be.visible")
             .matchImageSnapshot(
