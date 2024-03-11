@@ -71,7 +71,7 @@ describe("Todo Section - Todo Statistics Display ", () => {
       cy.get($el).click()
     })
 
-    cy.get('[data-cy="todos-list"]').should("be.visible")
+    cy.getBySel("todos-list").should("be.visible")
 
     // Stub the Date object to make it tomorrow
     const tomorrow = new Date()
@@ -90,7 +90,7 @@ describe("Todo Section - Todo Statistics Display ", () => {
       cy.get($el).click()
     })
 
-    cy.get('[data-cy="todos-list"]').should("be.visible")
+    cy.getBySel("todos-list").should("be.visible")
 
     // Check  avg daily completed todos
     cy.get('[data-cy="statistics-daily-avg-completed-todos"]').should(
