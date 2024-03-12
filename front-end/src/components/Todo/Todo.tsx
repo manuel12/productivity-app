@@ -53,8 +53,15 @@ const Todo: React.FC<ITodoItemProps> = ({
     todoToUpdate.completed = !updatedTodoCompleted
     setCompleted(todoToUpdate.completed)
 
-    // Set todo dateCompleted prop to the current date
-    todoToUpdate.dateCompleted = new Date().toISOString()
+    if (todoToUpdate.completed) {
+      // Set todo dateCompleted prop to the current date
+      todoToUpdate.dateCompleted = new Date().toISOString()
+      playTodoCompletedSound()
+    } else {
+      // If uncompleted set to undefined
+      todoToUpdate.dateCompleted = undefined
+    }
+
     tempTodos[todoIndex] = todoToUpdate
 
     const updatedTempTodos = [...tempTodos]
@@ -63,8 +70,6 @@ const Todo: React.FC<ITodoItemProps> = ({
 
     const todoId = todoToUpdate.id
     todoId && API.editTodo(todoToUpdate, todoId)
-
-    todoToUpdate.completed && playTodoCompletedSound()
   }
 
   const handleEditClick = () => {
