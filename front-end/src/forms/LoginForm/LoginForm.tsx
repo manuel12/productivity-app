@@ -26,16 +26,14 @@ const LoginForm: React.FC<LoginFormProps> = ({ setLogin }) => {
       .string()
       .required("An email address is required.")
       .email("Email must be valid."),
-    password: yup
-      .string()
-      .required("A password is required.")
-      .password()
+    password: yup.string().required("A password is required."),
 
-      .min(8, "Password must be at least 8 characters.")
-      .minLowercase(1, "Password must contain at least 1 lowercase character.")
-      .minUppercase(1, "Password must contain at least 1 uppercase character.")
-      .minNumber(1, "Password must contain at least 1 number character.")
-      .minSymbols(1, "Password must contain at least 1 special character."),
+    //.password(),
+    // .min(8, "Password must be at least 8 characters.")
+    // .minLowercase(1, "Password must contain at least 1 lowercase character.")
+    // .minUppercase(1, "Password must contain at least 1 uppercase character.")
+    // .minNumber(1, "Password must contain at least 1 number character.")
+    // .minSymbols(1, "Password must contain at least 1 special character."),
   })
 
   const {
@@ -82,12 +80,12 @@ const LoginForm: React.FC<LoginFormProps> = ({ setLogin }) => {
         if (rememberMe) {
           setItem("rememberMe", true)
           setItem("rememberMeEmail", email)
-          setUserLoggedInKey()
         } else {
           setItem("rememberMe", false)
         }
 
         setItem("currentUser", currentUserUsername)
+        setUserLoggedInKey()
         setUserLoginSuccessfull(true)
         setTimeout(() => setLogin(true), 500)
       }
@@ -116,13 +114,14 @@ const LoginForm: React.FC<LoginFormProps> = ({ setLogin }) => {
             <div className="card-body" data-cy="login-form">
               <div
                 className="alert text-center"
+                data-cy="login-alert"
                 style={{
                   backgroundColor: "#ccf3e9",
                   color: "#00654c",
                   borderColor: "#b8eee0",
                 }}
               >
-                {"You need to login to continue."}
+                You need to login to continue.
               </div>
               <form onSubmit={handleSubmit(validSubmit, invalidSubmit)}>
                 <div className="form-group">
@@ -183,28 +182,27 @@ const LoginForm: React.FC<LoginFormProps> = ({ setLogin }) => {
                   >
                     {"LOGIN"}
                   </button>
-
-                  <button
-                    id="register-button"
-                    aria-label="register button"
-                    className="btn btn-outline-secondary w-100"
-                    data-cy="register-button"
-                    onClick={() => {
-                      window.location.href = "/account/register"
-                    }}
-                  >
-                    {"CREATE ACCOUNT"}
-                  </button>
                 </div>
 
-                <div className="form-group">
+                {/* <div className="form-group">
                   <label htmlFor="" aria-label="forgot your password link">
                     <a href="" className="text-leo-blue">
                       {"Forgot your password?"}
                     </a>
                   </label>
-                </div>
+                </div> */}
               </form>
+              <button
+                id="register-button"
+                aria-label="register button"
+                className="btn btn-outline-secondary w-100"
+                data-cy="register-button"
+                onClick={() => {
+                  window.location.href = "/account/register"
+                }}
+              >
+                {"CREATE ACCOUNT"}
+              </button>
             </div>
           </div>
         </div>
