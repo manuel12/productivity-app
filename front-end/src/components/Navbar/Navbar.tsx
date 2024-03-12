@@ -17,6 +17,7 @@ const Navbar: React.FC = () => {
         </a>
         <button
           className="navbar-toggler"
+          data-cy="navbar-toggler"
           type="button"
           data-bs-toggle="collapse"
           data-bs-target="#navbarNav"
