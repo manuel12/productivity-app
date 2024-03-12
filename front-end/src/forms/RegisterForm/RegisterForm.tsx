@@ -175,22 +175,21 @@ const RegisterForm = () => {
                 >
                   {"REGISTER"}
                 </button>
-
-                <div className="mb-3">
-                  <label>{"Already have an account? "}</label>
-                  <button
-                    id="login-button"
-                    className="btn btn-outline-secondary w-100"
-                    aria-label="login button"
-                    data-cy="login-button"
-                    onClick={() => {
-                      window.location.href = "/"
-                    }}
-                  >
-                    {"LOGIN"}
-                  </button>
-                </div>
               </form>
+              <div className="mb-3" data-cy="login-section">
+                <label>Already have an account?</label>
+                <button
+                  id="login-button"
+                  className="btn btn-outline-secondary w-100"
+                  aria-label="login button"
+                  data-cy="login-button"
+                  onClick={() => {
+                    window.location.href = "/"
+                  }}
+                >
+                  {"LOGIN"}
+                </button>
+              </div>
             </div>
           </div>
         </div>
