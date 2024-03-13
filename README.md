@@ -1,24 +1,24 @@
 ﻿![Productivity App](hero.png)
 
-The Productivity App helps you list and track your todos completed or uncompleted as well as tracking your daily todos and any learnings made.
+The Productivity App helps you list and track your todos completed or uncompleted.
 
 You can see see how many todos you've completed today, how many todos on average you've completed daily and also the percentage difference between those 2 number to know if you are ahead of your average or falling behind.
 
  <h2>Desktop</h2>
- <img src="https://manuel12.github.io/personal-portfolio-page/images/productivity-app/desktopImage.png" title="Productivity App Desktop" alt="Productivity App Desktop" width="650" height="357" style="display: inline"/>
+ <img src='https://manuel12.github.io/personal-portfolio-page/images/productivity-app/desktopImage.png' title='Productivity App Desktop' alt='Productivity App Desktop' width='650' height='357' style='display: inline'/>
 
   <h2>Mobile</h2>
- <img src="https://manuel12.github.io/personal-portfolio-page/images/productivity-app/mobileImage.png" title="Productivity App Mobile" alt="Productivity App Mobile" width="165" height="357"/>
+ <img src='https://manuel12.github.io/personal-portfolio-page/images/productivity-app/mobileImage.png' title='Productivity App Mobile' alt='Productivity App Mobile' width='165' height='357'/>
 
 ## Usage
 
 ### Authentication
 
-You will need to create an account to use the app. When you see the login form click on "CREATE ACCOUNT" to be redirected to the register form. There you can fill in your credentials. Once you've successfully registered a user you can use those credentials on the login form to gain access.
+You will need to create an account to use the app. When you see the login form click on 'CREATE ACCOUNT' to be redirected to the register form. There you can fill in your credentials. Once you've successfully registered a user you can use those credentials on the login form to gain access.
 
 ### Adding Todos
 
-In order to add todos simply write a todo task on the input field and click Add Todo button or hit the ENTER key.
+In order to add todos simply write a todo task on the input field and click 'Add Todo' button or hit the ENTER key.
 
 **Note:**
 _Todos cannot contain less than 3 characters or more than 40 characters in length._
@@ -54,11 +54,9 @@ The statistics displayed are:
 
 ## Known issues:
 
-- When completing a number of todos the number of "Completed today" displayed in statistics goes up (Say for example user completes 3 todos then on "Completed today" should display a 3). But if the same todos are set to uncompleted(clicking the check icon again) the number of "Completed today" does not decrease(If the 3 previously completed todos are all set to uncompleted the "Completed today" should display 0. It doesn't).
+- When creating todos with the same text ('Feed the cats') and then proceeding to delete them by clicking on the 'X' button, after clicking 'X' instead of only the selected todo disappearing, all the preceeding todos with the same text disappear, and then if the user reloads the page the preceeding todos are displayed again.
 
-- When creating todos with the same text ("Feed the cats") and then proceeding to delete them by clicking on the "X" button, sometimes after clicking "X" instead of only the selected todo disappearing, all the preceeding todos with the same text disappear. Then if the user reloads the page the preceeding todos are displayed again.
-
-## Installation
+## Installation & Running App
 
 For installing the Django application clone the repository and cd inside the directory
 
@@ -66,7 +64,7 @@ For installing the Django application clone the repository and cd inside the dir
 
 ### Installation - Front-end
 
-For installing the front-end cd to the front-end folder
+For installing the front-end cd to the front-end folder:
 
     cd front-end
 
@@ -74,15 +72,27 @@ And run:
 
     npm install
 
+### Running app - Front-end
+
+For running the front-end cd to the front-end folder and run:
+
+    npm start
+
 ### Installation - Back-end
 
-For installing the back-end cd to the back-end folder
+For installing the back-end cd to the back-end folder:
 
     cd back-end
 
 And run:
 
     npm install
+
+### Running app - Back-end
+
+For running the back-end cd to the back-end folder and run:
+
+    npm start
 
 ## Installation - Cypress
 
@@ -114,15 +124,15 @@ And run:
 Or if running from the CLI use one of the scripts found in package.json:
 
 ```
-"test:chrome": "cypress run --browser chrome",
-"test:firefox": "cypress run --browser firefox",
-"test:edge": "cypress run --browser edge",
-"test:electron": "cypress run --browser electron",
-"test:all-browsers": "npm run test:chrome && npm run test:firefox && npm run test:edge && npm run test:electron",
-"test:api": "cypress run --spec 'cypress/e2e/api/'",
-"test:functional": "cypress run --spec 'cypress/e2e/functional/'",
-"test:responsiveness": "cypress run --spec 'cypress/e2e/responsiveness/'",
-"test:smoke": "cypress run --spec 'cypress/e2e/smoke/'",
+'test:chrome': 'cypress run --browser chrome',
+'test:firefox': 'cypress run --browser firefox',
+'test:edge': 'cypress run --browser edge',
+'test:electron': 'cypress run --browser electron',
+'test:all-browsers': 'npm run test:chrome && npm run test:firefox && npm run test:edge && npm run test:electron',
+'test:api': 'cypress run --spec 'cypress/e2e/api/'',
+'test:functional': 'cypress run --spec 'cypress/e2e/functional/'',
+'test:responsiveness': 'cypress run --spec 'cypress/e2e/responsiveness/'',
+'test:smoke': 'cypress run --spec 'cypress/e2e/smoke/'',
 ```
 
 ## Uses
