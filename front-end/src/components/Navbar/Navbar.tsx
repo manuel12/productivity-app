@@ -35,8 +35,7 @@ const Navbar: React.FC = () => {
                 Home
               </a>
             </li>
-
-            <li className="nav-item">
+            {/* <li className="nav-item">
               <a href="/dailies" className="nav-link" aria-label="Dailies">
                 Dailies
               </a>
@@ -49,7 +48,7 @@ const Navbar: React.FC = () => {
               >
                 Weekly Learnings
               </a>
-            </li>
+            </li> */}
             <li className="nav-item">
               <a
                 href="/"
