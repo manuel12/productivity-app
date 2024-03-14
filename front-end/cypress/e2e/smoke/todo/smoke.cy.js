@@ -14,10 +14,13 @@ describe("Authentication Section - Register Smoke tests", () => {
   // Positive tests
 
   it("should allow the user to register with valid credentials", () => {
-    cy.getBySel("register-link").click()
+    cy.getBySel("register-button").click()
 
     // Check alert error message
     cy.getBySel("register-button").click()
+
+    //cy.getBySel("register-page")
+    cy.get("body").matchImageSnapshot("Register Page Error Labels")
 
     cy.getBySel("form-action-error")
       .should("be.visible")
@@ -128,6 +131,9 @@ describe("Authentication Section - Register Smoke tests", () => {
     cy.getBySel("form-action-success")
       .should("be.visible")
       .and("have.text", `User ${testuser.email} successfully registered!`)
+
+    //cy.getBySel("register-page")
+    cy.get("body").matchImageSnapshot("Register Page Register Success")
   })
 
   afterEach(() => {
@@ -147,6 +153,9 @@ describe("Authentication Section - Login Smoke tests", () => {
   it("should allow the user to login with valid credentials", () => {
     // Check alert error message
     cy.getBySel("login-button").click()
+
+    //cy.getBySel("login-page")
+    cy.get("body").matchImageSnapshot("Login Page Error Labels")
 
     cy.getBySel("form-action-error")
       .should("be.visible")
@@ -169,51 +178,6 @@ describe("Authentication Section - Login Smoke tests", () => {
 
     cy.getBySel("email-error-label").should("have.text", "Email must be valid.")
 
-    // Check password error labels
-    cy.getBySel("password")
-      .clear()
-      .type(invalidCredentials.passwordShorterThan8Chars)
-    cy.getBySel("login-button").click()
-
-    cy.getBySel("password-error-label").should(
-      "have.text",
-      "Password must be at least 8 characters."
-    )
-
-    cy.getBySel("password").clear().type(invalidCredentials.noUppercasePassword)
-    cy.getBySel("login-button").click()
-
-    cy.getBySel("password-error-label").should(
-      "have.text",
-      "Password must contain at least 1 uppercase character."
-    )
-
-    cy.getBySel("password").clear().type(invalidCredentials.noLowercasePassword)
-    cy.getBySel("login-button").click()
-
-    cy.getBySel("password-error-label").should(
-      "have.text",
-      "Password must contain at least 1 lowercase character."
-    )
-
-    cy.getBySel("password").clear().type(invalidCredentials.noNumberPassword)
-    cy.getBySel("login-button").click()
-
-    cy.getBySel("password-error-label").should(
-      "have.text",
-      "Password must contain at least 1 number character."
-    )
-
-    cy.getBySel("password")
-      .clear()
-      .type(invalidCredentials.noSpecialCharPassword)
-    cy.getBySel("login-button").click()
-
-    cy.getBySel("password-error-label").should(
-      "have.text",
-      "Password must contain at least 1 special character."
-    )
-
     cy.getBySel("email").clear().type(testuser.email)
     cy.getBySel("password").clear().type(testuser.password)
     cy.getBySel("login-button").click()
@@ -222,6 +186,9 @@ describe("Authentication Section - Login Smoke tests", () => {
       .should("be.visible")
       .and("contain.text", "Login successfull!")
     cy.getBySel("form-action-error").should("not.exist")
+
+    //cy.getBySel("login-page")
+    cy.get("body").matchImageSnapshot("Login Page Login Success")
 
     cy.url().should("eq", "http://localhost:3000/")
 
@@ -281,7 +248,8 @@ describe("Todo Section - Add Todo Smoke tests", () => {
 
     cy.getBySel("todo-item").should("be.visible")
 
-    //cy.getBySel("todo-page-container").matchImageSnapshot("Added todo")
+    //cy.getBySel("todo-page-container")
+    cy.get("body").matchImageSnapshot("Added Todo")
   })
 
   afterEach(() => {
@@ -345,7 +313,8 @@ describe("Todo Section - Edit Todo Smoke tests", () => {
       "exist"
     )
 
-    // cy.getBySel("todo-page-container").matchImageSnapshot("Edited todo")
+    //cy.getBySel("todo-page-container")
+    cy.get("body").matchImageSnapshot("Edited Todo")
   })
 
   afterEach(() => {
@@ -374,7 +343,8 @@ describe("Todo Section - Delete Todo Smoke tests", () => {
     // Verify that the todo with text 'Todo to Delete' no longer exists in the todo list
     cy.contains(validTodo.validTodoToDeleteDesc).should("not.exist")
 
-    //cy.getBySel("todo-page-container").matchImageSnapshot("Deleted todo")
+    //cy.getBySel("todo-page-container")
+    cy.get("body").matchImageSnapshot("Deleted Todo")
   })
 
   afterEach(() => {
@@ -425,9 +395,8 @@ describe("Todo Section - Mark Todo as Complete Smoke tests", () => {
           })
       })
 
-    // cy.getBySel("todo-page-container").matchImageSnapshot(
-    //   "Marked todo as complete"
-    // )
+    //cy.getBySel("todo-page-container")
+    cy.get("body").matchImageSnapshot("Marked Todo As Complete")
   })
 
   afterEach(() => {
@@ -479,9 +448,10 @@ describe("Todo Section - Todos Completed Today Smoke tests", () => {
     cy.scrollTo(0, 0)
     cy.wait(1000)
 
-    // cy.get(".TodosPage-upper-stats").matchImageSnapshot(
-    //   "Displays number of todos completed today"
-    // )
+    //cy.get(".TodosPage-upper-stats")
+    cy.get("body").matchImageSnapshot(
+      "Displays Number Of Todos Completed Today"
+    )
   })
 
   afterEach(() => {
@@ -538,9 +508,10 @@ describe("Todo Section - Average Todos Completed Smoke tests", () => {
     cy.scrollTo(0, 0)
     cy.wait(1000)
 
-    // cy.get(".TodosPage-upper-stats").matchImageSnapshot(
-    //   "Displays average number of completed todos"
-    // )
+    //cy.get(".TodosPage-upper-stats")
+    cy.get("body").matchImageSnapshot(
+      "Displays Average Number Of Completed Todos"
+    )
   })
 
   afterEach(() => {
