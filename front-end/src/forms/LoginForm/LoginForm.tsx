@@ -17,7 +17,7 @@ interface LoginFormProps {
 }
 
 const LoginForm: React.FC<LoginFormProps> = ({ setLogin }) => {
-  const [rememberMe, setRememberMe] = useState(getItem("rememberMe"))
+  const [rememberMe, setRememberMe] = useState(false)
   const [userLoginSuccessfull, setUserLoginSuccessfull] = useState(false)
   const [invalidCredentialsError, setInvalidCredentialsError] = useState(false)
 
@@ -27,13 +27,6 @@ const LoginForm: React.FC<LoginFormProps> = ({ setLogin }) => {
       .required("An email address is required.")
       .email("Email must be valid."),
     password: yup.string().required("A password is required."),
-
-    //.password(),
-    // .min(8, "Password must be at least 8 characters.")
-    // .minLowercase(1, "Password must contain at least 1 lowercase character.")
-    // .minUppercase(1, "Password must contain at least 1 uppercase character.")
-    // .minNumber(1, "Password must contain at least 1 number character.")
-    // .minSymbols(1, "Password must contain at least 1 special character."),
   })
 
   const {
