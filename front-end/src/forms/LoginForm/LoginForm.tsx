@@ -25,8 +25,14 @@ const LoginForm: React.FC<LoginFormProps> = ({ setLogin }) => {
     email: yup
       .string()
       .required("An email address is required.")
-      .email("Email must be valid."),
-    password: yup.string().required("A password is required."),
+      .email("Email must be valid.")
+      .min(6, "Email must be at least 6 characters.")
+      .max(254, "Email must be shorter than 255 characters."),
+    password: yup
+      .string()
+      .required("A password is required.")
+      .min(8, "Password must be at least 8 characters.")
+      .max(128, "Password must be less than 128 characters."),
   })
 
   const {
