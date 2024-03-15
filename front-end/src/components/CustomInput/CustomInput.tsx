@@ -30,7 +30,6 @@ const CustomInput: React.FC<CustomInputProps> = ({
     <form
       onSubmit={handleSubmit(
         (data: any, e: any) => {
-          console.log("Submit successful!")
           handleAddItem(data, e)
           setValue(itemName, "")
         },
