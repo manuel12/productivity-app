@@ -137,11 +137,32 @@ describe("Authentication Section - Login User", () => {
   })
 
   it("should display 'Email must be valid.' when submitting an invalid email address", () => {
-    cy.getBySel("email").type("InvalidEmail")
+    cy.getBySel("email").type("Invalid email")
     cy.getBySel("login-button").click()
     cy.getBySel("email-error-label")
       .should("be.visible")
       .and("contain.text", "Email must be valid.")
+  })
+
+  it("should display error label 'Email must be at least 6 characters.' when submitting a shorter email address", () => {
+    const shortEmail = "a@com"
+    cy.getBySel("email").type(shortEmail)
+    cy.getBySel("password").type("Testpass1!")
+    cy.getBySel("login-button").click()
+    cy.getBySel("email-error-label")
+      .should("be.visible")
+      .and("contain.text", "Email must be at least 6 characters.")
+  })
+
+  it("should display error label 'Email must be shorter than 255 characters.' when submitting a longer email address", () => {
+    const longEmail =
+      "abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz@example.com"
+    cy.getBySel("email").type(longEmail)
+    cy.getBySel("password").type("Testpass1!")
+    cy.getBySel("login-button").click()
+    cy.getBySel("email-error-label")
+      .should("be.visible")
+      .and("contain.text", "Email must be shorter than 255 characters.")
   })
 
   it("should display error label 'A password is required.' when submitting an empty password", () => {
@@ -149,6 +170,26 @@ describe("Authentication Section - Login User", () => {
     cy.getBySel("password-error-label")
       .should("be.visible")
       .and("contain.text", "A password is required.")
+  })
+
+  it("should display error label 'Password must be at least 8 characters.' when submitting a shorter password", () => {
+    const shortPassword = "Pass1!"
+    cy.getBySel("email").type(testuser.email)
+    cy.getBySel("password").type(shortPassword)
+    cy.getBySel("login-button").click()
+    cy.getBySel("password-error-label")
+      .should("be.visible")
+      .and("contain.text", "Password must be at least 8 characters.")
+  })
+
+  it("should display error label 'Password must be less than 128 characters.' when submitting a longer password", () => {
+    const longPassword =
+      "P@ssw0rd123!abcdefghijklmnopqrstuvwxyABCDEFGHIJKLMNOPQRSTUVWXYabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*()"
+    cy.getBySel("password").type(longPassword)
+    cy.getBySel("login-button").click()
+    cy.getBySel("password-error-label")
+      .should("be.visible")
+      .and("contain.text", "Password must be less than 128 characters.")
   })
 
   afterEach(() => {
