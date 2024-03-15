@@ -84,13 +84,23 @@ describe("Authentication Section - Register User", () => {
     )
   })
 
-  it("should display error label 'Username must be at least 6 characters.' when submitting an invalid username", () => {
+  it("should display error label 'Username must be at least 6 characters.' when submitting a shorter username", () => {
     cy.getBySel("username").type("abcde")
     cy.getBySel("register-button").click()
 
     cy.getBySel("username-error-label").should(
       "have.text",
       "Username must be at least 6 characters."
+    )
+  })
+
+  it("should display error label 'Username must be shorter than 20 characters.' when submitting longer username", () => {
+    cy.getBySel("username").type("abcdefghijklmnopqrst")
+    cy.getBySel("register-button").click()
+
+    cy.getBySel("username-error-label").should(
+      "have.text",
+      "Username must be shorter than 20 characters."
     )
   })
 
@@ -101,6 +111,27 @@ describe("Authentication Section - Register User", () => {
       "have.text",
       "An email address is required."
     )
+  })
+
+  it("should display error label 'Email must be at least 6 characters.' when submitting a shorter email address", () => {
+    const shortEmail = "a@com"
+    cy.getBySel("email").type(shortEmail)
+    cy.getBySel("password").type("Testpass1!")
+    cy.getBySel("register-button").click()
+    cy.getBySel("email-error-label")
+      .should("be.visible")
+      .and("contain.text", "Email must be at least 6 characters.")
+  })
+
+  it("should display error label 'Email must be shorter than 255 characters.' when submitting a longer email address", () => {
+    const longEmail =
+      "abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz@example.com"
+    cy.getBySel("email").type(longEmail)
+    cy.getBySel("password").type("Testpass1!")
+    cy.getBySel("register-button").click()
+    cy.getBySel("email-error-label")
+      .should("be.visible")
+      .and("contain.text", "Email must be shorter than 255 characters.")
   })
 
   it("should display error label 'Email address is invalid.' when submitting an invalid email address", () => {
@@ -117,6 +148,26 @@ describe("Authentication Section - Register User", () => {
       "have.text",
       "A password is required."
     )
+  })
+
+  it("should display error label 'Password must be at least 8 characters.' when submitting a shorter password", () => {
+    const shortPassword = "Pass1!"
+    cy.getBySel("email").type(testuser.email)
+    cy.getBySel("password").type(shortPassword)
+    cy.getBySel("register-button").click()
+    cy.getBySel("password-error-label")
+      .should("be.visible")
+      .and("contain.text", "Password must be at least 8 characters.")
+  })
+
+  it("should display error label 'Password must be less than 128 characters.' when submitting a longer password", () => {
+    const longPassword =
+      "P@ssw0rd123!abcdefghijklmnopqrstuvwxyABCDEFGHIJKLMNOPQRSTUVWXYabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*()"
+    cy.getBySel("password").type(longPassword)
+    cy.getBySel("register-button").click()
+    cy.getBySel("password-error-label")
+      .should("be.visible")
+      .and("contain.text", "Password must be less than 128 characters.")
   })
 
   it("should display error label 'A password confirmation is required.' when submitting empty password confirmation", () => {
