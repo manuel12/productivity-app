@@ -16,16 +16,20 @@ const RegisterForm = () => {
     username: yup
       .string()
       .required("A username is required.")
-      .min(6, "Username must be at least 6 characters."),
+      .min(6, "Username must be at least 6 characters.")
+      .max(19, "Username must be shorter than 20 characters."),
     email: yup
       .string()
       .required("An email address is required.")
-      .email("Email must be valid."),
+      .email("Email must be valid.")
+      .min(6, "Email must be at least 6 characters.")
+      .max(254, "Email must be shorter than 255 characters."),
     password: yup
       .string()
       .required("A password is required.")
       .password()
       .min(8, "Password must be at least 8 characters.")
+      .max(128, "Password must be less than 128 characters.")
       .minLowercase(1, "Password must contain at least 1 lowercase character.")
       .minUppercase(1, "Password must contain at least 1 uppercase character.")
       .minNumber(1, "Password must contain at least 1 number character.")
