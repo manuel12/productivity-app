@@ -1,5 +1,5 @@
 import "./styles.css"
-import React from "react"
+import React, { useEffect } from "react"
 import ITodo from "../../interfaces/ITodo"
 
 interface ITabsProps {
@@ -23,19 +23,19 @@ const Tabs: React.FC<ITabsProps> = ({
     <ul className="nav nav-tabs my-3 mx-auto" data-cy="todos-tabs">
       <li className="nav-item">
         <div
-          className={`nav-link ${tabState.all}`}
-          aria-current={tabState.all}
+          className={`nav-link ${tabState.uncomplete}`}
+          aria-current={tabState.uncomplete}
           onClick={() => {
             setTabState({
-              all: "active",
+              all: "",
               complete: "",
-              uncomplete: "",
+              uncomplete: "active",
             })
-            setListTodos(todos)
+            setListTodos(uncompletedTodos)
           }}
-          data-cy="all-tab"
+          data-cy="uncomplete-tab"
         >
-          All
+          Uncompleted
         </div>
       </li>
 
@@ -59,19 +59,19 @@ const Tabs: React.FC<ITabsProps> = ({
 
       <li className="nav-item">
         <div
-          className={`nav-link ${tabState.uncomplete}`}
-          aria-current={tabState.uncomplete}
+          className={`nav-link ${tabState.all}`}
+          aria-current={tabState.all}
           onClick={() => {
             setTabState({
-              all: "",
+              all: "active",
               complete: "",
-              uncomplete: "active",
+              uncomplete: "",
             })
-            setListTodos(uncompletedTodos)
+            setListTodos(todos)
           }}
-          data-cy="uncomplete-tab"
+          data-cy="all-tab"
         >
-          Uncompleted
+          All
         </div>
       </li>
     </ul>
