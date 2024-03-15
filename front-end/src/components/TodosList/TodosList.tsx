@@ -30,9 +30,9 @@ const TodoList: React.FC<ITodoListProps> = ({
   const [listTodos, setListTodos] = useState<ITodo[]>([])
 
   const [tabState, setTabState] = useState({
-    all: "active",
+    uncomplete: "active",
     complete: "",
-    uncomplete: "",
+    all: "",
   })
 
   const schema = yup.object({
@@ -50,7 +50,9 @@ const TodoList: React.FC<ITodoListProps> = ({
     const uncompletedTodos = todos.filter((todo) => todo.completed === false)
     setUncompletedTodos(uncompletedTodos)
 
-    setListTodos(todos)
+    if (tabState.all === "active") setListTodos(todos)
+    if (tabState.complete === "active") setListTodos(completedTodos)
+    if (tabState.uncomplete === "active") setListTodos(uncompletedTodos)
   }, [todos])
 
   const handleAddTodo = (todoData: any, e: any) => {
