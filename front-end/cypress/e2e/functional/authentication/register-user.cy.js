@@ -1,6 +1,7 @@
 /// <reference types="cypress" />
 
 const testuser = require("../../../fixtures/testuser.json")
+const invalidCredentials = require("../../../fixtures/invalidCredentials.json")
 
 describe("Authentication Section - Register User", () => {
   beforeEach(() => {
@@ -85,7 +86,7 @@ describe("Authentication Section - Register User", () => {
   })
 
   it("should display error label 'Username must be at least 6 characters.' when submitting a shorter username", () => {
-    cy.getBySel("username").type("abcde")
+    cy.getBySel("username").type(invalidCredentials.shortUsername)
     cy.getBySel("register-button").click()
 
     cy.getBySel("username-error-label").should(
@@ -95,7 +96,7 @@ describe("Authentication Section - Register User", () => {
   })
 
   it("should display error label 'Username must be shorter than 20 characters.' when submitting longer username", () => {
-    cy.getBySel("username").type("abcdefghijklmnopqrst")
+    cy.getBySel("username").type(invalidCredentials.longUsername)
     cy.getBySel("register-button").click()
 
     cy.getBySel("username-error-label").should(
@@ -114,8 +115,7 @@ describe("Authentication Section - Register User", () => {
   })
 
   it("should display error label 'Email must be at least 6 characters.' when submitting a shorter email address", () => {
-    const shortEmail = "a@com"
-    cy.getBySel("email").type(shortEmail)
+    cy.getBySel("email").type(invalidCredentials.shortEmail)
     cy.getBySel("password").type("Testpass1!")
     cy.getBySel("register-button").click()
     cy.getBySel("email-error-label")
@@ -124,9 +124,7 @@ describe("Authentication Section - Register User", () => {
   })
 
   it("should display error label 'Email must be shorter than 255 characters.' when submitting a longer email address", () => {
-    const longEmail =
-      "abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz@example.com"
-    cy.getBySel("email").type(longEmail)
+    cy.getBySel("email").type(invalidCredentials.longEmail)
     cy.getBySel("password").type("Testpass1!")
     cy.getBySel("register-button").click()
     cy.getBySel("email-error-label")
@@ -135,7 +133,7 @@ describe("Authentication Section - Register User", () => {
   })
 
   it("should display error label 'Email address is invalid.' when submitting an invalid email address", () => {
-    cy.getBySel("email").type("Invalid Email Address")
+    cy.getBySel("email").type(invalidCredentials.invalidEmail)
     cy.getBySel("register-button").click()
 
     cy.getBySel("email-error-label").should("have.text", "Email must be valid.")
@@ -151,9 +149,8 @@ describe("Authentication Section - Register User", () => {
   })
 
   it("should display error label 'Password must be at least 8 characters.' when submitting a shorter password", () => {
-    const shortPassword = "Pass1!"
     cy.getBySel("email").type(testuser.email)
-    cy.getBySel("password").type(shortPassword)
+    cy.getBySel("password").type(invalidCredentials.shortPassword)
     cy.getBySel("register-button").click()
     cy.getBySel("password-error-label")
       .should("be.visible")
@@ -161,9 +158,7 @@ describe("Authentication Section - Register User", () => {
   })
 
   it("should display error label 'Password must be less than 128 characters.' when submitting a longer password", () => {
-    const longPassword =
-      "P@ssw0rd123!abcdefghijklmnopqrstuvwxyABCDEFGHIJKLMNOPQRSTUVWXYabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*()"
-    cy.getBySel("password").type(longPassword)
+    cy.getBySel("password").type(invalidCredentials.longPassword)
     cy.getBySel("register-button").click()
     cy.getBySel("password-error-label")
       .should("be.visible")
@@ -180,8 +175,10 @@ describe("Authentication Section - Register User", () => {
   })
 
   it("should display error label 'Passwords do not match.' when submitting incorrect password confirmation", () => {
-    cy.getBySel("password").type("CorrectPassword1!")
-    cy.getBySel("password-confirmation").type("INCORRECT_password_CONFIRMATION")
+    cy.getBySel("password").type(invalidCredentials.correctPassword1)
+    cy.getBySel("password-confirmation").type(
+      invalidCredentials.correctPassword2
+    )
 
     cy.getBySel("register-button").click()
 
@@ -192,7 +189,7 @@ describe("Authentication Section - Register User", () => {
   })
 
   it("should display error label 'Password must be at least 8 characters.' when submitting a password without at least 8 characters", () => {
-    cy.getBySel("password").type("abcdefh")
+    cy.getBySel("password").type(invalidCredentials.shortPassword)
     cy.getBySel("register-button").click()
 
     cy.getBySel("password-error-label").should(
@@ -202,7 +199,7 @@ describe("Authentication Section - Register User", () => {
   })
 
   it("should display error label 'Password must contain at least 1 uppercase character.' when submitting a password without at least 1 uppercase character", () => {
-    cy.getBySel("password").type("abcdefhg")
+    cy.getBySel("password").type(invalidCredentials.noUppercasePassword)
     cy.getBySel("register-button").click()
 
     cy.getBySel("password-error-label").should(
@@ -212,7 +209,7 @@ describe("Authentication Section - Register User", () => {
   })
 
   it("should display error label 'Password must contain at least 1 lowercase character.' when submitting a password without at least 1 lowercase", () => {
-    cy.getBySel("password").type("ABCDEFGH")
+    cy.getBySel("password").type(invalidCredentials.noLowercasePassword)
     cy.getBySel("register-button").click()
 
     cy.getBySel("password-error-label").should(
@@ -222,7 +219,7 @@ describe("Authentication Section - Register User", () => {
   })
 
   it("should display error label 'Password must contain at least 1 number character.' when submitting a password without at least 1 number character", () => {
-    cy.getBySel("password").type("Abcdefhg")
+    cy.getBySel("password").type(invalidCredentials.noNumberPassword)
     cy.getBySel("register-button").click()
 
     cy.getBySel("password-error-label").should(
@@ -232,7 +229,7 @@ describe("Authentication Section - Register User", () => {
   })
 
   it("should display error label 'Password must contain at least 1 special character.' when submitting a password without at least 1 special character", () => {
-    cy.getBySel("password").type("Abcdefhg1")
+    cy.getBySel("password").type(invalidCredentials.noSpecialCharPassword)
     cy.getBySel("register-button").click()
 
     cy.getBySel("password-error-label").should(

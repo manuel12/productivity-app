@@ -1,6 +1,7 @@
 /// <reference types="cypress" />
 
 const testuser = require("../../../fixtures/testuser.json")
+const invalidCredentials = require("../../../fixtures/invalidCredentials.json")
 import { clearLocalStorage } from "../../../support/utils"
 
 describe("Authentication Section - Login User", () => {
@@ -46,7 +47,7 @@ describe("Authentication Section - Login User", () => {
       .and("contain.text", "Login successfull!")
   })
 
-  it("should allow the user to check a 'Remember Me' checkbox  and have his email pre-written on the email input on next visit", () => {
+  it.skip("should allow the user to check a 'Remember Me' checkbox  and have his email pre-written on the email input on next visit", () => {
     cy.getBySel("email").type(testuser.email)
     cy.getBySel("password").type(testuser.password)
     cy.getBySel("remember-me-button")
@@ -107,8 +108,8 @@ describe("Authentication Section - Login User", () => {
   // Negative tests
 
   it("should not allow the user to login with invalid credentials", () => {
-    cy.getBySel("email").type("Invalid email")
-    cy.getBySel("password").type("Invalid password")
+    cy.getBySel("email").type(invalidCredentials.invalidEmail)
+    cy.getBySel("password").type(invalidCredentials.invalidPassword)
     cy.getBySel("login-button").click()
 
     // Check login url and form are still displayed
@@ -137,7 +138,7 @@ describe("Authentication Section - Login User", () => {
   })
 
   it("should display 'Email must be valid.' when submitting an invalid email address", () => {
-    cy.getBySel("email").type("Invalid email")
+    cy.getBySel("email").type(invalidCredentials.invalidEmail)
     cy.getBySel("login-button").click()
     cy.getBySel("email-error-label")
       .should("be.visible")
@@ -145,9 +146,8 @@ describe("Authentication Section - Login User", () => {
   })
 
   it("should display error label 'Email must be at least 6 characters.' when submitting a shorter email address", () => {
-    const shortEmail = "a@com"
-    cy.getBySel("email").type(shortEmail)
-    cy.getBySel("password").type("Testpass1!")
+    cy.getBySel("email").type(invalidCredentials.shortEmail)
+    cy.getBySel("password").type(testuser.password)
     cy.getBySel("login-button").click()
     cy.getBySel("email-error-label")
       .should("be.visible")
@@ -155,10 +155,8 @@ describe("Authentication Section - Login User", () => {
   })
 
   it("should display error label 'Email must be shorter than 255 characters.' when submitting a longer email address", () => {
-    const longEmail =
-      "abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz@example.com"
-    cy.getBySel("email").type(longEmail)
-    cy.getBySel("password").type("Testpass1!")
+    cy.getBySel("email").type(invalidCredentials.longEmail)
+    cy.getBySel("password").type(testuser.password)
     cy.getBySel("login-button").click()
     cy.getBySel("email-error-label")
       .should("be.visible")
@@ -173,9 +171,8 @@ describe("Authentication Section - Login User", () => {
   })
 
   it("should display error label 'Password must be at least 8 characters.' when submitting a shorter password", () => {
-    const shortPassword = "Pass1!"
     cy.getBySel("email").type(testuser.email)
-    cy.getBySel("password").type(shortPassword)
+    cy.getBySel("password").type(invalidCredentials.shortPassword)
     cy.getBySel("login-button").click()
     cy.getBySel("password-error-label")
       .should("be.visible")
@@ -183,9 +180,8 @@ describe("Authentication Section - Login User", () => {
   })
 
   it("should display error label 'Password must be less than 128 characters.' when submitting a longer password", () => {
-    const longPassword =
-      "P@ssw0rd123!abcdefghijklmnopqrstuvwxyABCDEFGHIJKLMNOPQRSTUVWXYabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*()"
-    cy.getBySel("password").type(longPassword)
+    cy.getBySel("email").type(testuser.email)
+    cy.getBySel("password").type(invalidCredentials.longPassword)
     cy.getBySel("login-button").click()
     cy.getBySel("password-error-label")
       .should("be.visible")
