@@ -1,19 +1,11 @@
 /// <reference types="cypress" />
 
+const singleTodo = require("../../../fixtures/singleTodo.json")
+const singleUpdatedTodo = require("../../../fixtures/singleUpdatedTodo.json")
+const invalidDataTypeTodo = require("../../../fixtures/invalidDataTypeTodo.json")
+
 describe("UPDATE Todo - (PATCH) /api/todo/:id", () => {
   const apiUrl = "http://localhost:4000"
-  const testTodo = {
-    completed: true,
-    description: "Run a marathon (test)",
-  }
-  const updatedTestTodo = {
-    completed: false,
-    description: "Run a half-marathon (test)",
-  }
-  const invalidDataTestTodo = {
-    completed: 6,
-    description: ["Run a marathon"],
-  }
   const invalidId = 999999999
   const ctx = {}
 
@@ -38,7 +30,7 @@ describe("UPDATE Todo - (PATCH) /api/todo/:id", () => {
         Authorization: `Bearer ${ctx.token}`,
         "Content-Type": "application/json",
       },
-      body: testTodo,
+      body: singleTodo,
     }).then((res) => {
       ctx.todoId = res.body.id
     })
@@ -55,12 +47,12 @@ describe("UPDATE Todo - (PATCH) /api/todo/:id", () => {
         Authorization: `Bearer ${ctx.token}`,
         "Content-Type": "application/json",
       },
-      body: updatedTestTodo,
+      body: singleUpdatedTodo,
       failOnStatusCode: false,
     }).then((res) => {
       expect(res.body.message).to.eq(`Todo successfully updated!`)
-      expect(res.body.data.completed).to.eq(updatedTestTodo.completed)
-      expect(res.body.data.description).to.eq(updatedTestTodo.description)
+      expect(res.body.data.completed).to.eq(singleUpdatedTodo.completed)
+      expect(res.body.data.description).to.eq(singleUpdatedTodo.description)
     })
   })
 
@@ -74,7 +66,7 @@ describe("UPDATE Todo - (PATCH) /api/todo/:id", () => {
         Authorization: `Bearer ${ctx.token}`,
         "Content-Type": "application/json",
       },
-      body: invalidDataTestTodo,
+      body: invalidDataTypeTodo,
       failOnStatusCode: false,
     }).then((res) => {
       expect(res.status).to.eq(400)
@@ -93,7 +85,7 @@ describe("UPDATE Todo - (PATCH) /api/todo/:id", () => {
         Authorization: `Bearer ${ctx.token}`,
         "Content-Type": "application/json",
       },
-      body: testTodo,
+      body: singleTodo,
       failOnStatusCode: false,
     }).then((res) => {
       expect(res.status).to.eq(404)
@@ -142,6 +134,47 @@ describe("UPDATE Todo - (PATCH) /api/todo/:id", () => {
     }).then((res) => {
       expect(res.status).to.eq(401)
       expect(res.body.error).to.eq("Unauthorized: No token provided.")
+    })
+  })
+
+  it("should respond with error message 'Description must be at least 3 characters.' when submitting a shorter description", () => {
+    const shortDescription = "No"
+    cy.request({
+      method: "POST",
+      url: `${apiUrl}/api/todo`,
+      headers: {
+        Authorization: `Bearer ${ctx.token}`,
+        "Content-Type": "application/json",
+      },
+      body: {
+        completed: singleTodo.completed,
+        description: shortDescription,
+      },
+      failOnStatusCode: false,
+    }).then((res) => {
+      expect(res.body.error).to.eq("Description must be at least 3 characters.")
+    })
+  })
+
+  it("should respond with error message 'Description must be shorter than 40 characters.' when submitting a longer description", () => {
+    const longDescription =
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+    cy.request({
+      method: "POST",
+      url: `${apiUrl}/api/todo`,
+      headers: {
+        Authorization: `Bearer ${ctx.token}`,
+        "Content-Type": "application/json",
+      },
+      body: {
+        completed: singleTodo.completed,
+        description: longDescription,
+      },
+      failOnStatusCode: false,
+    }).then((res) => {
+      expect(res.body.error).to.eq(
+        "Description must be shorter than 40 characters."
+      )
     })
   })
 

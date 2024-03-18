@@ -1,11 +1,10 @@
 /// <reference types="cypress" />
 
+const singleTodo = require("../../../fixtures/singleTodo.json")
+const invalidDataTypeTodo = require("../../../fixtures/invalidDataTypeTodo.json")
+
 describe("DELETE Todo - (DELETE) /api/todo/:id", () => {
   const apiUrl = "http://localhost:4000"
-  const testTodo = {
-    completed: true,
-    description: "Run a marathon (test)",
-  }
   const invalidId = 999999999
   const ctx = {}
 
@@ -30,7 +29,7 @@ describe("DELETE Todo - (DELETE) /api/todo/:id", () => {
         Authorization: `Bearer ${ctx.token}`,
         "Content-Type": "application/json",
       },
-      body: testTodo,
+      body: singleTodo,
     }).then((res) => {
       ctx.todoId = res.body.id
     })
