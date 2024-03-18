@@ -38,8 +38,8 @@ describe("Todo Section - Tabs", () => {
       })
   })
 
-  it("should by default have 'All' tab active", () => {
-    cy.getBySel("all-tab").should("have.class", "active")
+  it("should by default have 'Uncompleted' tab active", () => {
+    cy.getBySel("uncomplete-tab").should("have.class", "active")
   })
 
   it("should by default display all existing todos", () => {

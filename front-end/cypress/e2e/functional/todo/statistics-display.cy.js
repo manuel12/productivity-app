@@ -35,6 +35,9 @@ describe("Todo Section - Todo Statistics Display ", () => {
       "Completed today:0"
     )
 
+    // Switch to 'All' tab
+    cy.getBySel("all-tab").click()
+
     // Complete todos (today)
     for (let i = 1; i <= numTodosToAdd; i++) {
       // Click on todo's check icon
@@ -66,6 +69,9 @@ describe("Todo Section - Todo Statistics Display ", () => {
       )
     }
 
+    // Switch to 'All' tab
+    cy.getBySel("all-tab").click()
+
     // Complete todos (today)
     cy.get(".check-not-completed").each(($el) => {
       cy.get($el).click()
@@ -84,6 +90,9 @@ describe("Todo Section - Todo Statistics Display ", () => {
         `#${i + numTodosToAdd} ${validTodo.validCompletedTodoDesc}{enter}`
       )
     }
+
+    // Switch to 'All' tab
+    cy.getBySel("all-tab").click()
 
     // Complete todos (tomorrow)
     cy.get(".check-not-completed").each(($el) => {
@@ -108,6 +117,9 @@ describe("Todo Section - Todo Statistics Display ", () => {
       )
     }
 
+    // Switch to 'All' tab
+    cy.getBySel("all-tab").click()
+
     // Complete todos (today)
     cy.get(".check-not-completed").each(($el) => {
       cy.get($el).click()
@@ -125,6 +137,9 @@ describe("Todo Section - Todo Statistics Display ", () => {
         `#${i} ${validTodo.validCompletedTodoDesc} (tomorrow) {enter}`
       )
     }
+
+    // Switch to 'All' tab
+    cy.getBySel("all-tab").click()
 
     // Complete todos (tomorrow)
     cy.get(".check-not-completed").each(($el) => {
@@ -148,6 +163,9 @@ describe("Todo Section - Todo Statistics Display ", () => {
         `#${i} ${validTodo.validCompletedTodoDesc}{enter}`
       )
     }
+
+    // Switch to 'All' tab
+    cy.getBySel("all-tab").click()
 
     // Complete todos (today)
     cy.get(".check-not-completed").each(($el) => {
@@ -175,6 +193,9 @@ describe("Todo Section - Todo Statistics Display ", () => {
       )
     }
 
+    // Switch to 'All' tab
+    cy.getBySel("all-tab").click()
+
     // Complete todos (today)
     cy.get(".check-not-completed").each(($el) => {
       cy.get($el).click()
@@ -200,6 +221,9 @@ describe("Todo Section - Todo Statistics Display ", () => {
         `#${i} ${validTodo.validCompletedTodoDesc}{enter}`
       )
     }
+
+    // Switch to 'All' tab
+    cy.getBySel("all-tab").click()
 
     // Complete todos (today)
     cy.get(".check-not-completed").each(($el) => {

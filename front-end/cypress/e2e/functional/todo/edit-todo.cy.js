@@ -85,7 +85,7 @@ describe("Todo Section - Edit Todo", () => {
     cy.getBySel("todos-text-input").should("be.visible")
   })
 
-  it('should display an error label "Todo cannot contain more than 40 characters" when edited todo exceeds that amount', () => {
+  it('should display an error label "Todos must be shorter than 40 characters." when edited todo exceeds that amount', () => {
     cy.getBySel("todos-list").should("have.length", 1)
 
     // Find and edit that existing todo
@@ -125,7 +125,7 @@ describe("Todo Section - Edit Todo", () => {
     cy.getBySel("todos-text-input").should("be.visible")
   })
 
-  it('should display an error label "Todo cannot contain less than 3 characters." when edited todo falls below that amount', () => {
+  it('should display an error label "Todos must be at least 3 characters." when edited todo falls below that amount', () => {
     cy.getBySel("todos-list").should("have.length", 1)
 
     // Find and edit that existing todo

@@ -42,7 +42,7 @@ describe("Todo Section - Add Todo", () => {
       .should("contain.text", validTodo.validTodoDesc3)
   })
 
-  it.skip("should display addded todos correctly on the list", () => {
+  it("should display addded todos correctly on the list", () => {
     cy.getBySel("todo-input").type(validTodo.validTodoDesc + "{enter}")
 
     cy.getBySel("todos-list").should("have.length", 1)
@@ -77,7 +77,7 @@ describe("Todo Section - Add Todo", () => {
     cy.getBySel("todo-item").should("have.length", 0)
   })
 
-  it('should display an error label "Todos cannot contain more than 40 characters" when exceeding that amount', () => {
+  it('should display an error label "Todos must be shorter than 40 characters." when exceeding that amount', () => {
     cy.getBySel("todo-input").type(
       invalidTodo.todoDescLongerThan40Chars + "{enter}"
     )
@@ -99,7 +99,7 @@ describe("Todo Section - Add Todo", () => {
     cy.getBySel("todo-item").should("have.length.gte", 0)
   })
 
-  it('should display an error label "Todos cannot contain less than 3 characters" when falling below that amount', () => {
+  it('should display an error label "Todos must be at least 3 characters." when falling below that amount', () => {
     // At the beginning  when todo is empty it should not show any error message
     cy.getBySel("input-error-label").should("not.exist")
 

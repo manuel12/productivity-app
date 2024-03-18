@@ -42,6 +42,9 @@ describe("Todo Section - Mark Todo as Complete:", () => {
         cy.getBySel("todos-check-icon-container").click()
       })
 
+    // Click the complete tab
+    cy.get('[data-cy="complete-tab"]').click()
+
     // Validate that the todo with text 'Feed the cats (test)' has .check-completed class
     cy.getBySel("todo-item")
       .filter(":contains('test')")
