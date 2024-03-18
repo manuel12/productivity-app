@@ -21,6 +21,14 @@ router.post("/api/login", (req, res, next) => {
     errors.push("No password (string) specified")
   }
 
+  if (password?.length < 8) {
+    errors.push("Password must be at least 8 characters")
+  }
+
+  if (password?.length > 127) {
+    errors.push("Password must be less than 128 characters")
+  }
+
   if (errors.length) {
     res.status(400).json({ error: errors.join(", ") + "." })
     return
@@ -42,10 +50,7 @@ router.post("/api/login", (req, res, next) => {
     const users = rows
 
     // Find user match by username, email & password
-    const existingUser = users.find(
-      (user) => user.email === data.email && user.password === data.password
-    )
-
+    const existingUser = users.find((user) => user.email === data.email)
     if (existingUser) {
       // Generate JWT token
       const token = jwt.sign({ email: existingUser.email }, getSecretKey())
@@ -55,11 +60,11 @@ router.post("/api/login", (req, res, next) => {
         data: rows,
         token: token,
       })
+    } else {
+      return res.status(400).json({
+        error: `User ${data.email} does not exists, register a user first!`,
+      })
     }
-
-    return res.status(400).json({
-      error: `User ${data.email} does not exists, register a user first!`,
-    })
   })
 })
 

@@ -12,12 +12,36 @@ router.post("/api/user/", (req, res, next) => {
     errors.push("No username (string) specified")
   }
 
+  if (username?.length < 6) {
+    errors.push("Username must be at least 6 characters")
+  }
+
+  if (username?.length > 19) {
+    errors.push("Username must be shorter than 20 characters")
+  }
+
   if (!email) {
     errors.push("No email (string) specified")
   }
 
+  if (email?.length < 6) {
+    errors.push("Email must be at least 6 characters")
+  }
+
+  if (email?.length > 254) {
+    errors.push("Email must be shorter than 255 characters")
+  }
+
   if (!password) {
     errors.push("No password (string) specified")
+  }
+
+  if (password?.length < 8) {
+    errors.push("Password must be at least 8 characters")
+  }
+
+  if (password?.length > 127) {
+    errors.push("Password must be less than 128 characters")
   }
 
   if (errors.length) {
