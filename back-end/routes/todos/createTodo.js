@@ -5,20 +5,22 @@ const { authenticateToken } = require("../../utils")
 
 router.post("/api/todo", authenticateToken, (req, res, next) => {
   const errors = []
-  const newTodo = {
-    completed: req.body.completed,
-    description: req.body.description,
-  }
+  const { completed, description } = req.body
 
-  if (typeof newTodo.completed !== "boolean") {
+  if (typeof completed !== "boolean") {
     errors.push("No completed (boolean) specified")
   }
 
-  if (
-    typeof newTodo.description !== "string" ||
-    newTodo.description.length == 0
-  ) {
+  if (typeof description !== "string" || description.length == 0) {
     errors.push("No description (string) specified")
+  } else {
+    if (description?.length < 3) {
+      errors.push("Description must be at least 3 characters")
+    }
+
+    if (description?.length > 39) {
+      errors.push("Description must be shorter than 40 characters")
+    }
   }
 
   if (errors.length) {
@@ -27,7 +29,7 @@ router.post("/api/todo", authenticateToken, (req, res, next) => {
 
   const insertSQL = "INSERT INTO Todo (completed, description) VALUES (?, ?)"
 
-  db.run(insertSQL, [newTodo.completed, newTodo.description], function (err) {
+  db.run(insertSQL, [completed, description], function (err) {
     if (err) {
       return res.status(500).json({ error: res.error })
     }
@@ -35,8 +37,8 @@ router.post("/api/todo", authenticateToken, (req, res, next) => {
       message: "Todo successfully created!",
       data: {
         id: this.lastID,
-        completed: newTodo.completed,
-        description: newTodo.description,
+        completed,
+        description,
       },
       id: this.lastID,
     })

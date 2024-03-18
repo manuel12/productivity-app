@@ -10,22 +10,23 @@ router.patch("/api/todo/:id", authenticateToken, (req, res, next) => {
     return res.status(400).json({ error: "Invalid (NaN) todo id" })
   }
 
-  const updatedTodo = {
-    completed: req.body.completed,
-    description: req.body.description,
-    dateCompleted: req.body.dateCompleted,
-  }
+  const { completed, description, dateCompleted } = req.body
 
   const errors = []
-  if (typeof updatedTodo.completed !== "boolean") {
+  if (typeof completed !== "boolean") {
     errors.push("No completed (boolean) specified")
   }
 
-  if (
-    typeof updatedTodo.description !== "string" ||
-    updatedTodo.description.length == 0
-  ) {
+  if (typeof description !== "string" || description.length == 0) {
     errors.push("No description (string) specified")
+  } else {
+    if (description?.length < 3) {
+      errors.push("Description must be at least 3 characters")
+    }
+
+    if (description?.length > 39) {
+      errors.push("Description must be shorter than 40 characters")
+    }
   }
 
   if (errors.length) {
@@ -52,12 +53,7 @@ router.patch("/api/todo/:id", authenticateToken, (req, res, next) => {
     // Todo with  specific id exists proceed with update
     db.run(
       updateSQL,
-      [
-        updatedTodo.completed,
-        updatedTodo.description,
-        updatedTodo.dateCompleted,
-        id,
-      ],
+      [completed, description, dateCompleted, id],
       function (err) {
         if (err) {
           return res.status(400).json({ error: res.message })
@@ -72,7 +68,11 @@ router.patch("/api/todo/:id", authenticateToken, (req, res, next) => {
 
         return res.json({
           message: "Todo successfully updated!",
-          data: updatedTodo,
+          data: {
+            completed,
+            description,
+            dateCompleted,
+          },
         })
       }
     )
