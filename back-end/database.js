@@ -34,10 +34,9 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
           md5("Testpass1!"),
         ])
 
-        insert =
-          "INSERT OR REPLACE INTO User (username, email, password) VALUES (?,?,?)"
+        db.run(insert, ["testuser", "test_user@gmail.com", md5("Testpass1!")])
 
-        db.run(insert, ["testuser", "testuser@gmail.com", md5("Testpass1!")])
+        db.run(insert, ["demo_user", "demo_user@gmail.com", md5("Testpass1!")])
       }
     })
     console.log("Succesfully created User table!")
