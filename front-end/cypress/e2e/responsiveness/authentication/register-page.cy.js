@@ -14,7 +14,9 @@ describe("Responsiveness Section - RegisterPage", () => {
       it(`should be displayed correctly on ${resolution.breakpoint} of width`, () => {
         cy.getBySel("register-page")
           .should("be.visible")
-          .matchImageSnapshot(`LoginPage at ${resolution.viewportWidthToUse}`)
+          .matchImageSnapshot(
+            `RegisterPage at ${resolution.viewportWidthToUse}`
+          )
       })
     })
   })
