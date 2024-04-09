@@ -10,11 +10,16 @@ You can see see how many todos you've completed today, how many todos on average
   <h2>Mobile</h2>
  <img src='https://manuel12.github.io/personal-portfolio-page/images/productivity-app/mobileImage.png' title='Productivity App Mobile' alt='Productivity App Mobile' width='165' height='357'/>
 
+## Credentials:
+
+- email: demo_user@gmail.com
+- password: Testpass1!
+
 ## Usage
 
 ### Authentication
 
-You will need to create an account to use the app. When you see the login form click on 'CREATE ACCOUNT' to be redirected to the register form. There you can fill in your credentials. Once you've successfully registered a user you can use those credentials on the login form to gain access.
+You can use the above credentials or create an account to use the app or use . When you see the login form click on 'CREATE ACCOUNT' to be redirected to the register form. There you can fill in your credentials. Once you've successfully registered a user you can use those credentials on the login form to gain access.
 
 ### Adding Todos
 
