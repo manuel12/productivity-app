@@ -110,9 +110,18 @@ _Already installed if you installed front-end. Cypress folder is located in fron
 | -------------- | ------------------------------------------------------------------------------ |
 | api            | [front-end/cypress/e2e/api/](front-end/cypress/e2e/api/)                       |
 | component      | [front-end/cypress/component/](front-end/cypress/component/)                   |
-| functional     | [front-end/cypress/e2e/](front-end/cypress/e2e/functional/)                    |
+| functional     | [front-end/cypress/e2e/functional/](front-end/cypress/e2e/functional/)         |
 | responsiveness | [front-end/cypress/e2e/responsiveness/](front-end/cypress/e2e/responsiveness/) |
 | smoke          | [front-end/cypress/e2e/smoke/](front-end/cypress/e2e/smoke/)                   |
+
+### Tests include:
+
+- Positive and negative path tests for both UI and API.
+- Add/Edit/Get/Delete UI tests.
+- Create/Read/Update/Delete API tests.
+- Input boundary validation tests at the UI level.
+- Input boundary validation tests at the API level.
+- Responsiveness and visual snapshot tests.
 
 ## Running tests
 
