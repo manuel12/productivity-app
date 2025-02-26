@@ -34,20 +34,12 @@ Cypress.Commands.add("getBySel", (selector) => {
 
 // -- LOGIN COMMANDS --
 Cypress.Commands.add("login", () => {
-  cy.url().then((url) => {
-    const isLoggedIn = url === Cypress.config("contentsUrl")
+  cy.visit("/account/login")
 
-    if (isLoggedIn) {
-      cy.log("Already logged in...")
-    } else {
-      cy.log("Logging in...")
-
-      cy.getBySel("email").type(testuser.email)
-      cy.getBySel("password").type(testuser.password)
-      cy.getBySel("remember-me-button").click()
-      cy.getBySel("login-button").click()
-    }
-  })
+  cy.getBySel("email").type(testuser.email)
+  cy.getBySel("password").type(testuser.password)
+  cy.getBySel("remember-me-button").click()
+  cy.getBySel("login-button").click()
 })
 
 Cypress.Commands.add("loginWithAPI", (cb) => {
@@ -70,14 +62,14 @@ Cypress.Commands.add("register", () => {
   cy.getBySel("register-button").click()
 })
 
-Cypress.Commands.add("registerWithAPI", () => {
+Cypress.Commands.add("registerWithAPI", (user) => {
   cy.request({
     method: "POST",
     url: `${apiUrl}/api/user/`,
     body: {
-      username: testuser.username,
-      email: testuser.email,
-      password: testuser.password,
+      username: user ? user.username : testuser.username,
+      email: user ? user.email : testuser.email,
+      password: user ? user.password : testuser.password,
     },
     failOnStatusCode: false,
   })
