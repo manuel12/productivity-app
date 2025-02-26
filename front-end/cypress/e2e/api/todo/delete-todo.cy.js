@@ -9,11 +9,18 @@ describe("DELETE Todo - (DELETE) /api/todo/:id", () => {
   const ctx = {}
 
   before(() => {
+    // Register with API
+    cy.registerWithAPI({
+      username: "testuser",
+      email: "test_user@gmail.com",
+      password: "Testpass1!",
+    })
+
     // Login with API
     cy.request({
       method: "POST",
       url: `${apiUrl}/api/login/`,
-      body: { email: "manuelpinedacabeza@gmail.com", password: "Testpass1!" },
+      body: { email: "test_user@gmail.com", password: "Testpass1!" },
       failOnStatusCode: false,
     }).then((res) => {
       ctx.token = res.body.token
