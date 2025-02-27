@@ -27,16 +27,21 @@ router.post("/api/todo", authenticateToken, (req, res, next) => {
     return res.status(400).json({ error: errors.join(", ") + "." })
   }
 
-  const insertSQL = "INSERT INTO Todo (completed, description) VALUES (?, ?)"
+  const createdBy = req.user.id
 
-  db.run(insertSQL, [completed, description], function (err) {
+  const insertSQL =
+    "INSERT INTO Todo (createdBy, completed, description) VALUES (?,?,?)"
+
+  db.run(insertSQL, [createdBy, completed, description], function (err) {
     if (err) {
+      console.log(err)
       return res.status(500).json({ error: res.error })
     }
     res.status(201).json({
       message: "Todo successfully created!",
       data: {
         id: this.lastID,
+        createdBy,
         completed,
         description,
       },
