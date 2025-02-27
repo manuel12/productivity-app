@@ -2,23 +2,85 @@ const express = require("express")
 const bodyParser = require("body-parser")
 const cors = require("cors")
 
-// User routes
-const loginUserRouter = require("./routes/users/loginUser")
-const createUserRouter = require("./routes/users/createUser")
+// Sequelize DB
+const sequelize = require("./config/database")
+const User = require("./models/User")
+const Todo = require("./models/Todo")
+const Daily = require("./models/Daily")
 
-const getUsersRouter = require("./routes/users/getUsers")
-const getUserRouter = require("./routes/users/getUser")
-const updateUserRouter = require("./routes/users/updateUser")
-const deleteUserRouter = require("./routes/users/deleteUser")
+// Sync all models
+sequelize
+  .sync({ force: true }) // Use `force: true` to drop and recreate tables (for development only)
+  .then(() => {
+    console.log("[Sequelize] - Database & tables created!")
+
+    // Optionally, seed the database with initial data
+    // Optionally, seed the database with initial data
+    User.bulkCreate([
+      {
+        username: "Manuel",
+        email: "manuelpinedacabeza@gmail.com",
+        password: "hashed_password_1", // Replace with actual hashed passwords
+      },
+      {
+        username: "testuser",
+        email: "test_user@gmail.com",
+        password: "hashed_password_2",
+      },
+      {
+        username: "demo_user",
+        email: "demo_user@gmail.com",
+        password: "hashed_password_3",
+      },
+    ]).then(() => {
+      console.log("[Sequelize] - Initial users created!")
+    })
+  })
+  .catch((err) => {
+    console.error("Unable to sync database:", err)
+  })
+
+// User routes
+// const loginUserRouter = require("./routes/users/loginUser")
+const loginUserRouter = require("./new_routes/users/loginUser")
+
+// const createUserRouter = require("./routes/users/createUser")
+const createUserRouter = require("./new_routes/users/createUser")
+
+// const getUsersRouter = require("./routes/users/getUsers")
+const getUsersRouter = require("./new_routes/users/getUsers")
+
+// const getUserRouter = require("./routes/users/getUser")
+const getUserRouter = require("./new_routes/users/getUser")
+
+// const updateUserRouter = require("./routes/users/updateUser")
+const updateUserRouter = require("./new_routes/users/updateUser")
+
+// const deleteUserRouter = require("./routes/users/deleteUser")
+const deleteUserRouter = require("./new_routes/users/deleteUser")
 
 // Warning!
-const deleteTestUsersRouter = require("./routes/users/deleteTestUsers")
+// const deleteTestUsersRouter = require("./routes/users/deleteTestUsers")
+const deleteTestUsersRouter = require("./new_routes/users/deleteTestUsers")
 
-const readTodosRouter = require("./routes/todos/readTodos")
-const readTodoRouter = require("./routes/todos/readTodo")
-const createTodoRouter = require("./routes/todos/createTodo")
-const updateTodoRouter = require("./routes/todos/updateTodo")
-const deleteTodoRouter = require("./routes/todos/deleteTodo")
+// const readTodosRouter = require("./routes/todos/readTodos")
+const readTodosRouter = require("./new_routes/todos/readTodos")
+
+// const readUserTodosRouter = require("./routes/todos/readUserTodos")
+const readUserTodosRouter = require("./new_routes/todos/readUserTodos")
+
+// const readTodoRouter = require("./routes/todos/readTodo")
+const readTodoRouter = require("./new_routes/todos/readTodo")
+
+// const createTodoRouter = require("./routes/todos/createTodo")
+const createTodoRouter = require("./new_routes/todos/createTodo")
+
+// const updateTodoRouter = require("./routes/todos/updateTodo")
+const updateTodoRouter = require("./new_routes/todos/updateTodo")
+
+// const deleteTodoRouter = require("./routes/todos/deleteTodo")
+const deleteTodoRouter = require("./new_routes/todos/deleteTodo")
+
 // WARNING!
 const deleteTestTodos = require("./routes/todos/deleteTestTodos")
 
@@ -56,6 +118,8 @@ app.use(deleteTestUsersRouter)
 
 // TODOS -------------------
 app.use(readTodosRouter)
+
+app.use(readUserTodosRouter)
 
 app.use(readTodoRouter)
 
