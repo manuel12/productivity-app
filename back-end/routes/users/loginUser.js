@@ -53,7 +53,14 @@ router.post("/api/login", (req, res, next) => {
     const existingUser = users.find((user) => user.email === data.email)
     if (existingUser) {
       // Generate JWT token
-      const token = jwt.sign({ email: existingUser.email }, getSecretKey())
+      const token = jwt.sign(
+        {
+          id: existingUser.id,
+          username: existingUser.username,
+          email: existingUser.email,
+        },
+        getSecretKey()
+      )
 
       return res.status(200).json({
         message: "User successfully logged in!",
