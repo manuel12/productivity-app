@@ -42,10 +42,12 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
     console.log("Succesfully created User table!")
 
     const createTodoTableSQL = `CREATE TABLE IF NOT EXISTS Todo (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      completed BOOLEAN,
-      description VARCHAR(40),
-      dateCompleted TEXT
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    createdBy INTEGER,
+    completed BOOLEAN DEFAULT false,
+    description TEXT,
+    dateCompleted TEXT,
+    FOREIGN KEY (createdBy) REFERENCES User(id)
     )`
 
     db.run(createTodoTableSQL, (err) => {
@@ -61,11 +63,13 @@ let db = new sqlite3.Database(DBSOURCE, (err) => {
 
     const createDailyTableSQL = `CREATE TABLE IF NOT EXISTS Daily (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    completed BOOLEAN,
-    description VARCHAR(40),
+    createdBy INTEGER,
+    completed BOOLEAN DEFAULT 0,
+    description TEXT,
     dateCreated TEXT,
     streakCounter INTEGER,
-    lastCompletedDate TEXT
+    lastCompletedDate TEXT,
+    FOREIGN KEY (createdBy) REFERENCES User(id)
   )`
 
     db.run(createDailyTableSQL, (err) => {
