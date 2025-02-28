@@ -10,12 +10,10 @@ module.exports = defineConfig({
       addMatchImageSnapshotPlugin(on)
     },
     baseUrl: "http://localhost:3000/",
-    specPattern: "cypress/e2e/**/*.cy.{js,jsx,ts,tsx}",
-    excludeSpecPattern: [
-      "cypress/e2e/**.cy.js",
-      "cypress/e2e/functional/daily/**.cy.js",
-    ],
+    specPattern: "cypress/tests/**/*.cy.{js,jsx,ts,tsx}",
     experimentalRunAllSpecs: true,
+    screenshotOnRunFailure: false,
+    screenshotsFolder: false,
   },
 
   component: {
