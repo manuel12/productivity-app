@@ -1,42 +1,60 @@
 import "./styles.css"
 import React from "react"
-import { useForm } from "react-hook-form"
+import {
+  useForm,
+  SubmitHandler,
+  SubmitErrorHandler,
+  FieldErrors,
+  Path,
+  PathValue,
+} from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
+import { AnyObjectSchema } from "yup"
 
-interface CustomInputProps {
-  itemName: string
-  handleAddItem: (data: any, e: any) => void
-  schema: any
+import { ITodo, IDaily } from "../../interfaces/interfaces"
+
+type ItemNameType = "todo" | "daily"
+
+interface CustomInputProps<T> {
+  itemName: ItemNameType
+  handleAddItem: (data: T, e?: React.BaseSyntheticEvent) => void
+  schema: AnyObjectSchema
 }
 
-const CustomInput: React.FC<CustomInputProps> = ({
-  itemName,
+const CustomInput = <T extends IDaily | ITodo>({
+  itemName, // Default value with Path<T>
   handleAddItem,
   schema,
-}) => {
+}: CustomInputProps<T>) => {
   const {
     register,
     handleSubmit,
     setValue,
     formState: { errors },
-  } = useForm({
+  } = useForm<T>({
     criteriaMode: "all",
     resolver: yupResolver(schema),
   })
 
-  const errorMessage = errors[itemName]?.message
+  const errorMessage = (
+    errors[itemName as keyof T] as { message?: string | undefined }
+  )?.message
+
+  const onSubmit: SubmitHandler<T> = (data: T, e) => {
+    console.log("onSubmit!")
+    console.log(data)
+    handleAddItem(data, e)
+    setValue(itemName as Path<T>, "" as PathValue<T, Path<T>>)
+  }
+
+  const onInvalidSubmit: SubmitErrorHandler<T> = (data: FieldErrors<T>) => {
+    console.log("onInvalidSubmit!")
+    console.log(data)
+  }
 
   return (
     <form
-      onSubmit={handleSubmit(
-        (data: any, e: any) => {
-          handleAddItem(data, e)
-          setValue(itemName, "")
-        },
-        (data: any) => {
-          console.log("Submit unsuccessful!")
-        }
-      )}
+      onSubmit={handleSubmit(onSubmit, onInvalidSubmit)}
       data-cy={`${itemName}-form`}
     >
       <div className="input-group my-5 mx-auto CI_input-container">
@@ -55,7 +73,7 @@ const CustomInput: React.FC<CustomInputProps> = ({
           id={itemName}
           className="form-control mx-auto CI__input "
           data-cy={`${itemName}-input`}
-          {...register(itemName)}
+          {...register(itemName as Path<T>)}
           placeholder={`Add new ${itemName}...`}
           aria-label={`${itemName} input`}
           aria-describedby={`${itemName}-error`}
