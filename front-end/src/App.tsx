@@ -14,6 +14,7 @@ import Navbar from "./components/Navbar/Navbar"
 import TodoPage from "./pages/TodosPage/TodosPage"
 import DailyPage from "./pages/DailiesPage/DailyPage"
 import WeeklyLearningPage from "./pages/WeeklyLearningsPage/WeeklyLearningPage"
+import { ILoggedOutRoutesProps } from "../src/interfaces/interfaces"
 import { getItem } from "./utils"
 
 function App() {
@@ -50,11 +51,7 @@ const LoggedInRoutes = () => {
   )
 }
 
-interface LoggedOutRoutesProps {
-  setLogin: any
-}
-
-const LoggedOutRoutes: React.FC<LoggedOutRoutesProps> = ({ setLogin }) => {
+const LoggedOutRoutes: React.FC<ILoggedOutRoutesProps> = ({ setLogin }) => {
   return (
     <Router>
       <main>
