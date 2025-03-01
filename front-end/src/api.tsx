@@ -1,5 +1,14 @@
-import ITodo from "./interfaces/ITodo"
-import IDaily from "./interfaces/IDaily"
+import axios from "axios"
+
+import {
+  ILoginUser,
+  ILoginSuccessResponse,
+  ILoginErrorResponse,
+  IRegisterSuccessResponse,
+  IRegisterErrorResponse,
+  ITodo,
+  IDaily,
+} from "../src/interfaces/interfaces"
 import { getItem } from "./utils"
 
 class API {
@@ -9,221 +18,271 @@ class API {
     return token
   }
 
-  static login(userCredentials: any, error: any, success: any) {
-    // Call /api/login with userData
-    fetch("http://localhost:4000/api/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(userCredentials),
-    })
-      .then((res) => res.json())
+  static login(
+    userCredentials: ILoginUser,
+    error: (res: ILoginErrorResponse) => void,
+    success: (res: ILoginSuccessResponse) => void
+  ) {
+    return axios
+      .post("http://localhost:4000/api/login", userCredentials, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
       .then((res) => {
-        if (res.error) {
-          error(res)
+        if (res.data.error) {
+          error(res.data)
         } else {
-          success(res)
+          success(res.data)
         }
+      })
+      .catch((error) => {
+        console.error("There was an error!", error)
       })
   }
 
-  static register(newUserCredentials: any, error: any, success: any) {
-    fetch("http://localhost:4000/api/user", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(newUserCredentials),
-    })
-      .then((res) => res.json())
-      .then((res) => {
-        if (res.error) {
-          error(res)
+  static register(
+    newUserCredentials: ILoginUser,
+    error: (res: IRegisterErrorResponse) => void,
+    success: (res: IRegisterSuccessResponse) => void
+  ) {
+    return axios
+      .post("http://localhost:4000/api/user", newUserCredentials, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+      .then((response) => {
+        if (response.data.error) {
+          error(response.data) // Handle error
         } else {
-          success(res)
+          success(response.data) // Handle success
         }
+      })
+      .catch((error) => {
+        console.error("There was an error!", error) // Handle request errors
       })
   }
 
-  static getTodos(setTodos: any): void {
-    fetch("http://localhost:4000/api/todos", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${API.getToken()}`,
-      },
-    })
-      .then((res) => res.json())
-      .then((res) => {
-        if (res.error) {
-          API.verbose && console.log(res.error)
+  static getTodos(setTodos: (data: ITodo[]) => void) {
+    return axios
+      .get("http://localhost:4000/api/todos", {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${API.getToken()}`, // Add the authorization token
+        },
+      })
+      .then((response) => {
+        if (response.data.error) {
+          if (API.verbose) console.log(response.data.error) // Log error if verbose is enabled
         } else {
-          API.verbose && console.log(res.message)
-          setTodos(res.data)
+          if (API.verbose) console.log(response.data.message) // Log message if verbose is enabled
+          setTodos(response.data.data) // Update todos with the response data
         }
+      })
+      .catch((error) => {
+        console.error("There was an error!", error) // Handle request errors
       })
   }
 
-  static getTodo(id: number): void {
-    fetch(`http://localhost:4000/api/todo/${id}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${this.getToken()}`,
-      },
-    })
-      .then((res) => res.json())
-      .then((res) => {
-        if (res.error) {
-          API.verbose && console.log(res.error)
+  static getUserTodos(setTodos: (data: ITodo[]) => void) {
+    return axios
+      .get("http://localhost:4000/api/todos/user", {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${API.getToken()}`, // Add the authorization token
+        },
+      })
+      .then((response) => {
+        if (response.data.error) {
+          if (API.verbose) console.log(response.data.error) // Log error if verbose is enabled
         } else {
-          API.verbose && console.log(res.message)
+          if (API.verbose) console.log(response.data.message) // Log message if verbose is enabled
+          setTodos(response.data.data) // Update todos with the response data
         }
+      })
+      .catch((error) => {
+        console.error("There was an error!", error) // Handle request errors
       })
   }
 
-  static addTodo(todoData: ITodo, addNewTodo: any): void {
-    fetch("http://localhost:4000/api/todo", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${this.getToken()}`,
-      },
-      body: JSON.stringify(todoData),
-    })
-      .then((res) => res.json())
-      .then((res) => {
-        if (res.error) {
-          API.verbose && console.log(res.error)
+  static getTodo(id: number) {
+    return axios
+      .get(`http://localhost:4000/api/todo/${id}`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${this.getToken()}`, // Add the authorization token
+        },
+      })
+      .then((response) => {
+        if (response.data.error) {
+          if (API.verbose) console.log(response.data.error) // Log error if verbose is enabled
         } else {
-          API.verbose && console.log(res.message)
-          addNewTodo(res.data)
+          if (API.verbose) console.log(response.data.message) // Log message if verbose is enabled
         }
+      })
+      .catch((error) => {
+        console.error("There was an error!", error) // Handle request errors
       })
   }
 
-  static editTodo(todoData: ITodo, id: number): void {
-    fetch(`http://localhost:4000/api/todo/${id}`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${this.getToken()}`,
-      },
-      body: JSON.stringify(todoData),
-    })
-      .then((res) => res.json())
-      .then((res) => {
-        if (res.error) {
-          API.verbose && console.log(res.error)
+  static addTodo(todoData: ITodo, addNewTodo: (data: ITodo) => void) {
+    return axios
+      .post("http://localhost:4000/api/todo", todoData, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${this.getToken()}`, // Add the authorization token
+        },
+      })
+      .then((response) => {
+        if (response.data.error) {
+          if (API.verbose) console.log(response.data.error) // Log error if verbose is enabled
         } else {
-          API.verbose && console.log(res.message)
+          if (API.verbose) console.log(response.data.message) // Log message if verbose is enabled
+          // addNewTodo(response.data); // Uncomment this line to add the new todo
         }
+      })
+      .catch((error) => {
+        console.error("There was an error!", error) // Handle request errors
       })
   }
 
-  static deleteTodo(id: number): void {
-    fetch(`http://localhost:4000/api/todo/${id}`, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${this.getToken()}`,
-      },
-    }).then((res) => {
-      if (res.status === 204) {
-        API.verbose && console.log("Todo successfuully deleted!")
-      }
-    })
-  }
-
-  static getDailies(setDailies: any): void {
-    fetch("http://localhost:4000/api/dailies", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${this.getToken()}`,
-      },
-    })
-      .then((res) => res.json())
-      .then((res) => {
-        if (res.error) {
-          API.verbose && console.log(res.error)
+  static editTodo(todoData: ITodo, id: number) {
+    return axios
+      .patch(`http://localhost:4000/api/todo/${id}`, todoData, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${this.getToken()}`,
+        },
+      })
+      .then((response) => {
+        if (response.data.error) {
+          API.verbose && console.log(response.data.error)
         } else {
-          API.verbose && console.log(res.message)
-          setDailies(res.data)
+          API.verbose && console.log(response.data.message)
         }
+      })
+      .catch((error) => {
+        console.error("There was an error!", error)
       })
   }
 
-  static getDaily(id: number): void {
-    fetch(`http://localhost:4000/api/dailies/${id}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${this.getToken()}`,
-      },
-    })
-      .then((res) => res.json())
-      .then((res) => {
-        if (res.error) {
-          API.verbose && console.log(res.error)
-        } else {
-          API.verbose && console.log(res.message)
+  static deleteTodo(id: number) {
+    return axios
+      .delete(`http://localhost:4000/api/todo/${id}`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${this.getToken()}`,
+        },
+      })
+      .then((response) => {
+        if (response.status === 204) {
+          API.verbose && console.log("Todo successfully deleted!")
         }
+      })
+      .catch((error) => {
+        console.error("There was an error!", error)
       })
   }
 
-  static addDaily(todoData: IDaily, addNewDaily: any): void {
-    fetch("http://localhost:4000/api/dailies", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${this.getToken()}`,
-      },
-      body: JSON.stringify(todoData),
-    })
-      .then((res) => res.json())
-      .then((res) => {
-        if (res.error) {
-          API.verbose && console.log(res.error)
+  static getDailies(setDailies: (data: IDaily[]) => void) {
+    axios
+      .get("http://localhost:4000/api/dailies", {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${this.getToken()}`,
+        },
+      })
+      .then((response) => {
+        if (response.data.error) {
+          API.verbose && console.log(response.data.error)
         } else {
-          API.verbose && console.log(res.message)
-          addNewDaily(res.data)
+          API.verbose && console.log(response.data.message)
+          setDailies(response.data.data)
         }
+      })
+      .catch((error) => {
+        console.error("There was an error!", error)
       })
   }
 
-  static editDaily(dailyData: IDaily, id: number): void {
-    fetch(`http://localhost:4000/api/dailies/${id}`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${this.getToken()}`,
-      },
-      body: JSON.stringify(dailyData),
-    })
-      .then((res) => res.json())
-      .then((res) => {
-        if (res.error) {
-          API.verbose && console.log(res.error)
+  static getDaily(id: number) {
+    axios
+      .get(`http://localhost:4000/api/dailies/${id}`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${this.getToken()}`,
+        },
+      })
+      .then((response) => {
+        if (response.data.error) {
+          API.verbose && console.log(response.data.error)
         } else {
-          API.verbose && console.log(res.message)
+          API.verbose && console.log(response.data.message)
         }
+      })
+      .catch((error) => {
+        console.error("There was an error!", error)
       })
   }
 
-  static deleteDaily(id: number): void {
-    fetch(`http://localhost:4000/api/dailies/${id}`, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${this.getToken()}`,
-      },
-    }).then((res) => {
-      if (res.status === 204) {
-        API.verbose && console.log("Daily successfuully deleted!")
-      }
-    })
+  static addDaily(dailyData: IDaily, addNewDaily: (data: IDaily) => void) {
+    axios
+      .post("http://localhost:4000/api/dailies", dailyData, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${this.getToken()}`,
+        },
+      })
+      .then((response) => {
+        if (response.data.error) {
+          API.verbose && console.log(response.data.error)
+        } else {
+          API.verbose && console.log(response.data.message)
+          addNewDaily(response.data.data)
+        }
+      })
+      .catch((error) => {
+        console.error("There was an error!", error)
+      })
+  }
+
+  static editDaily(dailyData: IDaily, id: number) {
+    axios
+      .patch(`http://localhost:4000/api/dailies/${id}`, dailyData, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${this.getToken()}`,
+        },
+      })
+      .then((response) => {
+        if (response.data.error) {
+          API.verbose && console.log(response.data.error)
+        } else {
+          API.verbose && console.log(response.data.message)
+        }
+      })
+      .catch((error) => {
+        console.error("There was an error!", error)
+      })
+  }
+
+  static deleteDaily(id: number) {
+    axios
+      .delete(`http://localhost:4000/api/dailies/${id}`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${this.getToken()}`,
+        },
+      })
+      .then((response) => {
+        if (response.status === 204) {
+          API.verbose && console.log("Daily successfully deleted!")
+        }
+      })
+      .catch((error) => {
+        console.error("There was an error!", error)
+      })
   }
 }
 
