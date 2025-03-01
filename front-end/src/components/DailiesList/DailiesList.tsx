@@ -1,17 +1,19 @@
 import "./styles.css"
 import React, { useState, useEffect } from "react"
 
-import IDaily from "../../interfaces/IDaily"
+import { IDaily } from "../../interfaces/interfaces"
 import Daily from "../Daily/Daily"
 import CustomInput from "../CustomInput/CustomInput"
 import CustomList from "../CustomList/CustomList"
 
 import {
-  setItem,
+  //   setItem,
   checkAndUpdateCompletedStatus,
   checkAndUpdateStreakCounter,
 } from "../../utils"
 import API from "../../api"
+
+import * as yup from "yup"
 
 interface IDaliesListProps {
   dailies: IDaily[]
@@ -26,6 +28,14 @@ const DailiesList: React.FC<IDaliesListProps> = ({ dailies, setDailies }) => {
     dateCreated: "",
     streakCounter: 0,
     lastCompletedDate: "",
+  })
+
+  const schema = yup.object({
+    daily: yup
+      .string()
+      .required("Dailies are required.")
+      .min(3, "Dailies cannot contain less than 3 characters.")
+      .max(40, "Dailies cannot contain more than 40 characters."),
   })
 
   useEffect(() => {
@@ -49,10 +59,18 @@ const DailiesList: React.FC<IDaliesListProps> = ({ dailies, setDailies }) => {
     }
   }, [dailies])
 
-  const handleAddDaily = () => {
-    // e.preventDefault()
+  const handleAddDaily = (data: IDaily, e?: React.BaseSyntheticEvent) => {
+    console.log(data)
 
-    if (newDaily.description === "") return
+    setNewDaily({
+      completed: false,
+      description: data.description,
+      dateCreated: "",
+      streakCounter: 0,
+      lastCompletedDate: "",
+    })
+
+    e?.preventDefault()
 
     const addNewDailyToArray = (newDaily: any) => {
       const newDailiesListArray = [...dailies, newDaily]
@@ -72,21 +90,9 @@ const DailiesList: React.FC<IDaliesListProps> = ({ dailies, setDailies }) => {
   return (
     <>
       <CustomInput
-        itemName="dailies"
+        itemName="daily"
         handleAddItem={handleAddDaily}
-        // newItem={newDaily}
-        // onChange={(e) => {
-        //   const inputValue = e.target.value
-        //   if (inputValue.length <= 40) {
-        //     setNewDaily({
-        //       completed: false,
-        //       description: e.target.value,
-        //       dateCreated: new Date().toDateString(),
-        //       streakCounter: 0,
-        //     })
-        //   }
-        // }}
-        schema={null}
+        schema={schema}
       />
 
       <CustomList items={dailies} itemName="dailies" dataCyAttr="dailies-list">
