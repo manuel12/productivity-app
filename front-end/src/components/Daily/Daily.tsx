@@ -2,7 +2,7 @@ import "./styles.css"
 import React, {
   ChangeEvent,
   KeyboardEvent,
-  DragEvent,
+  //   DragEvent,
   useEffect,
   useState,
 } from "react"
@@ -12,7 +12,7 @@ import {
   faRemove,
   faForward,
 } from "@fortawesome/free-solid-svg-icons"
-import IDailyItemProps from "../../interfaces/IDailyItemProps"
+import { IDailyItemProps } from "../../interfaces/interfaces"
 import API from "../../api"
 
 const Daily: React.FC<IDailyItemProps> = ({
@@ -20,7 +20,7 @@ const Daily: React.FC<IDailyItemProps> = ({
   daily,
   dailies,
   setDailies,
-  setCompletedDailies,
+  //   setCompletedDailies,
 }) => {
   const [completed, setCompleted] = useState(daily.completed)
   const [isEditing, setIsEditing] = useState(false)
@@ -123,22 +123,22 @@ const Daily: React.FC<IDailyItemProps> = ({
     audio.play()
   }
 
-  const handleDragStart = (e: DragEvent<HTMLLIElement>, index: number) => {
-    e.dataTransfer.setData("index", index.toString())
-  }
+  //   const handleDragStart = (e: DragEvent<HTMLLIElement>, index: number) => {
+  //     e.dataTransfer.setData("index", index.toString())
+  //   }
 
-  const handleDragOver = (e: DragEvent<HTMLLIElement>) => {
-    e.preventDefault()
-  }
+  //   const handleDragOver = (e: DragEvent<HTMLLIElement>) => {
+  //     e.preventDefault()
+  //   }
 
-  const handleDrop = (e: DragEvent<HTMLLIElement>, targetIndex: number) => {
-    e.preventDefault()
-    const sourceIndex = parseInt(e.dataTransfer.getData("index"))
-    const updatedDailies = [...dailies]
-    const [movedDaily] = updatedDailies.splice(sourceIndex, 1)
-    updatedDailies.splice(targetIndex, 0, movedDaily)
-    setDailies(updatedDailies)
-  }
+  //   const handleDrop = (e: DragEvent<HTMLLIElement>, targetIndex: number) => {
+  //     e.preventDefault()
+  //     const sourceIndex = parseInt(e.dataTransfer.getData("index"))
+  //     const updatedDailies = [...dailies]
+  //     const [movedDaily] = updatedDailies.splice(sourceIndex, 1)
+  //     updatedDailies.splice(targetIndex, 0, movedDaily)
+  //     setDailies(updatedDailies)
+  //   }
 
   return (
     <li
