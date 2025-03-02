@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react"
 
-import ITodo from "../../interfaces/ITodo"
+import { ITodo } from "../../interfaces/interfaces"
 import Todo from "../Todo/Todo"
 import CustomInput from "../CustomInput/CustomInput"
 import CustomList from "../CustomList/CustomList"
@@ -9,6 +9,7 @@ import Tabs from "../Tabs/Tabs"
 import API from "../../api"
 
 import * as yup from "yup"
+import { getItem } from "../../utils"
 
 interface ITodoListProps {
   todos: ITodo[]
@@ -21,6 +22,12 @@ const TodoList: React.FC<ITodoListProps> = ({
   setTodos,
   setNumCompletedTodos,
 }) => {
+  //   const [newTodo, setNewTodo] = useState<ITodo>({
+  //     completed: false,
+  //     description: "",
+  //     dateCompleted: "",
+  //   })
+
   const [completedTodos, setCompletedTodos] = useState<ITodo[]>(
     todos.filter((todo) => todo.completed === true)
   )
@@ -44,10 +51,10 @@ const TodoList: React.FC<ITodoListProps> = ({
   })
 
   useEffect(() => {
-    const completedTodos = todos.filter((todo) => todo.completed === true)
+    const completedTodos = todos.filter((todo) => todo.completed == true)
     setCompletedTodos(completedTodos)
 
-    const uncompletedTodos = todos.filter((todo) => todo.completed === false)
+    const uncompletedTodos = todos.filter((todo) => todo.completed == false)
     setUncompletedTodos(uncompletedTodos)
 
     if (tabState.all === "active") setListTodos(todos)
@@ -55,19 +62,31 @@ const TodoList: React.FC<ITodoListProps> = ({
     if (tabState.uncomplete === "active") setListTodos(uncompletedTodos)
   }, [todos])
 
-  const handleAddTodo = (todoData: any, e: any) => {
-    e.preventDefault()
+  const handleAddTodo = (data: any, e?: React.BaseSyntheticEvent) => {
+    e?.preventDefault()
+    console.log("handleAddTodo!")
+    console.log(data)
 
     const newTodo = {
       completed: false,
-      description: todoData.todo,
+      description: data.todo,
+      dateCompleted: "",
     }
+    // setNewTodo(newTodo)
+    console.log(newTodo)
 
-    const addNewTodoToArray = (newTodo: any) => {
+    const addNewTodoToArray = (newTodo: ITodo) => {
       const newTodosArray = [...todos, newTodo]
       setTodos(newTodosArray)
     }
-    API.addTodo(newTodo, addNewTodoToArray)
+
+    // 1. Create new todo with API
+    API.addTodo(newTodo, addNewTodoToArray).then(() => {
+      // 2. GET all created todo with API
+      // 3. Once we have all created todos fetched(old ones + new one)
+      // 4. Call setTodos to repopulate the todo list
+      API.getUserTodos(setTodos)
+    })
   }
 
   return (
