@@ -1,6 +1,6 @@
 import "./styles.css"
 import React, { useEffect } from "react"
-import ITodo from "../../interfaces/ITodo"
+import { ITodo } from "../../interfaces/interfaces"
 
 interface ITabsProps {
   tabState: any
