@@ -1,5 +1,11 @@
 import React from "react"
 
+import { UseFormRegister, FieldErrors } from "react-hook-form"
+
+interface FormData {
+  [key: string]: string // This can be more specific if you know the exact fields
+}
+
 interface LabeledInputProps {
   autoFocus?: boolean
   label?: string
@@ -7,7 +13,10 @@ interface LabeledInputProps {
   register?: any
   registerLabel?: string
   required?: boolean
-  pattern?: any
+  pattern?: {
+    value: RegExp
+    message: string
+  }
   placeholder?: string
   errors?: any
   errorLabel?: string
@@ -18,10 +27,16 @@ const LabeledInput: React.FC<LabeledInputProps> = ({
   autoFocus = false,
   label = "",
   type = "text",
-  register = () => [],
+  register = () => ({
+    name: "",
+    onChange: () => {},
+    onBlur: () => {},
+    ref: () => {},
+  }), // Default register function
+
   registerLabel,
   required = false,
-  pattern = "",
+  pattern,
   placeholder,
   errors = {},
   errorLabel = "",
@@ -52,10 +67,12 @@ const LabeledInput: React.FC<LabeledInputProps> = ({
         id={dataCy}
         className={`form-control`}
         placeholder={placeholder}
-        {...register(registerLabel, {
-          required: errorLabel,
-          pattern: pattern ? pattern : "",
-        })}
+        {...(registerLabel && register
+          ? register(registerLabel, {
+              required: required ? errorLabel : false,
+              pattern: pattern, // Pass pattern as-is (undefined or { value, message })
+            })
+          : {})}
         data-cy={dataCy}
         autoFocus={autoFocus}
         aria-invalid={errors ? "true" : "false"}
