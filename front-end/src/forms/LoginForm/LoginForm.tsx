@@ -1,10 +1,18 @@
 import { useEffect, useState } from "react"
-import { useForm } from "react-hook-form"
+import { useForm, FieldErrors } from "react-hook-form"
 import LabeledInput from "../../components/LabeledInput/LabeledInput"
 import FormAlert from "../../components/FormAlert/FormAlert"
 
 import API from "../../api"
 import { getItem, setItem, setUserLoggedInKey } from "../../utils"
+
+import {
+  ILoginFormProps,
+  ILoginUser,
+  IUserData,
+  ILoginSuccessResponse,
+  ILoginErrorResponse,
+} from "../../interfaces/interfaces"
 
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from "yup"
@@ -12,11 +20,7 @@ import YupPassword from "yup-password"
 
 YupPassword(yup)
 
-interface LoginFormProps {
-  setLogin: (login: boolean) => any
-}
-
-const LoginForm: React.FC<LoginFormProps> = ({ setLogin }) => {
+const LoginForm: React.FC<ILoginFormProps> = ({ setLogin }) => {
   const [rememberMe, setRememberMe] = useState(false)
   const [userLoginSuccessfull, setUserLoginSuccessfull] = useState(false)
   const [invalidCredentialsError, setInvalidCredentialsError] = useState(false)
@@ -47,7 +51,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ setLogin }) => {
 
   useEffect(() => {
     if (rememberMe) {
-      const emailToRemember = getItem("rememberMeEmail") || null
+      const emailToRemember = getItem("rememberMeEmail")
       if (emailToRemember) {
         setValue("email", emailToRemember)
       }
@@ -56,24 +60,25 @@ const LoginForm: React.FC<LoginFormProps> = ({ setLogin }) => {
     }
   })
 
-  const validSubmit = (data: any) => {
+  const validSubmit = (data: ILoginUser) => {
     const email = data.email
     const password = data.password
     const userCredentials = { email, password }
 
     API.login(
       userCredentials,
-      (res: any) => {
+      (res: ILoginErrorResponse) => {
         return setInvalidCredentialsError(true)
       },
-      (res: any) => {
+      (res: ILoginSuccessResponse) => {
         // Save token in localStorage
         const token = res.token
         setItem("token", token)
 
-        const currentUser = res.data.filter((user: any) => {
+        const currentUser = res.data.filter((user: IUserData) => {
           return user.email === email
         })[0]
+
         const currentUserUsername = currentUser.username
 
         if (rememberMe) {
@@ -83,7 +88,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ setLogin }) => {
           setItem("rememberMe", false)
         }
 
-        setItem("currentUser", currentUserUsername)
+        setItem("currentUserData", currentUser)
         setUserLoggedInKey()
         setUserLoginSuccessfull(true)
         setTimeout(() => setLogin(true), 500)
@@ -91,12 +96,12 @@ const LoginForm: React.FC<LoginFormProps> = ({ setLogin }) => {
     )
   }
 
-  const invalidSubmit = (data: any) => {
+  const invalidSubmit = (data: FieldErrors<ILoginUser>) => {
     setInvalidCredentialsError(true)
   }
 
   const handleRememberMeClick = () => {
-    setRememberMe((prevState: any) => !prevState)
+    setRememberMe((prevState: boolean) => !prevState)
   }
 
   return (
