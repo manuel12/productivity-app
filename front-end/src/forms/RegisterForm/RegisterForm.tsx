@@ -4,7 +4,13 @@ import FormAlert from "../../components/FormAlert/FormAlert"
 
 import API from "../../api"
 
-import { useForm } from "react-hook-form"
+import {
+  IRegisterUser,
+  IRegisterSuccessResponse,
+  IRegisterErrorResponse,
+} from "../../interfaces/interfaces"
+
+import { useForm, FieldErrors } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from "yup"
 import YupPassword from "yup-password"
@@ -36,13 +42,8 @@ const RegisterForm = () => {
       .minSymbols(1, "Password must contain at least 1 special character."),
     "password-confirmation": yup
       .string()
-      .required("A password confirmation is required."),
-
-    // .min(8, "Password must contain at least 8 characters.")
-    // .matches(
-    //   /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]/,
-    //   "Password must contain at least 1 lowercase letter, 1 uppercase letter, 1 number, and 1 special character."
-    // ),
+      .required("A password confirmation is required.")
+      .oneOf([yup.ref("password")], "Passwords do not match."),
   })
 
   const {
@@ -71,12 +72,12 @@ const RegisterForm = () => {
 
     API.register(
       newUserCredentials,
-      (res: any) => {
+      (res: IRegisterErrorResponse) => {
         console.warn(res.error)
         setAlertMessageText(res.error)
         setInvalidCredentialsError(true)
       },
-      (res: any) => {
+      (res: IRegisterSuccessResponse) => {
         console.warn(res.message)
         setAlertMessageText(res.message)
 
@@ -88,7 +89,7 @@ const RegisterForm = () => {
     )
   }
 
-  const invalidSubmit = (data: any) => {
+  const invalidSubmit = (errors: FieldErrors<IRegisterUser>) => {
     setInvalidCredentialsError(true)
     if (getValues("password") !== getValues("password-confirmation")) {
       setPasswordsNotMatchError(true)
@@ -97,7 +98,6 @@ const RegisterForm = () => {
 
   return (
     <>
-      {" "}
       <FormAlert
         displayAlert={userRegisteredSuccessfully || invalidCredentialsError}
         msgs={[
@@ -118,7 +118,6 @@ const RegisterForm = () => {
                   placeholder={"Username"}
                   registerLabel="username"
                   register={register}
-                  // className="text-dark"
                   required
                   errors={errors}
                   errorLabel={"A username is required."}
@@ -133,7 +132,6 @@ const RegisterForm = () => {
                     value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
                     message: "Invalid email address.",
                   }}
-                  // className="text-dark"
                   required
                   errors={errors}
                   errorLabel={"An email address is required."}
