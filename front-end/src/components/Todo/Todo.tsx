@@ -8,7 +8,7 @@ import React, {
 } from "react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faCircleCheck, faRemove } from "@fortawesome/free-solid-svg-icons"
-import ITodoItemProps from "../../interfaces/ITodoItemProps"
+import { ITodoItemProps } from "../../interfaces/interfaces"
 import { getNumCompletedTodos } from "../../utils"
 import API from "../../api"
 
