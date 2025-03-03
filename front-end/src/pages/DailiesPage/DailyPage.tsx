@@ -1,7 +1,7 @@
 import React, { useState, useEffect, Fragment } from "react"
 import CustomPage from "../CustomPage/CustomPage"
 import DailiesList from "../../components/DailiesList/DailiesList"
-import IDaily from "../../interfaces/IDaily"
+import { IDaily } from "../../interfaces/interfaces"
 
 import API from "../../api"
 
