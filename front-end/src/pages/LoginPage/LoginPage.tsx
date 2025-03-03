@@ -2,7 +2,7 @@ import React from "react"
 import LoginForm from "../../forms/LoginForm/LoginForm"
 
 interface LoggedOutRoutesProps {
-  setLogin: any
+  setLogin: (userLoggedIn: boolean) => void
 }
 
 const LoginPage: React.FC<LoggedOutRoutesProps> = ({ setLogin }) => {
