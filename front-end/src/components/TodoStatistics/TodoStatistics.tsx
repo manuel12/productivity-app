@@ -1,6 +1,6 @@
 import "./styles.css"
 import React, { useState, useEffect } from "react"
-import ITodo from "../../interfaces/ITodo"
+import { ITodo } from "../../interfaces/interfaces"
 import {
   getNumCompletedTodosToday,
   getAvgDailyCompletedTodos,
