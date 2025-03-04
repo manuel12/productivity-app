@@ -4,12 +4,12 @@ import CustomPage from "../CustomPage/CustomPage"
 import TodoStatistics from "../../components/TodoStatistics/TodoStatistics"
 import TodoList from "../../components/TodosList/TodosList"
 import { getNumCompletedTodos } from "../../utils"
-import ITodo from "../../interfaces/ITodo"
+import { ITodo } from "../../interfaces/interfaces"
 import API from "../../api"
 
 const TodoPage: React.FC = () => {
   const getTodosFromDbOrStorage = (setTodos: any) => {
-    API.getTodos(setTodos)
+    API.getUserTodos(setTodos)
   }
 
   const [todos, setTodos] = useState<ITodo[]>([])
