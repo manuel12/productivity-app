@@ -1,5 +1,4 @@
-import IDaily from "../src/interfaces/IDaily"
-import ITodo from "./interfaces/ITodo"
+import { ITodo, IDaily } from "../src/interfaces/interfaces"
 
 /**
  * Stores an item with the specified key in localStorage.
@@ -13,7 +12,7 @@ export const setItem = (key: string, data: any): void => {
 /**
  * Retrieves an item from localStorage by its key.
  * @param {string} key - The key of the item to retrieve.
- * @returns {any | null} The stored item or null if it doesn't exist.
+ * @returns {any | null} import { ITodo } from "../../interfaces/interfaces"The stored item or null if it doesn't exist.
  */
 export const getItem = (key: string): any | null => {
   const item = localStorage.getItem(key)
