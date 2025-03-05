@@ -40,7 +40,7 @@ router.patch("/api/todo/:id", authenticateToken, async (req, res) => {
     const todo = await Todo.findOne({ where: { id } })
 
     if (!todo) {
-      return res.status(404).json({ error: "Todo not found" })
+      return res.status(404).json({ error: `Todo with id ${id} not found.` })
     }
 
     // Update the Todo
