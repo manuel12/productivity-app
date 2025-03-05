@@ -24,9 +24,6 @@ const Todo = sequelize.define("Todo", {
   },
 })
 
-console.log("TODO MODEL CREATED!!!")
-console.log(Todo)
-
 // Define associations
 Todo.associate = (models) => {
   Todo.belongsTo(models.User, { foreignKey: "createdBy" })
