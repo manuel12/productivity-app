@@ -34,7 +34,6 @@ router.post("/api/todo", authenticateToken, (req, res, next) => {
 
   db.run(insertSQL, [createdBy, completed, description], function (err) {
     if (err) {
-      console.log(err)
       return res.status(500).json({ error: res.error })
     }
     res.status(201).json({

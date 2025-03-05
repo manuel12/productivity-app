@@ -9,6 +9,9 @@ const { getSecretKey } = require("../../utils.js")
 router.post("/api/login", (req, res, next) => {
   const { email, password } = req.body
 
+  console.log("On loginUser route")
+  console.log({ email, password })
+
   const errors = []
   const selectSQL = "select * from User"
   const params = []
