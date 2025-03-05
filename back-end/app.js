@@ -20,17 +20,17 @@ sequelize
       {
         username: "Manuel",
         email: "manuelpinedacabeza@gmail.com",
-        password: "hashed_password_1", // Replace with actual hashed passwords
+        password: "797a7c857db9b3145cb5189590cf13a4", // Replace with actual hashed passwords
       },
       {
         username: "testuser",
-        email: "test_user@gmail.com",
-        password: "hashed_password_2",
+        email: "testuser1@gmail.com",
+        password: "797a7c857db9b3145cb5189590cf13a4",
       },
       {
-        username: "demo_user",
-        email: "demo_user@gmail.com",
-        password: "hashed_password_3",
+        username: "testuser",
+        email: "testuser2@gmail.com",
+        password: "797a7c857db9b3145cb5189590cf13a4",
       },
     ]).then(() => {
       console.log("[Sequelize] - Initial users created!")
