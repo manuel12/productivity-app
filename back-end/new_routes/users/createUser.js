@@ -68,13 +68,13 @@ router.post("/api/user/", async (req, res) => {
     })
   } catch (err) {
     if (err.name === "SequelizeUniqueConstraintError") {
+      console.error(err.name)
       // Handle duplicate email error
       return res
         .status(400)
         .json({ error: `A user with email ${email} already exists!` })
     }
 
-    console.error(err)
     res
       .status(500)
       .json({ error: "An error occurred while registering the user." })
