@@ -22,7 +22,10 @@ describe("Todo Section - Mark Todo as Complete:", () => {
   // Positive tests
 
   it("should mark a todo as complete", () => {
-    // Validate that the todo with text 'Feed the cats (test)' has initially .check-not-completed class
+    // 1. Check that first todo is not marked as completed (has grey checkmark icon)
+    cy.step(
+      "Check that first todo is not marked as completed (has grey checkmark icon)"
+    )
     cy.getBySel("todo-item")
       .filter(":contains('test')")
       .within(() => {
@@ -35,7 +38,8 @@ describe("Todo Section - Mark Todo as Complete:", () => {
           })
       })
 
-    // Find the todo item complete button, then click it
+    // 2. Click on the checkmark icon to mark as completed
+    cy.step("Click on the checkmark icon to mark as completed")
     cy.getBySel("todo-item")
       .filter(":contains('test')")
       .within(() => {
@@ -45,7 +49,10 @@ describe("Todo Section - Mark Todo as Complete:", () => {
     // Click the complete tab
     cy.get('[data-cy="complete-tab"]').click()
 
-    // Validate that the todo with text 'Feed the cats (test)' has .check-completed class
+    // 3. Check the todo completed sound is played and the todo dissapears from uncompleted list
+    cy.step(
+      "Check the todo completed sound is played and the todo dissapears from uncompleted list"
+    )
     cy.getBySel("todo-item")
       .filter(":contains('test')")
       .within(() => {
@@ -60,17 +67,22 @@ describe("Todo Section - Mark Todo as Complete:", () => {
   })
 
   it("should move the completed todo to the completed todos list", () => {
-    // Find the todo item complete button, then click it
+    // 1. Click on the checkmark icon to mark as completed
+    cy.step("Click on the checkmark icon to mark as completed")
     cy.getBySel("todo-item")
       .filter(":contains('test')")
       .within(() => {
         cy.getBySel("todos-check-icon-container").click()
       })
 
-    // Click  on 'Completed' todo tab
+    // 2. Click on the 'Completed' tab
+    cy.step("Click on the 'Completed' tab")
     cy.getBySel("complete-tab").click()
 
-    // Check there is 1 todo and it has the correct text
+    // 3. Check there is 1 todo on the completed tab and it has text 'Feed the cats (test)'
+    cy.step(
+      "Check there is 1 todo on the completed tab and it has text 'Feed the cats (test)'"
+    )
     cy.getBySel("todo-item")
       .should("have.length", 1)
       .and("have.text", validTodo.validTodoDesc)
