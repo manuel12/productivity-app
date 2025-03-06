@@ -22,26 +22,38 @@ describe("Todo Section - Delete Todo", () => {
   // Positive tests
 
   it("should delete a todo and remove it from the list", () => {
-    // Find the todo item with text 'Feed the cats' and locate its delete button, then click it
+    // 1. Find the todo with the text 'Feed the cats(test)'
+    cy.step("Find the todo with the text 'Feed the cats(test)'")
+    cy.step("Click on the todo's 'X' button")
     cy.contains(validTodo.validTodoDesc)
       .parent()
+
+      // 2. Click on the todo's 'X' button
       .find(".remove-icon-container")
       .click()
 
-    // Verify that the todo with text 'Feed the cats' no longer exists in the todo list
+    // 3. Check the todo is deleted from the todo list
+    cy.step("Check the todo is deleted from the todo list")
     cy.contains(validTodo.validTodoDesc).should("not.exist")
   })
 
   it("should not show deleted todos after page reload", () => {
-    // Find the todo item with text 'Feed the cats' and locate its delete button, then click it
+    // 1. Find the todo with the text 'Feed the cats(test)'
+    cy.step("Find the todo with the text 'Feed the cats(test)'")
+    cy.step("Click on the todo's 'X' button")
     cy.contains(validTodo.validTodoDesc)
       .parent()
+
+      // 2. Click on the todo's 'X' button
       .find(".remove-icon-container")
       .click()
 
+    // 3. Reload the page
+    cy.step("Reload the page")
     cy.reload()
 
-    // Verify that the todo with text 'Feed the cats' no longer exists in the todo list
+    // 4. The todo remains deleted from the todo list
+    cy.step("The todo remains deleted from the todo list")
     cy.contains(validTodo.validTodoDesc).should("not.exist")
   })
 
