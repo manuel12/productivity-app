@@ -51,12 +51,10 @@ describe("LOGIN User - (POST) /api/login", () => {
       body: testuser,
       failOnStatusCode: false,
     }).then((res) => {
-      const userData = res.body.data.find(
-        (user) => user.email === testuser.email
-      )
+      const userData = res.body.data
+      expect(userData).to.haveOwnProperty("id")
       expect(userData).to.haveOwnProperty("username", testuser.username)
       expect(userData).to.haveOwnProperty("email", testuser.email)
-      expect(userData).to.haveOwnProperty("password")
     })
   })
 
@@ -70,7 +68,7 @@ describe("LOGIN User - (POST) /api/login", () => {
       failOnStatusCode: false,
     }).then((res) => {
       expect(res.body.error).to.eq(
-        `User ${unexistingUser.email} does not exists, register a user first!`
+        `User ${unexistingUser.email} does not exist, register a user first!`
       )
     })
   })
