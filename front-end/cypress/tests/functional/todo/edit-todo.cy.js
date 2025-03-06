@@ -143,7 +143,7 @@ describe("Todo Section - Edit Todo", () => {
     // Check error label
     cy.getBySel("todo-error-label")
       .should("be.visible")
-      .and("contain.text", "Todos cannot contain less than 3 characters.")
+      .and("contain.text", "Todos must be at least 3 characters.")
   })
 
   afterEach(() => {
