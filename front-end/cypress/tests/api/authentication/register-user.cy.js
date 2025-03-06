@@ -44,9 +44,9 @@ describe("REGISTER User - (POST) /api/user", () => {
       body: testuser,
     }).then((res) => {
       const userData = res.body.data
+      expect(userData).to.haveOwnProperty("id")
       expect(userData).to.haveOwnProperty("username", testuser.username)
       expect(userData).to.haveOwnProperty("email", testuser.email)
-      expect(userData).to.haveOwnProperty("password")
     })
   })
 
