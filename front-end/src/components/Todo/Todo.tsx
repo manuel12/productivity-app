@@ -43,33 +43,40 @@ const Todo: React.FC<ITodoItemProps> = ({
   }
 
   const handleCheckClick = (todoIndex: number) => {
-    const tempTodos = todos
+    // Get specific todo to update by id value
+    const todoToUpdate = todos.find((todo) => todo.id === todoIndex)
 
-    // Get specific todo to update
-    const todoToUpdate = todos[todoIndex]
+    if (todoToUpdate) {
+      // 1. Update todoToUpdate to have completed = true
+      const updatedTodoCompleted = todoToUpdate.completed
+      todoToUpdate.completed = !updatedTodoCompleted
+      setCompleted(todoToUpdate.completed)
 
-    // Set todo complete prop to true
-    const updatedTodoCompleted = todoToUpdate.completed
-    todoToUpdate.completed = !updatedTodoCompleted
-    setCompleted(todoToUpdate.completed)
+      // 2. Play completed todo sound
+      if (todoToUpdate.completed) {
+        // Set todo dateCompleted prop to the current date
+        todoToUpdate.dateCompleted = new Date().toISOString()
+        playTodoCompletedSound()
+      } else {
+        // If uncompleted set to undefined
+        todoToUpdate.dateCompleted = undefined
+      }
 
-    if (todoToUpdate.completed) {
-      // Set todo dateCompleted prop to the current date
-      todoToUpdate.dateCompleted = new Date().toISOString()
-      playTodoCompletedSound()
-    } else {
-      // If uncompleted set to undefined
-      todoToUpdate.dateCompleted = undefined
+      // 3. Update todo with api
+      const todoId = todoToUpdate.id
+      todoId &&
+        API.editTodo(todoToUpdate, todoId)
+          .then(() => {
+            // 4. Get all updated user todos with api
+            // 5. Call setTodos passing update todos array
+            API.getUserTodos(setTodos)
+          })
+
+          .then(() => {
+            // Update
+            setNumCompletedTodos(getNumCompletedTodos(todos))
+          })
     }
-
-    tempTodos[todoIndex] = todoToUpdate
-
-    const updatedTempTodos = [...tempTodos]
-    setTodos(updatedTempTodos)
-    setNumCompletedTodos(getNumCompletedTodos(tempTodos))
-
-    const todoId = todoToUpdate.id
-    todoId && API.editTodo(todoToUpdate, todoId)
   }
 
   const handleEditClick = () => {
@@ -82,36 +89,41 @@ const Todo: React.FC<ITodoItemProps> = ({
     } else if (editedDescription.length > 40) {
       setErrorLabel("Todos cannot contain more than 40 characters.")
     } else if (editedDescription.length < 3) {
-      setErrorLabel("Todos cannot contain less than 3 characters.")
+      setErrorLabel("Todos must be at least 3 characters.")
     } else {
       setErrorLabel("")
       const tempTodos = todos
 
-      const todoToUpdate = todos[todoIndex]
-      todoToUpdate.description = editedDescription
+      const todoToUpdate = todos.find((todo) => todo.id === todoIndex)
+      if (todoToUpdate) {
+        todoToUpdate.description = editedDescription
 
-      tempTodos[todoIndex] = todoToUpdate
-      setTodos(tempTodos)
+        tempTodos[todoIndex] = todoToUpdate
+        setTodos(tempTodos)
 
-      const todoId = todoToUpdate.id
-      todoId && API.editTodo(todoToUpdate, todoId)
+        const todoId = todoToUpdate.id
+        todoId && API.editTodo(todoToUpdate, todoId)
 
-      setIsEditing(false)
+        setIsEditing(false)
+      }
     }
   }
 
   const handleRemoveClick = (todoIndex: number) => {
-    const todoToRemove = todos[todoIndex]
-    const newTodos = todos.filter(
-      (todo) => todoToRemove.description !== todo.description
-    )
+    const todoToRemove = todos.find((todo) => todo.id === todoIndex)
 
-    setTodos(newTodos)
+    if (todoToRemove) {
+      const newTodos = todos.filter(
+        (todo) => todoToRemove.description !== todo.description
+      )
 
-    const todoId = todoToRemove.id
-    todoId && API.deleteTodo(todoId)
+      setTodos(newTodos)
 
-    playTodoRemovedSound()
+      const todoId = todoToRemove.id
+      todoId && API.deleteTodo(todoId)
+
+      playTodoRemovedSound()
+    }
   }
 
   const playTodoCompletedSound = () => {
@@ -125,22 +137,22 @@ const Todo: React.FC<ITodoItemProps> = ({
     audio.play()
   }
 
-  const handleDragStart = (e: DragEvent<HTMLLIElement>, index: number) => {
-    e.dataTransfer.setData("index", index.toString())
-  }
+  //   const handleDragStart = (e: DragEvent<HTMLLIElement>, index: number) => {
+  //     e.dataTransfer.setData("index", index.toString())
+  //   }
 
-  const handleDragOver = (e: DragEvent<HTMLLIElement>) => {
-    e.preventDefault()
-  }
+  //   const handleDragOver = (e: DragEvent<HTMLLIElement>) => {
+  //     e.preventDefault()
+  //   }
 
-  const handleDrop = (e: DragEvent<HTMLLIElement>, targetIndex: number) => {
-    e.preventDefault()
-    const sourceIndex = parseInt(e.dataTransfer.getData("index"))
-    const updatedTodos = [...todos]
-    const [movedTodo] = updatedTodos.splice(sourceIndex, 1)
-    updatedTodos.splice(targetIndex, 0, movedTodo)
-    setTodos(updatedTodos)
-  }
+  //   const handleDrop = (e: DragEvent<HTMLLIElement>, targetIndex: number) => {
+  //     e.preventDefault()
+  //     const sourceIndex = parseInt(e.dataTransfer.getData("index"))
+  //     const updatedTodos = [...todos]
+  //     const [movedTodo] = updatedTodos.splice(sourceIndex, 1)
+  //     updatedTodos.splice(targetIndex, 0, movedTodo)
+  //     setTodos(updatedTodos)
+  //   }
 
   return (
     <li
