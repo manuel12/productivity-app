@@ -73,15 +73,11 @@ const RegisterForm = () => {
     API.register(
       newUserCredentials,
       (res: IRegisterErrorResponse) => {
-        console.warn(res.error)
-        setAlertMessageText(res.error)
+        setAlertMessageText(res.response.data.error)
         setInvalidCredentialsError(true)
       },
       (res: IRegisterSuccessResponse) => {
-        console.warn(res.message)
         setAlertMessageText(res.message)
-
-        console.log("User registered successfully!")
         setUserRegisteredSuccessfully(true)
 
         setTimeout(() => (window.location.href = "/account/login"), 500)
