@@ -30,14 +30,11 @@ class API {
         },
       })
       .then((res) => {
-        if (res.data.error) {
-          error(res.data)
-        } else {
-          success(res.data)
-        }
+        success(res.data)
       })
-      .catch((error) => {
-        console.error("There was an error!", error)
+      .catch((err) => {
+        console.error("There was an error!", err)
+        error(err)
       })
   }
 
@@ -52,15 +49,12 @@ class API {
           "Content-Type": "application/json",
         },
       })
-      .then((response) => {
-        if (response.data.error) {
-          error(response.data) // Handle error
-        } else {
-          success(response.data) // Handle success
-        }
+      .then((res) => {
+        success(res.data)
       })
-      .catch((error) => {
-        console.error("There was an error!", error) // Handle request errors
+      .catch((err) => {
+        console.error("There was an error!", err) // Handle request errors
+        error(err)
       })
   }
 
@@ -80,8 +74,8 @@ class API {
           setTodos(response.data.data) // Update todos with the response data
         }
       })
-      .catch((error) => {
-        console.error("There was an error!", error) // Handle request errors
+      .catch((err) => {
+        console.error("There was an error!", err) // Handle request errors
       })
   }
 
@@ -98,11 +92,12 @@ class API {
           if (API.verbose) console.log(response.data.error) // Log error if verbose is enabled
         } else {
           if (API.verbose) console.log(response.data.message) // Log message if verbose is enabled
+          console.log(response.data.data)
           setTodos(response.data.data) // Update todos with the response data
         }
       })
-      .catch((error) => {
-        console.error("There was an error!", error) // Handle request errors
+      .catch((err) => {
+        console.error("There was an error!", err) // Handle request errors
       })
   }
 
@@ -121,8 +116,8 @@ class API {
           if (API.verbose) console.log(response.data.message) // Log message if verbose is enabled
         }
       })
-      .catch((error) => {
-        console.error("There was an error!", error) // Handle request errors
+      .catch((err) => {
+        console.error("There was an error!", err) // Handle request errors
       })
   }
 
@@ -142,8 +137,8 @@ class API {
           // addNewTodo(response.data); // Uncomment this line to add the new todo
         }
       })
-      .catch((error) => {
-        console.error("There was an error!", error) // Handle request errors
+      .catch((err) => {
+        console.error("There was an error!", err) // Handle request errors
       })
   }
 
@@ -162,8 +157,8 @@ class API {
           API.verbose && console.log(response.data.message)
         }
       })
-      .catch((error) => {
-        console.error("There was an error!", error)
+      .catch((err) => {
+        console.error("There was an error!", err)
       })
   }
 
@@ -180,8 +175,8 @@ class API {
           API.verbose && console.log("Todo successfully deleted!")
         }
       })
-      .catch((error) => {
-        console.error("There was an error!", error)
+      .catch((err) => {
+        console.error("There was an error!", err)
       })
   }
 
@@ -201,8 +196,8 @@ class API {
           setDailies(response.data.data)
         }
       })
-      .catch((error) => {
-        console.error("There was an error!", error)
+      .catch((err) => {
+        console.error("There was an error!", err)
       })
   }
 
@@ -221,8 +216,8 @@ class API {
           API.verbose && console.log(response.data.message)
         }
       })
-      .catch((error) => {
-        console.error("There was an error!", error)
+      .catch((err) => {
+        console.error("There was an error!", err)
       })
   }
 
@@ -242,8 +237,8 @@ class API {
           addNewDaily(response.data.data)
         }
       })
-      .catch((error) => {
-        console.error("There was an error!", error)
+      .catch((err) => {
+        console.error("There was an error!", err)
       })
   }
 
@@ -262,8 +257,8 @@ class API {
           API.verbose && console.log(response.data.message)
         }
       })
-      .catch((error) => {
-        console.error("There was an error!", error)
+      .catch((err) => {
+        console.error("There was an error!", err)
       })
   }
 
@@ -280,8 +275,8 @@ class API {
           API.verbose && console.log("Daily successfully deleted!")
         }
       })
-      .catch((error) => {
-        console.error("There was an error!", error)
+      .catch((err) => {
+        console.error("There was an error!", err)
       })
   }
 }
