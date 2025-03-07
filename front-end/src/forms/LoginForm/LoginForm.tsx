@@ -9,7 +9,6 @@ import { getItem, setItem, setUserLoggedInKey } from "../../utils"
 import {
   ILoginFormProps,
   ILoginUser,
-  IUserData,
   ILoginSuccessResponse,
   ILoginErrorResponse,
 } from "../../interfaces/interfaces"
@@ -21,7 +20,7 @@ import YupPassword from "yup-password"
 YupPassword(yup)
 
 const LoginForm: React.FC<ILoginFormProps> = ({ setLogin }) => {
-  const [rememberMe, setRememberMe] = useState(false)
+  const [rememberMe, setRememberMe] = useState(getItem("rememberMe"))
   const [userLoginSuccessfull, setUserLoginSuccessfull] = useState(false)
   const [invalidCredentialsError, setInvalidCredentialsError] = useState(false)
 
@@ -75,16 +74,14 @@ const LoginForm: React.FC<ILoginFormProps> = ({ setLogin }) => {
         const token = res.token
         setItem("token", token)
 
-        const currentUser = res.data.filter((user: IUserData) => {
-          return user.email === email
-        })[0]
-
-        const currentUserUsername = currentUser.username
+        const currentUser = res.data
 
         if (rememberMe) {
+          console.log("Remember Me", rememberMe)
           setItem("rememberMe", true)
           setItem("rememberMeEmail", email)
         } else {
+          console.log("Remember Me", rememberMe)
           setItem("rememberMe", false)
         }
 
@@ -108,7 +105,7 @@ const LoginForm: React.FC<ILoginFormProps> = ({ setLogin }) => {
     <>
       <FormAlert
         displayAlert={userLoginSuccessfull || invalidCredentialsError}
-        msgs={["Login successfull!", "Email or password invalid."]}
+        msgs={["Login successful!", "Email or password invalid."]}
         success={userLoginSuccessfull}
       />
 
