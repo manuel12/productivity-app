@@ -9,7 +9,6 @@ import Tabs from "../Tabs/Tabs"
 import API from "../../api"
 
 import * as yup from "yup"
-import { getItem } from "../../utils"
 
 interface ITodoListProps {
   todos: ITodo[]
@@ -22,17 +21,11 @@ const TodoList: React.FC<ITodoListProps> = ({
   setTodos,
   setNumCompletedTodos,
 }) => {
-  //   const [newTodo, setNewTodo] = useState<ITodo>({
-  //     completed: false,
-  //     description: "",
-  //     dateCompleted: "",
-  //   })
-
   const [completedTodos, setCompletedTodos] = useState<ITodo[]>(
-    todos.filter((todo) => todo.completed === true)
+    todos.filter((todo) => todo.completed == true)
   )
   const [uncompletedTodos, setUncompletedTodos] = useState<ITodo[]>(
-    todos.filter((todo) => todo.completed === false)
+    todos.filter((todo) => todo.completed == false)
   )
   const [listTodos, setListTodos] = useState<ITodo[]>([])
 
@@ -46,7 +39,7 @@ const TodoList: React.FC<ITodoListProps> = ({
     todo: yup
       .string()
       .required("Todo is required.")
-      .min(3, "Todos cannot contain less than 3 characters.")
+      .min(3, "Todos must be at least 3 characters.")
       .max(40, "Todos cannot contain more than 40 characters."),
   })
 
@@ -57,23 +50,31 @@ const TodoList: React.FC<ITodoListProps> = ({
     const uncompletedTodos = todos.filter((todo) => todo.completed == false)
     setUncompletedTodos(uncompletedTodos)
 
-    if (tabState.all === "active") setListTodos(todos)
-    if (tabState.complete === "active") setListTodos(completedTodos)
-    if (tabState.uncomplete === "active") setListTodos(uncompletedTodos)
+    if (tabState.all === "active") {
+      setListTodos(todos)
+    }
   }, [todos])
+
+  useEffect(() => {
+    if (tabState.complete === "active") {
+      setListTodos(completedTodos)
+    }
+  }, [completedTodos])
+
+  useEffect(() => {
+    if (tabState.uncomplete === "active") {
+      setListTodos(uncompletedTodos)
+    }
+  }, [uncompletedTodos])
 
   const handleAddTodo = (data: any, e?: React.BaseSyntheticEvent) => {
     e?.preventDefault()
-    console.log("handleAddTodo!")
-    console.log(data)
 
     const newTodo = {
       completed: false,
       description: data.todo,
       dateCompleted: "",
     }
-    // setNewTodo(newTodo)
-    console.log(newTodo)
 
     const addNewTodoToArray = (newTodo: ITodo) => {
       const newTodosArray = [...todos, newTodo]
@@ -114,15 +115,17 @@ const TodoList: React.FC<ITodoListProps> = ({
         aria-label="List of Todos"
       >
         {listTodos &&
-          listTodos.map((todo, i) => (
-            <Todo
-              index={i}
-              todo={todo}
-              todos={todos}
-              setTodos={setTodos}
-              setNumCompletedTodos={setNumCompletedTodos}
-            />
-          ))}
+          listTodos.map((todo, i) => {
+            return (
+              <Todo
+                index={todo.id as number}
+                todo={todo}
+                todos={todos}
+                setTodos={setTodos}
+                setNumCompletedTodos={setNumCompletedTodos}
+              />
+            )
+          })}
       </CustomList>
     </>
   )
