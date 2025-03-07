@@ -23,9 +23,7 @@ describe("Todo Section - Edit Todo Smoke tests", () => {
     todoTestsPreconditions()
   })
 
-  // Positive tests
-
-  it("should edit a todo", () => {
+  beforeEach(() => {
     // Create a todo
     cy.getBySel("todo-input").type(validTodo.validTodoDesc)
     cy.getBySel("todo-submit").click()
@@ -35,9 +33,6 @@ describe("Todo Section - Edit Todo Smoke tests", () => {
       .within(() => {
         cy.getBySel("todos-description-container").click()
       })
-
-    cy.getBySel("todos-text-input").clear()
-    cy.getBySel("todos-text-input").type(`{enter}`)
 
     cy.getBySel("todo-error-label")
       .should("be.visible")
@@ -50,7 +45,7 @@ describe("Todo Section - Edit Todo Smoke tests", () => {
 
     cy.getBySel("todo-error-label")
       .should("be.visible")
-      .and("have.text", "Todos cannot contain less than 3 characters.")
+      .and("have.text", "Todos must be at least 3 characters.")
 
     cy.getBySel("todos-text-input").clear()
     cy.getBySel("todos-text-input").type(
@@ -60,20 +55,35 @@ describe("Todo Section - Edit Todo Smoke tests", () => {
     cy.getBySel("todo-error-label")
       .should("be.visible")
       .and("have.text", "Todos cannot contain more than 40 characters.")
+  })
 
-    // Find and edit that existing todo
+  // Positive tests
+
+  it("should edit a todo", () => {
+    // 1. Click on the todo's description text to turn it into an input
+    cy.getBySel("todo-item")
+      .filter(`:contains(${validTodo.validTodoDesc})`)
+      .within(() => {
+        cy.getBySel("todos-description-container").click()
+      })
+
+    // 2. Delete the current description
     cy.getBySel("todos-text-input").clear()
-    cy.getBySel("todos-text-input").type(
-      `${validTodo.validTodoUpdateDesc}{enter}`
+
+    // 3. Enter todoDescription on the input
+    cy.getBySel("todos-text-input").type(validTodo.validTodoDesc)
+
+    // 4. Press ENTER key
+    cy.getBySel("todos-text-input").type("{enter}")
+
+    // 5. Check the old description text is not visible in the todo
+    cy.getBySel("todos-text-input").should(
+      "not.have.text",
+      validTodo.validTodoDesc
     )
 
-    // Validate the todo is updated correctly
-    cy.contains(validTodo.validTodoDesc).should("not.exist")
-    cy.contains("[data-cy=todo-item]", validTodo.validTodoUpdateDesc).should(
-      "exist"
-    )
-
-    //cy.get("body").matchImageSnapshot("Edited Todo")
+    // 6. Check the new description text is visible in the todo
+    cy.getBySel("todos-text-input").should("have.text", validTodo.validTodoDesc)
   })
 
   afterEach(() => {
