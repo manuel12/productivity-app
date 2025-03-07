@@ -15,6 +15,7 @@
     "@types/react-dom": "^18.2.7",
     "axios": "^1.8.1",
     "chart.js": "^4.4.0",
+    "cypress-plugin-steps": "^1.1.1",
     "react": "^18.2.0",
     "react-chartjs-2": "^5.2.0",
     "react-dom": "^18.2.0",
@@ -67,12 +68,14 @@
   "devDependencies": {
     "@simonsmith/cypress-image-snapshot": "^8.1.2",
     "cypress": "^13.2.0",
+    "cypress-mochawesome-reporter": "^3.8.2",
     "eslint": "^8.2.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-plugin-cypress": "^2.15.1",
     "eslint-plugin-import": "^2.25.3",
     "eslint-plugin-jsx-a11y": "^6.5.1",
     "eslint-plugin-react": "^7.28.0",
-    "eslint-plugin-react-hooks": "^4.3.0"
+    "eslint-plugin-react-hooks": "^4.3.0",
+    "wick-a11y": "^2.0.1"
   }
 }
