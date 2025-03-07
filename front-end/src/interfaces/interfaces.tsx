@@ -6,7 +6,11 @@ export interface IRegisterUser {
 }
 
 export interface IRegisterErrorResponse {
-  error: string
+  response: {
+    data: {
+      error: string
+    }
+  }
 }
 
 export interface IRegisterSuccessResponse {
@@ -36,7 +40,7 @@ export interface ILoginSuccessResponse {
   data: {
     email: string
     username: string
-  }[]
+  }
 }
 
 export interface ILoginErrorResponse {
