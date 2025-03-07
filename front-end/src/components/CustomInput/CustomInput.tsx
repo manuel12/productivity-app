@@ -41,16 +41,11 @@ const CustomInput = <T extends IDaily | ITodo>({
   )?.message
 
   const onSubmit: SubmitHandler<T> = (data: T, e) => {
-    console.log("onSubmit!")
-    console.log(data)
     handleAddItem(data, e)
     setValue(itemName as Path<T>, "" as PathValue<T, Path<T>>)
   }
 
-  const onInvalidSubmit: SubmitErrorHandler<T> = (data: FieldErrors<T>) => {
-    console.log("onInvalidSubmit!")
-    console.log(data)
-  }
+  const onInvalidSubmit: SubmitErrorHandler<T> = (data: FieldErrors<T>) => {}
 
   return (
     <form
