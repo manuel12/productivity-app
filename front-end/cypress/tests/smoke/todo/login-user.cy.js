@@ -44,7 +44,7 @@ describe("Authentication Section - Login Smoke tests", () => {
 
     cy.getBySel("form-action-success")
       .should("be.visible")
-      .and("contain.text", "Login successfull!")
+      .and("contain.text", "Login successful!")
     cy.getBySel("form-action-error").should("not.exist")
 
     //cy.get("body").matchImageSnapshot("Login Page Login Success")
