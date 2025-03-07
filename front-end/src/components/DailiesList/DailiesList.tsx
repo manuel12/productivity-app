@@ -60,8 +60,6 @@ const DailiesList: React.FC<IDaliesListProps> = ({ dailies, setDailies }) => {
   }, [dailies])
 
   const handleAddDaily = (data: IDaily, e?: React.BaseSyntheticEvent) => {
-    console.log(data)
-
     setNewDaily({
       completed: false,
       description: data.description,
