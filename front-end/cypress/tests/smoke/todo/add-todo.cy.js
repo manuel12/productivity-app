@@ -35,7 +35,7 @@ describe("Todo Section - Add Todo Smoke tests", () => {
       .type(invalidTodo.todoDescShorterThan3Chars)
     cy.getBySel("input-error-label")
       .should("be.visible")
-      .and("have.text", "Todos cannot contain less than 3 characters.")
+      .and("have.text", "Todos must be at least 3 characters.")
 
     cy.getBySel("todo-input")
       .clear()
