@@ -1,25 +1,27 @@
 const express = require("express")
 const router = express.Router()
-const db = require("../../database")
 const { authenticateToken } = require("../../utils")
+const Todo = require("../../models/Todo") // Import your Sequelize Todo model
 
-router.get("/api/todos/", authenticateToken, (req, res, next) => {
-  const querySQL = "SELECT * FROM Todo"
-  const params = []
-  db.all(querySQL, params, (err, row) => {
-    if (err) {
-      return res.status(400).json({ error: err.message })
-    }
-    res.json({
+router.get("/api/todos/", authenticateToken, async (req, res) => {
+  try {
+    // Fetch all todos using Sequelize
+    const todos = await Todo.findAll()
+
+    // Map through the todos to convert `completed` from 1/0 to true/false
+    const formattedTodos = todos.map((todo) => ({
+      ...todo.toJSON(),
+      completed: todo.completed ? true : false,
+    }))
+
+    res.status(200).json({
       message: "Todos successfully retrieved!",
-      data: row.map((dbItem) => {
-        // Convert completed value from 1 or 0 to true or false
-        const completed = dbItem.completed
-        dbItem.completed = completed ? true : false
-        return dbItem
-      }),
+      data: formattedTodos,
     })
-  })
+  } catch (err) {
+    console.error(err)
+    res.status(500).json({ error: "An error occurred while retrieving todos." })
+  }
 })
 
 module.exports = router
