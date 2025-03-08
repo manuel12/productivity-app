@@ -42,61 +42,69 @@ sequelize
 
 // User routes
 // const loginUserRouter = require("./routes/users/loginUser")
-const loginUserRouter = require("./new_routes/users/loginUser")
+const loginUserRouter = require("./routes/users/loginUser")
 
 // const createUserRouter = require("./routes/users/createUser")
-const createUserRouter = require("./new_routes/users/createUser")
+const createUserRouter = require("./routes/users/createUser")
 
 // const getUsersRouter = require("./routes/users/getUsers")
-const getUsersRouter = require("./new_routes/users/getUsers")
+const getUsersRouter = require("./routes/users/getUsers")
 
 // const getUserRouter = require("./routes/users/getUser")
-const getUserRouter = require("./new_routes/users/getUser")
+const getUserRouter = require("./routes/users/getUser")
 
 // const updateUserRouter = require("./routes/users/updateUser")
-const updateUserRouter = require("./new_routes/users/updateUser")
+const updateUserRouter = require("./routes/users/updateUser")
 
 // const deleteUserRouter = require("./routes/users/deleteUser")
-const deleteUserRouter = require("./new_routes/users/deleteUser")
+const deleteUserRouter = require("./routes/users/deleteUser")
 
 // Warning!
 // const deleteTestUsersRouter = require("./routes/users/deleteTestUsers")
-const deleteTestUsersRouter = require("./new_routes/users/deleteTestUsers")
+const deleteTestUsersRouter = require("./routes/users/deleteTestUsers")
 
 // const readTodosRouter = require("./routes/todos/readTodos")
-const readTodosRouter = require("./new_routes/todos/readTodos")
+const readTodosRouter = require("./routes/todos/readTodos")
 
 // const readUserTodosRouter = require("./routes/todos/readUserTodos")
-const readUserTodosRouter = require("./new_routes/todos/readUserTodos")
+const readUserTodosRouter = require("./routes/todos/readUserTodos")
 
 // const readTodoRouter = require("./routes/todos/readTodo")
-const readTodoRouter = require("./new_routes/todos/readTodo")
+const readTodoRouter = require("./routes/todos/readTodo")
 
 // const createTodoRouter = require("./routes/todos/createTodo")
-const createTodoRouter = require("./new_routes/todos/createTodo")
+const createTodoRouter = require("./routes/todos/createTodo")
 
 // const updateTodoRouter = require("./routes/todos/updateTodo")
-const updateTodoRouter = require("./new_routes/todos/updateTodo")
+const updateTodoRouter = require("./routes/todos/updateTodo")
 
 // const deleteTodoRouter = require("./routes/todos/deleteTodo")
-const deleteTodoRouter = require("./new_routes/todos/deleteTodo")
+const deleteTodoRouter = require("./routes/todos/deleteTodo")
 
 // WARNING!
 const deleteTestTodos = require("./routes/todos/deleteTestTodos")
 
-const readDailiesRouter = require("./routes/dailies/readDailies")
-const readDailyRouter = require("./routes/dailies/readDaily")
-const createDailyRouter = require("./routes/dailies/createDaily")
-const updateDailyRouter = require("./routes/dailies/updateDaily")
-const deleteDailyRouter = require("./routes/dailies/deleteDaily")
-// WARNING!
-const deleteTestDailies = require("./routes/dailies/deleteTestDailies")
+// const readDailiesRouter = require("./routes/dailies/readDailies")
+// const readDailyRouter = require("./routes/dailies/readDaily")
+// const createDailyRouter = require("./routes/dailies/createDaily")
+// const updateDailyRouter = require("./routes/dailies/updateDaily")
+// const deleteDailyRouter = require("./routes/dailies/deleteDaily")
+// // WARNING!
+// const deleteTestDailies = require("./routes/dailies/deleteTestDailies")
 
 const app = express()
 const port = process.env.PORT || 4000
 
 app.use(bodyParser.json())
-app.use(cors())
+
+// Or allow specific origins
+app.use(
+  cors({
+    origin: "*", // Allow all origins
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"], // Allow all HTTP methods
+    allowedHeaders: ["Content-Type", "Authorization"], // Allow specific headers
+  })
+)
 
 // AUTHENTICATION ----------
 app.use(loginUserRouter)
@@ -133,19 +141,19 @@ app.use(deleteTodoRouter)
 app.use(deleteTestTodos)
 // -------------------------
 
-// DAILIES -------------------
-app.use(readDailiesRouter)
+// // DAILIES -------------------
+// app.use(readDailiesRouter)
 
-app.use(readDailyRouter)
+// app.use(readDailyRouter)
 
-app.use(createDailyRouter)
+// app.use(createDailyRouter)
 
-app.use(updateDailyRouter)
+// app.use(updateDailyRouter)
 
-app.use(deleteDailyRouter)
+// app.use(deleteDailyRouter)
 
-// Warning!
-app.use(deleteTestDailies)
+// // Warning!
+// app.use(deleteTestDailies)
 // -------------------------
 
 app.listen(port, () => {
