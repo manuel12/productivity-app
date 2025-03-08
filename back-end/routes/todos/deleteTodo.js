@@ -1,42 +1,35 @@
 const express = require("express")
 const router = express.Router()
-const db = require("../../database")
 const { authenticateToken } = require("../../utils")
+const Todo = require("../../models/Todo") // Import your Sequelize Todo model
 
-router.delete("/api/todo/:id", authenticateToken, (req, res, next) => {
+router.delete("/api/todo/:id", authenticateToken, async (req, res) => {
   const id = Number(req.params.id)
 
+  // Validate the ID
   if (isNaN(id) || id <= 0) {
     return res.status(400).json({ error: "Invalid (NaN) todo id" })
   }
 
-  const checkTodoExistsSQL = "SELECT * FROM Todo WHERE id = ?"
-  const deleteSQL = "DELETE FROM Todo WHERE id = ?"
+  try {
+    // Check if the Todo exists
+    const todo = await Todo.findOne({ where: { id } })
 
-  db.all(checkTodoExistsSQL, [id], (err, row) => {
-    if (err) {
-      return res.status(500).json({ error: res.message })
+    if (!todo) {
+      return res.status(404).json({ error: `Todo with id ${id} not found` })
     }
 
-    if (!row) {
-      // Todo with given id does not exist
-      return res.status(400).json({ error: `Todo with id ${id} not found` })
-    }
+    // Delete the Todo
+    await todo.destroy()
 
-    // Todo with  specific id exists proceed with deletion
-    db.run(deleteSQL, id, function (err) {
-      if (err) {
-        return res.status(500).json({ error: res.message })
-      }
-
-      // Check if any rows were affected (i.e., if the Todo was deleted)
-      if (this.changes === 0) {
-        return res.status(404).json({ error: `Todo with id ${id} not found` })
-      }
-
-      return res.status(204).end()
-    })
-  })
+    // Respond with a 204 status (No Content)
+    return res.status(204).end()
+  } catch (err) {
+    console.error(err)
+    res
+      .status(500)
+      .json({ error: "An error occurred while deleting the todo." })
+  }
 })
 
 module.exports = router
