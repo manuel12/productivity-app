@@ -1,24 +1,25 @@
 const express = require("express")
 const router = express.Router()
-const db = require("../../database")
 const { authenticateToken } = require("../../utils")
+const Todo = require("../../models/Todo") // Import your Sequelize Todo model
 
-router.post("/api/todo", authenticateToken, (req, res, next) => {
+router.post("/api/todo", authenticateToken, async (req, res) => {
   const errors = []
   const { completed, description } = req.body
 
+  // Validation
   if (typeof completed !== "boolean") {
     errors.push("No completed (boolean) specified")
   }
 
-  if (typeof description !== "string" || description.length == 0) {
+  if (typeof description !== "string" || description.length === 0) {
     errors.push("No description (string) specified")
   } else {
-    if (description?.length < 3) {
+    if (description.length < 3) {
       errors.push("Description must be at least 3 characters")
     }
 
-    if (description?.length > 39) {
+    if (description.length > 39) {
       errors.push("Description must be shorter than 40 characters")
     }
   }
@@ -27,26 +28,28 @@ router.post("/api/todo", authenticateToken, (req, res, next) => {
     return res.status(400).json({ error: errors.join(", ") + "." })
   }
 
-  const createdBy = req.user.id
+  const createdBy = req.user.id // Get the user ID from the authenticated token
 
-  const insertSQL =
-    "INSERT INTO Todo (createdBy, completed, description) VALUES (?,?,?)"
+  try {
+    // Create a new Todo using Sequelize
+    const newTodo = await Todo.create({
+      createdBy,
+      completed,
+      description,
+    })
 
-  db.run(insertSQL, [createdBy, completed, description], function (err) {
-    if (err) {
-      return res.status(500).json({ error: res.error })
-    }
+    // Respond with the created Todo
     res.status(201).json({
       message: "Todo successfully created!",
-      data: {
-        id: this.lastID,
-        createdBy,
-        completed,
-        description,
-      },
-      id: this.lastID,
+      data: newTodo,
+      id: newTodo.id,
     })
-  })
+  } catch (err) {
+    console.error(err)
+    res
+      .status(500)
+      .json({ error: "An error occurred while creating the todo." })
+  }
 })
 
 module.exports = router
