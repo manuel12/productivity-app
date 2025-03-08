@@ -1,29 +1,32 @@
 const express = require("express")
 const router = express.Router()
-const db = require("../../database")
 const { authenticateToken } = require("../../utils")
+const Todo = require("../../models/Todo") // Import your Sequelize Todo model
 
-router.get("/api/todo/:id", authenticateToken, (req, res, next) => {
-  const querySQL = "SELECT * FROM Todo WHERE id = ?"
+router.get("/api/todo/:id", authenticateToken, async (req, res) => {
   const id = req.params.id
 
-  db.all(querySQL, [id], (err, row) => {
-    if (err) {
-      return res.status(500).json({ error: err.message })
-    }
+  try {
+    // Find the Todo by ID using Sequelize
+    const todo = await Todo.findOne({ where: { id } })
 
-    if (row.length > 0) {
+    if (todo) {
       res.status(200).json({
         message: "Todo successfully retrieved!",
-        data: row,
+        data: todo,
       })
     } else {
-      res.status(400).json({
+      res.status(404).json({
         message: `Todo with id ${id} not found.`,
-        data: row,
+        data: null,
       })
     }
-  })
+  } catch (err) {
+    console.error(err)
+    res
+      .status(500)
+      .json({ error: "An error occurred while retrieving the todo." })
+  }
 })
 
 module.exports = router
