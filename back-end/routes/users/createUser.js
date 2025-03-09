@@ -1,13 +1,13 @@
 const express = require("express")
 const router = express.Router()
-const db = require("../../database")
 const md5 = require("md5")
+const User = require("../../models/User") // Import your Sequelize User model
 
-// Create new user, fail if user credentials already exist
-router.post("/api/user/", (req, res, next) => {
+router.post("/api/user/", async (req, res) => {
   const { username, email, password } = req.body
   const errors = []
 
+  // Validation
   if (!username) {
     errors.push("No username (string) specified")
   }
@@ -45,33 +45,40 @@ router.post("/api/user/", (req, res, next) => {
   }
 
   if (errors.length) {
-    res.status(400).json({ error: errors.join(", ") + "." })
-    return
+    return res.status(400).json({ error: errors.join(", ") + "." })
   }
 
-  const data = {
-    username,
-    email,
-    password: md5(req.body.password),
-  }
+  const hashedPassword = md5(password) // Hash the password
 
-  const insertSQL =
-    "INSERT INTO User (username, email, password) VALUES (?,?,?)"
-  const params = [data.username, data.email, data.password]
-
-  db.run(insertSQL, params, function (err, result) {
-    if (err) {
-      const errorMsg = `A user with email ${data.email} already exists!`
-      res.status(400).json({ error: errorMsg })
-      return
-    }
+  try {
+    // Create a new user using Sequelize
+    const newUser = await User.create({
+      username,
+      email,
+      password: hashedPassword,
+    })
 
     res.status(201).json({
-      message: `User ${data.email} successfully registered!`,
-      data: data,
-      id: this.lastID,
+      message: `User ${email} successfully registered!`,
+      data: {
+        id: newUser.id,
+        username: newUser.username,
+        email: newUser.email,
+      },
     })
-  })
+  } catch (err) {
+    if (err.name === "SequelizeUniqueConstraintError") {
+      console.error(err.name)
+      // Handle duplicate email error
+      return res
+        .status(400)
+        .json({ error: `A user with email ${email} already exists!` })
+    }
+
+    res
+      .status(500)
+      .json({ error: "An error occurred while registering the user." })
+  }
 })
 
 module.exports = router
