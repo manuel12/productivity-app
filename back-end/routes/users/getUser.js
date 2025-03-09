@@ -1,9 +1,8 @@
 const express = require("express")
 const router = express.Router()
-const db = require("../../database")
+const User = require("../../models/User") // Import your Sequelize User model
 
-/* GET users listing. */
-router.get("/api/user/:id", function (req, res, next) {
+router.get("/api/user/:id", async (req, res) => {
   const userId = req.params.id
 
   // Check if userId exists, is a valid number, and not an empty string
@@ -11,20 +10,27 @@ router.get("/api/user/:id", function (req, res, next) {
     return res.status(400).json({ error: "Invalid user ID" })
   }
 
-  const selectSQL = "select * from User where id = ?"
-  const params = [userId]
-  db.get(selectSQL, params, (err, row) => {
-    if (err) {
-      res.status(400).json({ error: err.message })
-      return
+  try {
+    // Find the user by ID using Sequelize
+    const user = await User.findOne({ where: { id: userId } })
+
+    if (user) {
+      res.status(200).json({
+        message: "User successfully retrieved!",
+        data: user,
+      })
+    } else {
+      res.status(404).json({
+        message: `User with id: ${userId} not found.`,
+        data: null,
+      })
     }
-    res.json({
-      message: row
-        ? "User successfully retrieved!"
-        : `User with id: ${params} not found.`,
-      data: row,
-    })
-  })
+  } catch (err) {
+    console.error(err)
+    res
+      .status(500)
+      .json({ error: "An error occurred while retrieving the user." })
+  }
 })
 
 module.exports = router
