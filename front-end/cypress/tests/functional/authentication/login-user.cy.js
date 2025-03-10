@@ -4,7 +4,7 @@ import { clearLocalStorage } from "../../../support/utils"
 const testuser = require("../../../fixtures/testuser.json")
 const invalidCredentials = require("../../../fixtures/invalidCredentials.json")
 
-describe.only("Authentication Section - Login User", () => {
+describe("Authentication Section - Login User", () => {
   beforeEach(() => {
     clearLocalStorage()
     // Register test user
