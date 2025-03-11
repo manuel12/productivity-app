@@ -69,6 +69,7 @@
     "@simonsmith/cypress-image-snapshot": "^8.1.2",
     "cypress": "^13.2.0",
     "cypress-mochawesome-reporter": "^3.8.2",
+    "cypress-multi-reporters": "^2.0.5",
     "eslint": "^8.2.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-plugin-cypress": "^2.15.1",
