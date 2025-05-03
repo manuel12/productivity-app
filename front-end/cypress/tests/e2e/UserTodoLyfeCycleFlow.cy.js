@@ -108,9 +108,8 @@ describe("UserTodoLifecycleFlow", () => {
     cy.get('[data-cy="todos-text-input"]').clear()
 
     // Step #24: Type updateTodoDescription text into todo input
-    cy.step("Type updateTodoDescription text into todo input").type(
-      updateTodoDescription
-    )
+    cy.step("Type updateTodoDescription text into todo input")
+    cy.get('[data-cy="todos-text-input"]').type(updateTodoDescription)
 
     // Step #25: Press ENTER
     cy.step("Press ENTER")
@@ -142,7 +141,7 @@ describe("UserTodoLifecycleFlow", () => {
 
     // Step #30: Click on the Completed tab
     cy.step("Click on the Completed tab")
-    cy.contains("Completed").click()
+    cy.get('[data-cy="complete-tab"]').click()
 
     // Step #31: Check the todo is visible in the completed tab
     cy.step("Check the todo is visible in the completed tab")
@@ -171,11 +170,14 @@ describe("UserTodoLifecycleFlow", () => {
 
     // Step #36: Check todo is visible in the Uncompleted tab
     cy.step("Check todo is visible in the Uncompleted tab")
-    cy.contains(updateTodoDescription).should("not.exist") // It should not be visible since it was marked completed
+    cy.contains(updateTodoDescription).should("be.visible")
 
     // Step #37: Click on the todo's X button
     cy.step("Click on the todo's X button")
-    cy.contains(updateTodoDescription).parent().find(".delete-button").click()
+    cy.contains(updateTodoDescription)
+      .parent()
+      .find(".remove-icon-container")
+      .click()
 
     // Step #38: Check the todo is deleted
     cy.step("Check the todo is deleted")
