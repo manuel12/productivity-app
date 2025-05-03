@@ -97,6 +97,49 @@ describe("LOGIN User - (POST) /api/login", () => {
     })
   })
 
+  it("should respond with error message 'Email must be at least 6 characters.' when submitting a shorter email address", () => {
+    const testUser = {
+      username: "testuser1",
+      email: "a@ade",
+      password: "Testpass1!",
+    }
+
+    cy.request({
+      method: "POST",
+      url: "http://localhost:4000/api/login",
+      body: testUser,
+      failOnStatusCode: false, // Allow non-2xx responses
+    }).then((response) => {
+      expect(response.status).to.eq(400) // Or the appropriate error status code
+      expect(response.body).to.have.property(
+        "error",
+        "Email must be at least 6 characters."
+      )
+    })
+  })
+
+  it("should respond with error message 'Email must be shorter than 255 characters.' when submitting a longer email address", () => {
+    const testUser = {
+      username: "testuser1",
+      email:
+        "P@ssw0rd123!abcdefghijklmnopqrstuvwxyABCDEFGHIJKLMNOPQRSTUVWXYabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*()P@ssw0rd123!abcdefghijklmnopqrstuvwxyABCDEFGHIJKLMNOPQRSTUVWXYabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*()",
+      password: "Testpass1!",
+    }
+
+    cy.request({
+      method: "POST",
+      url: "http://localhost:4000/api/login",
+      body: testUser,
+      failOnStatusCode: false,
+    }).then((response) => {
+      expect(response.status).to.eq(400) // Or the appropriate error status code
+      expect(response.body).to.have.property(
+        "error",
+        "Email must be shorter than 255 characters."
+      )
+    })
+  })
+
   it("should respond with error message 'Password must be at least 8 characters.' when submitting a shorter password", () => {
     // Console.log all current users
     cy.request(`${apiUrl}/api/users`).then((res) => console.log(res.body.data))
