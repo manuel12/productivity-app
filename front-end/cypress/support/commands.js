@@ -104,3 +104,49 @@ Cypress.Commands.add("deleteTestDailies", () => {
     url: `${apiUrl}/api/dailies/delete-test-dailies/`,
   }).then((res) => expect(res.status).to.eq(204))
 })
+
+Cypress.Commands.add("markTodosAsCompleted", () => {
+  const deleteNextTodo = () => {
+    cy.get(".check-not-completed").then(($todoItems) => {
+      cy.log($todoItems.length)
+      cy.wait(100)
+
+      if ($todoItems.length > 0) {
+        // Elements still exist, delete the first one
+
+        cy.get(".check-not-completed").first().click()
+
+        if ($todoItems.length == 1) return cy.log("All todo items deleted.")
+
+        // Recursively call the function to check for more elements
+        deleteNextTodo()
+      }
+    })
+  }
+
+  // Start the recursive deletion process
+  deleteNextTodo()
+})
+
+Cypress.Commands.add("markTodosAsUncompleted", () => {
+  const deleteNextTodo = () => {
+    cy.get(".check-completed").then(($todoItems) => {
+      cy.log($todoItems.length)
+      cy.wait(100)
+
+      if ($todoItems.length > 0) {
+        // Elements still exist, delete the first one
+
+        cy.get(".check-completed").first().click()
+
+        if ($todoItems.length == 1) return cy.log("All todo items deleted.")
+
+        // Recursively call the function to check for more elements
+        deleteNextTodo()
+      }
+    })
+  }
+
+  // Start the recursive deletion process
+  deleteNextTodo()
+})
