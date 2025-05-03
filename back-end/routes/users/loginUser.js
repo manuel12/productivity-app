@@ -7,11 +7,22 @@ const User = require("../../models/User") // Import your Sequelize User model
 
 router.post("/api/login", async (req, res) => {
   const { email, password } = req.body
+
+  console.log({ email, password })
+
   const errors = []
 
   // Validation
   if (!email) {
     errors.push("No email (string) specified")
+  }
+
+  if (email?.length < 6) {
+    errors.push("Email must be at least 6 characters")
+  }
+
+  if (email?.length > 254) {
+    errors.push("Email must be shorter than 255 characters")
   }
 
   if (!password) {
@@ -25,6 +36,9 @@ router.post("/api/login", async (req, res) => {
   if (password?.length > 127) {
     errors.push("Password must be less than 128 characters")
   }
+
+  console.log(errors)
+  console.log(errors.length)
 
   if (errors.length) {
     return res.status(400).json({ error: errors.join(", ") + "." })
