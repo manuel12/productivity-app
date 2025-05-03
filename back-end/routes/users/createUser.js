@@ -5,6 +5,7 @@ const User = require("../../models/User") // Import your Sequelize User model
 
 router.post("/api/user/", async (req, res) => {
   const { username, email, password } = req.body
+
   const errors = []
 
   // Validation
