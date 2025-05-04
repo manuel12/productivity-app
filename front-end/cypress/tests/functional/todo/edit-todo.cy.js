@@ -37,13 +37,11 @@ describe("Todo Section - Edit Todo", () => {
 
     // 3. Enter todoDescription on the input
     cy.step("Enter todoDescription on the input")
+    cy.getBySel("todos-text-input").type(validTodo.validTodoUpdateDesc)
 
     // 4. Press ENTER key
     cy.step("Press ENTER key")
-
-    cy.getBySel("todos-text-input").type(
-      `${validTodo.validTodoUpdateDesc}{enter}`
-    )
+    cy.getBySel("todos-text-input").type("{enter}")
 
     // 5. Check the old description text is not visible in the todo
     cy.step("Check the old description text is not visible in the todo")
@@ -71,12 +69,11 @@ describe("Todo Section - Edit Todo", () => {
 
     // 3. Enter todoDescription on the input
     cy.step("Enter todoDescription on the input")
+    cy.getBySel("todos-text-input").type(validTodo.validTodoUpdateDesc)
 
     // 4. Press ENTER key
     cy.step("Press ENTER key")
-    cy.getBySel("todos-text-input").type(
-      `${validTodo.validTodoUpdateDesc}{enter}`
-    )
+    cy.getBySel("todos-text-input").type("{enter}")
 
     // 5. Reload the page
     cy.step("Reload the page")
@@ -110,16 +107,14 @@ describe("Todo Section - Edit Todo", () => {
 
     // 3. Enter todoDescLongerThan40Chars
     cy.step("Enter todoDescLongerThan40Chars")
+    cy.getBySel("todos-text-input").type(invalidTodo.todoDescLongerThan40Chars)
 
     // 4. Press ENTER key
     cy.step("Press ENTER key")
+    cy.getBySel("todos-text-input").type("{enter}")
 
-    cy.getBySel("todos-text-input").type(
-      `${invalidTodo.todoDescLongerThan40Chars}{enter}`
-    )
-
-    // 5. Check the todo text input does not disappear
-    cy.step("Check the todo text input does not disappear")
+    // 5. Check the todo text input does not dissappear
+    cy.step("Check the todo text input does not dissappear")
     cy.getBySel("todos-text-input").should("be.visible")
   })
 
@@ -138,13 +133,11 @@ describe("Todo Section - Edit Todo", () => {
 
     // 3. Enter todoDescLongerThan40Chars
     cy.step("Enter todoDescLongerThan40Chars")
+    cy.getBySel("todos-text-input").type(invalidTodo.todoDescLongerThan40Chars)
 
     // 4. Press ENTER key
     cy.step("Press ENTER key")
-
-    cy.getBySel("todos-text-input").type(
-      `${invalidTodo.todoDescLongerThan40Chars}{enter}`
-    )
+    cy.getBySel("todos-text-input").type("{enter}")
 
     // 5. Check an error label for the todo input with the text 'Todos cannot contain more than 40 characters.' is visible
     cy.step(
@@ -170,16 +163,14 @@ describe("Todo Section - Edit Todo", () => {
 
     // 3. Enter shortDescription
     cy.step("Enter shortDescription")
+    cy.getBySel("todos-text-input").type(invalidTodo.todoDescShorterThan3Chars)
 
     // 4. Press ENTER key
     cy.step("Press ENTER key")
-    cy.getBySel("todos-text-input").type(
-      `${invalidTodo.todoDescShorterThan3Chars}{enter}`
-    )
-    // 5. Check the todo text input does not disappear// Check that todo text input does not dissapear
-    cy.step(
-      "Check the todo text input does not disappear// Check that todo text input does not dissapear"
-    )
+    cy.getBySel("todos-text-input").type("{enter}")
+
+    // 5. Check the todo text input does not disappear
+    cy.step("Check the todo text input does not disappear")
     cy.getBySel("todos-text-input").should("be.visible")
   })
 
@@ -198,20 +189,46 @@ describe("Todo Section - Edit Todo", () => {
 
     // 3. Enter shortDescription
     cy.step("Enter shortDescription")
+    cy.getBySel("todos-text-input").type(invalidTodo.todoDescShorterThan3Chars)
 
     // 4. Press ENTER key
     cy.step("Press ENTER key")
-    cy.getBySel("todos-text-input").type(
-      `${invalidTodo.todoDescShorterThan3Chars}{enter}`
-    )
+    cy.getBySel("todos-text-input").type("{enter}")
 
-    // 5. Check an error label for the todo input with the text 'Todos cannot contain less than 3 characters.' is visible
+    // 5. Check an error label for the todo input with the text 'Todos must be at least 3 characters.' is visible
+
     cy.step(
-      "Check an error label for the todo input with the text 'Todos cannot contain less than 3 characters.' is visible"
+      "Check an error label for the todo input with the text 'Todos must be at least 3 characters.' is visible"
     )
     cy.getBySel("todo-error-label")
       .should("be.visible")
       .and("contain.text", "Todos must be at least 3 characters.")
+  })
+
+  it("should not allow to submit an edited todo when leaving input field empty", () => {
+    // 1. Click on the todo's description text to turn it into an input
+    cy.step("Click on the todo's description text to turn it into an input")
+    cy.getBySel("todo-item")
+      .filter(`:contains(${validTodo.validTodoDesc})`)
+      .within(() => {
+        cy.getBySel("todos-description-container").click()
+      })
+
+    // 2. Delete the current description
+    cy.step("Delete the current description")
+    cy.getBySel("todos-text-input").clear()
+
+    // 3. Press ENTER key
+    cy.step("Press ENTER key")
+    cy.getBySel("todos-text-input").type("{enter}")
+
+    // 4. Check an error label with text 'Todo description is required.' is visible over the todo input
+    cy.step(
+      "Check an error label with text 'Todo description is required.' is visible over the todo input"
+    )
+    cy.getBySel("todo-error-label")
+      .should("be.visible")
+      .and("contain.text", "Todo description is required.")
   })
 
   afterEach(() => {
