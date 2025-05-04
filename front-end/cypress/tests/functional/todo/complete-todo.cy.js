@@ -49,9 +49,9 @@ describe("Todo Section - Mark Todo as Complete:", () => {
     // Click the complete tab
     cy.get('[data-cy="complete-tab"]').click()
 
-    // 3. Check the todo completed sound is played and the todo dissapears from uncompleted list
+    // 3. Check the todo completed sound is played and the todo disappears from uncompleted list
     cy.step(
-      "Check the todo completed sound is played and the todo dissapears from uncompleted list"
+      "Check the todo completed sound is played and the todo disappears from uncompleted list"
     )
     cy.getBySel("todo-item")
       .filter(":contains('test')")
