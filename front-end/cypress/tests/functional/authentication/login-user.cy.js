@@ -102,7 +102,7 @@ describe("Authentication Section - Login User", () => {
       .and("contain.text", "Login successful!")
   })
 
-  it("should allow the user to check a 'Remember Me' checkbox  and have his email pre-written on the email input on next visit", () => {
+  it("should allow the user to check a 'Remember Me' checkbox and have his email pre-written on the email input on next visit", () => {
     // 1.Visit http://localhost:3000/
     cy.step("Visit http://localhost:3000/")
     cy.visit("/")
@@ -154,12 +154,31 @@ describe("Authentication Section - Login User", () => {
   })
 
   it("should not display the user's email on the email field when 'Remember Me' checkbox is unchecked", () => {
+    // Visit http://localhost:3000/
+    cy.step("Visit http://localhost:3000/")
+
+    // Uncheck 'remember me' button if it's checked
+    cy.step("Uncheck 'remember me' button if it's checked")
     cy.getBySel("remember-me-button").uncheck()
 
+    // Enter email on email input
+    cy.step("Enter email on email input")
     cy.getBySel("email").type(testuser.email)
+
+    // Enter password on password input
+    cy.step("Enter password on password input")
     cy.getBySel("password").type(testuser.password)
+
+    // Click 'LOGIN' button
+    cy.step("Click 'LOGIN' button")
     cy.getBySel("login-button").click()
+
+    // Click on navbar's 'Logout' link
+    cy.step("Click on navbar's 'Logout' link")
     cy.getBySel("nav-link-logout").click()
+
+    // Check the email input has "" as value
+    cy.step('Check the email input has "" as value')
     cy.getBySel("email").should("have.value", "")
   })
 
@@ -203,9 +222,13 @@ describe("Authentication Section - Login User", () => {
     cy.visit("/")
 
     // 2. Click on 'CREATE ACCOUNT' button
+    cy.step("Click on 'CREATE ACCOUNT' button")
     cy.getBySel("register-button").click()
 
     // 3. Check the page redirects to http://localhost:3000/account/register
+    cy.step(
+      "Check the page redirects to http://localhost:3000/account/register"
+    )
     cy.url().should("include", "/account/register")
   })
 
@@ -228,9 +251,12 @@ describe("Authentication Section - Login User", () => {
     cy.step("Click 'LOGIN' button")
     cy.getBySel("login-button").click()
 
-    // Check login url and form are still displayed
-    cy.step("Check login url and form are still displayed")
+    // 5. Check that the current url is http://localhost:3000/account/login
+    cy.step("Check that the current url is http://localhost:3000/account/login")
     cy.url().should("eq", "http://localhost:3000/account/login")
+
+    // 6. Check that the login form is still visible
+    cy.step("Check that the login form is still visible")
     cy.getBySel("login-form").should("be.visible")
   })
 
