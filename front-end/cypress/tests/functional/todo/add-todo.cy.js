@@ -23,8 +23,8 @@ describe("Todo Section - Add Todo", () => {
   // Positive tests
 
   it('should add a todo by writing on input and clicking on a "Add todo" button', () => {
-    // 1. Enter todoDescription on the input on input
-    cy.step("Enter todoDescription on the input on input")
+    // 1. Enter todoDescription on the todo input
+    cy.step("Enter todoDescription on the todo input")
     cy.getBySel("todo-input").type(validTodo.validTodoDesc)
 
     // 2. Click 'Add Todo' button
@@ -39,8 +39,8 @@ describe("Todo Section - Add Todo", () => {
   })
 
   it("should add a todo by writing on input and pressing enter key", () => {
-    // 1. Enter todoDescription on the input on input
-    cy.step("Enter todoDescription on the input on input")
+    // 1. Enter todoDescription on the todo input
+    cy.step("Enter todoDescription on the todo input")
 
     // 2. Press ENTER key
     cy.step("Press ENTER key")
@@ -55,24 +55,24 @@ describe("Todo Section - Add Todo", () => {
   })
 
   it("should display added todos correctly on the list", () => {
-    // 1. Enter todoDescription on the input1 on input
-    cy.step("Enter todoDescription on the input1 on input")
+    // 1. Enter todoDescription1 on the todo input
+    cy.step("Enter todoDescription1 on the todo input")
     cy.getBySel("todo-input").type(validTodo.validTodoDesc)
 
     // 2. Click 'Add Todo' button
     cy.step("Click 'Add Todo' button")
     cy.getBySel("todo-submit").click()
 
-    // 3. Enter todoDescription on the input2 on input
-    cy.step("Enter todoDescription on the input2 on input")
+    // 3. Enter todoDescription2 on the todo input
+    cy.step("Enter todoDescription2 on the todo input")
     cy.getBySel("todo-input").type(validTodo.validTodoDesc2)
 
     // 4. Click 'Add Todo' button
     cy.step("Click 'Add Todo' button")
     cy.getBySel("todo-submit").click()
 
-    // 5. Enter todoDescription on the input3 on input
-    cy.step("Enter todoDescription on the input3 on input")
+    // 5. Enter todoDescription3 on the todo input
+    cy.step("Enter todoDescription3 on the todo input")
     cy.getBySel("todo-input").type(validTodo.validTodoDesc3)
 
     // 6. Click 'Add Todo' button
@@ -83,24 +83,24 @@ describe("Todo Section - Add Todo", () => {
     cy.step(
       "Check a new todo item is added with the text 'Take out trash (test)'"
     )
-    cy.get("todo-item").eq(0).should("contain.text", validTodo.validTodoDesc)
+    cy.get(".todo-item").eq(2).should("contain.text", validTodo.validTodoDesc)
 
     // 8. Check the second todo with the text 'Clean room (test)' is added below the first
     cy.step(
       "Check the second todo with the text 'Clean room (test)' is added below the first"
     )
-    cy.get("todo-item").eq(1).should("contain.text", validTodo.validTodoDesc2)
+    cy.get(".todo-item").eq(1).should("contain.text", validTodo.validTodoDesc2)
 
     // 9. Check the third todo with the text 'Feed the cats (test)' is added below the second
     cy.step(
       "Check the third todo with the text 'Feed the cats (test)' is added below the second"
     )
-    cy.get("todo-item").eq(1).should("contain.text", validTodo.validTodoDesc3)
+    cy.get(".todo-item").eq(0).should("contain.text", validTodo.validTodoDesc3)
   })
 
   it("should persist todos after page reload", () => {
-    // 1. Enter todoDescription on the input on input
-    cy.step("Enter todoDescription on the input on input")
+    // 1. Enter todoDescription on the todo input
+    cy.step("Enter todoDescription on the todo input")
     cy.getBySel("todo-input").type(validTodo.validTodoDesc)
 
     // 2. Click 'Add Todo' button
@@ -124,8 +124,8 @@ describe("Todo Section - Add Todo", () => {
   // Negative tests
 
   it("should not allow to add a todo with more than 40 characters", () => {
-    // 1. Enter longDescription on input
-    cy.step("Enter longDescription on input")
+    // 1. Enter longDescription on the todo input
+    cy.step("Enter longDescription on the todo input")
     cy.getBySel("todo-input").type(invalidTodo.todoDescLongerThan40Chars)
 
     // 2. Click 'Add Todo' button
@@ -164,6 +164,25 @@ describe("Todo Section - Add Todo", () => {
     // 2. Check no new todos are added
     cy.step("Check no new todos are added")
     cy.getBySel("todo-item").should("have.length.gte", 0)
+  })
+
+  it("should not allow to add a todo with less than 3 characters", () => {
+    // 1. Enter shortDescription on input
+    cy.step("Enter shortDescription on input")
+    cy.getBySel("todo-input").type(invalidTodo.todoDescShorterThan3Chars)
+
+    // 2. Click 'Add Todo' button
+    cy.step("Click 'Add Todo' button")
+    cy.getBySel("todo-submit").click()
+
+    // 3. Check an error label for the todo input with the text 'Todos must be at least 3 characters.' is visible
+    cy.step(
+      "Check an error label for the todo input with the text 'Todos must be at least 3 characters.' is visible"
+    )
+    cy.getBySel("input-error-label").should(
+      "have.text",
+      "Todos must be at least 3 characters."
+    )
   })
 
   it('should display an error label "Todos must be at least 3 characters." when falling below that amount', () => {
