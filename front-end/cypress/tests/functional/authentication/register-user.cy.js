@@ -13,45 +13,45 @@ describe("Authentication Section - Register User", () => {
   // Positive tests
 
   it("should allow the user to register with valid credentials", () => {
-    // 1. Visit http://localhost:3000/
-    cy.step("Visit http://localhost:3000/")
-    cy.visit("http://localhost:3000/account/register/")
-
-    // 2. Enter username on username input
+    // 1. Enter username on username input
     cy.step("Enter username on username input")
     cy.getBySel("username").type(testuser.username)
 
-    // 3. Enter email on email input
+    // 2. Enter email on email input
     cy.step("Enter email on email input")
     cy.getBySel("email").type(testuser.email)
 
-    // 4. Enter password on password input
+    // 3. Enter password on password input
     cy.step("Enter password on password input")
     cy.getBySel("password").type(testuser.password)
 
-    // 5. Enter passwordConfirmation on password confirmation input
+    // 4. Enter passwordConfirmation on password confirmation input
     cy.step("Enter passwordConfirmation on password confirmation input")
     cy.getBySel("password-confirmation").type(testuser.password)
 
-    // 6. Click 'REGISTER' button
+    // 5. Click 'REGISTER' button
     cy.step("Click 'REGISTER' button")
     cy.getBySel("register-button").click()
 
-    // 7. Visit http://localhost:3000/account/login/
-    cy.step("Visit http://localhost:3000/account/login/")
+    // 6. Check you are redirected to http://localhost:3000/account/login/
+    cy.step("Check you are redirected to http://localhost:3000/account/login/")
     cy.url().should("include", "/account/login")
 
-    // 8. Enter email on email input
+    // 7. Enter email on email input
     cy.step("Enter email on email input")
     cy.getBySel("email").type(testuser.email)
 
-    // 9. Enter password on password input
+    // 8. Enter password on password input
     cy.step("Enter password on password input")
     cy.getBySel("password").type(testuser.password)
 
-    // 10. Click 'LOGIN' button
+    // 9. Click 'LOGIN' button
     cy.step("Click 'LOGIN' button")
     cy.getBySel("login-button").click()
+
+    // 10. Check that page redirects to http://localhost:3000/
+    cy.step("Check that page redirects to http://localhost:3000/")
+    cy.url().should("eq", "http://localhost:3000/")
   })
 
   it("should display a success message on register success", () => {
@@ -91,61 +91,57 @@ describe("Authentication Section - Register User", () => {
   // Negative tests
 
   it("should not allow user to register with existing credentials", () => {
-    // 1. Visit http://localhost:3000/account/register/
-    cy.step("Visit http://localhost:3000/account/register/")
-    cy.visit("http://localhost:3000/account/register/")
-
-    // 2. Enter username on username input
+    // 1. Enter username on username input
     cy.step("Enter username on username input")
     cy.getBySel("username").type(testuser.username)
 
-    // 3. Enter email on email input
+    // 2. Enter email on email input
     cy.step("Enter email on email input")
     cy.getBySel("email").type(testuser.email)
 
-    // 4. Enter password on password input
+    // 3. Enter password on password input
     cy.step("Enter password on password input")
     cy.getBySel("password").type(testuser.password)
 
-    // 5. Enter passwordConfirmation on password confirmation input
+    // 4. Enter passwordConfirmation on password confirmation input
     cy.step("Enter passwordConfirmation on password confirmation input")
     cy.getBySel("password-confirmation").type(testuser.password)
 
-    // 6. Click 'REGISTER' button
+    // 5. Click 'REGISTER' button
     cy.step("Click 'REGISTER' button")
     cy.getBySel("register-button").click()
 
-    // 7. Visit http://localhost:3000/account/register/
+    // 6. Visit http://localhost:3000/account/register/
     cy.step("Visit http://localhost:3000/account/register/")
     cy.visit("/account/register")
 
-    // 8. Enter username on username input
+    // 7. Enter username on username input
     cy.step("Enter username on username input")
     cy.getBySel("username").type(testuser.username)
 
-    // 9. Enter email on email input
+    // 8. Enter email on email input
     cy.step("Enter email on email input")
     cy.getBySel("email").type(testuser.email)
 
-    // 10. Enter password on password input
+    // 9. Enter password on password input
     cy.step("Enter password on password input")
     cy.getBySel("password").type(testuser.password)
 
-    // 11. Enter passwordConfirmation on password confirmation input
+    // 10. Enter passwordConfirmation on password confirmation input
     cy.step("Enter passwordConfirmation on password confirmation input")
     cy.getBySel("password-confirmation").type(testuser.password)
 
-    // 12. Click 'REGISTER' button
+    // 11. Click 'REGISTER' button
     cy.step("Click 'REGISTER' button")
     cy.getBySel("register-button").click()
 
-    // 13. Check alert message with the text 'A user with testuser1@gmail.com already exists!' is visible
+    // 12. Check alert message with the text 'A user with testuser1@gmail.com already exists!' is visible
     cy.step(
       "Check alert message with the text 'A user with testuser1@gmail.com already exists!' is visible"
     )
     cy.getBySel("form-action-success").should("not.exist")
 
-    // 14. Check no success alert message is visible
+    // 13. Check no success alert message is visible
     cy.step("Check no success alert message is visible")
     cy.getBySel("form-action-error").should(
       "contain.text",
@@ -235,6 +231,22 @@ describe("Authentication Section - Register User", () => {
     )
   })
 
+  it("should display error label 'Email address is invalid.' when submitting an invalid email address", () => {
+    // 1. Enter invalidEmail in the email field
+    cy.step("Enter invalidEmail in the email field")
+    cy.getBySel("email").type(invalidCredentials.invalidEmail)
+
+    // 2. Click on 'REGISTER' button
+    cy.step("Click on 'REGISTER' button")
+    cy.getBySel("register-button").click()
+
+    // 3. Check an error label for the email field with the text 'Email must be valid.' is visible
+    cy.step(
+      "Check an error label for the email field with the text 'Email must be valid.' is visible"
+    )
+    cy.getBySel("email-error-label").should("have.text", "Email must be valid.")
+  })
+
   it("should display error label 'Email must be at least 6 characters.' when submitting a shorter email address", () => {
     // 1. Enter email on email input in the email field
     cy.step("Enter email on email input in the email field")
@@ -269,22 +281,6 @@ describe("Authentication Section - Register User", () => {
     cy.getBySel("email-error-label")
       .should("be.visible")
       .and("contain.text", "Email must be shorter than 255 characters.")
-  })
-
-  it("should display error label 'Email address is invalid.' when submitting an invalid email address", () => {
-    // 1. Enter invalidEmail in the email field
-    cy.step("Enter invalidEmail in the email field")
-    cy.getBySel("email").type(invalidCredentials.invalidEmail)
-
-    // 2. Click on 'REGISTER' button
-    cy.step("Click on 'REGISTER' button")
-    cy.getBySel("register-button").click()
-
-    // 3. Check an error label for the email field with the text 'Email must be valid.' is visible
-    cy.step(
-      "Check an error label for the email field with the text 'Email must be valid.' is visible"
-    )
-    cy.getBySel("email-error-label").should("have.text", "Email must be valid.")
   })
 
   it("should display error label 'A password is required.' appears submitting empty password", () => {
@@ -396,7 +392,7 @@ describe("Authentication Section - Register User", () => {
     )
   })
 
-  it("should display error label 'Password must contain at least 1 lowercase character.' when submitting a password without at least 1 lowercase", () => {
+  it("should display error label 'Password must contain at least 1 lowercase character.' when submitting a password without at least 1 lowercase character", () => {
     // 1. Enter invalidPassword on password field
     cy.step("Enter invalidPassword on password field")
     cy.getBySel("password").type(invalidCredentials.noLowercasePassword)
