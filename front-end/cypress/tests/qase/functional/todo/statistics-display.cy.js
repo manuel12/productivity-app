@@ -90,16 +90,17 @@ describe("Todo Section - Todo Statistics Display ", () => {
 
       // 2. Check initial 'Completed today:' displays 0
       cy.step("Check initial 'Completed today:' displays 0")
-      cy.get("TStats_num-container").first().should("have.text", "0")
-
-      // Switch to 'All' tab
-      cy.getBySel("all-tab").click()
+      //cy.get('[data-cy="statistics-daily-completed-todos"] > .display-1')
+      cy.get('[data-cy="statistics-daily-completed-todos"] > .display-1')
+        .first()
+        .should("have.text", "0")
 
       // 3. Click the checkmark icon on all added todos
       cy.step("Click the checkmark icon on all added todos")
-      cy.get(".check-not-completed").each(($el) => {
-        cy.get($el).click()
-      })
+
+      cy.get('[data-cy="all-tab"]').click()
+
+      cy.markTodosAsCompleted()
 
       cy.getBySel("todos-list").should("be.visible")
 
@@ -115,6 +116,8 @@ describe("Todo Section - Todo Statistics Display ", () => {
         "Add 5 todos in the manner: 'Tomorrow Todo 1', 'Tomorrow Todo 2', etc"
       )
 
+      cy.get('[data-cy="uncomplete-tab"]').click()
+
       for (let i = 1; i <= numTodosToAdd; i++) {
         cy.getBySel("todo-input").type(
           `#${i + numTodosToAdd} ${validTodo.validCompletedTodoDesc}{enter}`
@@ -126,9 +129,7 @@ describe("Todo Section - Todo Statistics Display ", () => {
 
       // 6. Click the checkmark icon on all added tomorrow todos
       cy.step("Click the checkmark icon on all added tomorrow todos")
-      cy.get(".check-not-completed").each(($el) => {
-        cy.get($el).click()
-      })
+      cy.markTodosAsCompleted()
 
       cy.getBySel("todos-list").should("be.visible")
 
@@ -152,26 +153,12 @@ describe("Todo Section - Todo Statistics Display ", () => {
 
       // 2. Check initial 'Completed today:' displays 0
       cy.step("Check initial 'Completed today:' displays 0")
-      cy.get("TStats_num-container").first().should("have.text", "0")
+      cy.get('[data-cy="statistics-daily-completed-todos"] > .display-1')
+        .first()
+        .should("have.text", "0")
 
       // 3. Click the checkmark icon on the added todo
       cy.get(".check-not-completed").click()
-
-      // // Add todos (today)
-      // const numTodosToAddToday = 1
-      // for (let i = 1; i <= numTodosToAddToday; i++) {
-      //   cy.getBySel("todo-input").type(
-      //     `#${i} ${validTodo.validCompletedTodoDesc} (today) {enter}`
-      //   )
-      // }
-
-      // // Switch to 'All' tab
-      // cy.getBySel("all-tab").click()
-
-      // // Complete todos (today)
-      // cy.get(".check-not-completed").each(($el) => {
-      //   cy.get($el).click()
-      // })
 
       // 4. Change your computer date to tomorrow.
       const tomorrow = new Date()
@@ -190,9 +177,7 @@ describe("Todo Section - Todo Statistics Display ", () => {
       cy.getBySel("all-tab").click()
 
       // 6. Click the checkmark icon on all added tomorrow todos
-      cy.get(".check-not-completed").each(($el) => {
-        cy.get($el).click()
-      })
+      cy.markTodosAsCompleted()
 
       // 7. Check the 'Percentage difference' statistics element is showing 67% percentage difference
       cy.get('[data-cy="statistics-percentage-diff"]').should(
@@ -219,7 +204,9 @@ describe("Todo Section - Todo Statistics Display ", () => {
 
       // 2. Check initial 'Completed today:' displays 0
       cy.step("Check initial 'Completed today:' displays 0")
-      cy.get("TStats_num-container").first().should("have.text", "0")
+      cy.get('[data-cy="statistics-daily-completed-todos"] > .display-1')
+        .first()
+        .should("have.text", "0")
 
       // Switch to 'All' tab
       cy.getBySel("all-tab").click()
@@ -227,14 +214,12 @@ describe("Todo Section - Todo Statistics Display ", () => {
       // 3. Click the checkmark icon on all added todos
       cy.step("Click the checkmark icon on all added todos")
 
-      cy.get(".check-not-completed").each(($el) => {
-        cy.get($el).click()
-      })
+      cy.markTodosAsCompleted()
 
       // 4. Check all todos have a green checkmark
       cy.step("Check all todos have a green checkmark")
 
-      cy.get("todo-item").each(($todoItem) => {
+      cy.get(".todo-item").each(($todoItem) => {
         cy.get($todoItem).within(() => {
           cy.get(".check-completed").should("be.visible")
         })
@@ -243,14 +228,12 @@ describe("Todo Section - Todo Statistics Display ", () => {
       // 5. Click again the checkmark icon on all added todos
       cy.step("Click again the checkmark icon on all added todos")
 
-      cy.get(".check-completed").each(($el) => {
-        cy.get($el).click()
-      })
+      cy.markTodosAsUncompleted()
 
       // 6. Check all todos have now a grey checkmark
       cy.step("Check all todos have now a grey checkmark")
 
-      cy.get("todo-item").each(($todoItem) => {
+      cy.get(".todo-item").each(($todoItem) => {
         cy.get($todoItem).within(() => {
           cy.get(".check-not-completed").should("be.visible")
         })
@@ -281,21 +264,21 @@ describe("Todo Section - Todo Statistics Display ", () => {
 
       // 2. Check initial 'Completed today:' displays 0
       cy.step("Check initial 'Completed today:' displays 0")
-      cy.get("TStats_num-container").first().should("have.text", "0")
+      cy.get('[data-cy="statistics-daily-completed-todos"] > .display-1')
+        .first()
+        .should("have.text", "0")
 
       // Switch to 'All' tab
       cy.getBySel("all-tab").click()
 
       // 3. Click the checkmark icon on all added todos
       cy.step("Click the checkmark icon on all added todos")
-      cy.get(".check-not-completed").each(($el) => {
-        cy.get($el).click()
-      })
+      cy.markTodosAsCompleted()
 
       // 4. Check all todos have a green checkmark
       cy.step("Check all todos have a green checkmark")
 
-      cy.get("todo-item").each(($todoItem) => {
+      cy.get(".todo-item").each(($todoItem) => {
         cy.get($todoItem).within(() => {
           cy.get(".check-completed").should("be.visible")
         })
@@ -303,13 +286,11 @@ describe("Todo Section - Todo Statistics Display ", () => {
 
       // 5. Click the checkmark icon on all added todos
       cy.step("Click the checkmark icon on all added todos")
-      cy.get(".check-completed").each(($el) => {
-        cy.get($el).click()
-      })
+      cy.markTodosAsUncompleted()
 
       // 6. Check all todos have a grey checkmark
       cy.step("Check all todos have a grey checkmark")
-      cy.get("todo-item").each(($todoItem) => {
+      cy.get(".todo-item").each(($todoItem) => {
         cy.get($todoItem).within(() => {
           cy.get(".check-not-completed").should("be.visible")
         })
@@ -341,20 +322,20 @@ describe("Todo Section - Todo Statistics Display ", () => {
 
       // 2. Check initial 'Completed today:' displays 0
       cy.step("Check initial 'Completed today:' displays 0")
-      cy.get("TStats_num-container").first().should("have.text", "0")
+      cy.get('[data-cy="statistics-daily-completed-todos"] > .display-1')
+        .first()
+        .should("have.text", "0")
 
       // Switch to 'All' tab
       cy.getBySel("all-tab").click()
 
       // 3. Click the checkmark icon on all added todos
       cy.step("Click the checkmark icon on all added todos")
-      cy.get(".check-not-completed").each(($el) => {
-        cy.get($el).click()
-      })
+      cy.markTodosAsCompleted()
 
       // 4. Check all todos have a green checkmark
       cy.step("Check all todos have a green checkmark")
-      cy.get("todo-item").each(($todoItem) => {
+      cy.get(".todo-item").each(($todoItem) => {
         cy.get($todoItem).within(() => {
           cy.get(".check-completed").should("be.visible")
         })
@@ -362,13 +343,11 @@ describe("Todo Section - Todo Statistics Display ", () => {
 
       // 5. Click the checkmark icon on all added todos
       cy.step("Click the checkmark icon on all added todos")
-      cy.get(".check-completed").each(($el) => {
-        cy.get($el).click()
-      })
+      cy.markTodosAsUncompleted()
 
       // 6. Check all todos have a grey checkmark
       cy.step("Check all todos have a grey checkmark")
-      cy.get("todo-item").each(($todoItem) => {
+      cy.get(".todo-item").each(($todoItem) => {
         cy.get($todoItem).within(() => {
           cy.get(".check-not-completed").should("be.visible")
         })
