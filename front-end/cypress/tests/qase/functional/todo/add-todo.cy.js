@@ -95,19 +95,23 @@ describe("Todo Section - Add Todo", () => {
       cy.step(
         "Check a new todo item is added with the text 'Take out trash (test)'"
       )
-      cy.get("todo-item").eq(0).should("contain.text", validTodo.validTodoDesc)
+      cy.get(".todo-item").eq(2).should("contain.text", validTodo.validTodoDesc)
 
       // 8. Check the second todo with the text 'Clean room (test)' is added below the first
       cy.step(
         "Check the second todo with the text 'Clean room (test)' is added below the first"
       )
-      cy.get("todo-item").eq(1).should("contain.text", validTodo.validTodoDesc2)
+      cy.get(".todo-item")
+        .eq(1)
+        .should("contain.text", validTodo.validTodoDesc2)
 
       // 9. Check the third todo with the text 'Feed the cats (test)' is added below the second
       cy.step(
         "Check the third todo with the text 'Feed the cats (test)' is added below the second"
       )
-      cy.get("todo-item").eq(1).should("contain.text", validTodo.validTodoDesc3)
+      cy.get(".todo-item")
+        .eq(0)
+        .should("contain.text", validTodo.validTodoDesc3)
     })
   )
 
