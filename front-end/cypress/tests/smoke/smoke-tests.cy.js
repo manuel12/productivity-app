@@ -310,7 +310,53 @@ describe("Smoke tests", () => {
     )
   })
 
-  context("Uncomplete", () => {})
+  context("Uncomplete", () => {
+    const ctx = {}
+
+    before(() => {
+      cy.deleteTestTodos()
+
+      cy.registerWithAPI()
+      cy.loginWithAPI((res) => {
+        ctx.token = res.body.token
+        console.log(`Fetched token: ${ctx.token}`)
+        window.localStorage.setItem("token", JSON.stringify(ctx.token))
+      })
+      cy.visit("/")
+      cy.getBySel("todo-input").type(validTodo.validTodoDesc + "{enter}")
+
+      cy.getBySel("todo-item")
+        .filter(":contains('test')")
+        .within(() => {
+          cy.getBySel("todos-check-icon-container").click()
+        })
+
+      cy.get('[data-cy="complete-tab"]').click()
+    })
+
+    it("should mark todo as uncompleted", () => {
+      // 1. Check that todo appears on the Completed tab
+      cy.getBySel("todo-item")
+        .should("have.length", 1)
+        .and("have.text", validTodo.validTodoDesc)
+
+        // 2. Click on the checkmark icon to mark as uncompleted
+        .within(() => {
+          cy.getBySel("todos-check-icon-container").click()
+        })
+
+      // 3. Check todo dissapears from Completed tab
+      cy.getBySel("todo-item").should("not.exist")
+
+      // 4. Click on the Uncompleted tab
+      cy.get('[data-cy="uncomplete-tab"]').click()
+
+      // 5. Check todo appears on the Uncompleted tab
+      cy.getBySel("todo-item")
+        .should("have.length", 1)
+        .and("have.text", validTodo.validTodoDesc)
+    })
+  })
 
   context("Tabs", () => {
     const ctx = {}
@@ -365,5 +411,35 @@ describe("Smoke tests", () => {
         cy.getBySel("uncomplete-tab").should("have.class", "active")
       })
     )
+  })
+
+  context("Navigation", () => {
+    const ctx = {}
+
+    before(() => {
+      cy.deleteTestTodos()
+
+      cy.registerWithAPI()
+      cy.loginWithAPI((res) => {
+        ctx.token = res.body.token
+        console.log(`Fetched token: ${ctx.token}`)
+        window.localStorage.setItem("token", JSON.stringify(ctx.token))
+      })
+      cy.visit("/")
+    })
+
+    it("should allow user to navigate to all the pages in the navbar", () => {
+      // 1. Click on Home button on navbar
+      cy.get('[data-cy="nav-link-home"]').click()
+
+      // 2. Check url is http://localhost:3000/
+      cy.url().should("eq", "http://localhost:3000/")
+
+      // 3. Click on Logout button on navbar
+      cy.get('[data-cy="nav-link-logout"]').click()
+
+      // 4. Check url is http://localhost:3000/account/login
+      cy.url().should("eq", "http://localhost:3000/account/login")
+    })
   })
 })
