@@ -27,6 +27,10 @@ const TodoList: React.FC<ITodoListProps> = ({
   const [uncompletedTodos, setUncompletedTodos] = useState<ITodo[]>(
     todos.filter((todo) => todo.completed == false)
   )
+
+  const [allTodos, setAllTodos] = useState<ITodo[]>(
+    todos.filter((todo) => todo.completed == false)
+  )
   const [listTodos, setListTodos] = useState<ITodo[]>([])
 
   const [tabState, setTabState] = useState({
@@ -50,8 +54,11 @@ const TodoList: React.FC<ITodoListProps> = ({
     const uncompletedTodos = todos.filter((todo) => todo.completed == false)
     setUncompletedTodos(uncompletedTodos)
 
+    const allTodos = todos
+    setAllTodos(allTodos)
+
     if (tabState.all === "active") {
-      setListTodos(todos)
+      setListTodos(allTodos)
     }
   }, [todos])
 
@@ -67,6 +74,12 @@ const TodoList: React.FC<ITodoListProps> = ({
     }
   }, [uncompletedTodos])
 
+  useEffect(() => {
+    if (tabState.all === "active") {
+      setListTodos(allTodos.reverse())
+    }
+  }, [allTodos])
+
   const handleAddTodo = (data: any, e?: React.BaseSyntheticEvent) => {
     e?.preventDefault()
 
@@ -77,7 +90,7 @@ const TodoList: React.FC<ITodoListProps> = ({
     }
 
     const addNewTodoToArray = (newTodo: ITodo) => {
-      const newTodosArray = [...todos, newTodo]
+      const newTodosArray = [newTodo, ...todos]
       setTodos(newTodosArray)
     }
 
@@ -102,7 +115,7 @@ const TodoList: React.FC<ITodoListProps> = ({
         tabState={tabState}
         setTabState={setTabState}
         setListTodos={setListTodos}
-        todos={todos}
+        todos={allTodos}
         completedTodos={completedTodos}
         uncompletedTodos={uncompletedTodos}
         aria-label="Todo Tabs"
