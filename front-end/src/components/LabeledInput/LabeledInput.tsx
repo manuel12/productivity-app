@@ -1,11 +1,5 @@
 import React from "react"
 
-import { UseFormRegister, FieldErrors } from "react-hook-form"
-
-interface FormData {
-  [key: string]: string // This can be more specific if you know the exact fields
-}
-
 interface LabeledInputProps {
   autoFocus?: boolean
   label?: string
