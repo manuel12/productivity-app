@@ -19,6 +19,14 @@ const Tabs: React.FC<ITabsProps> = ({
   completedTodos,
   uncompletedTodos,
 }) => {
+  function sortTodoObjects(todoArray: ITodo[]) {
+    return todoArray.sort((a, b) => {
+      const numA = parseInt(a.description.split(" ")[1])
+      const numB = parseInt(b.description.split(" ")[1])
+      return numA - numB
+    })
+  }
+
   return (
     <ul className="nav nav-tabs my-3 mx-auto" data-cy="todos-tabs">
       <li className="nav-item">
@@ -67,6 +75,7 @@ const Tabs: React.FC<ITabsProps> = ({
               complete: "",
               uncomplete: "",
             })
+
             setListTodos(todos)
           }}
           data-cy="all-tab"
