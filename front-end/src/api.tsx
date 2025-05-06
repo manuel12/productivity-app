@@ -92,8 +92,7 @@ class API {
           if (API.verbose) console.log(response.data.error) // Log error if verbose is enabled
         } else {
           if (API.verbose) console.log(response.data.message) // Log message if verbose is enabled
-          console.log(response.data.data)
-          setTodos(response.data.data) // Update todos with the response data
+          setTodos(response.data.data.reverse()) // Update todos with the response data
         }
       })
       .catch((err) => {
