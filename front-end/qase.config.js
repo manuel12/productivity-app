@@ -5,7 +5,7 @@ module.exports = cypress.defineConfig({
   reporterOptions: {
     reporterEnabled: "cypress-qase-reporter",
     cypressQaseReporterReporterOptions: {
-      debug: true,
+      debug: false,
 
       testops: {
         api: {
