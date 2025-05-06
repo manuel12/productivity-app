@@ -31,7 +31,12 @@ const Navbar: React.FC = () => {
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav ml-auto">
             <li className="nav-item">
-              <a href="/" className="nav-link" aria-label="Home">
+              <a
+                href="/"
+                className="nav-link"
+                aria-label="Home"
+                data-cy="nav-link-home"
+              >
                 Home
               </a>
             </li>
