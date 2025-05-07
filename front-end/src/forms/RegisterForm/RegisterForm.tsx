@@ -120,7 +120,7 @@ const RegisterForm = () => {
                   dataCy="username"
                 />
                 <LabeledInput
-                  label={"Email"}
+                  //   label={"Email"}
                   placeholder={"Email"}
                   registerLabel="email"
                   register={register}
