@@ -1,5 +1,13 @@
 const { Sequelize } = require("sequelize")
-const config = require("./config.json")
+// const config = require("./config.json")
+process.env.NODE_ENV = ""
+
+const config =
+  process.env.NODE_ENV === "test"
+    ? require("./test-config.json")
+    : require("./config.json")
+
+console.log(process.env.NODE_ENV)
 
 const sequelize = new Sequelize(config.development)
 
