@@ -25,7 +25,7 @@
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 
 const apiUrl = "http://localhost:4000"
-const testuser = require("../../cypress/fixtures/testuser.json")
+const testuser = require("../../cypress/fixtures/users/testuser.json")
 const { setItem } = require("../../src/utils")
 
 Cypress.Commands.add("getBySel", (selector) => {
