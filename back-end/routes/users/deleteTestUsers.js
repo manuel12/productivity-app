@@ -6,16 +6,14 @@ const { Op } = require("sequelize") // Import Sequelize's Operators
 router.delete("/api/users/delete-test-users", async (req, res) => {
   try {
     // Delete all users with emails containing 'testuser'
-    const result = await User.destroy({
-      where: {
-        email: {
-          [Op.like]: "%testuser%", // Use Sequelize's `like` operator
-        },
-      },
+    const deletedUsersCount = await User.destroy({
+      where: {}, // An empty where clause or omitting it will delete all records
+      truncate: true, // Optional: Resets the table, including auto-incrementing IDs.
+      // Use with caution as it's more destructive.
     })
 
     // If no users were deleted, return a 404
-    if (result === 0) {
+    if (deletedUsersCount === 0) {
       return res.status(404).json({ error: "No test users found." })
     }
 
