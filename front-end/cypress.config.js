@@ -20,8 +20,9 @@ module.exports = defineConfig({
       addMatchImageSnapshotPlugin(on)
       require("cypress-mochawesome-reporter/plugin")(on)
       addAccessibilityTasks(on)
-      //   require("cypress-qase-reporter/plugin")(on, config)
-      //   require("cypress-qase-reporter/metadata")(on)
+
+      config.env.NODE_ENV = "somethingElse" // This sets NODE_ENV to 'test' for your backend
+      return config
     },
     baseUrl: "http://localhost:3000/",
     specPattern: "cypress/tests/**/*.cy.{js,jsx,ts,tsx}",
