@@ -1,26 +1,14 @@
-// UserFlowFullValidationAndDataPersistence.spec.js
-describe("UserFlowFullValidationAndTodoDataPersistence", () => {
-  const shortUsername = "abc"
-  const longUsername = "abcdefghijklmnopqrst"
-  const invalidEmail = "invalidEmail.com"
-  const shortEmail = "a@com"
-  const longEmail =
-    "abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz@example.com"
-  const shortPassword = "Pass1!"
-  const noUppercasePassword = "abcdefhg"
-  const noLowercasePassword = "ABCDEFHG"
-  const noNumberPassword = "Abcdefhg"
-  const noSpecialCharacterPassword = "Abcdefhg1"
-  const username = "testuser1"
-  const email = "testuser1@gmail.com"
-  const password = "Testpass1!"
-  const passwordConfirmation = "Testpass1!"
-  const shortTodoDescription = "ab"
-  const longDescription =
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-  const todoDescription = "Feed the cats"
-  const updatedTodoDescription = "Take out the trash"
+/// <reference types="cypress" />
 
+const userData = require("../../../fixtures/users/userData.json")
+const testuser = userData.validData
+const invalidCredentials = userData.invalidData
+
+const todoData = require("../../fixtures/todos/todoData.json")
+const validTodo = todoData.validData
+const invalidTodo = todoData.invalidData
+
+describe("UserFlowFullValidationAndTodoDataPersistence", () => {
   before(() => {
     cy.deleteTestUsers()
   })
@@ -53,9 +41,9 @@ describe("UserFlowFullValidationAndTodoDataPersistence", () => {
       .should("be.visible")
       .and("have.text", "A username is required.")
 
-    // 6. Type shortUsername in username input
-    cy.step("Type shortUsername in username input")
-    cy.getBySel("username").type(shortUsername)
+    // 6. Type usernameShoterThan6Chars in username input
+    cy.step("Type usernameShoterThan6Chars in username input")
+    cy.getBySel("username").type(invalidCredentials.usernameShoterThan6Chars)
 
     // 7. Check username input displays error label with text 'Username must be at least 6 characters.'
     cy.step(
@@ -65,9 +53,11 @@ describe("UserFlowFullValidationAndTodoDataPersistence", () => {
       .should("be.visible")
       .and("have.text", "Username must be at least 6 characters.")
 
-    // 8. Type longUsername in username input
-    cy.step("Type longUsername in username input")
-    cy.getBySel("username").clear().type(longUsername)
+    // 8. Type usernameLongerThan20Chars in username input
+    cy.step("Type usernameLongerThan20Chars in username input")
+    cy.getBySel("username")
+      .clear()
+      .type(invalidCredentials.usernameLongerThan20Chars)
 
     // 9. Check username input displays error label with text 'Username must be shorter than 20 characters.'
     cy.step(
@@ -89,7 +79,7 @@ describe("UserFlowFullValidationAndTodoDataPersistence", () => {
 
     // 11. Type invalidEmail in email input
     cy.step("Type invalidEmail in email input")
-    cy.getBySel("email").type(invalidEmail)
+    cy.getBySel("email").type(invalidCredentials.invalidEmail)
 
     // 12. Check email input displays error label with text 'Email must be valid.'
     cy.step(
@@ -99,9 +89,9 @@ describe("UserFlowFullValidationAndTodoDataPersistence", () => {
       .should("be.visible")
       .and("have.text", "Email must be valid.")
 
-    // 13. Type shortEmail in email input
-    cy.step("Type shortEmail in email input")
-    cy.getBySel("email").clear().type(shortEmail)
+    // 13. Type emailShorterThan6Chars in email input
+    cy.step("Type emailShorterThan6Chars in email input")
+    cy.getBySel("email").clear().type(invalidCredentials.emailShorterThan6Chars)
 
     // 14. Check email input displays error label with text 'Email must be at least 6 characters.'
     cy.step(
@@ -111,9 +101,11 @@ describe("UserFlowFullValidationAndTodoDataPersistence", () => {
       .should("be.visible")
       .and("have.text", "Email must be at least 6 characters.")
 
-    // 15. Type longEmail in email input
-    cy.step("Type longEmail in email input'")
-    cy.getBySel("email").clear().type(longEmail)
+    // 15. Type emailLongerThan255Chars in email input
+    cy.step("Type emailLongerThan255Chars in email input'")
+    cy.getBySel("email")
+      .clear()
+      .type(invalidCredentials.emailLongerThan255Chars)
 
     // 16. Check email input displays error label with text 'Email must be shorter than 255 characters.'
     cy.step(
@@ -132,9 +124,9 @@ describe("UserFlowFullValidationAndTodoDataPersistence", () => {
       .should("be.visible")
       .and("have.text", "A password is required.")
 
-    // 18. Type shortPassword in password input
-    cy.step("Type shortPassword in password input")
-    cy.getBySel("password").type(shortPassword)
+    // 18. Type passwordShorterThan8Chars in password input
+    cy.step("Type passwordShorterThan8Chars in password input")
+    cy.getBySel("password").type(invalidCredentials.passwordShorterThan8Chars)
 
     // 19. Check password input displays error label with text 'Password must be at least 8 characters.'
     cy.step(
@@ -146,7 +138,7 @@ describe("UserFlowFullValidationAndTodoDataPersistence", () => {
 
     // 20. Type noUppercasePassword in password input
     cy.step("Type noUppercasePassword in password input")
-    cy.getBySel("password").clear().type(noUppercasePassword)
+    cy.getBySel("password").clear().type(invalidCredentials.noUppercasePassword)
 
     // 21. Check password input displays error label with text 'Password must contain at least 1 uppercase character.'
     cy.step(
@@ -158,7 +150,7 @@ describe("UserFlowFullValidationAndTodoDataPersistence", () => {
 
     // 22. Type noLowercasePassword in password input
     cy.step("Type noLowercasePassword in password input")
-    cy.getBySel("password").clear().type(noLowercasePassword)
+    cy.getBySel("password").clear().type(invalidCredentials.noLowercasePassword)
 
     // 23. Check password input displays error label with text 'Password must contain at least 1 lowercase character.'
     cy.step(
@@ -170,7 +162,7 @@ describe("UserFlowFullValidationAndTodoDataPersistence", () => {
 
     // 24. Type noNumberPassword in password input
     cy.step("Type noNumberPassword in password input")
-    cy.getBySel("password").clear().type(noNumberPassword)
+    cy.getBySel("password").clear().type(invalidCredentials.noNumberPassword)
 
     // 25. Check password input displays error label with text 'Password must contain at least 1 number character.'
     cy.step(
@@ -183,7 +175,9 @@ describe("UserFlowFullValidationAndTodoDataPersistence", () => {
     // 26. Type noSpecialCharacterPassword in password input
     cy.step("Type noSpecialCharacterPassword in password input")
 
-    cy.getBySel("password").clear().type(noSpecialCharacterPassword)
+    cy.getBySel("password")
+      .clear()
+      .type(invalidCredentials.noSpecialCharPassword)
 
     // 27. Check password input displays error label with text 'Password must contain at least 1 special character.'
     cy.step(
@@ -216,19 +210,19 @@ describe("UserFlowFullValidationAndTodoDataPersistence", () => {
 
     // 31. Type username on username input
     cy.step("Type username on username input")
-    cy.getBySel("username").clear().type(username)
+    cy.getBySel("username").clear().type(testuser.username)
 
     // 32. Type email on email input
     cy.step("Type email on email input")
-    cy.getBySel("email").clear().type(email)
+    cy.getBySel("email").clear().type(testuser.email)
 
     // 33. Type password on password input
     cy.step("Type password on password input")
-    cy.getBySel("password").clear().type(password)
+    cy.getBySel("password").clear().type(testuser.password)
 
     // 34. Type password confirmation on password confirmation input
     cy.step("Type password confirmation on password confirmation input")
-    cy.getBySel("password-confirmation").clear().type(passwordConfirmation)
+    cy.getBySel("password-confirmation").clear().type(testuser.password)
 
     // 35. Click 'REGISTER' button
     cy.step("Click 'REGISTER' button")
@@ -240,7 +234,7 @@ describe("UserFlowFullValidationAndTodoDataPersistence", () => {
     )
     cy.getBySel("form-action-success")
       .should("be.visible")
-      .and("contain.text", `User ${email} successfully registered!`)
+      .and("contain.text", `User ${testuser.email} successfully registered!`)
 
     // 37. Check app redirects to /account/login
     cy.step("Check app redirects to /account/login")
@@ -263,7 +257,7 @@ describe("UserFlowFullValidationAndTodoDataPersistence", () => {
 
     // 40. Type invalidEmail in email input
     cy.step("Type invalidEmail in email input")
-    cy.getBySel("email").type(invalidEmail)
+    cy.getBySel("email").type(invalidCredentials.invalidEmail)
 
     // 41. Check email input displays error label with text 'Email must be valid.'
     cy.step(
@@ -273,9 +267,9 @@ describe("UserFlowFullValidationAndTodoDataPersistence", () => {
       .should("be.visible")
       .and("have.text", "Email must be valid.")
 
-    // 42. Type shortEmail in email input
-    cy.step("Type shortEmail in email input")
-    cy.getBySel("email").clear().type(shortEmail)
+    // 42. Type emailShorterThan6Chars in email input
+    cy.step("Type emailShorterThan6Chars in email input")
+    cy.getBySel("email").clear().type(invalidCredentials.emailShorterThan6Chars)
 
     // 43. Check email input displays error label with text 'Email must be at least 6 characters.'
     cy.step(
@@ -285,9 +279,11 @@ describe("UserFlowFullValidationAndTodoDataPersistence", () => {
       .should("be.visible")
       .and("have.text", "Email must be at least 6 characters.")
 
-    // 44. Type longEmail in email input
-    cy.step("Type longEmail in email input")
-    cy.getBySel("email").clear().type(longEmail)
+    // 44. Type emailLongerThan255Chars in email input
+    cy.step("Type emailLongerThan255Chars in email input")
+    cy.getBySel("email")
+      .clear()
+      .type(invalidCredentials.emailLongerThan255Chars)
 
     // 45. Check email input displays error label with text 'Email must be shorter than 255 characters.'
     cy.step(
@@ -306,9 +302,9 @@ describe("UserFlowFullValidationAndTodoDataPersistence", () => {
       .should("be.visible")
       .and("have.text", "A password is required.")
 
-    // 47. Type shortPassword in password input
-    cy.step("Type shortPassword in password input")
-    cy.getBySel("password").type(shortPassword)
+    // 47. Type passwordShorterThan8Chars in password input
+    cy.step("Type passwordShorterThan8Chars in password input")
+    cy.getBySel("password").type(invalidCredentials.passwordShorterThan8Chars)
 
     // 48. Check password input displays error label with text 'Password must be at least 8 characters.'
     cy.step(
@@ -320,11 +316,11 @@ describe("UserFlowFullValidationAndTodoDataPersistence", () => {
 
     // 57. Type email on email input
     cy.step("Type email on email input")
-    cy.getBySel("email").clear().type(email)
+    cy.getBySel("email").clear().type(testuser.email)
 
     // 58. Type password on password input
     cy.step("Type password on password input")
-    cy.getBySel("password").clear().type(password)
+    cy.getBySel("password").clear().type(testuser.password)
 
     // 59. Click 'LOGIN' button
     cy.step("Click 'LOGIN' button")
@@ -349,17 +345,17 @@ describe("UserFlowFullValidationAndTodoDataPersistence", () => {
     cy.contains("Add Todo").click()
 
     // -- ADD TODO --
-    // 64. Check todo input displays error label with text 'Todo is required.'
+    // 64. Check todo input displays error label with text 'Todo description text is required.'
     cy.step(
-      "Check todo input displays error label with text 'Todo is required.'"
+      "Check todo input displays error label with text 'Todo description text is required.'"
     )
     cy.getBySel("input-error-label")
       .should("be.visible")
-      .and("have.text", "Todo is required.")
+      .and("have.text", "Todo description text is required.")
 
     // 65. Type shortTodoDescription on todo input
     cy.step("Type shortTodoDescription on todo input")
-    cy.getBySel("todo-input").type(shortTodoDescription)
+    cy.getBySel("todo-input").type(invalidTodo.descriptionShorterThan3Chars)
 
     // 66. Check todo input displays error label with text 'Todos must be at least 3 characters.'
     cy.step(
@@ -371,7 +367,9 @@ describe("UserFlowFullValidationAndTodoDataPersistence", () => {
 
     // 67. Type longTodoDescription on todo input
     cy.step("Type longTodoDescription on todo input")
-    cy.getBySel("todo-input").clear().type(longDescription)
+    cy.getBySel("todo-input")
+      .clear()
+      .type(invalidTodo.descriptionLongerThan40Chars)
 
     // 68. Check todo input displays error label with text 'Todos cannot contain more than 40 characters.'
     cy.step(
@@ -383,7 +381,7 @@ describe("UserFlowFullValidationAndTodoDataPersistence", () => {
 
     // 69. Type todoDescription in todo input
     cy.step("Type todoDescription in todo input")
-    cy.getBySel("todo-input").clear().type(todoDescription)
+    cy.getBySel("todo-input").clear().type(validTodo.description1)
 
     // 70. Click 'Add Todo' button
     cy.step("Click 'Add Todo' button")
@@ -403,7 +401,7 @@ describe("UserFlowFullValidationAndTodoDataPersistence", () => {
     cy.step("Check the newly added todo is visible")
     cy.getBySel("todo-item")
       .should("be.visible")
-      .and("contain", todoDescription)
+      .and("contain", validTodo.description1)
 
     // 74. Click on todo description text for it to convert into an input
     cy.step("Click on todo description text for it to convert into an input")
@@ -417,7 +415,9 @@ describe("UserFlowFullValidationAndTodoDataPersistence", () => {
 
     // 76. Type shortTodoDescription text into todo input
     cy.step("Type shortTodoDescription text into todo input")
-    cy.getBySel("todos-text-input").type(`${shortTodoDescription}`)
+    cy.getBySel("todos-text-input").type(
+      invalidTodo.descriptionShorterThan3Chars
+    )
 
     // 77. Press ENTER key
     cy.step("Press ENTER key")
@@ -433,7 +433,9 @@ describe("UserFlowFullValidationAndTodoDataPersistence", () => {
 
     // 79. Type longTodoDescription text into todo input
     cy.step("Type longTodoDescription text into todo input")
-    cy.getBySel("todos-text-input").clear().type(longDescription)
+    cy.getBySel("todos-text-input")
+      .clear()
+      .type(invalidTodo.descriptionLongerThan40Chars)
 
     // 80. Press ENTER key
     cy.step("Press ENTER key")
@@ -449,7 +451,7 @@ describe("UserFlowFullValidationAndTodoDataPersistence", () => {
 
     // 82. Type updatedTodoDescription text into todo input
     cy.step("Type updatedTodoDescription text into todo input")
-    cy.getBySel("todos-text-input").clear().type(updatedTodoDescription)
+    cy.getBySel("todos-text-input").clear().type(validTodo.description2)
 
     // 83. Press ENTER key
     cy.step("Press ENTER key")
@@ -459,7 +461,7 @@ describe("UserFlowFullValidationAndTodoDataPersistence", () => {
     cy.step("Check that todo now displays the updated description text")
     cy.getBySel("todo-item")
       .should("be.visible")
-      .and("contain", updatedTodoDescription)
+      .and("contain", validTodo.description2)
 
     // 85. Reload the page
     cy.step("Reload the page")
@@ -471,6 +473,6 @@ describe("UserFlowFullValidationAndTodoDataPersistence", () => {
     )
     cy.getBySel("todo-item")
       .should("be.visible")
-      .and("contain", updatedTodoDescription)
+      .and("contain", validTodo.description2)
   })
 })
