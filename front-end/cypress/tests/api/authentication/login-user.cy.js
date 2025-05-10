@@ -1,7 +1,8 @@
 /// <reference types="cypress" />
 
-const testuser = require("../../../fixtures/testuser.json")
-const unexistingUser = require("../../../fixtures/unexistingUser.json")
+const testuser = require("../../../fixtures/users/testuser.json")
+const invalidTestuser = require("../../../fixtures/users/invalidCredentials.json")
+const unexistingUser = require("../../../fixtures/users/unexistingUser.json")
 
 describe("LOGIN User - (POST) /api/login", () => {
   const apiUrl = "http://localhost:4000"
@@ -99,9 +100,9 @@ describe("LOGIN User - (POST) /api/login", () => {
 
   it("should respond with error message 'Email must be at least 6 characters.' when submitting a shorter email address", () => {
     const testUser = {
-      username: "testuser1",
-      email: "a@ade",
-      password: "Testpass1!",
+      username: testuser.username,
+      email: invalidTestuser.emailShorterThan6Chars,
+      password: testuser.password,
     }
 
     cy.request({
@@ -120,10 +121,9 @@ describe("LOGIN User - (POST) /api/login", () => {
 
   it("should respond with error message 'Email must be shorter than 255 characters.' when submitting a longer email address", () => {
     const testUser = {
-      username: "testuser1",
-      email:
-        "P@ssw0rd123!abcdefghijklmnopqrstuvwxyABCDEFGHIJKLMNOPQRSTUVWXYabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*()P@ssw0rd123!abcdefghijklmnopqrstuvwxyABCDEFGHIJKLMNOPQRSTUVWXYabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*()",
-      password: "Testpass1!",
+      username: testuser.username,
+      email: invalidTestuser.emailLongerThan255Chars,
+      password: testuser.password,
     }
 
     cy.request({
@@ -144,13 +144,16 @@ describe("LOGIN User - (POST) /api/login", () => {
     // Console.log all current users
     cy.request(`${apiUrl}/api/users`).then((res) => console.log(res.body.data))
 
+    const testUser = {
+      username: testuser.username,
+      email: testuser.email,
+      password: invalidTestuser.passwordShorterThan8Chars,
+    }
+
     cy.request({
       method: "POST",
       url: `${apiUrl}/api/login`,
-      body: {
-        email: testuser.email,
-        password: "Pass1!",
-      },
+      body: testUser,
       failOnStatusCode: false,
     }).then((res) => {
       expect(res.body.error).to.eq("Password must be at least 8 characters.")
@@ -158,16 +161,16 @@ describe("LOGIN User - (POST) /api/login", () => {
   })
 
   it("should respond with error message 'Password must be less than 128 characters.' when submitting a longer password", () => {
-    const longPassword =
-      "P@ssw0rd123!abcdefghijklmnopqrstuvwxyABCDEFGHIJKLMNOPQRSTUVWXYabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*()"
+    const testUser = {
+      username: testuser.username,
+      email: testuser.email,
+      password: invalidTestuser.passwordLongerThan128Chars,
+    }
 
     cy.request({
       method: "POST",
       url: `${apiUrl}/api/login`,
-      body: {
-        email: testuser.email,
-        password: longPassword,
-      },
+      body: testUser,
       failOnStatusCode: false,
     }).then((res) => {
       expect(res.body.error).to.eq("Password must be less than 128 characters.")
