@@ -1,25 +1,24 @@
 /// <reference types="cypress" />
 
-const singleTodo = require("../../../fixtures/singleTodo.json")
+const userData = require("../../../fixtures/users/userData.json")
+const testuser = userData.validData
+const todoData = require("../../../fixtures/todos/todoData.json")
+const singleTodo = todoData.validData.singleTodo
+const invalidTodo = todoData.invalidData
 
 describe("READ Todo - (GET) /api/todo/", () => {
   const apiUrl = "http://localhost:4000"
-  const invalidId = 999999999
   const ctx = {}
 
   before(() => {
     // Register with API
-    cy.registerWithAPI({
-      username: "testuser",
-      email: "test_user@gmail.com",
-      password: "Testpass1!",
-    })
+    cy.registerWithAPI(testuser)
 
     // Login with API
     cy.request({
       method: "POST",
       url: `${apiUrl}/api/login/`,
-      body: { email: "test_user@gmail.com", password: "Testpass1!" },
+      body: testuser,
       failOnStatusCode: false,
     }).then((res) => {
       ctx.token = res.body.token
@@ -116,14 +115,16 @@ describe("READ Todo - (GET) /api/todo/", () => {
   it("should NOT retrieve a todo when requesting with invalid id", () => {
     cy.request({
       method: "GET",
-      url: `${apiUrl}/api/todo/${invalidId}`,
+      url: `${apiUrl}/api/todo/${invalidTodo.invalidTodoId}`,
       headers: {
         Authorization: `Bearer ${ctx.token}`,
         "Content-Type": "application/json",
       },
       failOnStatusCode: false,
     }).then((res) => {
-      expect(res.body.message).to.eq(`Todo with id ${invalidId} not found.`)
+      expect(res.body.message).to.eq(
+        `Todo with id ${invalidTodo.invalidTodoId} not found.`
+      )
     })
   })
 

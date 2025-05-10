@@ -1,7 +1,11 @@
 /// <reference types="cypress" />
 
-const singleTodo = require("../../../fixtures/singleTodo.json")
-const invalidDataTypeTodo = require("../../../fixtures/invalidDataTypeTodo.json")
+const userData = require("../../../fixtures/users/userData.json")
+const testuser = userData.validData
+const todoData = require("../../../fixtures/todos/todoData.json")
+const singleTodo = todoData.validData.singleTodo
+const invalidDataTypeTodo = todoData.invalidData.invalidDataTypeTodo
+const invalidTodo = todoData.invalidData
 
 describe("CREATE Todo - (POST) /api/todo/:id", () => {
   const apiUrl = "http://localhost:4000"
@@ -9,18 +13,17 @@ describe("CREATE Todo - (POST) /api/todo/:id", () => {
   const ctx = {}
 
   before(() => {
+    // Delete test user
+    cy.deleteTestUsers()
+
     // Register with API
-    cy.registerWithAPI({
-      username: "testuser",
-      email: "test_user@gmail.com",
-      password: "Testpass1!",
-    })
+    cy.registerWithAPI(testuser)
 
     // Login with API
     cy.request({
       method: "POST",
       url: `${apiUrl}/api/login/`,
-      body: { email: "test_user@gmail.com", password: "Testpass1!" },
+      body: testuser,
       failOnStatusCode: false,
     }).then((res) => {
       ctx.token = res.body.token
@@ -208,7 +211,11 @@ describe("CREATE Todo - (POST) /api/todo/:id", () => {
   })
 
   it("should respond with error message 'Description must be at least 3 characters.' when submitting a shorter description", () => {
-    const shortDescription = "No"
+    const todo = {
+      completed: singleTodo.completed,
+      description: invalidTodo.descriptionShorterThan3Chars,
+    }
+
     cy.request({
       method: "POST",
       url: `${apiUrl}/api/todo`,
@@ -216,10 +223,7 @@ describe("CREATE Todo - (POST) /api/todo/:id", () => {
         Authorization: `Bearer ${ctx.token}`,
         "Content-Type": "application/json",
       },
-      body: {
-        completed: singleTodo.completed,
-        description: shortDescription,
-      },
+      body: todo,
       failOnStatusCode: false,
     }).then((res) => {
       expect(res.body.error).to.eq("Description must be at least 3 characters.")
@@ -227,8 +231,11 @@ describe("CREATE Todo - (POST) /api/todo/:id", () => {
   })
 
   it("should respond with error message 'Description must be shorter than 40 characters.' when submitting a longer description", () => {
-    const longDescription =
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+    const todo = {
+      completed: singleTodo.completed,
+      description: invalidTodo.descriptionLongerThan40Chars,
+    }
+
     cy.request({
       method: "POST",
       url: `${apiUrl}/api/todo`,
@@ -236,10 +243,7 @@ describe("CREATE Todo - (POST) /api/todo/:id", () => {
         Authorization: `Bearer ${ctx.token}`,
         "Content-Type": "application/json",
       },
-      body: {
-        completed: singleTodo.completed,
-        description: longDescription,
-      },
+      body: todo,
       failOnStatusCode: false,
     }).then((res) => {
       expect(res.body.error).to.eq(
