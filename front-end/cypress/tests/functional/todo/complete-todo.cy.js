@@ -1,12 +1,16 @@
 /// <reference types="cypress" />
 
-const validTodo = require("../../../fixtures/todo.json")
+const todoData = require("../../../fixtures/todos/todoData.json")
+const validTodo = todoData.validData
 
 describe("Todo Section - Mark Todo as Complete:", () => {
   const ctx = {}
 
   beforeEach(() => {
-    cy.deleteTestUsers(ctx.token)
+    // Cleanup
+    cy.deleteTestUsers()
+    cy.deleteTestTodos()
+
     cy.registerWithAPI()
     cy.loginWithAPI((res) => {
       ctx.token = res.body.token
@@ -16,7 +20,7 @@ describe("Todo Section - Mark Todo as Complete:", () => {
 
     // Visit the app or the specific page
     cy.visit("/")
-    cy.getBySel("todo-input").type(validTodo.validTodoDesc + "{enter}")
+    cy.getBySel("todo-input").type(validTodo.description1 + "{enter}")
   })
 
   // Positive tests
@@ -27,7 +31,7 @@ describe("Todo Section - Mark Todo as Complete:", () => {
       "Check that first todo is not marked as completed (has grey checkmark icon)"
     )
     cy.getBySel("todo-item")
-      .filter(":contains('test')")
+      .filter(`:contains(${validTodo.description1})`)
       .within(() => {
         cy.getBySel("todos-check-icon-container")
           .should("be.visible")
@@ -41,7 +45,7 @@ describe("Todo Section - Mark Todo as Complete:", () => {
     // 2. Click on the checkmark icon to mark as completed
     cy.step("Click on the checkmark icon to mark as completed")
     cy.getBySel("todo-item")
-      .filter(":contains('test')")
+      .filter(`:contains(${validTodo.description1})`)
       .within(() => {
         cy.getBySel("todos-check-icon-container").click()
       })
@@ -54,7 +58,7 @@ describe("Todo Section - Mark Todo as Complete:", () => {
       "Check the todo completed sound is played and the todo disappears from uncompleted list"
     )
     cy.getBySel("todo-item")
-      .filter(":contains('test')")
+      .filter(`:contains(${validTodo.description1})`)
       .within(() => {
         cy.getBySel("todos-check-icon-container")
           .should("be.visible")
@@ -70,7 +74,7 @@ describe("Todo Section - Mark Todo as Complete:", () => {
     // 1. Click on the checkmark icon to mark as completed
     cy.step("Click on the checkmark icon to mark as completed")
     cy.getBySel("todo-item")
-      .filter(":contains('test')")
+      .filter(`:contains(${validTodo.description1})`)
       .within(() => {
         cy.getBySel("todos-check-icon-container").click()
       })
@@ -85,11 +89,6 @@ describe("Todo Section - Mark Todo as Complete:", () => {
     )
     cy.getBySel("todo-item")
       .should("have.length", 1)
-      .and("have.text", validTodo.validTodoDesc)
-  })
-
-  afterEach(() => {
-    cy.deleteTestUsers()
-    cy.deleteTestTodos()
+      .and("have.text", validTodo.description1)
   })
 })
