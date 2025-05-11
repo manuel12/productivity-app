@@ -1,4 +1,8 @@
-// UserNavigationTodoTabFiltering.spec.js
+/// <reference types="cypress" />
+
+const userData = require("../../../fixtures/users/userData.json")
+const testuser = userData.validData
+
 describe("UserNavigationTodoTabFiltering", () => {
   before(() => {
     cy.deleteTestUsers()
@@ -17,19 +21,19 @@ describe("UserNavigationTodoTabFiltering", () => {
 
     // Step #4: Type username
     cy.step("Type username")
-    cy.get('input[name="username"]').type("testuser1") // Adjust selector as necessary
+    cy.getBySel("username").type(testuser.username) // Adjust selector as necessary
 
     // Step #5: Type email
     cy.step("Type email")
-    cy.get('input[name="email"]').type("testuser1@gmail.com") // Adjust selector as necessary
+    cy.getBySel("email").type(testuser.email) // Adjust selector as necessary
 
     // Step #6: Type password
     cy.step("Type password")
-    cy.get('input[name="password"]').type("Testpass1!") // Adjust selector as necessary
+    cy.getBySel("password").type(testuser.password) // Adjust selector as necessary
 
     // Step #7: Type password confirmation
     cy.step("Type password confirmation")
-    cy.get('input[name="password-confirmation"]').type("Testpass1!") // Adjust selector as necessary
+    cy.getBySel("password-confirmation").type(testuser.password) // Adjust selector as necessary
 
     // Step #8: Click on 'Register' button
     cy.step("Click on 'Register' button")
@@ -47,11 +51,11 @@ describe("UserNavigationTodoTabFiltering", () => {
 
     // Step #11: Type email
     cy.step("Type email")
-    cy.get('input[name="email"]').type("testuser1@gmail.com") // Adjust selector as necessary
+    cy.getBySel("email").type(testuser.email) // Adjust selector as necessary
 
     // Step #12: Type password
     cy.step("Type password")
-    cy.get('input[name="password"]').type("Testpass1!") // Adjust selector as necessary
+    cy.getBySel("password").type(testuser.password) // Adjust selector as necessary
 
     // Step #13: Click 'LOGIN' button
     cy.step("Click 'LOGIN' button")
@@ -73,7 +77,7 @@ describe("UserNavigationTodoTabFiltering", () => {
     cy.step("Create 5 todos")
     const todos = ["Task 1", "Task 2", "Task 3", "Task 4", "Task 5"]
     todos.forEach((todo) => {
-      cy.get('[data-cy="todo-input"]').type(todo) // Adjust selector as necessary
+      cy.getBySel("todo-input").type(todo) // Adjust selector as necessary
       cy.get("button").contains("Add Todo").click() // Adjust selector as necessary
     })
 
@@ -88,7 +92,7 @@ describe("UserNavigationTodoTabFiltering", () => {
 
     // Step #20: Click on the Completed tab
     cy.step("Click on the Completed tab")
-    cy.get('[data-cy="complete-tab"]').click() // Adjust selector as necessary
+    cy.getBySel("complete-tab").click() // Adjust selector as necessary
 
     // Step #21: Check the completed todos are displayed there
     cy.step("Check the completed todos are displayed there")
@@ -96,7 +100,7 @@ describe("UserNavigationTodoTabFiltering", () => {
 
     // Step #22: Click on the All tab
     cy.step("Click on the All tab")
-    cy.get('[data-cy="all-tab"]').click() // Adjust selector as necessary
+    cy.getBySel("all-tab").click() // Adjust selector as necessary
 
     // Step #23: Check all created todos are displayed there
     cy.step("Check all created todos are displayed there")
@@ -104,7 +108,7 @@ describe("UserNavigationTodoTabFiltering", () => {
 
     // Step #24: Click on Logout on the navigation bar
     cy.step("Click on Logout on the navigation bar")
-    cy.get('[data-cy="nav-link-logout"]').click() // Adjust selector as necessary
+    cy.getBySel("nav-link-logout").click() // Adjust selector as necessary
 
     // Step #25: Check app redirects to login page
     cy.step("Check app redirects to login page")
