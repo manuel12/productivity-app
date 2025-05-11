@@ -1,13 +1,17 @@
 /// <reference types="cypress" />
 
-const validTodo = require("../../../fixtures/todo.json")
-const invalidTodo = require("../../../fixtures/invalidTodo.json")
+const todoData = require("../../../fixtures/todos/todoData.json")
+const validTodo = todoData.validData
+const invalidTodo = todoData.invalidData
 
 describe("Todo Section - Edit Todo", () => {
   const ctx = {}
 
   beforeEach(() => {
-    cy.deleteTestUsers(ctx.token)
+    // Cleanup
+    cy.deleteTestUsers()
+    cy.deleteTestTodos()
+
     cy.registerWithAPI()
     cy.loginWithAPI((res) => {
       ctx.token = res.body.token
@@ -17,7 +21,7 @@ describe("Todo Section - Edit Todo", () => {
 
     // Visit the app or the specific page
     cy.visit("/")
-    cy.getBySel("todo-input").type(validTodo.validTodoDesc + "{enter}")
+    cy.getBySel("todo-input").type(validTodo.description1 + "{enter}")
   })
 
   // Positive tests
@@ -26,7 +30,7 @@ describe("Todo Section - Edit Todo", () => {
     // 1. Click on the todo's description text to turn it into an input
     cy.step("Click on the todo's description text to turn it into an input")
     cy.getBySel("todo-item")
-      .filter(`:contains(${validTodo.validTodoDesc})`)
+      .filter(`:contains(${validTodo.description1})`)
       .within(() => {
         cy.getBySel("todos-description-container").click()
       })
@@ -37,7 +41,7 @@ describe("Todo Section - Edit Todo", () => {
 
     // 3. Enter todoDescription on the input
     cy.step("Enter todoDescription on the input")
-    cy.getBySel("todos-text-input").type(validTodo.validTodoUpdateDesc)
+    cy.getBySel("todos-text-input").type(validTodo.updateDescription1)
 
     // 4. Press ENTER key
     cy.step("Press ENTER key")
@@ -45,11 +49,11 @@ describe("Todo Section - Edit Todo", () => {
 
     // 5. Check the old description text is not visible in the todo
     cy.step("Check the old description text is not visible in the todo")
-    cy.contains(validTodo.validTodoDesc).should("not.exist")
+    cy.contains(validTodo.description1).should("not.exist")
 
     // 6. Check the new description text is visible in the todo
     cy.step("Check the new description text is visible in the todo")
-    cy.contains("[data-cy=todo-item]", validTodo.validTodoUpdateDesc).should(
+    cy.contains("[data-cy=todo-item]", validTodo.updateDescription1).should(
       "exist"
     )
   })
@@ -58,7 +62,7 @@ describe("Todo Section - Edit Todo", () => {
     // 1. Click on the todo's description text to turn it into an input
     cy.step("Click on the todo's description text to turn it into an input")
     cy.getBySel("todo-item")
-      .filter(`:contains(${validTodo.validTodoDesc})`)
+      .filter(`:contains(${validTodo.description1})`)
       .within(() => {
         cy.getBySel("todos-description-container").click()
       })
@@ -69,7 +73,7 @@ describe("Todo Section - Edit Todo", () => {
 
     // 3. Enter todoDescription on the input
     cy.step("Enter todoDescription on the input")
-    cy.getBySel("todos-text-input").type(validTodo.validTodoUpdateDesc)
+    cy.getBySel("todos-text-input").type(validTodo.updateDescription1)
 
     // 4. Press ENTER key
     cy.step("Press ENTER key")
@@ -81,11 +85,11 @@ describe("Todo Section - Edit Todo", () => {
 
     // 6. Check the old description text is not visible in the todo
     cy.step("Check the old description text is not visible in the todo")
-    cy.contains(validTodo.validTodoDesc).should("not.exist")
+    cy.contains(validTodo.description1).should("not.exist")
 
     // 7. Check the new description text is visible in the todo
     cy.step("Check the new description text is visible in the todo")
-    cy.contains("[data-cy=todo-item]", validTodo.validTodoUpdateDesc).should(
+    cy.contains("[data-cy=todo-item]", validTodo.updateDescription1).should(
       "exist"
     )
   })
@@ -96,7 +100,7 @@ describe("Todo Section - Edit Todo", () => {
     // 1. Click on the todo's description text to turn it into an input
     cy.step("Click on the todo's description text to turn it into an input")
     cy.getBySel("todo-item")
-      .filter(`:contains(${validTodo.validTodoDesc})`)
+      .filter(`:contains(${validTodo.description1})`)
       .within(() => {
         cy.getBySel("todos-description-container").click()
       })
@@ -105,9 +109,11 @@ describe("Todo Section - Edit Todo", () => {
     cy.step("Delete the current description")
     cy.getBySel("todos-text-input").clear()
 
-    // 3. Enter todoDescLongerThan40Chars
-    cy.step("Enter todoDescLongerThan40Chars")
-    cy.getBySel("todos-text-input").type(invalidTodo.todoDescLongerThan40Chars)
+    // 3. Enter descriptionLongerThan40Chars
+    cy.step("Enter descriptionLongerThan40Chars")
+    cy.getBySel("todos-text-input").type(
+      invalidTodo.descriptionLongerThan40Chars
+    )
 
     // 4. Press ENTER key
     cy.step("Press ENTER key")
@@ -122,7 +128,7 @@ describe("Todo Section - Edit Todo", () => {
     // 1. Click on the todo's description text to turn it into an input
     cy.step("Click on the todo's description text to turn it into an input")
     cy.getBySel("todo-item")
-      .filter(`:contains(${validTodo.validTodoDesc})`)
+      .filter(`:contains(${validTodo.description1})`)
       .within(() => {
         cy.getBySel("todos-description-container").click()
       })
@@ -131,9 +137,11 @@ describe("Todo Section - Edit Todo", () => {
     cy.step("Delete the current description")
     cy.getBySel("todos-text-input").clear()
 
-    // 3. Enter todoDescLongerThan40Chars
-    cy.step("Enter todoDescLongerThan40Chars")
-    cy.getBySel("todos-text-input").type(invalidTodo.todoDescLongerThan40Chars)
+    // 3. Enter descriptionLongerThan40Chars
+    cy.step("Enter descriptionLongerThan40Chars")
+    cy.getBySel("todos-text-input").type(
+      invalidTodo.descriptionLongerThan40Chars
+    )
 
     // 4. Press ENTER key
     cy.step("Press ENTER key")
@@ -152,7 +160,7 @@ describe("Todo Section - Edit Todo", () => {
     // 1. Click on the todo's description text to turn it into an input
     cy.step("Click on the todo's description text to turn it into an input")
     cy.getBySel("todo-item")
-      .filter(`:contains(${validTodo.validTodoDesc})`)
+      .filter(`:contains(${validTodo.description1})`)
       .within(() => {
         cy.getBySel("todos-description-container").click()
       })
@@ -163,7 +171,9 @@ describe("Todo Section - Edit Todo", () => {
 
     // 3. Enter shortDescription
     cy.step("Enter shortDescription")
-    cy.getBySel("todos-text-input").type(invalidTodo.todoDescShorterThan3Chars)
+    cy.getBySel("todos-text-input").type(
+      invalidTodo.descriptionShorterThan3Chars
+    )
 
     // 4. Press ENTER key
     cy.step("Press ENTER key")
@@ -178,7 +188,7 @@ describe("Todo Section - Edit Todo", () => {
     // 1. Click on the todo's description text to turn it into an input
     cy.step("Click on the todo's description text to turn it into an input")
     cy.getBySel("todo-item")
-      .filter(`:contains(${validTodo.validTodoDesc})`)
+      .filter(`:contains(${validTodo.description1})`)
       .within(() => {
         cy.getBySel("todos-description-container").click()
       })
@@ -189,7 +199,9 @@ describe("Todo Section - Edit Todo", () => {
 
     // 3. Enter shortDescription
     cy.step("Enter shortDescription")
-    cy.getBySel("todos-text-input").type(invalidTodo.todoDescShorterThan3Chars)
+    cy.getBySel("todos-text-input").type(
+      invalidTodo.descriptionShorterThan3Chars
+    )
 
     // 4. Press ENTER key
     cy.step("Press ENTER key")
@@ -209,7 +221,7 @@ describe("Todo Section - Edit Todo", () => {
     // 1. Click on the todo's description text to turn it into an input
     cy.step("Click on the todo's description text to turn it into an input")
     cy.getBySel("todo-item")
-      .filter(`:contains(${validTodo.validTodoDesc})`)
+      .filter(`:contains(${validTodo.description1})`)
       .within(() => {
         cy.getBySel("todos-description-container").click()
       })
@@ -222,17 +234,12 @@ describe("Todo Section - Edit Todo", () => {
     cy.step("Press ENTER key")
     cy.getBySel("todos-text-input").type("{enter}")
 
-    // 4. Check an error label with text 'Todo description is required.' is visible over the todo input
+    // 4. Check an error label with text 'Todo description text is required.' is visible over the todo input
     cy.step(
-      "Check an error label with text 'Todo description is required.' is visible over the todo input"
+      "Check an error label with text 'Todo description text is required.' is visible over the todo input"
     )
     cy.getBySel("todo-error-label")
       .should("be.visible")
-      .and("contain.text", "Todo description is required.")
-  })
-
-  afterEach(() => {
-    cy.deleteTestUsers()
-    cy.deleteTestTodos()
+      .and("contain.text", "Todo description text is required.")
   })
 })
