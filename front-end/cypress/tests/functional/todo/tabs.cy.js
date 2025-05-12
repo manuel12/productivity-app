@@ -1,12 +1,16 @@
 /// <reference types="cypress" />
 
-const validTodo = require("../../../fixtures/todo.json")
+const todoData = require("../../../fixtures/todos/todoData.json")
+const validTodo = todoData.validData
 
 describe("Todo Section - Tabs", () => {
   const ctx = {}
 
   beforeEach(() => {
-    cy.deleteTestUsers(ctx.token)
+    // Cleanup
+    cy.deleteTestUsers()
+    cy.deleteTestTodos()
+
     cy.registerWithAPI()
     cy.loginWithAPI((res) => {
       ctx.token = res.body.token
@@ -17,9 +21,9 @@ describe("Todo Section - Tabs", () => {
 
     // Create some initial todos
     const todos = [
-      validTodo.validTodoDesc,
-      validTodo.validTodoDesc2,
-      validTodo.validTodoDesc3,
+      validTodo.description1,
+      validTodo.description2,
+      validTodo.description3,
     ]
     todos.forEach((todo) => {
       cy.getBySel("todo-input").type(`${todo} {enter}`)
@@ -141,10 +145,5 @@ describe("Todo Section - Tabs", () => {
     // 6. Check after clicking each tab such tab becomes the active tab
     cy.step("Check after clicking each tab such tab becomes the active tab")
     cy.getBySel("uncomplete-tab").should("have.class", "active")
-  })
-
-  afterEach(() => {
-    cy.deleteTestUsers()
-    cy.deleteTestTodos()
   })
 })
