@@ -6,7 +6,7 @@ const validTodo = require("../../../../fixtures/todo.json")
 const invalidTodo = require("../../../../fixtures/invalidTodo.json")
 
 describe("Todo Section - Add Todo", () => {
-  //const todoTextWith40Char = invalidTodo.todoDescLongerThan40Chars.slice(0, 40)
+  //const todoTextWith40Char = invalidTodo.descriptionLongerThan40Chars.slice(0, 40)
 
   const ctx = {}
 
@@ -29,7 +29,7 @@ describe("Todo Section - Add Todo", () => {
     it('should add a todo by writing on input and clicking on a "Add todo" button', () => {
       // 1. Enter todoDescription on the input on input
       cy.step("Enter todoDescription on the input on input")
-      cy.getBySel("todo-input").type(validTodo.validTodoDesc)
+      cy.getBySel("todo-input").type(validTodo.description1)
 
       // 2. Click 'Add Todo' button
       cy.step("Click 'Add Todo' button")
@@ -51,7 +51,7 @@ describe("Todo Section - Add Todo", () => {
 
       // 2. Press ENTER key
       cy.step("Press ENTER key")
-      cy.getBySel("todo-input").type(validTodo.validTodoDesc3 + "{enter}")
+      cy.getBySel("todo-input").type(validTodo.description3 + "{enter}")
 
       // 3. Check a new todo item is added with the text 'Clean room (test)'
       cy.step(
@@ -60,7 +60,7 @@ describe("Todo Section - Add Todo", () => {
       cy.getBySel("todos-list").should("have.length", 1)
       cy.getBySel("todos-list")
         .first()
-        .should("contain.text", validTodo.validTodoDesc3)
+        .should("contain.text", validTodo.description3)
     })
   )
 
@@ -69,7 +69,7 @@ describe("Todo Section - Add Todo", () => {
     it("should display added todos correctly on the list", () => {
       // 1. Enter todoDescription on the input1 on input
       cy.step("Enter todoDescription on the input1 on input")
-      cy.getBySel("todo-input").type(validTodo.validTodoDesc)
+      cy.getBySel("todo-input").type(validTodo.description1)
 
       // 2. Click 'Add Todo' button
       cy.step("Click 'Add Todo' button")
@@ -77,7 +77,7 @@ describe("Todo Section - Add Todo", () => {
 
       // 3. Enter todoDescription on the input2 on input
       cy.step("Enter todoDescription on the input2 on input")
-      cy.getBySel("todo-input").type(validTodo.validTodoDesc2)
+      cy.getBySel("todo-input").type(validTodo.description2)
 
       // 4. Click 'Add Todo' button
       cy.step("Click 'Add Todo' button")
@@ -85,7 +85,7 @@ describe("Todo Section - Add Todo", () => {
 
       // 5. Enter todoDescription on the input3 on input
       cy.step("Enter todoDescription on the input3 on input")
-      cy.getBySel("todo-input").type(validTodo.validTodoDesc3)
+      cy.getBySel("todo-input").type(validTodo.description3)
 
       // 6. Click 'Add Todo' button
       cy.step("Click 'Add Todo' button")
@@ -95,23 +95,19 @@ describe("Todo Section - Add Todo", () => {
       cy.step(
         "Check a new todo item is added with the text 'Take out trash (test)'"
       )
-      cy.get(".todo-item").eq(2).should("contain.text", validTodo.validTodoDesc)
+      cy.get(".todo-item").eq(2).should("contain.text", validTodo.description1)
 
       // 8. Check the second todo with the text 'Clean room (test)' is added below the first
       cy.step(
         "Check the second todo with the text 'Clean room (test)' is added below the first"
       )
-      cy.get(".todo-item")
-        .eq(1)
-        .should("contain.text", validTodo.validTodoDesc2)
+      cy.get(".todo-item").eq(1).should("contain.text", validTodo.description2)
 
       // 9. Check the third todo with the text 'Feed the cats (test)' is added below the second
       cy.step(
         "Check the third todo with the text 'Feed the cats (test)' is added below the second"
       )
-      cy.get(".todo-item")
-        .eq(0)
-        .should("contain.text", validTodo.validTodoDesc3)
+      cy.get(".todo-item").eq(0).should("contain.text", validTodo.description3)
     })
   )
 
@@ -120,7 +116,7 @@ describe("Todo Section - Add Todo", () => {
     it("should persist todos after page reload", () => {
       // 1. Enter todoDescription on the input on input
       cy.step("Enter todoDescription on the input on input")
-      cy.getBySel("todo-input").type(validTodo.validTodoDesc)
+      cy.getBySel("todo-input").type(validTodo.description1)
 
       // 2. Click 'Add Todo' button
       cy.step("Click 'Add Todo' button")
@@ -137,7 +133,7 @@ describe("Todo Section - Add Todo", () => {
       cy.getBySel("todos-list").should("have.length", 1)
       cy.getBySel("todos-list")
         .first()
-        .should("contain.text", validTodo.validTodoDesc)
+        .should("contain.text", validTodo.description1)
     })
   )
 
@@ -148,7 +144,7 @@ describe("Todo Section - Add Todo", () => {
     it("should not allow to add a todo with more than 40 characters", () => {
       // 1. Enter longDescription on input
       cy.step("Enter longDescription on input")
-      cy.getBySel("todo-input").type(invalidTodo.todoDescLongerThan40Chars)
+      cy.getBySel("todo-input").type(invalidTodo.descriptionLongerThan40Chars)
 
       // 2. Click 'Add Todo' button
       cy.step("Click 'Add Todo' button")
@@ -165,7 +161,7 @@ describe("Todo Section - Add Todo", () => {
     it('should display an error label "Todos must be shorter than 40 characters." when exceeding that amount', () => {
       // 1. Enter longDescription on input
       cy.step("Enter longDescription on input")
-      cy.getBySel("todo-input").type(invalidTodo.todoDescLongerThan40Chars)
+      cy.getBySel("todo-input").type(invalidTodo.descriptionLongerThan40Chars)
 
       // 2. Click 'Add Todo' button
       cy.step("Click 'Add Todo' button")
@@ -200,7 +196,7 @@ describe("Todo Section - Add Todo", () => {
     it('should display an error label "Todos must be at least 3 characters." when falling below that amount', () => {
       // 1. Enter shortDescription  on input
       cy.step("Enter shortDescription  on input")
-      cy.getBySel("todo-input").type(invalidTodo.todoDescShorterThan3Chars)
+      cy.getBySel("todo-input").type(invalidTodo.descriptionShorterThan3Chars)
 
       // 2. Click 'Add Todo' button
       cy.step("Click 'Add Todo' button")
