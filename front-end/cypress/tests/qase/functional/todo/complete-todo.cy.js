@@ -18,7 +18,7 @@ describe("Todo Section - Mark Todo as Complete:", () => {
 
     // Visit the app or the specific page
     cy.visit("/")
-    cy.getBySel("todo-input").type(validTodo.validTodoDesc + "{enter}")
+    cy.getBySel("todo-input").type(validTodo.description1 + "{enter}")
   })
 
   // Positive tests
@@ -92,7 +92,7 @@ describe("Todo Section - Mark Todo as Complete:", () => {
       )
       cy.getBySel("todo-item")
         .should("have.length", 1)
-        .and("have.text", validTodo.validTodoDesc)
+        .and("have.text", validTodo.description1)
     })
   )
 
