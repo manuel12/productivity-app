@@ -341,9 +341,9 @@ describe("Authentication Section - Login User", () => {
       cy.step("Visit http://localhost:3000/")
       cy.visit("/")
 
-      // 2. Enter shortEmail on email input
-      cy.step("Enter shortEmail on email input")
-      cy.getBySel("email").type(invalidCredentials.shortEmail)
+      // 2. Enter emailShorterThan6Chars on email input
+      cy.step("Enter emailShorterThan6Chars on email input")
+      cy.getBySel("email").type(invalidCredentials.emailShorterThan6Chars)
 
       // 3. Click 'LOGIN' button
       cy.step("Click 'LOGIN' button")
@@ -366,9 +366,9 @@ describe("Authentication Section - Login User", () => {
       cy.step("Visit http://localhost:3000/")
       cy.visit("/")
 
-      // 2. Enter longEmail on email input
-      cy.step("Enter longEmail on email input")
-      cy.getBySel("email").type(invalidCredentials.longEmail)
+      // 2. Enter emailLongerThan255Chars on email input
+      cy.step("Enter emailLongerThan255Chars on email input")
+      cy.getBySel("email").type(invalidCredentials.emailLongerThan255Chars)
 
       // 3. Click 'LOGIN' button
       cy.step("Click 'LOGIN' button")
@@ -412,9 +412,9 @@ describe("Authentication Section - Login User", () => {
       cy.step("Visit http://localhost:3000/")
       cy.visit("/")
 
-      // 2. Enter shortPassword on password input
-      cy.step("Enter shortPassword on password input")
-      cy.getBySel("password").type(invalidCredentials.shortPassword)
+      // 2. Enter passwordShorterThan8Chars on password input
+      cy.step("Enter passwordShorterThan8Chars on password input")
+      cy.getBySel("password").type(invalidCredentials.passwordShorterThan8Chars)
 
       // 3. Click 'LOGIN' button
       cy.step("Click 'LOGIN' button")
@@ -437,9 +437,11 @@ describe("Authentication Section - Login User", () => {
       cy.step("Visit http://localhost:3000/")
       cy.visit("/")
 
-      // 2. Enter longPassword on password input
-      cy.step("Enter longPassword on password input")
-      cy.getBySel("password").type(invalidCredentials.longPassword)
+      // 2. Enter passwordLongerThan128Chars on password input
+      cy.step("Enter passwordLongerThan128Chars on password input")
+      cy.getBySel("password").type(
+        invalidCredentials.passwordLongerThan128Chars
+      )
 
       // 3. Click 'LOGIN' button
       cy.step("Click 'LOGIN' button")
