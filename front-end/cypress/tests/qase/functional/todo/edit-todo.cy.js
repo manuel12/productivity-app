@@ -19,7 +19,7 @@ describe("Todo Section - Edit Todo", () => {
 
     // Visit the app or the specific page
     cy.visit("/")
-    cy.getBySel("todo-input").type(validTodo.validTodoDesc + "{enter}")
+    cy.getBySel("todo-input").type(validTodo.description1 + "{enter}")
   })
 
   // Positive tests
@@ -29,19 +29,19 @@ describe("Todo Section - Edit Todo", () => {
     it("should edit a todo", () => {
       // Find and edit that existing todo
       cy.getBySel("todo-item")
-        .filter(`:contains(${validTodo.validTodoDesc})`)
+        .filter(`:contains(${validTodo.description1})`)
         .within(() => {
           cy.getBySel("todos-description-container").click()
         })
 
       cy.getBySel("todos-text-input").clear()
       cy.getBySel("todos-text-input").type(
-        `${validTodo.validTodoUpdateDesc}{enter}`
+        `${validTodo.updateDescription1}{enter}`
       )
 
       // Validate the todo is updated correctly
-      cy.contains(validTodo.validTodoDesc).should("not.exist")
-      cy.contains("[data-cy=todo-item]", validTodo.validTodoUpdateDesc).should(
+      cy.contains(validTodo.description1).should("not.exist")
+      cy.contains("[data-cy=todo-item]", validTodo.updateDescription1).should(
         "exist"
       )
     })
@@ -52,21 +52,21 @@ describe("Todo Section - Edit Todo", () => {
     it("should persist edited todos after page reload", () => {
       // Find and edit that existing todo
       cy.getBySel("todo-item")
-        .filter(`:contains(${validTodo.validTodoDesc})`)
+        .filter(`:contains(${validTodo.description1})`)
         .within(() => {
           cy.getBySel("todos-description-container").click()
         })
 
       cy.getBySel("todos-text-input").clear()
       cy.getBySel("todos-text-input").type(
-        `${validTodo.validTodoUpdateDesc}{enter}`
+        `${validTodo.updateDescription1}{enter}`
       )
 
       cy.reload()
 
       // Validate the todo is updated correctly
-      cy.contains(validTodo.validTodoDesc).should("not.exist")
-      cy.contains("[data-cy=todo-item]", validTodo.validTodoUpdateDesc).should(
+      cy.contains(validTodo.description1).should("not.exist")
+      cy.contains("[data-cy=todo-item]", validTodo.updateDescription1).should(
         "exist"
       )
     })
@@ -81,14 +81,14 @@ describe("Todo Section - Edit Todo", () => {
 
       // Find and edit that existing todo
       cy.getBySel("todo-item")
-        .filter(`:contains(${validTodo.validTodoDesc})`)
+        .filter(`:contains(${validTodo.description1})`)
         .within(() => {
           cy.getBySel("todos-description-container").click()
         })
 
       cy.getBySel("todos-text-input").clear()
       cy.getBySel("todos-text-input").type(
-        `${invalidTodo.todoDescLongerThan40Chars}{enter}`
+        `${invalidTodo.descriptionLongerThan40Chars}{enter}`
       )
 
       // Check that todo text input does not dissapear
@@ -103,14 +103,14 @@ describe("Todo Section - Edit Todo", () => {
 
       // Find and edit that existing todo
       cy.getBySel("todo-item")
-        .filter(`:contains(${validTodo.validTodoDesc})`)
+        .filter(`:contains(${validTodo.description1})`)
         .within(() => {
           cy.getBySel("todos-description-container").click()
         })
 
       cy.getBySel("todos-text-input").clear()
       cy.getBySel("todos-text-input").type(
-        `${invalidTodo.todoDescLongerThan40Chars}{enter}`
+        `${invalidTodo.descriptionLongerThan40Chars}{enter}`
       )
 
       // Check error label
@@ -127,14 +127,14 @@ describe("Todo Section - Edit Todo", () => {
 
       // Find and edit that existing todo
       cy.getBySel("todo-item")
-        .filter(`:contains(${validTodo.validTodoDesc})`)
+        .filter(`:contains(${validTodo.description1})`)
         .within(() => {
           cy.getBySel("todos-description-container").click()
         })
 
       cy.getBySel("todos-text-input").clear()
       cy.getBySel("todos-text-input").type(
-        `${invalidTodo.todoDescShorterThan3Chars}{enter}`
+        `${invalidTodo.descriptionShorterThan3Chars}{enter}`
       )
 
       // Check that todo text input does not dissapear
@@ -149,14 +149,14 @@ describe("Todo Section - Edit Todo", () => {
 
       // Find and edit that existing todo
       cy.getBySel("todo-item")
-        .filter(`:contains(${validTodo.validTodoDesc})`)
+        .filter(`:contains(${validTodo.description1})`)
         .within(() => {
           cy.getBySel("todos-description-container").click()
         })
 
       cy.getBySel("todos-text-input").clear()
       cy.getBySel("todos-text-input").type(
-        `${invalidTodo.todoDescShorterThan3Chars}{enter}`
+        `${invalidTodo.descriptionShorterThan3Chars}{enter}`
       )
 
       // Check error label
