@@ -18,7 +18,7 @@ describe("Todo Section - Mark Todo as Complete:", () => {
 
     // Visit the app or the specific page
     cy.visit("/")
-    cy.getBySel("todo-input").type(validTodo.validTodoDesc + "{enter}")
+    cy.getBySel("todo-input").type(validTodo.description1 + "{enter}")
 
     // Complete todo
     cy.getBySel("todo-item")
@@ -35,7 +35,7 @@ describe("Todo Section - Mark Todo as Complete:", () => {
       // 1. Check the todo appears marked as completed in the completed tab
       cy.getBySel("complete-tab").click()
 
-      cy.getBySel("todo-item").should("contain", validTodo.validTodoDesc)
+      cy.getBySel("todo-item").should("contain", validTodo.description1)
 
       // 2. Click on the checkmark icon to mark as uncompleted
       cy.getBySel("todo-item")
@@ -51,7 +51,7 @@ describe("Todo Section - Mark Todo as Complete:", () => {
       cy.getBySel("uncomplete-tab").click()
 
       // 5. Check the todo is displayed on the uncompleted list
-      cy.getBySel("todo-item").should("contain", validTodo.validTodoDesc)
+      cy.getBySel("todo-item").should("contain", validTodo.description1)
     })
   )
 
@@ -60,7 +60,7 @@ describe("Todo Section - Mark Todo as Complete:", () => {
     it("should display uncompleted todos in the uncompleted todo list", () => {
       // 1. Check the todo appears marked as completed in the completed tab
       cy.getBySel("complete-tab").click()
-      cy.getBySel("todo-item").should("contain", validTodo.validTodoDesc)
+      cy.getBySel("todo-item").should("contain", validTodo.description1)
 
       // 2. Click on the checkmark icon to mark as uncompleted
       cy.getBySel("todo-item")
@@ -76,7 +76,7 @@ describe("Todo Section - Mark Todo as Complete:", () => {
       cy.getBySel("uncomplete-tab").click()
 
       // 5. Check the todo is displayed on the uncompleted list
-      cy.get('[data-cy="todo-item"]').should("contain", validTodo.validTodoDesc)
+      cy.get('[data-cy="todo-item"]').should("contain", validTodo.description1)
     })
   )
 
