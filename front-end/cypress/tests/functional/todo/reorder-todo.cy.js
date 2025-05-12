@@ -1,6 +1,7 @@
 /// <reference types="cypress" />
 
-const validTodo = require("../../../fixtures/todo.json")
+const todoData = require("../../../fixtures/todos/todoData.json")
+const validTodo = todoData.validData
 
 describe("Todo Section - Reorder Todos", () => {
   const ctx = {}
@@ -22,10 +23,10 @@ describe("Todo Section - Reorder Todos", () => {
   // Positive tests
 
   it.skip("should reorder todos by dragging them up and down.", () => {
-    cy.getBySel("todo-input").type(validTodo.validTodoDesc) // Type the todo text
+    cy.getBySel("todo-input").type(validTodo.description1) // Type the todo text
     cy.getBySel("todo-submit").click() // Click on the "Add" button
 
-    cy.getBySel("todo-input").type(validTodo.validTodoDesc2)
+    cy.getBySel("todo-input").type(validTodo.description2)
     cy.getBySel("todo-submit").click()
 
     // Find the todo items you want to reorder and drag them using Cypress commands
@@ -43,18 +44,18 @@ describe("Todo Section - Reorder Todos", () => {
     cy.getBySel("todo-item")
       .filter(`:contains("test")`)
       .eq(0)
-      .contains(validTodo.validTodoDesc2)
+      .contains(validTodo.description2)
     cy.getBySel("todo-item")
       .filter(`:contains("test")`)
       .eq(1)
-      .contains(validTodo.validTodoDesc)
+      .contains(validTodo.description1)
   })
 
   it.skip("should persist reordered todos order after page reload", () => {
-    cy.getBySel("todo-input").type(validTodo.validTodoDesc) // Type the todo text
+    cy.getBySel("todo-input").type(validTodo.description1) // Type the todo text
     cy.getBySel("todo-submit").click() // Click on the "Add" button
 
-    cy.getBySel("todo-input").type(validTodo.validTodoDesc2)
+    cy.getBySel("todo-input").type(validTodo.description2)
     cy.getBySel("todo-submit").click()
 
     // Find the todo items you want to reorder and drag them using Cypress commands
@@ -74,18 +75,18 @@ describe("Todo Section - Reorder Todos", () => {
     cy.getBySel("todo-item")
       .filter(`:contains("test")`)
       .eq(0)
-      .contains(validTodo.validTodoDesc2)
+      .contains(validTodo.description2)
     cy.getBySel("todo-item")
       .filter(`:contains("test")`)
       .eq(1)
-      .contains(validTodo.validTodoDesc)
+      .contains(validTodo.description1)
   })
 
   it.skip("should edit reordered todos", () => {
-    cy.getBySel("todo-input").type(validTodo.validTodoDesc) // Type the todo text
+    cy.getBySel("todo-input").type(validTodo.description1) // Type the todo text
     cy.getBySel("todo-submit").click() // Click on the "Add" button
 
-    cy.getBySel("todo-input").type(validTodo.validTodoDesc2)
+    cy.getBySel("todo-input").type(validTodo.description2)
     cy.getBySel("todo-submit").click()
 
     // Find the todo items you want to reorder and drag them using Cypress commands
@@ -105,11 +106,11 @@ describe("Todo Section - Reorder Todos", () => {
     cy.getBySel("todo-item")
       .filter(`:contains("test")`)
       .eq(0)
-      .contains(validTodo.validTodoDesc2)
+      .contains(validTodo.description2)
     cy.getBySel("todo-item")
       .filter(`:contains("test")`)
       .eq(1)
-      .contains(validTodo.validTodoDesc)
+      .contains(validTodo.description1)
   })
 
   afterEach(() => {

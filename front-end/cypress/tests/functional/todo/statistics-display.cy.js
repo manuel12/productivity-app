@@ -1,12 +1,16 @@
 /// <reference types="cypress" />
 
-const validTodo = require("../../../fixtures/todo.json")
+const todoData = require("../../../fixtures/todos/todoData.json")
+const validTodo = todoData.validData
 
 describe("Todo Section - Todo Statistics Display ", () => {
   const ctx = {}
 
   beforeEach(() => {
-    cy.deleteTestUsers(ctx.token)
+    // Cleanup
+    cy.deleteTestUsers()
+    cy.deleteTestTodos()
+
     cy.registerWithAPI()
     cy.loginWithAPI((res) => {
       ctx.token = res.body.token
@@ -140,7 +144,9 @@ describe("Todo Section - Todo Statistics Display ", () => {
   it("should display the percentage increase/decrease indicator for completed todos", () => {
     // 1. Add 1 todo with text 'Workout (test)'
     cy.step("Add 1 todo with text 'Workout (test)'")
-    cy.getBySel("todo-input").type(`Workout (test) {enter}`)
+    cy.getBySel("todo-input").type(
+      `${validTodo.validCompletedTodoDesc} {enter}`
+    )
 
     // 2. Check initial 'Completed today:' displays 0
     cy.step("Check initial 'Completed today:' displays 0")
@@ -369,10 +375,5 @@ describe("Todo Section - Todo Statistics Display ", () => {
       "include.text",
       "Percentage difference:0%"
     )
-  })
-
-  afterEach(() => {
-    cy.deleteTestUsers()
-    cy.deleteTestTodos()
   })
 })
