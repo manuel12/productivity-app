@@ -192,7 +192,7 @@ describe("LOGIN User - (POST) /api/login", () => {
   qase(
     88,
     it("should respond with error message 'Password must be less than 128 characters.' when submitting a longer password", () => {
-      const longPassword =
+      const passwordLongerThan128Chars =
         "P@ssw0rd123!abcdefghijklmnopqrstuvwxyABCDEFGHIJKLMNOPQRSTUVWXYabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*()"
 
       cy.request({
@@ -200,7 +200,7 @@ describe("LOGIN User - (POST) /api/login", () => {
         url: `${apiUrl}/api/login`,
         body: {
           email: testuser.email,
-          password: longPassword,
+          password: passwordLongerThan128Chars,
         },
         failOnStatusCode: false,
       }).then((res) => {
