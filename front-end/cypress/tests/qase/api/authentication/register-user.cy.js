@@ -185,7 +185,7 @@ describe("REGISTER User - (POST) /api/user", () => {
   qase(
     98,
     it("should respond with error message 'Email must be shorter than 255 characters.' when submitting a longer email address", () => {
-      const longEmail =
+      const emailLongerThan255Chars =
         "abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz@example.com"
 
       cy.request({
@@ -193,7 +193,7 @@ describe("REGISTER User - (POST) /api/user", () => {
         url: `${apiUrl}/api/user`,
         body: {
           username: testuser.username,
-          email: longEmail,
+          email: emailLongerThan255Chars,
           password: testuser.password,
         },
         failOnStatusCode: false,
@@ -226,7 +226,7 @@ describe("REGISTER User - (POST) /api/user", () => {
   qase(
     100,
     it("should respond with error message 'Password must be less than 128 characters.' when submitting a longer password", () => {
-      const longPassword =
+      const passwordLongerThan128Chars =
         "P@ssw0rd123!abcdefghijklmnopqrstuvwxyABCDEFGHIJKLMNOPQRSTUVWXYabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*()"
 
       cy.request({
@@ -235,7 +235,7 @@ describe("REGISTER User - (POST) /api/user", () => {
         body: {
           username: testuser.username,
           email: testuser.email,
-          password: longPassword,
+          password: passwordLongerThan128Chars,
         },
         failOnStatusCode: false,
       }).then((res) => {
