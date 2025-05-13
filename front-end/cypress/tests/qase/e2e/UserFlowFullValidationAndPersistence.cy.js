@@ -3,13 +3,13 @@
 import { qase } from "cypress-qase-reporter/mocha"
 
 describe("UserFlowFullValidationAndPersistence.cy", () => {
-  const shortUsername = "abc"
-  const longUsername = "abcdefghijklmnopqrst"
+  const usernameShoterThan6Chars = "abc"
+  const usernameLongerThan20Chars = "abcdefghijklmnopqrst"
   const invalidEmail = "invalidEmail.com"
-  const shortEmail = "a@com"
-  const longEmail =
+  const emailShorterThan6Chars = "a@com"
+  const emailLongerThan255Chars =
     "abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz@example.com"
-  const shortPassword = "Pass1!"
+  const passwordShorterThan8Chars = "Pass1!"
   const noUppercasePassword = "abcdefhg"
   const noLowercasePassword = "ABCDEFHG"
   const noNumberPassword = "Abcdefhg"
@@ -51,16 +51,16 @@ describe("UserFlowFullValidationAndPersistence.cy", () => {
         .should("be.visible")
         .and("have.text", "A username is required.")
 
-      // 6. Type shortUsername in username input
-      cy.get('[data-cy="username"]').type(shortUsername)
+      // 6. Type usernameShoterThan6Chars in username input
+      cy.get('[data-cy="username"]').type(usernameShoterThan6Chars)
 
       // 7. Check username input displays error label with text 'Username must be at least 6 characters.'
       cy.get('[data-cy="username-error-label"]')
         .should("be.visible")
         .and("have.text", "Username must be at least 6 characters.")
 
-      // 8. Type longUsername in username input
-      cy.get('[data-cy="username"]').clear().type(longUsername)
+      // 8. Type usernameLongerThan20Chars in username input
+      cy.get('[data-cy="username"]').clear().type(usernameLongerThan20Chars)
 
       // 9. Check username input displays error label with text 'Username must be shorter than 20 characters.'
       cy.get('[data-cy="username-error-label"]')
@@ -81,16 +81,16 @@ describe("UserFlowFullValidationAndPersistence.cy", () => {
         .should("be.visible")
         .and("have.text", "Email must be valid.")
 
-      // 13. Type shortEmail in email input
-      cy.get('[data-cy="email"]').clear().type(shortEmail)
+      // 13. Type emailShorterThan6Chars in email input
+      cy.get('[data-cy="email"]').clear().type(emailShorterThan6Chars)
 
       // 14. Check email input displays error label with text 'Email must be at least 6 characters.'
       cy.get('[data-cy="email-error-label"]')
         .should("be.visible")
         .and("have.text", "Email must be at least 6 characters.")
 
-      // 15. Type longEmail in email input
-      cy.get('[data-cy="email"]').clear().type(longEmail)
+      // 15. Type emailLongerThan255Chars in email input
+      cy.get('[data-cy="email"]').clear().type(emailLongerThan255Chars)
 
       // 16. Check email input displays error label with text 'Email must be shorter than 255 characters.'
       cy.get('[data-cy="email-error-label"]')
@@ -103,8 +103,8 @@ describe("UserFlowFullValidationAndPersistence.cy", () => {
         .should("be.visible")
         .and("have.text", "A password is required.")
 
-      // 18. Type shortPassword in password input
-      cy.get('[data-cy="password"]').type(shortPassword)
+      // 18. Type passwordShorterThan8Chars in password input
+      cy.get('[data-cy="password"]').type(passwordShorterThan8Chars)
 
       // 19. Check password input displays error label with text 'Password must be at least 8 characters.'
       cy.get('[data-cy="password-error-label"]')
@@ -207,16 +207,16 @@ describe("UserFlowFullValidationAndPersistence.cy", () => {
         .should("be.visible")
         .and("have.text", "Email must be valid.")
 
-      // 42. Type shortEmail in email input
-      cy.get('[data-cy="email"]').clear().type(shortEmail)
+      // 42. Type emailShorterThan6Chars in email input
+      cy.get('[data-cy="email"]').clear().type(emailShorterThan6Chars)
 
       // 43. Check email input displays error label with text 'Email must be at least 6 characters.'
       cy.get('[data-cy="email-error-label"]')
         .should("be.visible")
         .and("have.text", "Email must be at least 6 characters.")
 
-      // 44. Type longEmail in email input
-      cy.get('[data-cy="email"]').clear().type(longEmail)
+      // 44. Type emailLongerThan255Chars in email input
+      cy.get('[data-cy="email"]').clear().type(emailLongerThan255Chars)
 
       // 45. Check email input displays error label with text 'Email must be shorter than 255 characters.'
       cy.get('[data-cy="email-error-label"]')
@@ -229,8 +229,8 @@ describe("UserFlowFullValidationAndPersistence.cy", () => {
         .should("be.visible")
         .and("have.text", "A password is required.")
 
-      // 47. Type shortPassword in password input
-      cy.get('[data-cy="password"]').type(shortPassword)
+      // 47. Type passwordShorterThan8Chars in password input
+      cy.get('[data-cy="password"]').type(passwordShorterThan8Chars)
 
       // 48. Check password input displays error label with text 'Password must be at least 8 characters.'
       cy.get('[data-cy="password-error-label"]')
