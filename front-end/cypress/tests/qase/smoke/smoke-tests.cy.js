@@ -152,7 +152,7 @@ describe("Smoke tests", () => {
       it('should add a todo by writing on input and clicking on a "Add todo" button', () => {
         // 1. Enter todoDescription on the input on input
         cy.step("Enter todoDescription on the input on input")
-        cy.getBySel("todo-input").type(validTodo.validTodoDesc)
+        cy.getBySel("todo-input").type(validTodo.description1)
 
         // 2. Click 'Add Todo' button
         cy.step("Click 'Add Todo' button")
@@ -181,29 +181,28 @@ describe("Smoke tests", () => {
 
       // Visit the app or the specific page
       cy.visit("/")
-      cy.getBySel("todo-input").type(validTodo.validTodoDesc + "{enter}")
+      cy.getBySel("todo-input").type(validTodo.description1 + "{enter}")
     })
     qase(
       44,
       it("should edit a todo", () => {
         // Find and edit that existing todo
         cy.getBySel("todo-item")
-          .filter(`:contains(${validTodo.validTodoDesc})`)
+          .filter(`:contains(${validTodo.description1})`)
           .within(() => {
             cy.getBySel("todos-description-container").click()
           })
 
         cy.getBySel("todos-text-input").clear()
         cy.getBySel("todos-text-input").type(
-          `${validTodo.validTodoUpdateDesc}{enter}`
+          `${validTodo.updateDescription1}{enter}`
         )
 
         // Validate the todo is updated correctly
-        cy.contains(validTodo.validTodoDesc).should("not.exist")
-        cy.contains(
-          "[data-cy=todo-item]",
-          validTodo.validTodoUpdateDesc
-        ).should("exist")
+        cy.contains(validTodo.description1).should("not.exist")
+        cy.contains("[data-cy=todo-item]", validTodo.updateDescription1).should(
+          "exist"
+        )
       })
     )
   })
@@ -222,7 +221,7 @@ describe("Smoke tests", () => {
 
       // Visit the app or the specific page
       cy.visit("/")
-      cy.getBySel("todo-input").type(validTodo.validTodoDesc + "{enter}")
+      cy.getBySel("todo-input").type(validTodo.description1 + "{enter}")
     })
 
     qase(
@@ -231,7 +230,7 @@ describe("Smoke tests", () => {
         // 1. Find the todo with the text 'Feed the cats(test)'
         cy.step("Find the todo with the text 'Feed the cats(test)'")
         cy.step("Click on the todo's 'X' button")
-        cy.contains(validTodo.validTodoDesc)
+        cy.contains(validTodo.description1)
           .parent()
 
           // 2. Click on the todo's 'X' button
@@ -240,7 +239,7 @@ describe("Smoke tests", () => {
 
         // 3. Check the todo is deleted from the todo list
         cy.step("Check the todo is deleted from the todo list")
-        cy.contains(validTodo.validTodoDesc).should("not.exist")
+        cy.contains(validTodo.description1).should("not.exist")
       })
     )
   })
@@ -259,7 +258,7 @@ describe("Smoke tests", () => {
 
       // Visit the app or the specific page
       cy.visit("/")
-      cy.getBySel("todo-input").type(validTodo.validTodoDesc + "{enter}")
+      cy.getBySel("todo-input").type(validTodo.description1 + "{enter}")
     })
     qase(
       50,
@@ -330,9 +329,9 @@ describe("Smoke tests", () => {
 
       // Create some initial todos
       const todos = [
-        validTodo.validTodoDesc,
-        validTodo.validTodoDesc2,
-        validTodo.validTodoDesc3,
+        validTodo.description1,
+        validTodo.description2,
+        validTodo.description3,
       ]
       todos.forEach((todo) => {
         cy.getBySel("todo-input").type(`${todo} {enter}`)
