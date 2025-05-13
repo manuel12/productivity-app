@@ -1,12 +1,16 @@
 /// <reference types="cypress" />
 
-const validTodo = require("../../../fixtures/todo.json")
+const todoData = require("../../../fixtures/todos/todoData.json")
+const validTodo = todoData.validData
 
 describe("Todo Section - Delete Todo", () => {
   const ctx = {}
 
   beforeEach(() => {
-    cy.deleteTestUsers(ctx.token)
+    // Cleanup
+    cy.deleteTestUsers()
+    cy.deleteTestTodos()
+
     cy.registerWithAPI()
     cy.loginWithAPI((res) => {
       ctx.token = res.body.token
@@ -16,7 +20,7 @@ describe("Todo Section - Delete Todo", () => {
 
     // Visit the app or the specific page
     cy.visit("/")
-    cy.getBySel("todo-input").type(validTodo.validTodoDesc + "{enter}")
+    cy.getBySel("todo-input").type(validTodo.description1 + "{enter}")
   })
 
   // Positive tests
@@ -25,7 +29,7 @@ describe("Todo Section - Delete Todo", () => {
     // 1. Find the todo with the text 'Feed the cats(test)'
     cy.step("Find the todo with the text 'Feed the cats(test)'")
     cy.step("Click on the todo's 'X' button")
-    cy.contains(validTodo.validTodoDesc)
+    cy.contains(validTodo.description1)
       .parent()
 
       // 2. Click on the todo's 'X' button
@@ -34,14 +38,14 @@ describe("Todo Section - Delete Todo", () => {
 
     // 3. Check the todo is deleted from the todo list
     cy.step("Check the todo is deleted from the todo list")
-    cy.contains(validTodo.validTodoDesc).should("not.exist")
+    cy.contains(validTodo.description1).should("not.exist")
   })
 
   it("should not show deleted todos after page reload", () => {
     // 1. Find the todo with the text 'Feed the cats(test)'
     cy.step("Find the todo with the text 'Feed the cats(test)'")
     cy.step("Click on the todo's 'X' button")
-    cy.contains(validTodo.validTodoDesc)
+    cy.contains(validTodo.description1)
       .parent()
 
       // 2. Click on the todo's 'X' button
@@ -54,11 +58,6 @@ describe("Todo Section - Delete Todo", () => {
 
     // 4. The todo remains deleted from the todo list
     cy.step("The todo remains deleted from the todo list")
-    cy.contains(validTodo.validTodoDesc).should("not.exist")
-  })
-
-  afterEach(() => {
-    cy.deleteTestUsers()
-    cy.deleteTestTodos()
+    cy.contains(validTodo.description1).should("not.exist")
   })
 })
