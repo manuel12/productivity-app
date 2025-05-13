@@ -19,9 +19,9 @@ describe("Todo Section - Tabs", () => {
 
     // Create some initial todos
     const todos = [
-      validTodo.validTodoDesc,
-      validTodo.validTodoDesc2,
-      validTodo.validTodoDesc3,
+      validTodo.description1,
+      validTodo.description2,
+      validTodo.description3,
     ]
     todos.forEach((todo) => {
       cy.getBySel("todo-input").type(`${todo} {enter}`)
