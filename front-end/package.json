@@ -45,6 +45,7 @@
     "test:smoke": "cypress run --spec 'cypress/tests/smoke/smoke-tests.cy.js'",
     "test:smoke-all-browsers": "npm run test:smoke-chrome && npm run test:smoke-firefox && npm run test:smoke-edge && npm run test:smoke-electron",
     "test:qase:e2e": "cypress run --spec 'cypress/tests/qase/e2e/**/*.cy.{js,jsx,ts,tsx}' -C qase.config.js",
+    "test:open": "cross-env NODE_ENV=prod cypress open",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
@@ -70,6 +71,7 @@
   },
   "devDependencies": {
     "@simonsmith/cypress-image-snapshot": "^8.1.2",
+    "cross-env": "^7.0.3",
     "cypress": "^13.2.0",
     "cypress-mochawesome-reporter": "^3.8.2",
     "cypress-multi-reporters": "^2.0.5",
