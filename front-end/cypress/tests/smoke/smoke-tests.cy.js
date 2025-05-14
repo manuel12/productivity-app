@@ -3,8 +3,11 @@
 import { qase } from "cypress-qase-reporter/mocha"
 
 import { clearLocalStorage } from "../../support/utils"
-const testuser = require("../../fixtures/testuser.json")
-const validTodo = require("../../fixtures/todo.json")
+const userData = require("../../fixtures/users/userData.json")
+const testuser = userData.validData
+
+const todoData = require("../../fixtures/todos/todoData.json")
+const validTodo = todoData.validData
 
 describe("Smoke tests", () => {
   context("Register", () => {
@@ -152,7 +155,7 @@ describe("Smoke tests", () => {
       it('should add a todo by writing on input and clicking on a "Add todo" button', () => {
         // 1. Enter todoDescription on the input on input
         cy.step("Enter todoDescription on the input on input")
-        cy.getBySel("todo-input").type(validTodo.validTodoDesc)
+        cy.getBySel("todo-input").type(validTodo.description1)
 
         // 2. Click 'Add Todo' button
         cy.step("Click 'Add Todo' button")
@@ -181,29 +184,28 @@ describe("Smoke tests", () => {
 
       // Visit the app or the specific page
       cy.visit("/")
-      cy.getBySel("todo-input").type(validTodo.validTodoDesc + "{enter}")
+      cy.getBySel("todo-input").type(validTodo.description1 + "{enter}")
     })
     qase(
       44,
       it("should edit a todo", () => {
         // Find and edit that existing todo
         cy.getBySel("todo-item")
-          .filter(`:contains(${validTodo.validTodoDesc})`)
+          .filter(`:contains(${validTodo.description1})`)
           .within(() => {
             cy.getBySel("todos-description-container").click()
           })
 
         cy.getBySel("todos-text-input").clear()
         cy.getBySel("todos-text-input").type(
-          `${validTodo.validTodoUpdateDesc}{enter}`
+          `${validTodo.updateDescription1}{enter}`
         )
 
         // Validate the todo is updated correctly
-        cy.contains(validTodo.validTodoDesc).should("not.exist")
-        cy.contains(
-          "[data-cy=todo-item]",
-          validTodo.validTodoUpdateDesc
-        ).should("exist")
+        cy.contains(validTodo.description1).should("not.exist")
+        cy.contains("[data-cy=todo-item]", validTodo.updateDescription1).should(
+          "exist"
+        )
       })
     )
   })
@@ -222,7 +224,7 @@ describe("Smoke tests", () => {
 
       // Visit the app or the specific page
       cy.visit("/")
-      cy.getBySel("todo-input").type(validTodo.validTodoDesc + "{enter}")
+      cy.getBySel("todo-input").type(validTodo.description1 + "{enter}")
     })
 
     qase(
@@ -231,7 +233,7 @@ describe("Smoke tests", () => {
         // 1. Find the todo with the text 'Feed the cats(test)'
         cy.step("Find the todo with the text 'Feed the cats(test)'")
         cy.step("Click on the todo's 'X' button")
-        cy.contains(validTodo.validTodoDesc)
+        cy.contains(validTodo.description1)
           .parent()
 
           // 2. Click on the todo's 'X' button
@@ -240,7 +242,7 @@ describe("Smoke tests", () => {
 
         // 3. Check the todo is deleted from the todo list
         cy.step("Check the todo is deleted from the todo list")
-        cy.contains(validTodo.validTodoDesc).should("not.exist")
+        cy.contains(validTodo.description1).should("not.exist")
       })
     )
   })
@@ -259,7 +261,7 @@ describe("Smoke tests", () => {
 
       // Visit the app or the specific page
       cy.visit("/")
-      cy.getBySel("todo-input").type(validTodo.validTodoDesc + "{enter}")
+      cy.getBySel("todo-input").type(validTodo.description1 + "{enter}")
     })
     qase(
       50,
@@ -269,7 +271,7 @@ describe("Smoke tests", () => {
           "Check that first todo is not marked as completed (has grey checkmark icon)"
         )
         cy.getBySel("todo-item")
-          .filter(":contains('test')")
+          .filter(`:contains(${validTodo.description1})`)
           .within(() => {
             cy.getBySel("todos-check-icon-container")
               .should("be.visible")
@@ -283,7 +285,7 @@ describe("Smoke tests", () => {
         // 2. Click on the checkmark icon to mark as completed
         cy.step("Click on the checkmark icon to mark as completed")
         cy.getBySel("todo-item")
-          .filter(":contains('test')")
+          .filter(`:contains(${validTodo.description1})`)
           .within(() => {
             cy.getBySel("todos-check-icon-container").click()
           })
@@ -296,7 +298,7 @@ describe("Smoke tests", () => {
           "Check the todo completed sound is played and the todo dissapears from uncompleted list"
         )
         cy.getBySel("todo-item")
-          .filter(":contains('test')")
+          .filter(`:contains(${validTodo.description1})`)
           .within(() => {
             cy.getBySel("todos-check-icon-container")
               .should("be.visible")
@@ -323,10 +325,10 @@ describe("Smoke tests", () => {
         window.localStorage.setItem("token", JSON.stringify(ctx.token))
       })
       cy.visit("/")
-      cy.getBySel("todo-input").type(validTodo.validTodoDesc + "{enter}")
+      cy.getBySel("todo-input").type(validTodo.description1 + "{enter}")
 
       cy.getBySel("todo-item")
-        .filter(":contains('test')")
+        .filter(`:contains(${validTodo.description1})`)
         .within(() => {
           cy.getBySel("todos-check-icon-container").click()
         })
@@ -338,7 +340,7 @@ describe("Smoke tests", () => {
       // 1. Check that todo appears on the Completed tab
       cy.getBySel("todo-item")
         .should("have.length", 1)
-        .and("have.text", validTodo.validTodoDesc)
+        .and("have.text", validTodo.description1)
 
         // 2. Click on the checkmark icon to mark as uncompleted
         .within(() => {
@@ -354,7 +356,7 @@ describe("Smoke tests", () => {
       // 5. Check todo appears on the Uncompleted tab
       cy.getBySel("todo-item")
         .should("have.length", 1)
-        .and("have.text", validTodo.validTodoDesc)
+        .and("have.text", validTodo.description1)
     })
   })
 
@@ -376,9 +378,9 @@ describe("Smoke tests", () => {
 
       // Create some initial todos
       const todos = [
-        validTodo.validTodoDesc,
-        validTodo.validTodoDesc2,
-        validTodo.validTodoDesc3,
+        validTodo.description1,
+        validTodo.description2,
+        validTodo.description3,
       ]
       todos.forEach((todo) => {
         cy.getBySel("todo-input").type(`${todo} {enter}`)
