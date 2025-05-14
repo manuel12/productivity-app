@@ -42,7 +42,7 @@ const TodoList: React.FC<ITodoListProps> = ({
   const schema = yup.object({
     todo: yup
       .string()
-      .required("Todo is required.")
+      .required("Todo description text is required.")
       .min(3, "Todos must be at least 3 characters.")
       .max(40, "Todos cannot contain more than 40 characters."),
   })
