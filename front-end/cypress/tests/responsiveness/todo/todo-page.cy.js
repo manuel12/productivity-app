@@ -1,6 +1,6 @@
 /// <reference types="cypress" />
 
-const resolutions = require("../../../fixtures/resolutions.json")
+const resolutions = require("../../../fixtures/resolutions/resolutions.json")
 
 describe("Responsiveness Section - Todo Page", () => {
   const isMobile = (resolution) => resolution.viewportWidthToUse < 992
