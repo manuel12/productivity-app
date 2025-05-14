@@ -85,7 +85,7 @@ const Todo: React.FC<ITodoItemProps> = ({
 
   const handleSaveClick = (todoIndex: number) => {
     if (editedDescription.length === 0) {
-      setErrorLabel("Todo description is required.")
+      setErrorLabel("Todo description text is required.")
     } else if (editedDescription.length > 40) {
       setErrorLabel("Todos cannot contain more than 40 characters.")
     } else if (editedDescription.length < 3) {
