@@ -1,0 +1,34 @@
+{
+  "validData": {
+    "email": "testuser1@gmail.com",
+    "username": "testuser",
+    "password": "Testpass1!",
+    "userLanguage": "es"
+  },
+  "invalidData": {
+    "usernameShoterThan6Chars": "ABCDE",
+    "usernameLongerThan20Chars": "abcdefghijklmnopqrst",
+
+    "invalidEmail": "Invalid Email",
+    "emailShorterThan6Chars": "a@com",
+    "emailLongerThan255Chars": "abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz@example.com",
+
+    "invalidPassword": "Invalid password",
+    "passwordShorterThan8Chars": "testpas",
+    "passwordLongerThan128Chars": "P@ssw0rd123!abcdefghijklmnopqrstuvwxyABCDEFGHIJKLMNOPQRSTUVWXYabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*()",
+
+    "noUppercasePassword": "testpass",
+    "noLowercasePassword": "TESTPASS",
+    "noNumberPassword": "Testpass",
+    "noSpecialCharPassword": "Testpass1",
+
+    "noMatchPassword1": "noMatchPassword1!",
+    "noMatchPassword2": "CorrectPassword__2!",
+
+    "unexistingUser": {
+      "username": "unexistingUser",
+      "email": "unexistingUser@gmail.com",
+      "password": "Testpass1!"
+    }
+  }
+}
