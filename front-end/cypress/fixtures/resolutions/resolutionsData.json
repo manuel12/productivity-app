@@ -1,0 +1,22 @@
+[
+  {
+    "breakpoint": "<600px",
+    "viewportWidthToUse": 414
+  },
+  {
+    "breakpoint": ">600px",
+    "viewportWidthToUse": 601
+  },
+  {
+    "breakpoint": ">768px",
+    "viewportWidthToUse": 770
+  },
+  {
+    "breakpoint": ">992px",
+    "viewportWidthToUse": 1000
+  },
+  {
+    "breakpoint": ">1200px",
+    "viewportWidthToUse": 1300
+  }
+]
