@@ -106,13 +106,15 @@ _Already installed if you installed front-end. Cypress folder is located in fron
 
 ## Tests
 
-| Type           | Location                                                                       |
-| -------------- | ------------------------------------------------------------------------------ |
-| api            | [front-end/cypress/e2e/api/](front-end/cypress/e2e/api/)                       |
-| component      | [front-end/cypress/component/](front-end/cypress/component/)                   |
-| functional     | [front-end/cypress/e2e/functional/](front-end/cypress/e2e/functional/)         |
-| responsiveness | [front-end/cypress/e2e/responsiveness/](front-end/cypress/e2e/responsiveness/) |
-| smoke          | [front-end/cypress/e2e/smoke/](front-end/cypress/e2e/smoke/)                   |
+| Type           | Location                                                                           |
+| -------------- | ---------------------------------------------------------------------------------- |
+| accessibility  | [front-end/cypress/tests/a11y/](front-end/cypress/tests/a11y/)                     |
+| api            | [front-end/cypress/tests/api/](front-end/cypress/tests/api/)                       |
+| component      | [front-end/cypress/component/](front-end/cypress/component/)                       |
+| e2e            | [front-end/cypress/tests/e2e/](front-end/cypress/tests/e2e/)                       |
+| functional     | [front-end/cypress/tests/functional/](front-end/cypress/tests/functional/)         |
+| responsiveness | [front-end/cypress/tests/responsiveness/](front-end/cypress/tests/responsiveness/) |
+| smoke          | [front-end/cypress/tests/smoke/](front-end/cypress/tests/smoke/)                   |
 
 ### Tests include:
 
@@ -143,10 +145,12 @@ Or if running from the CLI use one of the scripts found in package.json:
 'test:edge': 'cypress run --browser edge',
 'test:electron': 'cypress run --browser electron',
 'test:all-browsers': 'npm run test:chrome && npm run test:firefox && npm run test:edge && npm run test:electron',
-'test:api': 'cypress run --spec 'cypress/e2e/api/'',
-'test:functional': 'cypress run --spec 'cypress/e2e/functional/'',
-'test:responsiveness': 'cypress run --spec 'cypress/e2e/responsiveness/'',
-'test:smoke': 'cypress run --spec 'cypress/e2e/smoke/'',
+'test:a11y': 'cypress run --spec 'cypress/tests/a11y/'',
+'test:api': 'cypress run --spec 'cypress/tests/api/'',
+'test:e2e': 'cypress run --spec 'cypress/tests/e2e/'',
+'test:functional': 'cypress run --spec 'cypress/tests/functional/'',
+'test:responsiveness': 'cypress run --spec 'cypress/tests/responsiveness/'',
+'test:smoke': 'cypress run --spec 'cypress/tests/smoke/'',
 ```
 
 ## Uses
