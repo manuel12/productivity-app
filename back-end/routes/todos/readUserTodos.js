@@ -10,17 +10,10 @@ router.get("/api/todos/user", authenticateToken, async (req, res) => {
     // Fetch all todos for the authenticated user using Sequelize
     const todos = await Todo.findAll({ where: { createdBy: userId } })
 
-    if (todos.length > 0) {
-      res.status(200).json({
-        message: "User's todos successfully retrieved!",
-        data: todos,
-      })
-    } else {
-      res.status(404).json({
-        message: "User's todos not found.",
-        data: [],
-      })
-    }
+    res.status(200).json({
+      message: "User's todos successfully retrieved!",
+      data: todos,
+    })
   } catch (err) {
     console.error(err)
     res
