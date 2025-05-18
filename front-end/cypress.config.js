@@ -25,7 +25,7 @@ module.exports = defineConfig({
       return config
     },
     baseUrl: "http://localhost:3000/",
-    specPattern: "cypress/tests/**/*.cy.{js,jsx,ts,tsx}",
+    specPattern: "cypress/tests/functional/**/*.cy.{js,jsx,ts,tsx}",
     excludeSpecPattern:
       "cypress/tests/functional/daily/**/*.cy.{js,jsx,ts,tsx}",
     experimentalRunAllSpecs: true,
