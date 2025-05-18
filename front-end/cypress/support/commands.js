@@ -25,7 +25,8 @@
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 
 const apiUrl = "http://localhost:4000"
-const testuser = require("../../cypress/fixtures/users/testuser.json")
+const userData = require("../../cypress/fixtures/users/userData.json")
+const testuser = userData.validData
 const { setItem } = require("../../src/utils")
 
 Cypress.Commands.add("getBySel", (selector) => {
@@ -75,16 +76,51 @@ Cypress.Commands.add("registerWithAPI", (user) => {
   })
 })
 
+Cypress.Commands.add("registerAndLoginWithAPI", (user) => {
+  return cy
+    .request({
+      method: "POST",
+      url: `${apiUrl}/api/user/`,
+      body: {
+        username: user ? user.username : testuser.username,
+        email: user ? user.email : testuser.email,
+        password: user ? user.password : testuser.password,
+      },
+      failOnStatusCode: false,
+    })
+    .then(() => {
+      setItem("userLoggedIn", true)
+      cy.request({
+        method: "POST",
+        url: `${apiUrl}/api/login/`,
+        body: { email: testuser.email, password: testuser.password },
+        failOnStatusCode: false,
+      }).then((res) => {
+        const token = res.body.token
+        Cypress.env("token", token)
+        console.log(`Fetched token: ${Cypress.env("token")}`)
+        window.localStorage.setItem(
+          "token",
+          JSON.stringify(Cypress.env("token"))
+        )
+      })
+    })
+})
+
 Cypress.Commands.add("deleteTestUsers", () => {
   return cy
     .request({
       method: "DELETE",
       url: `${apiUrl}/api/users/delete-test-users/`,
+      headers: {
+        Authorization: `Bearer ${Cypress.env("token")}`,
+        "Content-Type": "application/json",
+      },
       failOnStatusCode: false,
     })
     .then((res) => {
       console.log(res)
-      //expect(res.status).to.eq(204)
+      expect(res.status).to.eq(204)
     })
 })
 
@@ -92,6 +128,10 @@ Cypress.Commands.add("deleteTestTodos", () => {
   cy.request({
     method: "DELETE",
     url: `${apiUrl}/api/todos/delete-test-todos/`,
+    headers: {
+      Authorization: `Bearer ${Cypress.env("token")}`,
+      "Content-Type": "application/json",
+    },
     failOnStatusCode: false,
   }).then((res) => {
     expect(res.status).to.eq(204)
@@ -102,8 +142,32 @@ Cypress.Commands.add("deleteTestDailies", () => {
   cy.request({
     method: "DELETE",
     url: `${apiUrl}/api/dailies/delete-test-dailies/`,
+    headers: {
+      Authorization: `Bearer ${Cypress.env("token")}`,
+      "Content-Type": "application/json",
+    },
   }).then((res) => expect(res.status).to.eq(204))
 })
+
+Cypress.Commands.add(
+  "createTodoWithAPI",
+  (description, completed = false, cb) => {
+    cy.request({
+      method: "POST",
+      url: `${apiUrl}/api/todo/`,
+      headers: {
+        Authorization: `Bearer ${Cypress.env("token")}`,
+        "Content-Type": "application/json",
+      },
+      body: {
+        completed: completed,
+        description: description,
+      },
+
+      failOnStatusCode: false,
+    }).then((res) => cb && cb(res))
+  }
+)
 
 Cypress.Commands.add("markTodosAsCompleted", () => {
   const deleteNextTodo = () => {
