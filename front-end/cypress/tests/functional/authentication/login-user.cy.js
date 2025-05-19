@@ -3,7 +3,7 @@
 import { clearLocalStorage } from "../../../support/utils"
 const userData = require("../../../fixtures/users/userData.json")
 const testuser = userData.validData
-const invalidCredentials = require("../../../fixtures/users/invalidCredentials.json")
+const invalidCredentials = userData.invalidData
 
 describe("Authentication Section - Login User", () => {
   beforeEach(() => {
