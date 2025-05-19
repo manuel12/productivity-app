@@ -7,17 +7,24 @@ const invalidTodo = todoData.invalidData
 describe("Todo Section - Add Todo", () => {
   const ctx = {}
 
-  beforeEach(() => {
+  before(() => {
     // Cleanup
     cy.deleteTestUsers()
-    cy.deleteTestTodos()
 
     cy.registerWithAPI()
+  })
+
+  beforeEach(() => {
+    // Cleanup
+    cy.deleteTestTodos()
+
     cy.loginWithAPI((res) => {
       ctx.token = res.body.token
+      Cypress.env("token", ctx.token)
       console.log(`Fetched token: ${ctx.token}`)
       window.localStorage.setItem("token", JSON.stringify(ctx.token))
     })
+
     cy.visit("/")
   })
 
