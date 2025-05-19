@@ -7,21 +7,27 @@ const invalidTodo = todoData.invalidData
 describe("Todo Section - Edit Todo", () => {
   const ctx = {}
 
-  beforeEach(() => {
+  before(() => {
     // Cleanup
     cy.deleteTestUsers()
-    cy.deleteTestTodos()
 
     cy.registerWithAPI()
+  })
+
+  beforeEach(() => {
+    cy.deleteTestTodos()
+
     cy.loginWithAPI((res) => {
       ctx.token = res.body.token
+      Cypress.env("token", ctx.token)
       console.log(`Fetched token: ${ctx.token}`)
       window.localStorage.setItem("token", JSON.stringify(ctx.token))
+    }).then(() => {
+      cy.createTodoWithAPI(validTodo.description1)
     })
 
     // Visit the app or the specific page
     cy.visit("/")
-    cy.getBySel("todo-input").type(validTodo.description1 + "{enter}")
   })
 
   // Positive tests
