@@ -6,12 +6,17 @@ const validTodo = todoData.validData
 describe("Todo Section - Todo Statistics Display ", () => {
   const ctx = {}
 
-  beforeEach(() => {
+  before(() => {
     // Cleanup
     cy.deleteTestUsers()
-    cy.deleteTestTodos()
 
     cy.registerWithAPI()
+  })
+
+  beforeEach(() => {
+    // Cleanup
+    cy.deleteTestTodos()
+
     cy.loginWithAPI((res) => {
       ctx.token = res.body.token
       console.log(`Fetched token: ${ctx.token}`)
