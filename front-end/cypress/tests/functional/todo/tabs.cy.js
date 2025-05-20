@@ -6,28 +6,35 @@ const validTodo = todoData.validData
 describe("Todo Section - Tabs", () => {
   const ctx = {}
 
-  beforeEach(() => {
+  before(() => {
     // Cleanup
     cy.deleteTestUsers()
-    cy.deleteTestTodos()
 
     cy.registerWithAPI()
+  })
+
+  beforeEach(() => {
+    // Cleanup
+    cy.deleteTestTodos()
+
     cy.loginWithAPI((res) => {
       ctx.token = res.body.token
+      Cypress.env("token", ctx.token)
       console.log(`Fetched token: ${ctx.token}`)
       window.localStorage.setItem("token", JSON.stringify(ctx.token))
+    }).then(() => {
+      // Create some initial todos
+      const todoDescriptions = [
+        validTodo.description1,
+        validTodo.description2,
+        validTodo.description3,
+      ]
+      todoDescriptions.forEach((todoDescription) => {
+        cy.createTodoWithAPI(todoDescription)
+      })
     })
-    cy.visit("/")
 
-    // Create some initial todos
-    const todos = [
-      validTodo.description1,
-      validTodo.description2,
-      validTodo.description3,
-    ]
-    todos.forEach((todo) => {
-      cy.getBySel("todo-input").type(`${todo} {enter}`)
-    })
+    cy.visit("/")
   })
 
   // Positive tests
