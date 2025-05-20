@@ -136,10 +136,11 @@ export const getNumCompletedTodos = (todos: ITodo[]) => {
  */
 export const getNumCompletedTodosToday = (todos: ITodo[]) => {
   const todaysDate = new Date().toISOString().split("T")[0]
-  return todos.filter((todo) => {
+  const numCompletedTodosToday = todos.filter((todo) => {
     const todosDate = todo.dateCompleted?.split("T")[0]
-    return todaysDate === todosDate
+    return todo.completed && todaysDate === todosDate
   }).length
+  return numCompletedTodosToday
 }
 
 /**
