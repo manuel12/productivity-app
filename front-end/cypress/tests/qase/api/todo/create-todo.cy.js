@@ -31,7 +31,7 @@ describe("CREATE Todo - (POST) /api/todo/:id", () => {
 
   // Positive tests
 
-  // POST  - /api/todo/:id createTodoWithAPI
+  // POST  - /api/todo/:id createTodo
 
   qase(
     105,
