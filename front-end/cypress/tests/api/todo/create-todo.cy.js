@@ -62,7 +62,7 @@ describe("CREATE Todo - (POST) /api/todo/:id", () => {
       },
       body: singleTodo,
     }).then((res) => {
-      expect(res.body.message).to.eq(`Todo successfully created!`)
+      expect(res.body.message).to.eq("Todo successfully created!")
     })
   })
 
