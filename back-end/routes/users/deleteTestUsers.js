@@ -15,13 +15,15 @@ router.delete(
         // Use with caution as it's more destructive.
       })
 
-      // If no users were deleted, return a 404
+      let resMessage
       if (deletedUsersCount === 0) {
-        return res.status(404).json({ error: "No test users found." })
+        resMessage = "No test users found."
+      } else {
+        resMessage = "Users successfully deleted!"
       }
 
       // Respond with a 204 status (No Content)
-      res.status(204).end()
+      return res.status(204).json({ message: resMessage }).end()
     } catch (err) {
       console.error(err)
       res
