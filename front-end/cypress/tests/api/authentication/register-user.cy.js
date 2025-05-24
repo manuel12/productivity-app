@@ -123,7 +123,7 @@ describe("REGISTER User - (POST) /api/user", () => {
     })
   })
 
-  it("should respond with error message 'Username must be shorter than 20 characters.' when submitting a longer email address", () => {
+  it("should respond with error message 'Username must be shorter than 20 characters.' when submitting a longer username", () => {
     const testUser = {
       username: invalidTestuser.usernameLongerThan20Chars,
       email: testuser.email,
