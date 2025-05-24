@@ -16,17 +16,17 @@ router.delete(
         // Be cautious with this if you need to preserve IDs or related data.
       })
 
+      let resMessage
       if (deletedTodosCount > 0) {
         // At least one todo was deleted
-        return res.status(204).json({
-          message: `${deletedTodosCount} todos containing deleted.`,
-        })
+        resMessage = `${deletedTodosCount} todos containing deleted.`
       } else {
         // No todos matched the criteria
-        return res
-          .status(204)
-          .json({ message: "No todos containing 'test' found." })
+        resMessage = "No todos containing 'test' found."
       }
+      return res.status(204).json({
+        message: resMessage,
+      })
     } catch (err) {
       console.error(err)
       res
