@@ -1,0 +1,28 @@
+{
+  "validData": {
+    "singleTodo": {
+      "completed": true,
+      "description": "Run a marathon"
+    },
+    "singleUpdatedTodo": {
+      "completed": false,
+      "description": "Run a half-marathon"
+    },
+    "description1": "Feed the cats",
+    "description2": "Take out trash",
+    "description3": "Clean room",
+    "updateDescription1": "Mow the lawn",
+    "todoToDeleteDesc": "Pick up laundry",
+    "completedTodoDesc": "Workout"
+  },
+  "invalidData": {
+    "descriptionShorterThan3Chars": "No",
+    "descriptionLongerThan40Chars": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+    "invalidId": 999999999,
+
+    "invalidDataTypeTodo": {
+      "invalidTypeCompleted": 6,
+      "invalidTypeDescription": ["Run a marathon"]
+    }
+  }
+}
