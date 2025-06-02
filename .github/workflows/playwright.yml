@@ -1,27 +1,93 @@
-name: Playwright Tests
+# name: Playwright Tests
+# on:
+#   push:
+#     branches: [ main, master ]
+#   pull_request:
+#     branches: [ main, master ]
+# jobs:
+#   test:
+#     timeout-minutes: 60
+#     runs-on: ubuntu-latest
+#     steps:
+#     - uses: actions/checkout@v4
+#     - uses: actions/setup-node@v4
+#       with:
+#         node-version: lts/*
+#     - name: Install dependencies
+#       run: npm ci
+#     - name: Install Playwright Browsers
+#       run: npx playwright install --with-deps
+#     - name: Run Playwright tests
+#       run: npx playwright test
+#     - uses: actions/upload-artifact@v4
+#       if: ${{ !cancelled() }}
+#       with:
+#         name: playwright-report
+#         path: playwright-report/
+#         retention-days: 30
+
+name: CI/CD Pipeline
+
 on:
   push:
-    branches: [ main, master ]
+    branches: [main, master]
   pull_request:
-    branches: [ main, master ]
+    branches: [main, master]
+
 jobs:
-  test:
-    timeout-minutes: 60
+  build-and-test:
     runs-on: ubuntu-latest
+
     steps:
-    - uses: actions/checkout@v4
-    - uses: actions/setup-node@v4
-      with:
-        node-version: lts/*
-    - name: Install dependencies
-      run: npm ci
-    - name: Install Playwright Browsers
-      run: npx playwright install --with-deps
-    - name: Run Playwright tests
-      run: npx playwright test
-    - uses: actions/upload-artifact@v4
-      if: ${{ !cancelled() }}
-      with:
-        name: playwright-report
-        path: playwright-report/
-        retention-days: 30
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20" # Or your preferred Node.js version
+
+      - name: Install back-end dependencies
+        working-directory: ./back-end
+        run: npm install
+
+      - name: Install front-end dependencies
+        working-directory: ./front-end
+        run: npm install
+
+      - name: Start back-end server
+        working-directory: ./back-end
+        run: npm start & # Use '&' to run in the background
+        env:
+          PORT: 4000 # Or your back-end server port
+        # Give the server a moment to start
+        # You might need to adjust this delay based on your application's startup time
+      - name: Wait for back-end server to start
+        run: sleep 5
+
+      - name: Start front-end server
+        working-directory: ./front-end
+        run: npm start & # Use '&' to run in the background
+        env:
+          PORT: 3000 # Or your front-end server port
+        # Give the server a moment to start
+      - name: Wait for front-end server to start
+        run: sleep 10 # Front-end often takes a bit longer
+
+      - name: Install Playwright dependencies
+        working-directory: ./playwright
+        run: npm install
+
+      - name: Install Playwright browsers
+        working-directory: ./playwright
+        run: npx playwright install --with-deps
+
+      - name: Run Playwright tests
+        working-directory: ./playwright
+        run: npx playwright test
+        env:
+          # If your Playwright tests need to access the running servers,
+          # ensure you set the correct base URL.
+          # Adjust these URLs if your servers are on different ports or paths.
+          PLAYWRIGHT_BASE_URL: http://localhost:3000 # Or your front-end URL if tests target it
+          BACKEND_API_URL: http://localhost:4000 # Or your back-end API URL if tests interact with it
