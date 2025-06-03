@@ -1,11 +1,11 @@
 // @ts-check
 import { test, expect } from "@playwright/test"
 const {
-  deleteTestUsers,
+  deleteTestUsersWithAPI,
   registerWithAPI,
   loginWithAPI,
   createTodoWithAPI,
-  deleteTestTodos,
+  deleteTestTodosWithAPI,
 } = require("../utils/utils")
 
 const userData = require("../data/userData.json")
@@ -15,7 +15,7 @@ const validTodo = todoData.validData
 
 test.describe("Register", () => {
   test.beforeEach(async ({ page, request }) => {
-    await deleteTestUsers(request)
+    await deleteTestUsersWithAPI(request)
   })
 
   test("should allow the user to register with valid credentials", async ({
@@ -39,47 +39,17 @@ test.describe("Register", () => {
     // 6. Click 'REGISTER' button
     await page.getByTestId("register-button").click()
 
-    // 7. Visit http://localhost:3000/account/login/
-    await page.goto("http://localhost:3000/account/login/")
-
-    // 8. Enter email on email input
-    await page.getByTestId("email").fill(testuser.email)
-
-    // 9. Enter password on password input
-    await page.getByTestId("password").fill(testuser.password)
-
-    // 10. Click 'LOGIN' button
-    await page.getByTestId("login-button").click()
-
-    // 11. Check the navbar is visible
-    await expect(page.getByTestId("navbar")).toBeVisible()
+    // 7. Expect  http://localhost:3000/account/login/
+    await expect(page).toHaveURL("http://localhost:3000/account/login")
   })
 })
 
 test.describe("Login", () => {
-  //   test.use({ storageState: "playwright/.auth.json" })
-
-  //   test("login already done", async ({ page }) => {
-  //     await page.goto("/login")
-  //     await expect(page.getByText("Home")).toBeVisible()
-  //   })
-
-  //   test("login", async ({ page }) => {
-  //     await page.goto("/login")
-  //     await page.getByRole("textbox", { name: "Email" }).fill(testuser.email)
-  //     await page
-  //       .getByRole("textbox", { name: "Password" })
-  //       .fill(testuser.password)
-  //     await page.getByRole("button", { name: "login button" }).click()
-  //     await expect(page.getByText("Home")).toBeVisible()
-  //     await page.context().storageState({ path: "playwright/.auth.json" })
-  //   })
-
   test("should allow the user to login with valid credentials", async ({
     page,
   }) => {
     // 1.Visit http://localhost:3000/
-    await page.goto("http://localhost:3000/")
+    await page.goto("/")
 
     // 2. Enter email on email input
     await page.getByTestId("email").fill(testuser.email)
@@ -107,39 +77,40 @@ test.describe("Login", () => {
     page,
   }) => {
     // 1. Visit http://localhost:3000/
-    await page.goto("http://localhost:3000/")
+    await page.goto("/")
 
     // 2. Check the app redirects to /account/login
-    expect(page).toHaveURL("http://localhost:3000/account/login")
+    await expect(page).toHaveURL("http://localhost:3000/account/login")
 
     // 3. Visit http://localhost:3000/todos/
     await page.goto("http://localhost:3000/todos/")
 
     // 4. Check the app redirects to /account/login
-    expect(page).toHaveURL("http://localhost:3000/account/login")
+    await expect(page).toHaveURL("http://localhost:3000/account/login")
 
     // 5. Visit http://localhost:3000/dailies/
     await page.goto("http://localhost:3000/dailies/")
 
     // 6. Check the app redirects to /account/login
-    expect(page).toHaveURL("http://localhost:3000/account/login")
+    await expect(page).toHaveURL("http://localhost:3000/account/login")
   })
 })
 
 test.describe("Add todo", () => {
   test.beforeEach(async ({ page, request }) => {
-    await page.goto("http://localhost:3000/")
+    await page.goto("/")
 
+    await deleteTestUsersWithAPI(request)
     await registerWithAPI(request)
     await loginWithAPI(request, {
       page,
     }).then(async (response) => {
       const responseBody = await response.json()
       const token = responseBody.token
-      await deleteTestTodos(request, token)
+      await deleteTestTodosWithAPI(request)
     })
 
-    await page.goto("http://localhost:3000/")
+    await page.goto("/")
   })
 
   test('should add a todo by writing on input and clicking on a "Add todo" button', async ({
@@ -159,18 +130,19 @@ test.describe("Add todo", () => {
 
 test.describe("Edit todo", () => {
   test.beforeEach(async ({ page, request }) => {
-    await page.goto("http://localhost:3000/")
+    await page.goto("/")
 
+    await deleteTestUsersWithAPI(request)
     await registerWithAPI(request)
     await loginWithAPI(request, {
       page,
     }).then(async (response) => {
       const responseBody = await response.json()
       const token = responseBody.token
-      await deleteTestTodos(request, token)
+      await deleteTestTodosWithAPI(request)
       await createTodoWithAPI(request, token, validTodo.description1)
     })
-    await page.goto("http://localhost:3000/")
+    await page.goto("/")
   })
 
   test("should edit a todo", async ({ page }) => {
@@ -198,18 +170,19 @@ test.describe("Edit todo", () => {
 
 test.describe("Delete todo", () => {
   test.beforeEach(async ({ page, request }) => {
-    await page.goto("http://localhost:3000/")
+    await page.goto("/")
 
+    await deleteTestUsersWithAPI(request)
     await registerWithAPI(request)
     await loginWithAPI(request, {
       page,
     }).then(async (response) => {
       const responseBody = await response.json()
       const token = responseBody.token
-      await deleteTestTodos(request, token)
+      await deleteTestTodosWithAPI(request)
       await createTodoWithAPI(request, token, validTodo.description1)
     })
-    await page.goto("http://localhost:3000/")
+    await page.goto("/")
   })
 
   test("should delete a todo", async ({ page }) => {
@@ -228,18 +201,19 @@ test.describe("Delete todo", () => {
 
 test.describe("Complete todo", () => {
   test.beforeEach(async ({ page, request }) => {
-    await page.goto("http://localhost:3000/")
+    await page.goto("/")
 
+    await deleteTestUsersWithAPI(request)
     await registerWithAPI(request)
     await loginWithAPI(request, {
       page,
     }).then(async (response) => {
       const responseBody = await response.json()
       const token = responseBody.token
-      await deleteTestTodos(request, token)
+      await deleteTestTodosWithAPI(request)
       await createTodoWithAPI(request, token, validTodo.description1)
     })
-    await page.goto("http://localhost:3000/")
+    await page.goto("/")
   })
 
   test("should mark a todo as complete", async ({ page }) => {
@@ -263,18 +237,19 @@ test.describe("Complete todo", () => {
 
 test.describe("Uncomplete todo", () => {
   test.beforeEach(async ({ page, request }) => {
-    await page.goto("http://localhost:3000/")
+    await page.goto("/")
 
+    await deleteTestUsersWithAPI(request)
     await registerWithAPI(request)
     await loginWithAPI(request, {
       page,
     }).then(async (response) => {
       const responseBody = await response.json()
       const token = responseBody.token
-      await deleteTestTodos(request, token)
+      await deleteTestTodosWithAPI(request)
       await createTodoWithAPI(request, token, validTodo.description1, true)
     })
-    await page.goto("http://localhost:3000/")
+    await page.goto("/")
     await page.getByTestId("complete-tab").click()
   })
 
@@ -300,20 +275,21 @@ test.describe("Uncomplete todo", () => {
 
 test.describe("Tabs", () => {
   test.beforeEach(async ({ page, request }) => {
-    await page.goto("http://localhost:3000/")
+    await page.goto("/")
 
+    await deleteTestUsersWithAPI(request)
     await registerWithAPI(request)
     await loginWithAPI(request, {
       page,
     }).then(async (response) => {
       const responseBody = await response.json()
       const token = responseBody.token
-      await deleteTestTodos(request, token)
+      await deleteTestTodosWithAPI(request)
       await createTodoWithAPI(request, token, validTodo.description1)
       await createTodoWithAPI(request, token, validTodo.description2)
       await createTodoWithAPI(request, token, validTodo.description3)
     })
-    await page.goto("http://localhost:3000/")
+    await page.goto("/")
   })
 
   test("should display 3 tabs above the todos list: 'All', 'Completed', 'Uncompleted' ", async ({
@@ -341,13 +317,14 @@ test.describe("Tabs", () => {
 
 test.describe("Navigation", () => {
   test.beforeEach(async ({ page, request }) => {
-    await page.goto("http://localhost:3000/")
+    await page.goto("/")
 
+    await deleteTestUsersWithAPI(request)
     await registerWithAPI(request)
     await loginWithAPI(request, {
       page,
     })
-    await page.goto("http://localhost:3000/")
+    await page.goto("/")
   })
 
   test("should allow user to navigate to all the pages in the navbar", async ({
@@ -363,6 +340,6 @@ test.describe("Navigation", () => {
     await page.getByTestId("nav-link-logout").click()
 
     // 4. Check url is http://localhost:3000/account/login
-    expect(page).toHaveURL("http://localhost:3000/account/login")
+    await expect(page).toHaveURL("http://localhost:3000/account/login")
   })
 })

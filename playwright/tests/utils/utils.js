@@ -1,6 +1,6 @@
 const { expect } = require("@playwright/test")
 
-const apiUrl = "http://localhost:4000"
+const apiUrl = process.env.API_URL || "http://localhost:4000"
 const defaultTestUser = {
   username: "testuser1",
   email: "testuser1@gmail.com",
@@ -26,6 +26,8 @@ async function registerWithAPI(request, user) {
       password: userToRegister.password,
     },
   })
+
+  expect(response.status()).toEqual(201)
   return response
 }
 
@@ -64,35 +66,9 @@ async function loginWithAPI(request, options = {}) {
       })
     }
   }
-
+  expect(response.status()).toEqual(200)
   return response
 }
-
-/**
- * Logs in a user to the application.
- * @param {import('@playwright/test').Page} page The Playwright Page object.
- * @param {string} email The user's email.
- * @param {string} password The user's password.
- */
-// async function login(page, email, password) {
-//   // 1. Visit http://localhost:3000/
-//   await page.goto("http://localhost:3000/")
-
-//   // 2. Enter email on email input
-//   await page.getByTestId("email").fill(email)
-
-//   // 3. Enter password on password input
-//   await page.getByTestId("password").fill(password)
-
-//   // 4. Click 'LOGIN' button
-//   await page.getByTestId("login-button").click()
-
-//   // 5. Check no error messages are shown
-//   await expect(page.getByTestId("form-action-error")).not.toBeVisible()
-
-//   // 6. Check the app redirects to http://localhost:3000/
-//   await expect(page).toHaveURL("http://localhost:3000/")
-// }
 
 /**
  * Creates a new todo item via API.
@@ -120,7 +96,7 @@ async function createTodoWithAPI(
       description: description,
     },
   })
-
+  expect(response.status()).toEqual(201)
   return response
 }
 
@@ -128,13 +104,10 @@ async function createTodoWithAPI(
  * Deletes test users via API.
  * Asserts that the response status is 204.
  * @param {import('@playwright/test').APIRequestContext} request - The Playwright request fixture.
- * @param {string} token - The authorization bearer token.
  * @returns {Promise<void>} - A promise that resolves after the request and assertion.
  */
 
-async function deleteTestUsers(request) {
-  console.log("Attempting to delete test users...")
-
+async function deleteTestUsersWithAPI(request) {
   const response = await request.delete(
     `${apiUrl}/api/users/delete-test-users/`
   )
@@ -147,20 +120,17 @@ async function deleteTestUsers(request) {
   })
 
   // Assert the status code
-  await expect(response.status()).toBe(204)
+  expect(response.status()).toBe(204)
 }
 
 /**
  * Delete test todos via API.
  * Asserts that the response status is 204
  * @param {import('@playwright/test').APIRequestContext} request - The Playwright request fixture.
- * @param {string} token - The authorization bearer token.
  * @returns {Promise<void>} - A promise that resolves after the request and assertion.
  */
 
-async function deleteTestTodos(request, token) {
-  console.log("Attempting to delete test todos...")
-
+async function deleteTestTodosWithAPI(request) {
   const response = await request.delete(
     `${apiUrl}/api/todos/delete-test-todos/`
   )
@@ -172,13 +142,13 @@ async function deleteTestTodos(request, token) {
   })
 
   // Assert the status code
-  await expect(response.status()).toBe(204)
+  expect(response.status()).toBe(204)
 }
 
 module.exports = {
   defaultTestUser,
-  deleteTestUsers,
-  deleteTestTodos,
+  deleteTestUsersWithAPI,
+  deleteTestTodosWithAPI,
   registerWithAPI,
   loginWithAPI,
   createTodoWithAPI,

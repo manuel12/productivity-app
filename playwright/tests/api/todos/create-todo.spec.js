@@ -1,8 +1,8 @@
 // @ts-check
 import { test, expect } from "@playwright/test"
 const {
-  deleteTestUsers,
-  deleteTestTodos,
+  deleteTestUsersWithAPI,
+  deleteTestTodosWithAPI,
   registerWithAPI,
   loginWithAPI,
 } = require("../../utils/utils")
@@ -15,13 +15,13 @@ test.describe("CREATE Todo - (POST) /api/todo/:id", () => {
   const apiUrl = "http://localhost:4000"
   let token
   test.beforeAll(async ({ request }) => {
-    await deleteTestUsers(request)
+    await deleteTestUsersWithAPI(request)
 
     await registerWithAPI(request)
     await loginWithAPI(request).then(async (response) => {
       const responseBody = await response.json()
       token = responseBody.token
-      await deleteTestTodos(request, token)
+      await deleteTestTodosWithAPI(request, token)
     })
   })
 
@@ -35,7 +35,7 @@ test.describe("CREATE Todo - (POST) /api/todo/:id", () => {
     })
     const responseBody = await response.json()
     const lastTodo = responseBody.data
-    expect(lastTodo).toMatchObject(validTodo)
+    await expect(lastTodo).toMatchObject(validTodo)
   })
 
   test("should have correct success message on response", async ({
@@ -50,7 +50,7 @@ test.describe("CREATE Todo - (POST) /api/todo/:id", () => {
     })
     const responseBody = await response.json()
 
-    expect(responseBody.message).toEqual("Todo successfully created!")
+    await expect(responseBody.message).toEqual("Todo successfully created!")
   })
 
   test("should have properties of correct type", async ({ request }) => {
@@ -63,7 +63,7 @@ test.describe("CREATE Todo - (POST) /api/todo/:id", () => {
     })
     const responseBody = await response.json()
     const lastTodo = responseBody.data
-    expect(lastTodo).toMatchObject(validTodo)
+    await expect(lastTodo).toMatchObject(validTodo)
   })
 
   test("should have last id on response", async ({ request }) => {
@@ -76,7 +76,7 @@ test.describe("CREATE Todo - (POST) /api/todo/:id", () => {
     })
     const responseBody = await response.json()
     const lastTodo = responseBody.data
-    expect(lastTodo).toHaveProperty("id")
+    await expect(lastTodo).toHaveProperty("id")
   })
 
   test("should add +1 to the current number of todos", async ({ request }) => {
@@ -110,7 +110,7 @@ test.describe("CREATE Todo - (POST) /api/todo/:id", () => {
     responseBody = await response.json()
     newAmountTodos = responseBody.data.length
 
-    expect(newAmountTodos).toEqual(amountTodos + 1)
+    await expect(newAmountTodos).toEqual(amountTodos + 1)
   })
 
   test("should not create a todo with invalid data", async ({ request }) => {
@@ -122,8 +122,8 @@ test.describe("CREATE Todo - (POST) /api/todo/:id", () => {
       data: invalidTodo,
     })
     const responseBody = await response.json()
-    expect(response.status()).toEqual(400)
-    expect(responseBody.error).toEqual(
+    await expect(response.status()).toEqual(400)
+    await expect(responseBody.error).toEqual(
       "No completed (boolean) specified, No description (string) specified."
     )
   })
@@ -138,7 +138,7 @@ test.describe("CREATE Todo - (POST) /api/todo/:id", () => {
       },
       data: {},
     })
-    expect(response.status()).toEqual(400)
+    await expect(response.status()).toEqual(400)
   })
 
   test("should respond with a message indicating any missing data", async ({
@@ -162,7 +162,7 @@ test.describe("CREATE Todo - (POST) /api/todo/:id", () => {
       data: validTodo,
     })
     const responseBody = await response.json()
-    expect(responseBody.error).toEqual("Unauthorized: No token provided.")
+    await expect(responseBody.error).toEqual("Unauthorized: No token provided.")
   })
 
   test("should respond with error message 'Description must be at least 3 characters.' when submitting a shorter description", async ({
@@ -181,7 +181,7 @@ test.describe("CREATE Todo - (POST) /api/todo/:id", () => {
       data: todo,
     })
     const responseBody = await response.json()
-    expect(responseBody.error).toEqual(
+    await expect(responseBody.error).toEqual(
       "Description must be at least 3 characters."
     )
   })
@@ -202,7 +202,7 @@ test.describe("CREATE Todo - (POST) /api/todo/:id", () => {
       data: todo,
     })
     const responseBody = await response.json()
-    expect(responseBody.error).toEqual(
+    await expect(responseBody.error).toEqual(
       "Description must be shorter than 40 characters."
     )
   })
