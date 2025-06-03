@@ -1,11 +1,11 @@
 // @ts-check
 import { test, expect } from "@playwright/test"
 const {
-  deleteTestUsers,
+  deleteTestUsersWithAPI,
   registerWithAPI,
   loginWithAPI,
   createTodoWithAPI,
-  deleteTestTodos,
+  deleteTestTodosWithAPI,
 } = require("../../utils/utils")
 
 const userData = require("../../data/userData.json")
@@ -17,7 +17,7 @@ test.describe("LOGIN User - (POST) /api/login", () => {
   const apiUrl = "http://localhost:4000"
 
   test.beforeAll(async ({ request }) => {
-    await deleteTestUsers(request)
+    await deleteTestUsersWithAPI(request)
     await registerWithAPI(request)
   })
 
