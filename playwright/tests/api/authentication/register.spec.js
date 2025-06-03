@@ -1,6 +1,6 @@
 // @ts-check
 import { test, expect } from "@playwright/test"
-const { deleteTestUsers } = require("../../utils/utils")
+const { deleteTestUsersWithAPI } = require("../../utils/utils")
 
 const userData = require("../../data/userData.json")
 const validUser = userData.validData
@@ -10,7 +10,7 @@ test.describe("REGISTER User - (POST) /api/user", () => {
   const apiUrl = "http://localhost:4000"
 
   test.beforeAll(async ({ request }) => {
-    await deleteTestUsers(request)
+    await deleteTestUsersWithAPI(request)
   })
 
   test("should allow a user to register with valid data", async ({
