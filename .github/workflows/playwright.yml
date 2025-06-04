@@ -91,3 +91,11 @@ jobs:
           # Adjust these URLs if your servers are on different ports or paths.
           PLAYWRIGHT_BASE_URL: http://localhost:3000 # Or your front-end URL if tests target it
           BACKEND_API_URL: http://localhost:4000 # Or your back-end API URL if tests interact with it
+
+      - name: Upload Playwright HTML report
+        uses: actions/upload-artifact@v4
+        if: always() # This ensures the report is uploaded even if tests fail
+        with:
+          name: playwright-html-report
+          path: playwright/playwright-report/ # Playwright's default report directory
+          retention-days: 5 # How long to keep the artifact (adjust as needed)
